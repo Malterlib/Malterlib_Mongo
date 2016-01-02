@@ -1,0 +1,59 @@
+// Copyright © 2015 Hansoft AB 
+// Distributed under the MIT license, see license text in LICENSE.Malterlib
+
+Import "../Core/Lib_Malterlib.MTarget"
+
+%Group "{Malterlib}/{Lib_Malterlib_Mongo}"
+{
+	Property.MongoCxxDriver true
+	%Group Mongo
+	{
+		%Group Include
+		{
+			Compile.Type "C++"
+			{
+				!!DocumentationEnabled true
+			}
+			%File "Include/Mib/Mongo/^*"
+		}
+		%File "Source/*"
+		%Group Documentation
+		{
+			%File "Documentation/*"
+		}
+	}
+	%Dependency Lib_Mongo
+	{
+		Dependency.Indirect true
+	}
+}
+
+Property
+{
+	MalterlibLibrary_Mongo true
+	{
+		&
+		{
+			MalterlibLibrary_Mongo ""
+			MalterlibLibrary_All true
+		}
+	}
+	MalterlibSubLibraries "Mongo;@(MalterlibSubLibraries)"
+	{
+		!!MalterlibLibrary_Mongo true
+	}
+	MalterlibLibrarySeparate_Lib_Malterlib_Mongo true
+	//MalterlibSubLibrarySeparate_Lib_Malterlib_Mongo true
+	MalterlibIncludeRoots "@('Include'->MakeAbsolute());@(MalterlibIncludeRoots)"
+	{
+		!!MalterlibLibrary_Mongo true
+	}
+}
+
+Property
+{
+	!!MalterlibEnableInternalTests true
+	
+	MalterlibTests "Malterlib_Mongo;@(MalterlibTests)"
+	MalterlibTestFiles_Malterlib_Mongo "@('Test/*'->MakeAbsolute())"
+}
