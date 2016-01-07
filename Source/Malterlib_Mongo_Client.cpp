@@ -466,6 +466,53 @@ namespace NMib
 			}
 		}
 
+		NConcurrency::TCContinuation<void> CMongoClientActor::f_BatchInsert(NStr::CStr const &_Collection, NContainer::TCVector<NEncoding::CEJSON> const &_Documents, EInsertOption _Options)
+		{
+			NConcurrency::TCContinuation<void> Result;
+			auto &Internal = *mp_pInternal;
+			if (Internal.m_pTailThread)
+			{
+				Result.f_SetException(DMibErrorInstance("Tailing query already running"));
+				return Result;
+			}
+			NStr::CStr Error = Internal.f_MakeSureConnected();
+			if (!Error.f_IsEmpty())
+			{
+				Result.f_SetException(DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error)));
+				return Result;
+			}
+			
+			try
+			{
+				std::vector<BSONObj> AllDocuments;
+				
+				for (auto &Document : _Documents)
+					AllDocuments.push_back(fg_ToBSON(Document));
+				
+				Internal.m_Connection.insert(Internal.f_GetNamespace(_Collection), AllDocuments, _Options);
+				
+				std::string InsertError = Internal.m_Connection.getLastError();
+				
+				if (!InsertError.empty())
+				{
+					Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongeDB insert failed: {}", InsertError.c_str())));
+					return Result;
+				}
+				
+				Result.f_SetResult();
+				return Result;
+			}
+			catch (std::exception const &_Exception)
+			{
+				const ch8 *pError = "Unknown mongo error";
+				if (_Exception.what())
+					pError = _Exception.what();
+				
+				Result.f_SetException(DMibErrorInstance(NStr::fg_Format("Mongo insert failed: {}", pError)));
+				return Result;
+			}
+		}
+
 		NConcurrency::TCContinuation<void> CMongoClientActor::f_Update(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, NEncoding::CEJSON const &_Update, EUpdateOption _Options)
 		{
 			NConcurrency::TCContinuation<void> Result;

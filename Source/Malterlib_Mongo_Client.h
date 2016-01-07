@@ -77,6 +77,7 @@ namespace NMib
 				)
 			;
 			NConcurrency::TCContinuation<uint64> f_Count(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, uint32 _nToReturn, uint32 _nToSkip, EQueryOption _Options);
+			NConcurrency::TCContinuation<void> f_BatchInsert(NStr::CStr const &_Collection, NContainer::TCVector<NEncoding::CEJSON> const &_Documents, EInsertOption _Options);
 			NConcurrency::TCContinuation<void> f_Insert(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Document, EInsertOption _Options);
 			NConcurrency::TCContinuation<void> f_Update(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, NEncoding::CEJSON const &_Update, EUpdateOption _Options);
 			NConcurrency::TCContinuation<void> f_Remove(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, ERemoveOption _Options);
