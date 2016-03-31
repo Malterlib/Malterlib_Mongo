@@ -98,6 +98,7 @@ namespace NMib
 		void CMongoClientActor::fp_ConnectToServer()
 		{
 			auto &Internal = *mp_pInternal;
+			Internal.m_Connection.setWriteConcern(WriteConcern::journaled);
 			Internal.f_MakeSureConnected();
 		}
 
