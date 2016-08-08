@@ -207,7 +207,7 @@ namespace NMib
 				case NEncoding::EJSONType_Array:
 					{
 						BSONObjBuilder Builder;
-						fg_ToBSONImpl(Builder, _JSON);
+						fg_ToBSONImplArray(Builder, _JSON);
 						return Builder.obj();
 					}
 					break;
