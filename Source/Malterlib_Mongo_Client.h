@@ -65,7 +65,7 @@ namespace NMib
 					, EQueryOption _Options
 				)
 			;
-			NConcurrency::TCContinuation<NConcurrency::CActorCallback> f_TailQuery
+			NConcurrency::TCContinuation<NConcurrency::CActorSubscription> f_TailQuery
 				(
 					NStr::CStr const &_Collection
 					, NEncoding::CEJSON const &_Query

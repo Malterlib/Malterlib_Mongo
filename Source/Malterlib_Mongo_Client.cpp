@@ -125,7 +125,7 @@ namespace NMib
 			return Continuation;			
 		}
 
-		NConcurrency::TCContinuation<NConcurrency::CActorCallback> CMongoClientActor::f_TailQuery
+		NConcurrency::TCContinuation<NConcurrency::CActorSubscription> CMongoClientActor::f_TailQuery
 			(
 				NStr::CStr const &_Collection
 				, NEncoding::CEJSON const &_Query
@@ -136,7 +136,7 @@ namespace NMib
 				, NFunction::TCFunction<void (NFunction::CThisTag &, NEncoding::CEJSON &&_Result)> &&_fOnResult
 			)
 		{
-			NConcurrency::TCContinuation<NConcurrency::CActorCallback> Result;
+			NConcurrency::TCContinuation<NConcurrency::CActorSubscription> Result;
 			auto &Internal = *mp_pInternal;
 			if (Internal.m_pTailThread)
 			{
@@ -209,7 +209,7 @@ namespace NMib
 						)
 					;
 					
-					NPtr::TCSharedPointer<NConcurrency::TCActorCallbackManager<void (NEncoding::CEJSON &&_Data), false, COnScopeExitShared>> pCallbackManager
+					NPtr::TCSharedPointer<NConcurrency::TCActorSubscriptionManager<void (NEncoding::CEJSON &&_Data), false, COnScopeExitShared>> pCallbackManager
 						= fg_Construct(this, false)
 					;
 					
