@@ -133,7 +133,7 @@ namespace NMib
 				, NPtr::TCUniquePointer<NEncoding::CEJSON> _pFields
 				, EQueryOption _Options
 				, NConcurrency::TCActor<CActor> &&_CallbackActor
-				, NFunction::TCFunction<void (NFunction::CThisTag &, NEncoding::CEJSON &&_Result)> &&_fOnResult
+				, NFunction::TCFunctionMutable<void (NEncoding::CEJSON &&_Result)> &&_fOnResult
 			)
 		{
 			NConcurrency::TCContinuation<NConcurrency::CActorSubscription> Result;

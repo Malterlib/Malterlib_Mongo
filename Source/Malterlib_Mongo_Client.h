@@ -73,7 +73,7 @@ namespace NMib
 					, NPtr::TCUniquePointer<NEncoding::CEJSON> _Fields
 					, EQueryOption _Options
 					, NConcurrency::TCActor<CActor> &&_CallbackActor
-					, NFunction::TCFunction<void (NFunction::CThisTag &, NEncoding::CEJSON &&_Result)> &&_fOnResult
+					, NFunction::TCFunctionMutable<void (NEncoding::CEJSON &&_Result)> &&_fOnResult
 				)
 			;
 			NConcurrency::TCContinuation<uint64> f_Count(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, uint32 _nToReturn, uint32 _nToSkip, EQueryOption _Options);
