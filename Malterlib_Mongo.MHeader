@@ -3,6 +3,7 @@
 
 Import "../Core/Lib_Malterlib.MTarget"
 Import "../../SDK/mongo-cxx-driver/Lib_Mongo.MTarget"
+Import "Apps/*/*.MHeader"
 
 %Group "{Malterlib}/{Lib_Malterlib_Mongo}"
 {
@@ -58,3 +59,25 @@ Property
 	MalterlibTests "Malterlib_Mongo;@(MalterlibTests)"
 	MalterlibTestFiles_Malterlib_Mongo "@('Test/*'->MakeAbsolute())"
 }
+
+%Workspace "Apps_Malterlib_Mongo"
+{
+	&
+	{
+		MalterlibEnableInternalWorkspaces true
+		!PlatformFamily Windows
+	}
+	
+	Property.MalterlibPostCopyProject "Malterlib_Mongo"
+	{
+		!!TargetIsExecutable true
+	}
+	
+	Property.MalterlibLog_Severities "Error;Critical;Warning;Info"
+	{
+		!MalterlibLog_EnableVerboseDebugLog true
+	}
+
+	%Target "@(Malterlib_Mongo_App_Targets)"
+}
+

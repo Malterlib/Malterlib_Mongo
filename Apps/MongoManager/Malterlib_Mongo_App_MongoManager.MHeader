@@ -1,0 +1,39 @@
+// Copyright © 2015 Hansoft AB
+// Distributed under the MIT license, see license text in LICENSE.Malterlib
+
+Import "../../../../SDK/curl/Curl.MTarget"
+
+%Target "Malterlib_Mongo_MongoManager"
+{
+	Property
+	{
+		MalterlibPostCopyProject "Malterlib_Mongo_MongoManager"
+		{
+			!!MalterlibPostCopyProject ""
+		}
+		MalterlibLinkWithOpenSSL true
+		MalterlibConcurrency_DistributedActors true
+		MalterlibTargetNameType "Normal"
+	}
+	Target
+	{
+		DebuggerCommandArguments "--daemon-run-debug"
+		BaseFileName "MongoManager"
+	}
+	Compile
+	{
+		!!CompileDialect "C"
+		
+		SearchPath "@(Builtin.BasePath)/SDK/curl/include;@(Compile.SearchPath)"
+		PreprocessorDefines "CURL_STATICLIB;@(Compile.PreprocessorDefines)"
+	}
+	
+	%Group Source
+	{
+		%File "Source/*"
+	}
+	%Dependency "Lib_Malterlib_Cloud"
+	%Dependency "Lib_Malterlib"
+}
+
+Property.Malterlib_Mongo_App_Targets "Malterlib_Mongo_MongoManager;@(Malterlib_Mongo_App_Targets)"
