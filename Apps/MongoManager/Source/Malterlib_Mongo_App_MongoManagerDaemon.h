@@ -10,17 +10,20 @@
 
 namespace NMib::NMongo::NMongoManager
 {
+	struct CMongoManagerActor;
 	struct CMongoManagerDaemonActor : public CDistributedAppActor
 	{
 		CMongoManagerDaemonActor();
 		~CMongoManagerDaemonActor();
 		
-		struct CServer;
 	private:
 		TCContinuation<void> fp_StartApp(NEncoding::CEJSON const &_Params) override;
 		TCContinuation<void> fp_StopApp() override;
 		void fp_BuildCommandLine(CDistributedAppCommandLineSpecification &o_CommandLine) override; 
+		uint32 fp_CommandLine_ListRestoreRange(NEncoding::CEJSON const &_Params);
+		TCContinuation<CDistributedAppCommandLineResults> fp_CommandLine_Restore(NEncoding::CEJSON const &_Params);
+		TCContinuation<CDistributedAppCommandLineResults> fp_CommandLine_UpdateReplicationConfig(NEncoding::CEJSON const &_Params);
 		
-		TCActor<CServer> mp_pServer;
+		TCActor<CMongoManagerActor> mp_pManager;
 	};
 }

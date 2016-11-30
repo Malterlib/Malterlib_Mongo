@@ -6,7 +6,7 @@
 #include <Mib/Daemon/Daemon>
 #include <Mib/Concurrency/DistributedDaemon>
 
-#include "Malterlib_Mongo_App_MongoManager.h"
+#include "Malterlib_Mongo_App_MongoManagerDaemon.h"
 
 using namespace NMib;
 using namespace NMib::NMongo::NMongoManager;

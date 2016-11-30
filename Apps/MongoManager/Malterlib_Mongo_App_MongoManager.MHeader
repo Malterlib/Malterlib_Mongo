@@ -14,6 +14,19 @@ Import "../../../../SDK/curl/Curl.MTarget"
 		MalterlibLinkWithOpenSSL true
 		MalterlibConcurrency_DistributedActors true
 		MalterlibTargetNameType "Normal"
+		MongoCxxDriver true
+
+		MalterlibDoExeFS true
+
+		MongoManagerCopySources "@('Source/MongoManager_Restore.sh'->MakeAbsolute())|Source;@(MongoManagerCopySources)"
+		MongoManagerCopySources "@('Source/Malterlib_Mongo_App_MongoManager_MongoSetup.js'->MakeAbsolute())|Source;@(MongoManagerCopySources)"
+		MongoManagerCopySources "@('Source/Malterlib_Mongo_App_MongoManager_MongoUpdateReplicationConfig.js'->MakeAbsolute())|Source;@(MongoManagerCopySources)"
+
+		MalterlibExeFSExtraFiles "@(MongoManagerCopySources);@(MalterlibExeFSExtraFiles)"
+		MalterlibExeFSPath "@(MongoBinariesPath)/*"
+		{
+			!MongoBinariesPath ""
+		}
 	}
 	Target
 	{
@@ -26,6 +39,10 @@ Import "../../../../SDK/curl/Curl.MTarget"
 		
 		SearchPath "@(Builtin.BasePath)/SDK/curl/include;@(Compile.SearchPath)"
 		PreprocessorDefines "CURL_STATICLIB;@(Compile.PreprocessorDefines)"
+		PreprocessorDefines "DMibMongo_UseInternalMongo;@(Compile.PreprocessorDefines)"
+		{
+			!MongoBinariesPath ""
+		}
 	}
 	
 	%Group Source
@@ -33,6 +50,7 @@ Import "../../../../SDK/curl/Curl.MTarget"
 		%File "Source/*"
 	}
 	%Dependency "Lib_Malterlib_Cloud"
+	%Dependency "Lib_Malterlib_Mongo"
 	%Dependency "Lib_Malterlib"
 }
 
