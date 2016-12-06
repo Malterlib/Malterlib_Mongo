@@ -14,9 +14,23 @@ namespace
 {
 	struct CMongoClientInit
 	{
-		CMongoClientInit()
+		NMib::NMongo::CMongoConnectionSettings m_Settings;
+		
+		CMongoClientInit(NMib::NMongo::CMongoConnectionSettings const &_Settings)
+			: m_Settings(_Settings)
 		{
-			mongo::client::initialize();
+			mongo::client::Options Options;
+			
+			if (m_Settings.m_bEnableSSL)
+			{
+				Options.setSSLMode(mongo::client::Options::kSSLRequired);
+				Options.setSSLAllowInvalidCertificates(false);
+				Options.setSSLAllowInvalidHostnames(false);
+				Options.setSSLCAFile(m_Settings.m_CACertificatePath.f_GetStr());
+				Options.setSSLPEMKeyFile(m_Settings.m_ClientCertificatePath.f_GetStr());
+			}
+			
+			mongo::client::initialize(Options);
 			atexit([]{mongo::client::shutdown();});
 		}
 		~CMongoClientInit()
@@ -34,14 +48,72 @@ namespace NMib
 {
 	namespace NMongo
 	{
+		CMongoConnectionSettings::CMongoConnectionSettings() = default;
+		
+		CMongoConnectionSettings::CMongoConnectionSettings(NStr::CStr const &_Host, uint16 _Port)
+			: m_Host(_Host)
+			, m_Port(_Port) 
+		{
+		}
+		
+		bool CMongoConnectionSettings::f_Compatible(CMongoConnectionSettings const &_Settings) const
+		{
+			if (!m_bEnableSSL && !_Settings.m_bEnableSSL)
+				return true;
+			return NContainer::fg_TupleReferences(m_CACertificatePath, m_ClientCertificatePath, m_UserName, m_bEnableSSL) 
+				== NContainer::fg_TupleReferences(_Settings.m_CACertificatePath, _Settings.m_ClientCertificatePath, _Settings.m_UserName, _Settings.m_bEnableSSL)
+			;
+		}
+
+		NStr::CStr CMongoConnectionSettings::f_GetConnectionString()
+		{
+			return fg_Format("{}:{}", m_Host, m_Port);
+		}
+		
+		NContainer::TCVector<NStr::CStr> CMongoConnectionSettings::f_GetToolParams() const
+		{
+			NContainer::TCVector<NStr::CStr> Params;
+			Params << NContainer::fg_CreateVector<NStr::CStr>
+				(
+					"--host"
+					, m_Host
+					, "--port"
+					, NStr::CStr::fs_ToStr(m_Port)
+				)
+			;
+
+			if (m_bEnableSSL)
+			{
+				Params << NContainer::fg_CreateVector<NStr::CStr> 
+					(
+						"--ssl"
+						, "--authenticationMechanism"
+						, "MONGODB-X509"
+						, "--authenticationDatabase"
+						, "$external"
+					)
+				;
+				
+				if (!m_CACertificatePath.f_IsEmpty())
+					Params.f_Insert({"--sslCAFile", m_CACertificatePath});
+				
+				if (!m_ClientCertificatePath.f_IsEmpty())
+					Params.f_Insert({"--sslPEMKeyFile", m_ClientCertificatePath});
+				
+				if (!m_UserName.f_IsEmpty())
+					Params.f_Insert({"-u", m_UserName});
+			}
+			
+			return Params;
+		}
 
 		struct CMongoClientActor::CInternal
 		{
-			NStr::CStr m_ServerAddress;
-			NStr::CStr m_DefaultDatabase;
-			NPtr::TCUniquePointer<NThread::CThreadObject> m_pTailThread;
-			mongo::DBClientConnection m_Connection;
-			bool m_bConnected = false;
+			CInternal(CMongoConnectionSettings const &_ConnectionSettings, NStr::CStr const &_DefaultDatabase)
+				: m_ConnectionSettings(_ConnectionSettings)
+				, m_DefaultDatabase(_DefaultDatabase) 
+			{
+			}
 			
 			NStr::CStr f_MakeSureConnected()
 			{
@@ -51,7 +123,7 @@ namespace NMib
 				try
 				{
 					std::string Error;
-					if (!m_Connection.connect(m_ServerAddress.f_GetStr(), Error))
+					if (!m_Connection.connect(m_ConnectionSettings.f_GetConnectionString().f_GetStr(), Error))
 						return Error.c_str();
 					
 					m_bConnected = true;
@@ -81,14 +153,17 @@ namespace NMib
 				
 				return DatabaseAndConnection.f_GetStr();
 			}
+			
+			CMongoConnectionSettings m_ConnectionSettings;
+			NStr::CStr m_DefaultDatabase;
+			NPtr::TCUniquePointer<NThread::CThreadObject> m_pTailThread;
+			mongo::DBClientConnection m_Connection;
+			bool m_bConnected = false;
 		};
 
-		CMongoClientActor::CMongoClientActor(NStr::CStr const &_ServerAddress, NStr::CStr const &_DefaultDatabase)
-			: mp_pInternal(fg_Construct())
+		CMongoClientActor::CMongoClientActor(CMongoConnectionSettings const &_ConnectionSettings, NStr::CStr const &_DefaultDatabase)
+			: mp_pInternal(fg_Construct(_ConnectionSettings, _DefaultDatabase))
 		{
-			auto &Internal = *mp_pInternal;
-			Internal.m_ServerAddress = _ServerAddress;
-			Internal.m_DefaultDatabase = _DefaultDatabase;
 		}
 
 		CMongoClientActor::~CMongoClientActor()
@@ -104,7 +179,10 @@ namespace NMib
 
 		void CMongoClientActor::f_Construct()
 		{
-			*g_MongoClientInit;
+			auto &Internal = *mp_pInternal;
+			auto &Settings = *g_MongoClientInit(Internal.m_ConnectionSettings);
+			(void)Settings;
+			DMibRequire(Settings.m_Settings.f_Compatible(Internal.m_ConnectionSettings))("The mongo driver does not support different settings");
 			fg_ThisActor(this)(&CMongoClientActor::fp_ConnectToServer) > NConcurrency::fg_DiscardResult();
 		}
 

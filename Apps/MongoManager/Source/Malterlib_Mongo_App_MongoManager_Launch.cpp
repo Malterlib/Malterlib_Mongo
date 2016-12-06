@@ -93,11 +93,16 @@ namespace NMib::NMongo::NMongoManager
 		
 		TCContinuation<CStr> Continuation;
 		pToolLaunch->m_ProcessLaunch(&CProcessLaunchActor::f_LaunchSimple, fg_Move(Launch))
-			> Continuation / [this, pCleanup, Continuation](CProcessLaunchActor::CSimpleLaunchResult &&_Result)
+			> Continuation / [this, pCleanup, Continuation, _bSeparateStdErr](CProcessLaunchActor::CSimpleLaunchResult &&_Result)
 			{
 				if (_Result.m_ExitCode != 0)
 				{
-					Continuation.f_SetException(DErrorInstance(fg_Format("Tool exited with: {}\n{}", _Result.m_ExitCode, _Result.f_GetErrorOut().f_TrimRight())));
+					CStr ErrorOut;
+					if (_bSeparateStdErr)
+						ErrorOut = _Result.f_GetErrorOut().f_TrimRight();
+					else
+						ErrorOut = _Result.f_GetStdOut().f_TrimRight();
+					Continuation.f_SetException(DErrorInstance(fg_Format("Tool exited with: {}\n{}", _Result.m_ExitCode, ErrorOut)));
 					return;
 				}
 				Continuation.f_SetResult(_Result.f_GetStdOut());

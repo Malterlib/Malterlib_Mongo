@@ -76,7 +76,7 @@ namespace NMib::NMongo::NMongoManager
 	{
 		CMongoBackupInstanceActor
 			(
-				int32 _MongoPort
+				CMongoConnectionSettings const &_MongoConnectionSettings
 				, CStr const &_MongoExecutable
 				, TCActor<CDistributedActorTrustManager> const &_TrustManager
 			)
@@ -120,7 +120,7 @@ namespace NMib::NMongo::NMongoManager
 		TCActor<CProcessLaunchActor> mp_CompressProcessLaunch;
 		TCActor<CSeparateThreadActor> mp_FileWriteActor;
 		CActorSubscription mp_MongoTailCallback;
-		int32 mp_MongoPort;
+		CMongoConnectionSettings mp_MongoConnectionSettings;
 
 		NCloud::CBackupManager::CBackupKey mp_BackupKey;
 		

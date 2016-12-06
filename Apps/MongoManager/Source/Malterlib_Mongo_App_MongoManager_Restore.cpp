@@ -30,7 +30,7 @@ namespace NMib::NMongo::NMongoManager
 						"--host"
 						, "localhost"
 						, "--port"
-						, CStr::fs_ToStr(mp_MongoPort)
+						, CStr::fs_ToStr(mp_MongoConnectionSettings.m_Port)
 						, "--oplogReplay"
 					)
 				;

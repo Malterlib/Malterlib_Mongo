@@ -6,11 +6,11 @@ namespace NMib::NMongo::NMongoManager
 {
 	CMongoBackupInstanceActor::CMongoBackupInstanceActor
 		(
-			int32 _MongoPort
+			CMongoConnectionSettings const &_MongoConnectionSettings
 			, CStr const &_MongoExecutable
 			, TCActor<CDistributedActorTrustManager> const &_TrustManager
 		)
-		: mp_MongoPort(_MongoPort)
+		: mp_MongoConnectionSettings(_MongoConnectionSettings)
 		, mp_MongoExecutable(_MongoExecutable)
 		, mp_pCanDestroy(fg_Construct())
 		, mp_OnEventCallback(this, false)
@@ -99,7 +99,7 @@ namespace NMib::NMongo::NMongoManager
 		}
 		fp_SubscribeToBackupServers();
 		
-		mp_MongoClient = fg_ConstructActor<CMongoClientActor>(fg_Construct("Mongo client connection"), fg_Format("localhost:{}", mp_MongoPort), "local");
+		mp_MongoClient = fg_ConstructActor<CMongoClientActor>(fg_Construct("Mongo client connection"), mp_MongoConnectionSettings, "local");
 		
 		auto OnEventSubscription = mp_OnEventCallback.f_Register(_CallbackActor, fg_Move(_fOnEvent));
 

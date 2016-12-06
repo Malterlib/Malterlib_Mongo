@@ -8,6 +8,7 @@
 #include <Mib/Concurrency/DistributedApp>
 #include <Mib/Daemon/Daemon>
 #include <Mib/Process/ProcessLaunch>
+#include <Mib/Mongo/Client>
 
 #include "Malterlib_Mongo_App_MongoManager_Backup.h"
 #include "Malterlib_Mongo_App_MongoManager_Helpers.h"
@@ -22,6 +23,7 @@ namespace NMib::NMongo::NMongoManager
 			EMode_Normal
 			, EMode_RunRestore
 			, EMode_UpdateReplicationConfig
+			, EMode_SetupPermissions
 		};
 		
 		CMongoManagerActor(CDistributedAppState const &_AppState);
@@ -30,6 +32,7 @@ namespace NMib::NMongo::NMongoManager
 		TCContinuation<void> f_RestoreMongo(CTime const &_RestoreTime);
 		TCContinuation<void> f_Startup(EMode _Mode);
 		TCContinuation<void> f_UpdateReplicationConfig();
+		TCContinuation<void> f_SetupPermissions();
 		
 		static void fs_SetupEnvironment(CProcessLaunchParams &_Params);
 		
@@ -83,7 +86,7 @@ namespace NMib::NMongo::NMongoManager
 		TCSharedPointer<CCanDestroyTracker> mp_pCanDestroyTracker;
 		CDistributedAppState mp_AppState;
 
-		int32 mp_MongoPort = 25017;
+		CMongoConnectionSettings mp_MongoConnectionSettings{"localhost", 25017};
 		CUser mp_MongoUser{"hx_mongo"};
 		CVersion mp_Version_MongoDB{3, 2, 0};
 		bool mp_bEnableSSL = true;

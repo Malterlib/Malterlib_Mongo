@@ -30,10 +30,21 @@ namespace NMib::NMongo::NMongoManager
 		
 		auto &Config = mp_AppState.m_ConfigDatabase.m_Data;
 		if (auto *pValue = Config.f_GetMember("MongoPort", EJSONType_Integer))
-			mp_MongoPort = pValue->f_Integer(); 
+			mp_MongoConnectionSettings.m_Port = pValue->f_Integer();
 		
 		if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("ReplicaName", EJSONType_String))
 			mp_MongoReplicaName = pValue->f_String();
+		
+		if (mp_Mode == EMode_SetupPermissions || mp_Mode == EMode_RunRestore)
+			mp_bEnableSSL = false;
+		else if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("EnableSSL", EJSONType_Boolean))
+			mp_bEnableSSL = pValue->f_Boolean();
+		
+		CStr MongoDirectory = fp_GetDataPath("mongo");
+		mp_MongoConnectionSettings.m_Host = NProcess::NPlatform::fg_Process_GetHostName();
+		mp_MongoConnectionSettings.m_CACertificatePath = MongoDirectory + "/certificates/MongoCA.crt";
+		mp_MongoConnectionSettings.m_ClientCertificatePath = MongoDirectory + "/certificates/admin.pem";
+		mp_MongoConnectionSettings.m_bEnableSSL = mp_bEnableSSL;
 
 		mp_pFileActor = fg_ConstructActor<CSeparateThreadActor>(fg_Construct("File actor"));
 

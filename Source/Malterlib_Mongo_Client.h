@@ -11,12 +11,31 @@ namespace NMib
 {
 	namespace NMongo
 	{
+		struct CMongoConnectionSettings
+		{
+			CMongoConnectionSettings();
+			CMongoConnectionSettings(NStr::CStr const &_Host, uint16 _Port);
+			
+			bool f_Compatible(CMongoConnectionSettings const &_Settings) const;
+			NContainer::TCVector<NStr::CStr> f_GetToolParams() const;
+			NStr::CStr f_GetConnectionString();
+
+			NStr::CStr m_Host = "localhost";
+			uint16 m_Port = 27017;
+			
+			// Needs to be the same to be compatible
+			NStr::CStr m_CACertificatePath;
+			NStr::CStr m_ClientCertificatePath;
+			NStr::CStr m_UserName;
+			bool m_bEnableSSL = false;
+		};
+		
 		class CMongoClientActor : public NConcurrency::CActor
 		{
 		public:
 			typedef NConcurrency::CSeparateThreadActorHolder CActorHolder;
 
-			CMongoClientActor(NStr::CStr const &_ServerAddress, NStr::CStr const &_DefaultDatabase);
+			CMongoClientActor(CMongoConnectionSettings const &_ConnectionSetting, NStr::CStr const &_DefaultDatabase);
 			~CMongoClientActor();
 			
 			void f_Construct() override;

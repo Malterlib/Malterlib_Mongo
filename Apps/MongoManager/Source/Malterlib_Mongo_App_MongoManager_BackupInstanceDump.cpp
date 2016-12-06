@@ -168,19 +168,20 @@ namespace NMib::NMongo::NMongoManager
 		mp_DumpProcessLaunch = fg_ConstructActor<CProcessLaunchActor>();
 		DLogWithCategory(Backup, Info, "Launching mongodump");
 		
+		TCVector<CStr> Params = mp_MongoConnectionSettings.f_GetToolParams();
+		
+		Params << fg_CreateVector<CStr>
+			(
+				"--quiet"
+				, "--oplog"
+				, fg_Format("--out={}", mp_BackupDirectory + "/Package/MongoDump")
+			)
+		;
+		
 		CProcessLaunchActor::CSimpleLaunch Launch
 			{
 				mp_MongoExecutable
-				, fg_CreateVector<CStr>
-				(
-					"--host"
-					, "localhost"
-					, "--port"
-					, CStr::fs_ToStr(mp_MongoPort)
-					, "--quiet"
-					, "--oplog"
-					, fg_Format("--out={}", mp_BackupDirectory + "/Package/MongoDump")
-				)
+				, Params
 				, CFile::fs_GetPath(mp_MongoExecutable)
 			}
 		;

@@ -17,8 +17,7 @@
 		MalterlibDoExeFS true
 
 		MongoManagerCopySources "@('Source/MongoManager_Restore.sh'->MakeAbsolute())|Source;@(MongoManagerCopySources)"
-		MongoManagerCopySources "@('Source/Malterlib_Mongo_App_MongoManager_MongoSetup.js'->MakeAbsolute())|Source;@(MongoManagerCopySources)"
-		MongoManagerCopySources "@('Source/Malterlib_Mongo_App_MongoManager_MongoUpdateReplicationConfig.js'->MakeAbsolute())|Source;@(MongoManagerCopySources)"
+		MongoManagerCopySources "@('Source/Malterlib_Mongo_App_MongoManager_Mongo*.js'->MakeAbsolute())|Source;@(MongoManagerCopySources)"
 
 		MalterlibExeFSExtraFiles "@(MongoManagerCopySources);@(MalterlibExeFSExtraFiles)"
 		MalterlibExeFSPath "@(MongoBinariesPath)/*"

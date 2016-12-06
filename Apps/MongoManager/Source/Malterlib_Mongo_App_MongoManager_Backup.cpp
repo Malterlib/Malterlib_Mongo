@@ -22,12 +22,12 @@ namespace NMib::NMongo::NMongoManager
 		
 		CMongoBackupManagerActor
 			(
-				int32 _MongoPort
+				CMongoConnectionSettings const &_MongoConnectionSettings
 				, CStr const &_MongoExecutable
 				, uint32 _BackupInterval
 				, TCActor<CDistributedActorTrustManager> const &_TrustManager
 			)
-			: mp_MongoPort(_MongoPort)
+			: mp_MongoConnectionSettings(_MongoConnectionSettings)
 			, mp_MongoExecutable(_MongoExecutable)
 			, mp_BackupInterval(_BackupInterval)
 			, mp_pCanDestroy(fg_Construct())
@@ -246,7 +246,7 @@ namespace NMib::NMongo::NMongoManager
 			mp_LastBackupStart = CTime::fs_NowUTC();
 			mp_CurrentBackup.m_fOnSuccess = fg_Move(_fOnSuccess);
 			mp_CurrentBackup.m_fOnUploaded = fg_Move(_fOnUploaded);
-			mp_CurrentBackup.m_Backup = fg_ConstructActor<CMongoBackupInstanceActor>(mp_MongoPort, mp_MongoExecutable, mp_TrustManager);
+			mp_CurrentBackup.m_Backup = fg_ConstructActor<CMongoBackupInstanceActor>(mp_MongoConnectionSettings, mp_MongoExecutable, mp_TrustManager);
 			mp_CurrentBackup.m_Backup
 				(
 					&CMongoBackupInstanceActor::f_StartBackup
@@ -324,7 +324,7 @@ namespace NMib::NMongo::NMongoManager
 	private:
 		uint32 mp_BackupInterval = 1440;
 		
-		int32 mp_MongoPort;
+		CMongoConnectionSettings mp_MongoConnectionSettings;
 		CStr mp_MongoExecutable;
 		CTime mp_LastBackupStart;
 		
@@ -355,7 +355,7 @@ namespace NMib::NMongo::NMongoManager
 		
 		mp_pMongoBackupManagerActor = fg_ConstructActor<CMongoBackupManagerActor>
 			(
-				mp_MongoPort
+				mp_MongoConnectionSettings
 				, fp_GetMongoExecutable("mongodump")
 				, BackupInterval
 				, mp_AppState.m_TrustManager

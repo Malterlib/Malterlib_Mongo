@@ -74,6 +74,19 @@ namespace NMib::NMongo::NMongoManager
 		DefaultSection.f_RegisterCommand
 			(
 				{
+					"Names"_= {"--setup-permissions"}
+					, "Description"_= "Sets up permissions for a empty database by adding the admin user.\n"
+				}
+				, [this](NEncoding::CEJSON const &_Parameters) -> TCContinuation<CDistributedAppCommandLineResults>
+				{
+					return fp_CommandLine_SetupPermissions(_Parameters);
+				}
+				, true
+			)
+		;
+		DefaultSection.f_RegisterCommand
+			(
+				{
 					"Names"_= {"--update-replication-config"}
 					, "Description"_=
 					fg_Format
@@ -175,6 +188,19 @@ namespace NMib::NMongo::NMongoManager
 			{
 				CDistributedAppCommandLineResults Results;
 				Results.f_AddStdErr("Replication config updated successfully\n");
+				Continuation.f_SetResult(Results);
+			}
+		;
+		return Continuation;
+	}
+	
+	TCContinuation<CDistributedAppCommandLineResults> CMongoManagerDaemonActor::fp_CommandLine_SetupPermissions(NEncoding::CEJSON const &_Params)
+	{
+		TCContinuation<CDistributedAppCommandLineResults> Continuation;
+ 		mp_pManager(&CMongoManagerActor::f_SetupPermissions) > Continuation / [Continuation]
+			{
+				CDistributedAppCommandLineResults Results;
+				Results.f_AddStdErr("Permissions setup successfully\n");
 				Continuation.f_SetResult(Results);
 			}
 		;

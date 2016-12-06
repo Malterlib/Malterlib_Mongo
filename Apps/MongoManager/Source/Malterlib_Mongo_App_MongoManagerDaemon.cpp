@@ -26,6 +26,8 @@ namespace NMib::NMongo::NMongoManager
 			Mode = CMongoManagerActor::EMode_RunRestore;
 		else if (Command == "--update-replication-config")
 			Mode = CMongoManagerActor::EMode_UpdateReplicationConfig;
+		else if (Command == "--setup-permissions")
+			Mode = CMongoManagerActor::EMode_SetupPermissions;
 		
 		return mp_pManager(&CMongoManagerActor::f_Startup, Mode); 
 	}

@@ -2,16 +2,29 @@
 #include "Malterlib_Mongo_App_MongoManager_Server.h"
 #include <Mib/Concurrency/Actor/Timer>
 
+#include <Mib/Network/SSL>
+
 namespace NMib::NMongo::NMongoManager
 {
 	TCContinuation<void> CMongoManagerActor::fp_SetupPrerequisites_Mongo()
 	{
 		TCContinuation<void> Continuation;
 		CStr MongoDirectory = fp_GetDataPath("mongo");
+		struct CMongoInfo
+		{
+			CUser m_User = {""};
+			CStr m_AdminDN;
+		};
 		fg_Dispatch
 			(
 				mp_pFileActor
-				, [MongoDirectory, MongoUser = mp_MongoUser]() mutable
+				, 
+				[
+					MongoDirectory
+					, MongoUser = mp_MongoUser
+					, bNeedAdmin = mp_bEnableSSL || mp_Mode == EMode_SetupPermissions
+					, ConnectionSettings = mp_MongoConnectionSettings
+				]() mutable
 				{
 					DLog(Info, "Setting up mongod");
 					
@@ -31,15 +44,26 @@ namespace NMib::NMongo::NMongoManager
 							)
 						;
 					}
+
+					CMongoInfo MongoInfo;
+					
+					if (!ConnectionSettings.m_ClientCertificatePath.f_IsEmpty() && CFile::fs_FileExists(ConnectionSettings.m_ClientCertificatePath))
+						MongoInfo.m_AdminDN = CSSLContext::fs_GetCertificateDistinguishedName_RFC2253(CFile::fs_ReadFile(ConnectionSettings.m_ClientCertificatePath));
+					else if (bNeedAdmin)
+						DError(fg_Format("Could not find mongo admin user certificate at '{}'", ConnectionSettings.m_ClientCertificatePath));
 					
 					DLog(Info, "Setting up mongod was successful");
 					
-					return MongoUser;
+					MongoInfo.m_User = MongoUser;
+					return MongoInfo;
 				}
 			)
-			> Continuation % "Failed to set up mongod" / [this, Continuation](CUser &&_User)
+			> Continuation % "Failed to set up mongod" / [this, Continuation](CMongoInfo &&_Info)
 			{
-				mp_MongoUser = fg_Move(_User);
+				mp_MongoUser = fg_Move(_Info.m_User);
+				if (!_Info.m_AdminDN.f_IsEmpty())
+					mp_MongoConnectionSettings.m_UserName = _Info.m_AdminDN; 
+
 				Continuation.f_SetResult();
 			}
 		;
@@ -70,37 +94,18 @@ namespace NMib::NMongo::NMongoManager
 	
 		TCContinuation<void> Continuation;
 		
-		TCVector<CStr> Params;
-		CStr ConnectHost = "localhost";
-		if (mp_bEnableSSL)
-		{
-			ConnectHost = HostName;
-			// Connect as if we were a replica set member
-			Params << fg_CreateVector<CStr>
-				(
-					"--ssl"
-					, "--sslPEMKeyFile"
-					, fg_Format("{}/certificates/{}.pem", MongoPath, NProcess::NPlatform::fg_Process_GetHostName())
-					, "--sslCAFile"
-					, fg_Format("{}/certificates/MongoCA.crt", MongoPath)
-				)
-			;
-		}
+		TCVector<CStr> Params = mp_MongoConnectionSettings.f_GetToolParams();
 		
 		Params << fg_CreateVector<CStr>
 			(
-				"--host"
-				, ConnectHost
-				, "--port"
-				, CStr::fs_ToStr(mp_MongoPort)
-				, "--quiet"
-				, "--eval"
+				"--eval"
 				, fg_Format
 				(
-					"var MongoReplicaName='{}'; var MongoHostName='{}'; var MongoMongoPort='{}'"
+					"var MongoReplicaName='{}'; var MongoHostName='{}'; var MongoMongoPort='{}'; var MongoAdminDN='{}'"
 					, mp_MongoReplicaName
 					, HostName
-					, mp_MongoPort
+					, mp_MongoConnectionSettings.m_Port
+					, mp_MongoConnectionSettings.m_UserName
 				)
 				, _Database
 				, _Script
@@ -114,8 +119,8 @@ namespace NMib::NMongo::NMongoManager
 				, {}
 				, fg_Move(Params)
 				, _LogCategory
-				, ELogVerbosity_All
-				, true
+				, ELogVerbosity_Errors
+				, false
 				, MongoPath
 				, mp_MongoUser.m_Name
 			)
@@ -150,7 +155,7 @@ namespace NMib::NMongo::NMongoManager
 					return;
 				}
 				
-				DLog(Info, "Mongo script '{}' finished successfully}", _LogCategory);
+				DLog(Info, "Mongo script '{}' finished successfully", _LogCategory);
 				_Continuation.f_SetResult();
 			}
 		;
@@ -193,9 +198,11 @@ namespace NMib::NMongo::NMongoManager
 				, "--logpath"
 				, LogPath
 				, "--logappend"
+				, "--logRotate"
+				, "rename"
 				, "--journal"
 				, "--port"
-				, CStr::fs_ToStr(mp_MongoPort)
+				, CStr::fs_ToStr(mp_MongoConnectionSettings.m_Port)
 				, "--storageEngine"
 				, "wiredTiger"
 			)
@@ -207,6 +214,8 @@ namespace NMib::NMongo::NMongoManager
 					"--sslMode"
 					, "requireSSL"
 					, "--sslPEMKeyFile"
+					, fg_Format("{}/certificates/{}.pem", MongoPath, NProcess::NPlatform::fg_Process_GetHostName())
+					, "--sslClusterFile"
 					, fg_Format("{}/certificates/{}.pem", MongoPath, NProcess::NPlatform::fg_Process_GetHostName())
 					, "--sslCAFile"
 					, fg_Format("{}/certificates/MongoCA.crt", MongoPath)
@@ -370,5 +379,11 @@ namespace NMib::NMongo::NMongoManager
 	{
 		CStr ProgramDirectory = CFile::fs_GetProgramDirectory();
 		return fp_RunMongoScript(ProgramDirectory + "/Source/Malterlib_Mongo_App_MongoManager_MongoUpdateReplicationConfig.js", "UpdateReplicationConfig", "local", 60.0);
+	}
+
+	TCContinuation<void> CMongoManagerActor::f_SetupPermissions()
+	{
+		CStr ProgramDirectory = CFile::fs_GetProgramDirectory();
+		return fp_RunMongoScript(ProgramDirectory + "/Source/Malterlib_Mongo_App_MongoManager_MongoSetupPermissions.js", "SetupPermissions", "$external", 60.0);
 	}
 }
