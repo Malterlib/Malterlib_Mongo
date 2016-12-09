@@ -6,6 +6,7 @@
 #include <Mib/File/ExeFS>
 #include <Mib/File/VirtualFS>
 #include <Mib/File/VirtualFSs/MalterlibFS>
+#include <Mib/Encoding/JSONShortcuts>
 
 namespace NMib::NMongo::NMongoManager
 {
@@ -24,15 +25,25 @@ namespace NMib::NMongo::NMongoManager
 	{
 	}
 
-	TCContinuation<void> CMongoManagerActor::f_Startup(EMode _Mode)
+	TCContinuation<void> CMongoManagerActor::f_Startup(EMode _Mode, CStr const &_OverrideReplicaName, uint16 _Port, TCOptional<bool> const &_VerboseMongoScrips)
 	{
 		mp_Mode = _Mode;
 		
 		auto &Config = mp_AppState.m_ConfigDatabase.m_Data;
-		if (auto *pValue = Config.f_GetMember("MongoPort", EJSONType_Integer))
+		
+		if (_VerboseMongoScrips)
+			mp_bVerboseMongoScripts = *_VerboseMongoScrips;
+		else if (auto *pValue = Config.f_GetMember("VerboseMongoScripts", EJSONType_Boolean))
+			mp_bVerboseMongoScripts = pValue->f_Boolean();
+		
+		if (_Port)
+			mp_MongoConnectionSettings.m_Port = _Port;
+		else if (auto *pValue = Config.f_GetMember("MongoPort", EJSONType_Integer))
 			mp_MongoConnectionSettings.m_Port = pValue->f_Integer();
 		
-		if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("ReplicaName", EJSONType_String))
+		if (!_OverrideReplicaName.f_IsEmpty())
+			mp_MongoReplicaName = _OverrideReplicaName;
+		else if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("ReplicaName", EJSONType_String))
 			mp_MongoReplicaName = pValue->f_String();
 		
 		if (mp_Mode == EMode_SetupPermissions || mp_Mode == EMode_RunRestore)
@@ -64,11 +75,11 @@ namespace NMib::NMongo::NMongoManager
 								fp_StartMongo() > Continuation / [this, Continuation]
 									{
 										CStr ProgramDirectory = CFile::fs_GetProgramDirectory();
-										if (mp_Mode == EMode_UpdateReplicationConfig)
+										if (mp_Mode == EMode_UpdateReplicationConfig || mp_Mode == EMode_SetupPermissions)
 											Continuation.f_SetResult();
 										else
 										{
-											fp_RunMongoScript(ProgramDirectory + "/Source/Malterlib_Mongo_App_MongoManager_MongoSetup.js", "MongoSetup", "local", 5.0*60.0) 
+											fp_RunMongoScript(mp_MongoConnectionSettings, "MongoWaitForPrimary", "local", 5.0*60.0, {"expectReplica"_= mp_Mode != EMode_JoinReplicaSet}) 
 												> Continuation / [Continuation, this]
 												{
 													Continuation.f_SetResult();

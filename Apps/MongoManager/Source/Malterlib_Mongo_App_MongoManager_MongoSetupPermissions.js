@@ -1,5 +1,5 @@
 setupPermissions = function() {
-	adminUser = MongoAdminDN;
+	adminUser = scriptConfig.mongoAdminDN;
 	
 	adminRoles = [
 		{ role: "root", db: "admin" },

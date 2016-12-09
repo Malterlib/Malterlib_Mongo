@@ -69,6 +69,18 @@ namespace NMib
 		{
 			return fg_Format("{}:{}", m_Host, m_Port);
 		}
+
+		CMongoConnectionSettings CMongoConnectionSettings::f_ForConnectionString(NStr::CStr const &_ConnectionString) const
+		{
+			CMongoConnectionSettings ConnectionSettings = *this;
+			NStr::CStr ConnectString = _ConnectionString;
+			ConnectionSettings.m_Host = fg_GetStrSep(ConnectString, ":");
+			if (ConnectString.f_IsEmpty())
+				ConnectionSettings.m_Port = 27017;
+			else
+				ConnectionSettings.m_Port = ConnectString.f_ToInt(uint16(27017));
+			return ConnectionSettings;
+		}
 		
 		NContainer::TCVector<NStr::CStr> CMongoConnectionSettings::f_GetToolParams() const
 		{

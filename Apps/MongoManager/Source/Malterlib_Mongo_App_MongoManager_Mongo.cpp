@@ -1,6 +1,7 @@
 
 #include "Malterlib_Mongo_App_MongoManager_Server.h"
 #include <Mib/Concurrency/Actor/Timer>
+#include <Mib/Encoding/JSONShortcuts>
 
 #include <Mib/Network/SSL>
 
@@ -81,32 +82,38 @@ namespace NMib::NMongo::NMongoManager
 	
 	void CMongoManagerActor::fp_RunMongoScriptInternal
 		(
-			CStr const &_Script
+			CMongoConnectionSettings const &_MongoConnectionSettings
+			, CStr const &_Script
 			, CStr const &_LogCategory
 			, CStr const &_Database
 			, fp32 _Timeout
-			, TCContinuation<void> const &_Continuation
+			, TCContinuation<CStr> const &_Continuation
 			, CClock const &_Clock
+			, CEJSON const &_Config
 		)
 	{
-		CStr HostName = NProcess::NPlatform::fg_Process_GetHostName();
 		CStr MongoPath = fp_GetDataPath("mongo");
 	
 		TCContinuation<void> Continuation;
 		
-		TCVector<CStr> Params = mp_MongoConnectionSettings.f_GetToolParams();
+		TCVector<CStr> Params = _MongoConnectionSettings.f_GetToolParams();
+		
+		CEJSON Config = _Config;
+		Config["replicaName"] = mp_MongoReplicaName;
+		Config["mongoSelf"] = fg_Format("{}:{}", NProcess::NPlatform::fg_Process_GetHostName(), mp_MongoConnectionSettings.m_Port);
+		Config["verbose"] = mp_bVerboseMongoScripts;
+		
+		bool bQuiet = false;
+		if (auto pValue = _Config.f_GetMember("quiet"))
+			bQuiet = pValue->f_Boolean();
+		
+		if (bQuiet)
+			Params.f_Insert("--quiet"); 
 		
 		Params << fg_CreateVector<CStr>
 			(
 				"--eval"
-				, fg_Format
-				(
-					"var MongoReplicaName='{}'; var MongoHostName='{}'; var MongoMongoPort='{}'; var MongoAdminDN='{}'"
-					, mp_MongoReplicaName
-					, HostName
-					, mp_MongoConnectionSettings.m_Port
-					, mp_MongoConnectionSettings.m_UserName
-				)
+				, fg_Format("var scriptConfig = {};", Config.f_ToString(nullptr))
 				, _Database
 				, _Script
 			)
@@ -119,7 +126,7 @@ namespace NMib::NMongo::NMongoManager
 				, {}
 				, fg_Move(Params)
 				, _LogCategory
-				, ELogVerbosity_Errors
+				, mp_bVerboseMongoScripts ? ELogVerbosity_All : ELogVerbosity_Errors 
 				, false
 				, MongoPath
 				, mp_MongoUser.m_Name
@@ -141,7 +148,7 @@ namespace NMib::NMongo::NMongoManager
 										0.1
 										, [=]
 										{
-											fp_RunMongoScriptInternal(_Script, _LogCategory, _Database, _Timeout, _Continuation, _Clock);
+											fp_RunMongoScriptInternal(_MongoConnectionSettings, _Script, _LogCategory, _Database, _Timeout, _Continuation, _Clock, _Config);
 										}
 										, self 
 									)
@@ -156,23 +163,41 @@ namespace NMib::NMongo::NMongoManager
 				}
 				
 				DLog(Info, "Mongo script '{}' finished successfully", _LogCategory);
-				_Continuation.f_SetResult();
+				_Continuation.f_SetResult(fg_Move(*_StdOut));
 			}
 		;
 	}
 	
-	TCContinuation<void> CMongoManagerActor::fp_RunMongoScript(CStr const &_Script, CStr const &_LogCategory, CStr const &_Database, fp32 _Timeout)
+	TCContinuation<CStr> CMongoManagerActor::fp_RunMongoScript
+		(
+			CMongoConnectionSettings const &_MongoConnectionSettings
+			, CStr const &_Script
+			, CStr const &_Database
+			, fp32 _Timeout
+			, CEJSON const &_Config
+		)
 	{
 		CStr HostName = NProcess::NPlatform::fg_Process_GetHostName();
-		CStr ScriptName = CFile::fs_GetFile(_Script);
+		CStr ProgramDirectory = CFile::fs_GetProgramDirectory();
 		
 		if (HostName.f_IsEmpty())
-			return DErrorInstance(fg_Format("Failed to launch mongo for running {}: Hostname is empty", ScriptName));
+			return DErrorInstance(fg_Format("Failed to launch mongo for running {}: Hostname is empty", _Script));
 		
 		CClock Clock{true};
 		
-		TCContinuation<void> Continuation; 
-		fp_RunMongoScriptInternal(_Script, _LogCategory, _Database, _Timeout, Continuation, Clock);
+		TCContinuation<CStr> Continuation; 
+		fp_RunMongoScriptInternal
+			(	
+				_MongoConnectionSettings
+				, fg_Format("{}/Source/Malterlib_Mongo_App_MongoManager_{}.js", ProgramDirectory, _Script)
+				, _Script
+				, _Database
+				, _Timeout
+				, Continuation
+				, Clock
+				, _Config
+			)
+		;
 		return Continuation;
 	}
 
@@ -186,7 +211,7 @@ namespace NMib::NMongo::NMongoManager
 		CStr DatabasePath = MongoPath + "/db";
 
 		TCVector<CStr> Arguments;
-		if (mp_Mode != EMode_UpdateReplicationConfig)
+		if (mp_Mode != EMode_UpdateReplicationConfig && mp_Mode != EMode_SetupPermissions)
 		{
 			Arguments.f_Insert("--replSet");
 			Arguments.f_Insert(mp_MongoReplicaName);
@@ -377,13 +402,116 @@ namespace NMib::NMongo::NMongoManager
 	
 	TCContinuation<void> CMongoManagerActor::f_UpdateReplicationConfig()
 	{
-		CStr ProgramDirectory = CFile::fs_GetProgramDirectory();
-		return fp_RunMongoScript(ProgramDirectory + "/Source/Malterlib_Mongo_App_MongoManager_MongoUpdateReplicationConfig.js", "UpdateReplicationConfig", "local", 60.0);
+		TCContinuation<void> Continuation; 
+		fp_RunMongoScript(mp_MongoConnectionSettings, "MongoUpdateReplicationConfig", "local", 60.0, {}) 
+			> Continuation / [Continuation]
+			{
+				Continuation.f_SetResult();
+			}
+		;
+		return Continuation;
 	}
 
 	TCContinuation<void> CMongoManagerActor::f_SetupPermissions()
 	{
-		CStr ProgramDirectory = CFile::fs_GetProgramDirectory();
-		return fp_RunMongoScript(ProgramDirectory + "/Source/Malterlib_Mongo_App_MongoManager_MongoSetupPermissions.js", "SetupPermissions", "$external", 60.0);
+		TCContinuation<void> Continuation; 
+		fp_RunMongoScript(mp_MongoConnectionSettings, "MongoSetupPermissions", "$external", 60.0, {"mongoAdminDN"_= mp_MongoConnectionSettings.m_UserName})
+			> Continuation / [Continuation]
+			{
+				Continuation.f_SetResult();
+			}
+		;
+		return Continuation;
+	}
+	
+	TCContinuation<void> CMongoManagerActor::f_JoinReplica(CJoinReplicaOptions const &_Options)
+	{
+		bool bConfigChanged = false;
+		
+		if (_Options.m_ReplicaName)
+		{
+			CStr const &ReplicaName = *_Options.m_ReplicaName;
+			auto &ReplicaSetting = mp_AppState.m_ConfigDatabase.m_Data["ReplicaName"];
+			if (!ReplicaSetting.f_IsString() || ReplicaSetting.f_String() != ReplicaName)
+			{
+				ReplicaSetting = ReplicaName;
+				bConfigChanged = true;
+			}
+		}
+		if (_Options.m_Port)
+		{
+			uint16 const &Port = *_Options.m_Port;
+			auto &PortSetting = mp_AppState.m_ConfigDatabase.m_Data["MongoPort"];
+			if (!PortSetting.f_IsInteger() || PortSetting.f_Integer() != Port)
+			{
+				PortSetting = Port;
+				bConfigChanged = true;
+			}
+		}
+		
+		TCActorResultVector<void> Results;
+		
+		if (bConfigChanged)
+			mp_AppState.m_ConfigDatabase.f_Save() > Results.f_AddResult();
+		
+		TCContinuation<void> Continuation;
+		
+		Results.f_GetResults() > Continuation / [Continuation, this, _Options]
+			{
+				CStr Self = mp_MongoConnectionSettings.f_GetConnectionString();
+				CStr SelfTag = Self.f_ReplaceChar('.', '_').f_ReplaceChar(':', '_'); 
+				
+				CEJSON Config = {"selfTag"_= SelfTag};
+				CEJSON &ReplicationConfig = Config["replicationConfig"] = 
+					{
+						"host"_= Self
+						, "arbiterOnly"_= _Options.m_ArbiterOnly.f_Get(false) 
+						, "buildIndexes"_= _Options.m_BuildIndexes.f_Get(true)
+						, "hidden"_= _Options.m_Hidden.f_Get(false)
+						, "priority"_= _Options.m_Priority.f_Get(1.0)
+						, "tags"_=  
+						{
+							_[SelfTag] = "1" 
+						}
+						, "slaveDelay"_= 0
+						, "votes"_= _Options.m_CanVote.f_Get(true) ? 1 : 0 
+					}
+				;
+				
+				if (_Options.m_ExtraTags)
+				{
+					CEJSON &Tags = ReplicationConfig["tags"]; 
+					for (auto iTag = _Options.m_ExtraTags->f_GetIterator(); iTag; ++iTag)
+						Tags[iTag.f_GetKey()] = *iTag;
+				}
+				
+				auto ConnectionSettings = mp_MongoConnectionSettings.f_ForConnectionString(_Options.m_MemberToJoin);
+				if (ConnectionSettings.m_Host == mp_MongoConnectionSettings.m_Host && ConnectionSettings.m_Port == mp_MongoConnectionSettings.m_Port)
+				{
+					fp_RunMongoScript(mp_MongoConnectionSettings, "MongoInitReplicaSet", "local", 60.0, Config) 
+						> Continuation / [Continuation]
+						{
+							Continuation.f_SetResult();
+						}
+					;
+					return;
+				}
+				
+				fp_RunMongoScript(ConnectionSettings, "MongoGetPrimary", "local", 60.0, {"quiet"_= true})
+					> Continuation / [this, Continuation, Config](CStr &&_Primary)
+					{
+						CStr Primary = _Primary.f_Trim();
+						auto ConnectionSettings = mp_MongoConnectionSettings.f_ForConnectionString(Primary);
+						fp_RunMongoScript(ConnectionSettings, "MongoJoinReplicaSet", "local", 60.0, Config) 
+							> Continuation / [Continuation]
+							{
+								Continuation.f_SetResult();
+							}
+						;
+					}
+				;
+			}
+		;
+		return Continuation;
 	}
 }

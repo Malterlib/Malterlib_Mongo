@@ -9,12 +9,27 @@
 #include <Mib/Daemon/Daemon>
 #include <Mib/Process/ProcessLaunch>
 #include <Mib/Mongo/Client>
+#include <Mib/Storage/Optional>
 
 #include "Malterlib_Mongo_App_MongoManager_Backup.h"
 #include "Malterlib_Mongo_App_MongoManager_Helpers.h"
 
 namespace NMib::NMongo::NMongoManager
 {
+	struct CJoinReplicaOptions
+	{
+		CStr m_MemberToJoin;
+
+		TCOptional<uint16> m_Port;
+		TCOptional<CStr> m_ReplicaName;
+		TCOptional<fp64> m_Priority;
+		TCOptional<TCMap<CStr, CStr>> m_ExtraTags;
+		TCOptional<bool> m_CanVote;
+		TCOptional<bool> m_ArbiterOnly;
+		TCOptional<bool> m_BuildIndexes;
+		TCOptional<bool> m_Hidden;
+	};
+	
 	struct CMongoManagerActor : public CActor
 	{
 	public:
@@ -24,15 +39,17 @@ namespace NMib::NMongo::NMongoManager
 			, EMode_RunRestore
 			, EMode_UpdateReplicationConfig
 			, EMode_SetupPermissions
+			, EMode_JoinReplicaSet
 		};
 		
 		CMongoManagerActor(CDistributedAppState const &_AppState);
 		~CMongoManagerActor();
 		TCContinuation<void> f_Destroy() override;
 		TCContinuation<void> f_RestoreMongo(CTime const &_RestoreTime);
-		TCContinuation<void> f_Startup(EMode _Mode);
+		TCContinuation<void> f_Startup(EMode _Mode, CStr const &_OverrideReplicaName, uint16 _OverridePort, TCOptional<bool> const &_VerboseMongoScrips);
 		TCContinuation<void> f_UpdateReplicationConfig();
 		TCContinuation<void> f_SetupPermissions();
+		TCContinuation<void> f_JoinReplica(CJoinReplicaOptions const &_Options);
 		
 		static void fs_SetupEnvironment(CProcessLaunchParams &_Params);
 		
@@ -48,8 +65,27 @@ namespace NMib::NMongo::NMongoManager
 		void fp_StartMongoBackup();
 		TCContinuation<void> fp_SetupPrerequisites_Mongo();
 		CStr fp_GetMongoExecutable(CStr const &_ExecutableName) const;
-		void fp_RunMongoScriptInternal(CStr const &_Script, CStr const &_LogCategory, CStr const &_Database, fp32 _Timeout, TCContinuation<void> const &_Continuation, CClock const &_Clock);
-		TCContinuation<void> fp_RunMongoScript(CStr const &_Script, CStr const &_LogCategory, CStr const &_Database, fp32 _Timeout);
+		void fp_RunMongoScriptInternal
+			(
+				CMongoConnectionSettings const &_MongoConnectionSettings 
+				, CStr const &_Script
+				, CStr const &_LogCategory
+				, CStr const &_Database
+				, fp32 _Timeout
+				, TCContinuation<CStr> const &_Continuation
+				, CClock const &_Clock
+				, CEJSON const &_Config
+			)
+		;
+		TCContinuation<CStr> fp_RunMongoScript
+			(
+				CMongoConnectionSettings const &_MongoConnectionSettings
+				, CStr const &_Script
+				, CStr const &_Database
+				, fp32 _Timeout
+				, CEJSON const &_Config
+			)
+		;
 		TCContinuation<void> fp_StartMongo();
 		CStr fp_GetDataPath(CStr const &_Path) const;
 		CStr fp_ConcatOutput(CStr const &_StdOut, CStr const &_StdErr) const;
@@ -90,6 +126,7 @@ namespace NMib::NMongo::NMongoManager
 		CUser mp_MongoUser{"hx_mongo"};
 		CVersion mp_Version_MongoDB{3, 2, 0};
 		bool mp_bEnableSSL = true;
+		bool mp_bVerboseMongoScripts = false;
 		
 		// Mongo
 		TCActor<CProcessLaunchActor> mp_pMongoLaunch;

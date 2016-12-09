@@ -24,6 +24,7 @@ namespace NMib::NMongo::NMongoManager
 		TCContinuation<CDistributedAppCommandLineResults> fp_CommandLine_Restore(NEncoding::CEJSON const &_Params);
 		TCContinuation<CDistributedAppCommandLineResults> fp_CommandLine_UpdateReplicationConfig(NEncoding::CEJSON const &_Params);
 		TCContinuation<CDistributedAppCommandLineResults> fp_CommandLine_SetupPermissions(NEncoding::CEJSON const &_Params);
+		TCContinuation<CDistributedAppCommandLineResults> fp_CommandLine_JoinReplica(NEncoding::CEJSON const &_Params);
 		
 		TCActor<CMongoManagerActor> mp_pManager;
 	};

@@ -28,8 +28,22 @@ namespace NMib::NMongo::NMongoManager
 			Mode = CMongoManagerActor::EMode_UpdateReplicationConfig;
 		else if (Command == "--setup-permissions")
 			Mode = CMongoManagerActor::EMode_SetupPermissions;
+		else if (Command == "--join-replica-set")
+			Mode = CMongoManagerActor::EMode_JoinReplicaSet;
 		
-		return mp_pManager(&CMongoManagerActor::f_Startup, Mode); 
+		CStr ReplicaName;
+		if (auto pValue = _Params.f_GetMember("MongoReplicaName"))
+			ReplicaName = pValue->f_String(); 
+		
+		uint16 Port = 0;
+		if (auto pValue = _Params.f_GetMember("MongoPort"))
+			Port = pValue->f_Integer(); 
+		
+		TCOptional<bool> VerboseMongoScrips;
+		if (auto pValue = _Params.f_GetMember("VerboseMongoScripts"))
+			VerboseMongoScrips = pValue->f_Boolean(); 
+		
+		return mp_pManager(&CMongoManagerActor::f_Startup, Mode, ReplicaName, Port, VerboseMongoScrips); 
 	}
 	
 	TCContinuation<void> CMongoManagerDaemonActor::fp_StopApp()

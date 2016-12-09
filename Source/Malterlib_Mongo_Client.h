@@ -19,6 +19,7 @@ namespace NMib
 			bool f_Compatible(CMongoConnectionSettings const &_Settings) const;
 			NContainer::TCVector<NStr::CStr> f_GetToolParams() const;
 			NStr::CStr f_GetConnectionString();
+			CMongoConnectionSettings f_ForConnectionString(NStr::CStr const &_ConnectionString) const;
 
 			NStr::CStr m_Host = "localhost";
 			uint16 m_Port = 27017;

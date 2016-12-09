@@ -172,8 +172,7 @@ namespace NMib::NMongo::NMongoManager
 		
 		Params << fg_CreateVector<CStr>
 			(
-				"--quiet"
-				, "--oplog"
+				"--oplog"
 				, fg_Format("--out={}", mp_BackupDirectory + "/Package/MongoDump")
 			)
 		;
@@ -187,7 +186,7 @@ namespace NMib::NMongo::NMongoManager
 		;
 
 		Launch.m_LogName = "DumpDatabase";
-		Launch.m_ToLog = CProcessLaunchActor::ELogFlag_All;
+		Launch.m_ToLog = CProcessLaunchActor::ELogFlag_Error | CProcessLaunchActor::ELogFlag_Info;
 		Launch.m_Params.m_bCreateNewProcessGroup = true;
 		
 		CMongoManagerActor::fs_SetupEnvironment(Launch.m_Params);
@@ -201,7 +200,7 @@ namespace NMib::NMongo::NMongoManager
 					Continuation.f_SetResult();
 				}
 				else
-					Continuation.f_SetException(DMibErrorInstance("Backup dump failed"));
+					Continuation.f_SetException(DMibErrorInstance(fg_Format("Backup dump failed: {}", _Result.f_GetCombinedOut())));
 			}
 		;
 		
