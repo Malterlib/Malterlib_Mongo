@@ -415,7 +415,7 @@ namespace NMib::NMongo::NMongoManager
 	TCContinuation<void> CMongoManagerActor::f_SetupPermissions()
 	{
 		TCContinuation<void> Continuation; 
-		fp_RunMongoScript(mp_MongoConnectionSettings, "MongoSetupPermissions", "$external", 60.0, {"mongoAdminDN"_= mp_MongoConnectionSettings.m_UserName})
+		fp_RunMongoScript(mp_MongoConnectionSettings, "MongoSetupPermissions", "local", 60.0, {"mongoAdminDN"_= mp_MongoConnectionSettings.m_UserName})
 			> Continuation / [Continuation]
 			{
 				Continuation.f_SetResult();

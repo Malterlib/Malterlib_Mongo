@@ -1,3 +1,6 @@
+// Mongo URI parser in 3.4.1 refuses to accept $external, so use the correct DB here
+externalDB = db.getSiblingDB("$external");
+
 setupPermissions = function() {
 	adminUser = scriptConfig.mongoAdminDN;
 	
@@ -5,10 +8,10 @@ setupPermissions = function() {
 		{ role: "root", db: "admin" },
 	];
 	
-	if (db.getUser(adminUser))
-		db.updateUser(adminUser, { roles: adminRoles });
+	if (externalDB.getUser(adminUser))
+		externalDB.updateUser(adminUser, { roles: adminRoles });
 	else
-		db.createUser({ user: adminUser, roles: adminRoles });
+		externalDB.createUser({ user: adminUser, roles: adminRoles });
 }
 
 setupPermissions();

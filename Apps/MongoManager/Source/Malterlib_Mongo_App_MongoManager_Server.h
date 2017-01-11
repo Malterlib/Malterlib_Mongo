@@ -124,7 +124,7 @@ namespace NMib::NMongo::NMongoManager
 
 		CMongoConnectionSettings mp_MongoConnectionSettings{"localhost", 25017};
 		CUser mp_MongoUser{"hx_mongo"};
-		CVersion mp_Version_MongoDB{3, 2, 0};
+		CVersion mp_Version_MongoDB{3, 4, 0};
 		bool mp_bEnableSSL = true;
 		bool mp_bVerboseMongoScripts = false;
 		
