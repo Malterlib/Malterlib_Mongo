@@ -15,9 +15,9 @@ namespace NMib::NMongo::NMongoManager
 		, mp_pCanDestroyTracker(fg_Construct())
 	{
 #ifdef DPlatformFamily_OSX
-		CStr Path = NSys::fg_Process_GetEnvironmentVariable(CStr("PATH"));
+		CStr Path = fg_GetSys()->f_GetEnvironmentVariable("PATH");
 		if (Path.f_Find("/opt/local/bin") < 0)
-			NSys::fg_Process_SetEnvironmentVariable(CStr("PATH"), "/opt/local/bin:" + Path);
+			fg_GetSys()->f_SetEnvironmentVariable("PATH", "/opt/local/bin:" + Path);
 #endif
 	}
 	

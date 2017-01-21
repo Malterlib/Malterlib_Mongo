@@ -55,13 +55,7 @@ namespace NMib::NMongo::NMongoManager
 				}
 				mp_BackupServerActorsSubscription = fg_Move(*_Subscription);
 				
-				for (auto &ManagerInfo : mp_BackupServerActorsSubscription.m_Actors)
-				{
-					auto &Connection = mp_BackupManagers[ManagerInfo.m_Actor];
-					fp_BackupConnectionConnected(&Connection);
-				}
-				
-				mp_BackupServerActorsSubscription.f_OnNewActor
+				mp_BackupServerActorsSubscription.f_OnActor
 					(
 						[this](TCDistributedActor<NCloud::CBackupManager> const &_BackupManager, CTrustedActorInfo const &_ActorInfo)
 						{
