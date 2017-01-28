@@ -5,6 +5,7 @@
 {
 	Property
 	{
+		MalterlibTestApp true
 		MalterlibPostCopyProject "Malterlib_Mongo_MongoManager"
 		{
 			!!MalterlibPostCopyProject ""
