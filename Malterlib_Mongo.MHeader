@@ -57,6 +57,7 @@ Property
 	!!MalterlibEnableInternalTests true
 	
 	MalterlibTests "Malterlib_Mongo;@(MalterlibTests)"
+	MalterlibTestDependencies_Malterlib_Mongo "Lib_Malterlib_Mongo"
 	MalterlibTestFiles_Malterlib_Mongo "@('Test/*'->MakeAbsolute())"
 }
 
