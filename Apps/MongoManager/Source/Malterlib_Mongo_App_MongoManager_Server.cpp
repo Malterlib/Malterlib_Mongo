@@ -10,7 +10,7 @@
 
 namespace NMib::NMongo::NMongoManager
 {
-	CMongoManagerActor::CMongoManagerActor(CDistributedAppState const &_AppState)
+	CMongoManagerActor::CMongoManagerActor(CDistributedAppState &_AppState)
 		: mp_AppState(_AppState)
 		, mp_pCanDestroyTracker(fg_Construct())
 	{

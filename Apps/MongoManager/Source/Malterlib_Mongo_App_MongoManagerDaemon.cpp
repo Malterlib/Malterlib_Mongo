@@ -18,7 +18,7 @@ namespace NMib::NMongo::NMongoManager
 	TCContinuation<void> CMongoManagerDaemonActor::fp_StartApp(NEncoding::CEJSON const &_Params)
 	{
 		TCContinuation<void> Continuation;
-		mp_pManager = fg_ConstructActor<CMongoManagerActor>(mp_State);
+		mp_pManager = fg_ConstructActor<CMongoManagerActor>(fg_Construct(self), mp_State);
 		CMongoManagerActor::EMode Mode = CMongoManagerActor::EMode_Normal;
 		
 		CStr Command = _Params["Command"].f_String();

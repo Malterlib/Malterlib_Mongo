@@ -33,6 +33,8 @@ namespace NMib::NMongo::NMongoManager
 	struct CMongoManagerActor : public CActor
 	{
 	public:
+		using CActorHolder = CDelegatedActorHolder;
+		
 		enum EMode
 		{
 			EMode_Normal
@@ -42,7 +44,7 @@ namespace NMib::NMongo::NMongoManager
 			, EMode_JoinReplicaSet
 		};
 		
-		CMongoManagerActor(CDistributedAppState const &_AppState);
+		CMongoManagerActor(CDistributedAppState &_AppState);
 		~CMongoManagerActor();
 		TCContinuation<void> f_Destroy() override;
 		TCContinuation<void> f_RestoreMongo(CTime const &_RestoreTime);
@@ -120,7 +122,7 @@ namespace NMib::NMongo::NMongoManager
 		TCActor<CSeparateThreadActor> mp_pFileActor;
 		
 		TCSharedPointer<CCanDestroyTracker> mp_pCanDestroyTracker;
-		CDistributedAppState mp_AppState;
+		CDistributedAppState &mp_AppState;
 
 		CMongoConnectionSettings mp_MongoConnectionSettings{"localhost", 25017};
 		CUser mp_MongoUser{"hx_mongo"};
