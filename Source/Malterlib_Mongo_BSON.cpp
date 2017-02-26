@@ -2,6 +2,13 @@
 // Distributed under the MIT license, see license text in LICENSE.Malterlib
 
 #include <Mib/Core/Core>
+
+#ifdef DPlatformFamily_Windows
+#include <winsock2.h>
+#include <Windows.h>
+#pragma warning(disable:4267)
+#endif
+
 #include <mongo/client/dbclient.h>
 #include "Malterlib_Mongo_BSON.h"
 

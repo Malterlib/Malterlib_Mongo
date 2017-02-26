@@ -3,6 +3,12 @@
 
 #include <Mib/Core/Core>
 
+#ifdef DPlatformFamily_Windows
+#include <winsock2.h>
+#include <Windows.h>
+#pragma warning(disable:4267)
+#endif
+
 #include "Malterlib_Mongo_Client.h"
 #include "Malterlib_Mongo_BSON.h"
 
@@ -252,6 +258,7 @@ namespace NMib
 				>
 				[
 					=
+					, pThis = this
 					, _pFields = fg_Move(_pFields)
 					, _CallbackActor = fg_Move(_CallbackActor)
 					, _fOnResult = fg_Move(_fOnResult)
@@ -273,7 +280,7 @@ namespace NMib
 					
 					COnScopeExitShared pOnExit = fg_OnScopeExitShared
 						(
-							[WeakThis=fg_ThisActor(this).f_Weak(), this]
+							[WeakThis=fg_ThisActor(pThis).f_Weak(), this]
 							{
 								auto This = WeakThis.f_Lock();
 								if (This)
