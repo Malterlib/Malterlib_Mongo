@@ -55,6 +55,9 @@ namespace NMib::NMongo::NMongoManager
 		
 		static void fs_SetupEnvironment(CProcessLaunchParams &_Params);
 		
+		static mint fs_GetMongoFileLimits();
+		static mint fs_GetMongoThreadLimits();
+		
 	private:
 		enum ELogVerbosity
 		{
@@ -91,8 +94,6 @@ namespace NMib::NMongo::NMongoManager
 		TCContinuation<void> fp_StartMongo();
 		CStr fp_GetDataPath(CStr const &_Path) const;
 		CStr fp_ConcatOutput(CStr const &_StdOut, CStr const &_StdErr) const;
-		mint fp_GetMongoFileLimits() const;
-		mint fp_GetMongoThreadLimits() const;
 		TCContinuation<CStr> fp_LaunchTool
 			(
 				CStr const &_Executable

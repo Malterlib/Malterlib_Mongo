@@ -215,7 +215,7 @@ namespace NMib::NMongo::NMongoManager
 		return CFile::fs_AppendPath(CFile::fs_GetProgramDirectory(), _Path);
 	}
 
-	mint CMongoManagerActor::fp_GetMongoFileLimits() const
+	mint CMongoManagerActor::fs_GetMongoFileLimits()
 	{
 #ifdef DPlatformFamily_OSX
 		return 10240;
@@ -224,7 +224,7 @@ namespace NMib::NMongo::NMongoManager
 #endif
 	}
 
-	mint CMongoManagerActor::fp_GetMongoThreadLimits() const
+	mint CMongoManagerActor::fs_GetMongoThreadLimits()
 	{
 		return 32000;
 	}

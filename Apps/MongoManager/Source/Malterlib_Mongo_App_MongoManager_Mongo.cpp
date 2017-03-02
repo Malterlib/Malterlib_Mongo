@@ -369,13 +369,13 @@ namespace NMib::NMongo::NMongoManager
 		Params.m_RunAsGroup = mp_MongoUser.m_Name;
 		{
 			auto &Limit = Params.m_Limits[EProcessLimit_OpenedFiles];
-			Limit.m_Value = fp_GetMongoFileLimits();
-			Limit.m_MaxValue = fp_GetMongoFileLimits();
+			Limit.m_Value = fs_GetMongoFileLimits();
+			Limit.m_MaxValue = fs_GetMongoFileLimits();
 		}
 		{
 			auto &Limit = Params.m_Limits[EProcessLimit_Threads];
-			Limit.m_Value = fp_GetMongoThreadLimits();
-			Limit.m_MaxValue = fp_GetMongoThreadLimits();
+			Limit.m_Value = fs_GetMongoThreadLimits();
+			Limit.m_MaxValue = fs_GetMongoThreadLimits();
 		}
 		
 		fs_SetupEnvironment(Params);

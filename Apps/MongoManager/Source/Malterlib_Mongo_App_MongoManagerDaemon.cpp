@@ -15,6 +15,28 @@ namespace NMib::NMongo::NMongoManager
 	{
 	}
 
+	void CMongoManagerDaemonActor::fp_PopulateAppInterfaceRegisterInfo(CDistributedAppInterfaceServer::CRegisterInfo &o_RegisterInfo, NEncoding::CEJSON const &_Params)
+	{
+		o_RegisterInfo.m_UpdateType = EDistributedAppUpdateType_OneAtATime;
+		
+		mint nMaxFilesNeeded = 8192;
+		nMaxFilesNeeded += CMongoManagerActor::fs_GetMongoFileLimits();
+
+		mint nFilesPerProc = 8192;
+		nFilesPerProc = fg_Max(nFilesPerProc, CMongoManagerActor::fs_GetMongoFileLimits());
+		
+		mint nMaxThreads = 1024;
+		nMaxThreads += CMongoManagerActor::fs_GetMongoThreadLimits();
+
+		mint nMaxPids = 32; // Our own
+		nMaxPids += 64000; // For mongod
+		
+		o_RegisterInfo.m_Resources_Files = nMaxFilesNeeded;
+		o_RegisterInfo.m_Resources_Threads = nMaxThreads; 
+		o_RegisterInfo.m_Resources_FilesPerProcess = nFilesPerProc;
+		o_RegisterInfo.m_Resources_Processes = nMaxPids; 
+	}
+	
 	TCContinuation<void> CMongoManagerDaemonActor::fp_StartApp(NEncoding::CEJSON const &_Params)
 	{
 		TCContinuation<void> Continuation;
