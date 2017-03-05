@@ -26,6 +26,8 @@ Import "Apps/*/*.MHeader"
 	}
 	%Dependency Lib_Mongo
 	{
+		!DocumentationEnabled true
+		
 		Dependency.Indirect true
 	}
 }
