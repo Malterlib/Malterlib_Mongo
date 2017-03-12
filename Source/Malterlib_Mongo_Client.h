@@ -39,9 +39,6 @@ namespace NMib
 			CMongoClientActor(CMongoConnectionSettings const &_ConnectionSetting, NStr::CStr const &_DefaultDatabase);
 			~CMongoClientActor();
 			
-			void f_Construct() override;
-			NConcurrency::TCContinuation<void> f_Destroy() override;
-
 			enum EQueryOption
 			{
 				EQueryOption_None = 0
@@ -103,6 +100,7 @@ namespace NMib
 			NConcurrency::TCContinuation<void> f_Remove(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, ERemoveOption _Options);
 			
 		private:
+			NConcurrency::TCContinuation<void> fp_Destroy() override;
 			void fp_ConnectToServer();
 
 			struct CInternal;

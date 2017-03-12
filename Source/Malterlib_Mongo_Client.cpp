@@ -182,6 +182,11 @@ namespace NMib
 		CMongoClientActor::CMongoClientActor(CMongoConnectionSettings const &_ConnectionSettings, NStr::CStr const &_DefaultDatabase)
 			: mp_pInternal(fg_Construct(_ConnectionSettings, _DefaultDatabase))
 		{
+			auto &Internal = *mp_pInternal;
+			auto &Settings = *g_MongoClientInit(Internal.m_ConnectionSettings);
+			(void)Settings;
+			DMibRequire(Settings.m_Settings.f_Compatible(Internal.m_ConnectionSettings))("The mongo driver does not support different settings");
+			fg_ThisActor(this)(&CMongoClientActor::fp_ConnectToServer) > NConcurrency::fg_DiscardResult();
 		}
 
 		CMongoClientActor::~CMongoClientActor()
@@ -195,16 +200,7 @@ namespace NMib
 			Internal.f_MakeSureConnected();
 		}
 
-		void CMongoClientActor::f_Construct()
-		{
-			auto &Internal = *mp_pInternal;
-			auto &Settings = *g_MongoClientInit(Internal.m_ConnectionSettings);
-			(void)Settings;
-			DMibRequire(Settings.m_Settings.f_Compatible(Internal.m_ConnectionSettings))("The mongo driver does not support different settings");
-			fg_ThisActor(this)(&CMongoClientActor::fp_ConnectToServer) > NConcurrency::fg_DiscardResult();
-		}
-
-		NConcurrency::TCContinuation<void> CMongoClientActor::f_Destroy()
+		NConcurrency::TCContinuation<void> CMongoClientActor::fp_Destroy()
 		{
 			NConcurrency::TCContinuation<void> Continuation;
 			
