@@ -100,7 +100,7 @@ namespace NMib::NMongo::NMongoManager
 		return Continuation;
 	}
 	
-	TCContinuation<void> CMongoManagerActor::f_Destroy()
+	TCContinuation<void> CMongoManagerActor::fp_Destroy()
 	{
 		auto pCanDestroy = fg_Move(mp_pCanDestroyTracker);
 		

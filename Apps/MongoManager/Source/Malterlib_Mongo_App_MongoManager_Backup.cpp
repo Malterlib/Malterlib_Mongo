@@ -70,7 +70,8 @@ namespace NMib::NMongo::NMongoManager
 			return Result;
 		}
 		
-		TCContinuation<void> f_Destroy() override
+	private:
+		TCContinuation<void> fp_Destroy() override
 		{
 			TCSharedPointer<CCanDestroyTracker> pCanDestroy = fg_Move(mp_pCanDestroy);
 			mp_TimerCallback.f_Clear();
@@ -82,8 +83,6 @@ namespace NMib::NMongo::NMongoManager
 			
 			return pCanDestroy->m_Continuation;
 		}
-		
-	private:
 		
 		TCContinuation<void> fp_CleanupOldBackups()
 		{

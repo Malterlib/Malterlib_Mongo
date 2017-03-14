@@ -46,7 +46,6 @@ namespace NMib::NMongo::NMongoManager
 		
 		CMongoManagerActor(CDistributedAppState &_AppState);
 		~CMongoManagerActor();
-		TCContinuation<void> f_Destroy() override;
 		TCContinuation<void> f_RestoreMongo(CTime const &_RestoreTime);
 		TCContinuation<void> f_Startup(EMode _Mode, CStr const &_OverrideReplicaName, uint16 _OverridePort, TCOptional<bool> const &_VerboseMongoScrips);
 		TCContinuation<void> f_UpdateReplicationConfig();
@@ -66,6 +65,7 @@ namespace NMib::NMongo::NMongoManager
 			, ELogVerbosity_Messages 
 			, ELogVerbosity_All
 		};
+		TCContinuation<void> fp_Destroy() override;
 		
 		void fp_StartMongoBackup();
 		TCContinuation<void> fp_SetupPrerequisites_Mongo();

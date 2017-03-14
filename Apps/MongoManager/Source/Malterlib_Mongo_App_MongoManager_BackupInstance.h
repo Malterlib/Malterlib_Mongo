@@ -85,8 +85,8 @@ namespace NMib::NMongo::NMongoManager
 
 		TCContinuation<CActorSubscription> f_StartBackup(TCActor<CActor> const &_CallbackActor, TCFunction<void (CBackupCallbackEvent const &_Event)> &&_fOnEvent);
 		
-		TCContinuation<void> f_Destroy() override;
 	private:
+		TCContinuation<void> fp_Destroy() override;
 		void fp_SubscribeToBackupServers();
 		
 		void fp_UploadBackupToServer(CBackupConnection *_pConnection, EBackupState _Backup);

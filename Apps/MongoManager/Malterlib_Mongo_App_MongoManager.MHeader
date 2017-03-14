@@ -36,8 +36,6 @@
 	{
 		!!CompileDialect "C"
 		
-		SearchPath "@(Builtin.BasePath)/SDK/curl/include;@(Compile.SearchPath)"
-		PreprocessorDefines "CURL_STATICLIB;@(Compile.PreprocessorDefines)"
 		PreprocessorDefines "DMibMongo_UseInternalMongo;@(Compile.PreprocessorDefines)"
 		{
 			!MongoBinariesPath ""

@@ -191,7 +191,7 @@ namespace NMib::NMongo::NMongoManager
 		return Result;
 	}
 	
-	TCContinuation<void> CMongoBackupInstanceActor::f_Destroy()
+	TCContinuation<void> CMongoBackupInstanceActor::fp_Destroy()
 	{
 		auto pCanDestroy = fg_Move(mp_pCanDestroy);
 		mp_MongoTailCallback.f_Clear();
