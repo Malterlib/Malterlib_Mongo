@@ -78,7 +78,6 @@ Property
 	&
 	{
 		MalterlibEnableInternalWorkspaces true
-		!PlatformFamily Windows
 	}
 	
 	Property.MalterlibPostCopyProject "Malterlib_Mongo"
