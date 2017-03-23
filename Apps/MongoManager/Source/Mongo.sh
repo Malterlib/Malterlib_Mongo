@@ -15,7 +15,7 @@ if [[ "$1" == "--port" ]]; then
 	shift 2
 fi
 
-sudo -u hx_mongo \
+sudo -u mib_mongo \
 	$MongoCommand --host `hostname` --port $MONGO_PORT \
 	--ssl --authenticationMechanism MONGODB-X509 --authenticationDatabase "\$external" \
 	--sslCAFile "$ScriptDir/mongo/certificates/MongoCA.crt" --sslPEMKeyFile "$ScriptDir/mongo/certificates/admin.pem" \
