@@ -87,7 +87,7 @@ Property
 	
 	Property.MalterlibLog_Severities "Error;Critical;Warning;Info"
 	{
-		!MalterlibLog_EnableVerboseDebugLog true
+		!!MalterlibLog_EnableVerboseDebugLog false
 	}
 
 	%Target "@(Malterlib_Mongo_App_Targets)"
