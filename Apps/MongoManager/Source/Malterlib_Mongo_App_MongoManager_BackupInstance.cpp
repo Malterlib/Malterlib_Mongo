@@ -204,11 +204,11 @@ namespace NMib::NMongo::NMongoManager
 			Connection.f_Clear(mp_BackupKey);
 		
 		if (mp_CompressProcessLaunch)
-			mp_CompressProcessLaunch->f_Destroy(AllDestroyed.f_AddResult());
+			mp_CompressProcessLaunch->f_Destroy2() > AllDestroyed.f_AddResult();
 		if (mp_DumpProcessLaunch)
-			mp_DumpProcessLaunch->f_Destroy(AllDestroyed.f_AddResult());
+			mp_DumpProcessLaunch->f_Destroy2() > AllDestroyed.f_AddResult();
 		if (mp_MongoClient)
-			mp_MongoClient->f_Destroy(AllDestroyed.f_AddResult());
+			mp_MongoClient->f_Destroy2() > AllDestroyed.f_AddResult();
 		
 		AllDestroyed.f_GetResults()
 			> [this, pCanDestroy](TCAsyncResult<TCVector<TCAsyncResult<void>>> &&_Results)
@@ -216,7 +216,7 @@ namespace NMib::NMongo::NMongoManager
 				fg_ThisActor(this)(&CMongoBackupInstanceActor::fp_DeleteBackup)
 					> [this, pCanDestroy](TCAsyncResult<void> &&_Result)
 					{
-						mp_FileWriteActor->f_Destroy([pCanDestroy](TCAsyncResult<void> &&){ });
+						mp_FileWriteActor->f_Destroy2() > pCanDestroy->f_Track();
 					}
 				;
 			}

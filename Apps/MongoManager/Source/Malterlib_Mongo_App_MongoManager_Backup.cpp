@@ -76,7 +76,7 @@ namespace NMib::NMongo::NMongoManager
 			TCSharedPointer<CCanDestroyTracker> pCanDestroy = fg_Move(mp_pCanDestroy);
 			mp_TimerCallback.f_Clear();
 
-			mp_FileWriteActor->f_Destroy([pCanDestroy](TCAsyncResult<void> &&){});
+			mp_FileWriteActor->f_Destroy2() > pCanDestroy->f_Track();
 			
 			fp_StopBackup(mp_OldBackup, "Destroy old", pCanDestroy);
 			fp_StopBackup(mp_CurrentBackup, "Destroy current", pCanDestroy);
@@ -161,13 +161,10 @@ namespace NMib::NMongo::NMongoManager
 				return;
 			
 			DLogWithCategory(BackupManager, Info, "Stopping backup ({})", _Message);
-			_Backup.m_Backup->f_Destroy
-				(
-					[_pCanDestroy, _Message](TCAsyncResult<void> &&)
-					{
-						DLogWithCategory(BackupManager, Info, "Backup stopped ({})", _Message);
-					}
-				)
+			_Backup.m_Backup->f_Destroy2() > [_pCanDestroy, _Message](TCAsyncResult<void> &&)
+				{
+					DLogWithCategory(BackupManager, Info, "Backup stopped ({})", _Message);
+				}
 			;
 			_Backup = CBackupState();
 		}
