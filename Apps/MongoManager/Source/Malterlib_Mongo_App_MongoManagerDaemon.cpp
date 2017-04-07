@@ -76,7 +76,7 @@ namespace NMib::NMongo::NMongoManager
 		{
 			DMibLogWithCategory(Mib/Mongo/MongoManager/Daemon, Info, "Shutting down");
 			
-			mp_pManager->f_Destroy2() > [pCanDestroy](TCAsyncResult<void> &&_Result)
+			mp_pManager->f_Destroy() > [pCanDestroy](TCAsyncResult<void> &&_Result)
 				{
 					if (!_Result)
 						DMibLogWithCategory(Mib/Mongo/MongoManager/Daemon, Error, "Failed to shut down server: {}", _Result.f_GetExceptionStr());

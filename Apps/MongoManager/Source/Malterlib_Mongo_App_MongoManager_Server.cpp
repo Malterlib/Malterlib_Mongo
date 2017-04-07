@@ -106,14 +106,14 @@ namespace NMib::NMongo::NMongoManager
 		
 		TCActorResultVector<void> Destroys;
 		for (auto &ToolLaunch : mp_ToolLaunches)
-			ToolLaunch.m_ProcessLaunch->f_Destroy2() > Destroys.f_AddResult();
+			ToolLaunch.m_ProcessLaunch->f_Destroy() > Destroys.f_AddResult();
 		
 		Destroys.f_GetResults()
 			> [this, pCanDestroy](auto &&_Results)
 			{
 				TCActorResultVector<void> Destroys;
 				if (mp_pMongoBackupManagerActor)
-					mp_pMongoBackupManagerActor->f_Destroy2() > Destroys.f_AddResult();
+					mp_pMongoBackupManagerActor->f_Destroy() > Destroys.f_AddResult();
 				Destroys.f_GetResults() > [this, pCanDestroy](auto &&_Results)
 					{
 						fp_DestroyApp_Mongo() > [this, pCanDestroy](auto &&)
@@ -207,7 +207,7 @@ namespace NMib::NMongo::NMongoManager
 	{
 		if (!mp_pMongoLaunch)
 			return fg_Explicit();
-		return mp_pMongoLaunch->f_Destroy2(); 
+		return mp_pMongoLaunch->f_Destroy(); 
 	}
 	
 	CStr CMongoManagerActor::fp_GetDataPath(CStr const &_Path) const
