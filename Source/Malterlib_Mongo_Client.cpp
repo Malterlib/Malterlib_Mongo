@@ -144,6 +144,16 @@ namespace NMib
 					if (!m_Connection.connect(m_ConnectionSettings.f_GetConnectionString().f_GetStr(), Error))
 						return Error.c_str();
 					
+					if (!m_ConnectionSettings.m_UserName.f_IsEmpty())
+					{
+						NEncoding::CEJSON ToAuth;
+						ToAuth["mechanism"] = "MONGODB-X509";
+						ToAuth["user"] = m_ConnectionSettings.m_UserName;
+						ToAuth["db"] = "$external";
+						
+						m_Connection.auth(fg_ToBSON(ToAuth));
+					}
+					
 					m_bConnected = true;
 					return {};
 				}
@@ -382,7 +392,7 @@ namespace NMib
 										{
 											while (pCursor->more())
 											{
-												auto Data = fg_FromBSON(pCursor->next());
+												auto Data = fg_FromBSON(pCursor->nextSafe());
 												if (auto pValue = Data.f_Object().f_GetMember(_OrderBy))
 													UserQuery[_OrderBy]["$gt"] = *pValue;
 												fg_ThisActor(this)
@@ -460,7 +470,7 @@ namespace NMib
 				auto pCursor = Internal.m_Connection.query(Internal.f_GetNamespace(_Collection), fg_ToBSON(_Query), _nToReturn, _nToSkip, pFields, _Options);
 				NContainer::TCVector<NEncoding::CEJSON> ToReturn;
 				while (pCursor->more())
-				   ToReturn.f_Insert(fg_FromBSON(pCursor->next()));
+				   ToReturn.f_Insert(fg_FromBSON(pCursor->nextSafe()));
 				
 				Result.f_SetResult(fg_Move(ToReturn));
 				return Result;
