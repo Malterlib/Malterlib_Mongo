@@ -28,6 +28,10 @@ namespace NMib::NMongo::NMongoManager
 						Data.f_Insert((uint8 const *)BSON.objdata(), BSON.objsize());
 					}
 					pBackupFile->f_Write(Data.f_GetArray(), Data.f_GetLen());
+#ifdef DPlatformFamily_OSX
+					// Make file change notification notice change
+					pBackupFile->f_SetLength(pBackupFile->f_GetLength());
+#endif
 					return pBackupFile->f_GetPosition();
 				}
 			)
@@ -38,19 +42,18 @@ namespace NMib::NMongo::NMongoManager
 					DLogWithCategory(Backup, Error, "Error writing oplog to file: {}", _Result.f_GetExceptionStr());
 					return;
 				}
-
-				mp_FileSizes[EBackupState_Oplog] = *_Result;
-				fp_UploadOplogToServers();
 			}
 		;
 	}
 	
-	void CMongoBackupInstanceActor::fp_TailOplog(TCSharedPointer<CFile> const &_pBackupFile, TCContinuation<CActorSubscription> const &_Continuation, CActorSubscription &&_ActorSubscription)
+	TCContinuation<void> CMongoBackupInstanceActor::fp_TailOplog(TCSharedPointer<CFile> const &_pBackupFile)
 	{
 		TCSharedPointer<CFile> pBackupFile = _pBackupFile;
 
 		CEJSON Query;
 		Query["fromMigrate"]["$exists"] = false;
+	
+		TCContinuation<void> Continuation;
 		
 		// Start by subscribing to the op log
 		mp_MongoClient
@@ -71,7 +74,8 @@ namespace NMib::NMongo::NMongoManager
 					
 					if (_Result.f_GetMember("error"))
 					{
-						DLogWithCategory(Backup, Error, "Error tailing oplog: {}", _Result["error"].f_AsString());
+						if (!mp_bMongoStopped)
+							DLogWithCategory(Backup, Error, "Error tailing oplog: {}", _Result["error"].f_AsString());
 						return;
 					}
 					
@@ -88,22 +92,14 @@ namespace NMib::NMongo::NMongoManager
 					}
 				}
 			)
-			> [this, Continuation = fg_Move(_Continuation), ActorSubscription = fg_Move(_ActorSubscription)](TCAsyncResult<CActorSubscription> &&_Result) mutable
+			> Continuation / [this, Continuation](CActorSubscription &&_Subscription) mutable
 			{
-				if (!_Result)
-				{
-					Continuation.f_SetException(fg_Move(_Result));
-					return ;
-				}
+				mp_MongoTailSubscription = fg_Move(_Subscription);
 				
-				mp_MongoTailCallback = fg_Move(*_Result);
-				
-				// We are now listening to oplog changes, it's now safe to dump the database as we will get oplog ovelap
-				fp_OnOplogTailing();
-				
-				// Don't report success until now as we don't want the application to start until backup is recording changes
-				Continuation.f_SetResult(fg_Move(ActorSubscription));
+				Continuation.f_SetResult();
 			}
 		;
+		
+		return Continuation;
 	}
 }

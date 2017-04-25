@@ -305,7 +305,7 @@ namespace NMib::NMongo::NMongoManager
 					{
 					case EProcessLaunchState_Launched:
 						{
-							if (mp_pCanDestroyTracker.f_IsEmpty())
+							if (mp_pCanDestroyTracker.f_IsEmpty() || mp_bStopped)
 							{
 								fg_OneshotTimer
 									(
@@ -325,7 +325,7 @@ namespace NMib::NMongo::NMongoManager
 						break;
 					case EProcessLaunchState_Exited:
 						{
-							if (!mp_pCanDestroyTracker.f_IsEmpty())
+							if (!mp_pCanDestroyTracker.f_IsEmpty() && !mp_bStopped)
 							{
 								DLogWithCategory(mongod, Info, "Scheduling relaunch of mongod in 10 seconds");
 								fg_TimerActor()
@@ -335,7 +335,7 @@ namespace NMib::NMongo::NMongoManager
 										, fg_ThisActor(this)
 										, [this]()
 										{
-											if (!mp_pCanDestroyTracker.f_IsEmpty())
+											if (!mp_pCanDestroyTracker.f_IsEmpty() && !mp_bStopped)
 												fp_StartMongo();
 										}
 									)

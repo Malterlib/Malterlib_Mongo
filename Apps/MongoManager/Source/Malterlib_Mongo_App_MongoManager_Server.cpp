@@ -100,8 +100,35 @@ namespace NMib::NMongo::NMongoManager
 		return Continuation;
 	}
 	
+	TCContinuation<void> CMongoManagerActor::f_PreStop()
+	{
+		DLog(Debug, "Pre-stop server");
+		mp_bStopped = true;
+		
+		TCActorResultVector<void> Destroys;
+		for (auto &ToolLaunch : mp_ToolLaunches)
+			ToolLaunch.m_ProcessLaunch->f_Destroy() > Destroys.f_AddResult();
+		
+		TCContinuation<void> Continuation;
+		
+		Destroys.f_GetResults()
+			> [this, Continuation](auto &&)
+			{
+				fp_DestroyApp_Mongo() > [this, Continuation](auto &&)
+					{
+						DLog(Debug, "Pre-stop server done");
+						Continuation.f_SetResult();
+					}
+				;
+			}
+		;
+		
+		return Continuation;
+	}
+
 	TCContinuation<void> CMongoManagerActor::fp_Destroy()
 	{
+		DLog(Debug, "Destroy server");
 		auto pCanDestroy = fg_Move(mp_pCanDestroyTracker);
 		
 		TCActorResultVector<void> Destroys;
@@ -112,12 +139,24 @@ namespace NMib::NMongo::NMongoManager
 			> [this, pCanDestroy](auto &&_Results)
 			{
 				TCActorResultVector<void> Destroys;
-				if (mp_pMongoBackupManagerActor)
-					mp_pMongoBackupManagerActor->f_Destroy() > Destroys.f_AddResult();
+				
+				for (auto &fPending : mp_PendingBackupStart)
+					fPending(true);
+				
+				mp_PendingBackupStart.f_Clear();
+				
+				for (auto &Actor : mp_MongoBackupManagerActors)
+				{
+					if (!Actor)
+						continue;
+					Actor->f_Destroy() > Destroys.f_AddResult();
+				}
+				
 				Destroys.f_GetResults() > [this, pCanDestroy](auto &&_Results)
 					{
 						fp_DestroyApp_Mongo() > [this, pCanDestroy](auto &&)
 							{
+								DLog(Debug, "Destroy server done");
 							}
 						;
 					}
@@ -207,7 +246,29 @@ namespace NMib::NMongo::NMongoManager
 	{
 		if (!mp_pMongoLaunch)
 			return fg_Explicit();
-		return mp_pMongoLaunch->f_Destroy(); 
+
+		TCActorResultVector<void> Results;
+		for (auto &Backup : mp_MongoBackupManagerActors)
+		{
+			if (!Backup)
+				continue;
+
+			Backup(&CBackupManagerActorInterface::f_MongoStopped) > Results.f_AddResult();
+		}
+		
+		TCContinuation<void> Continuation;
+		Results.f_GetResults() > [this, Continuation](auto &&)
+			{
+				if (!mp_pMongoLaunch)
+				{
+					Continuation.f_SetResult();
+					return;
+				}
+				mp_pMongoLaunch->f_Destroy() > Continuation;
+			}
+		;
+		
+		return Continuation;
 	}
 	
 	CStr CMongoManagerActor::fp_GetDataPath(CStr const &_Path) const

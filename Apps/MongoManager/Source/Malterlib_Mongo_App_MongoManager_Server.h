@@ -51,6 +51,15 @@ namespace NMib::NMongo::NMongoManager
 		TCContinuation<void> f_UpdateReplicationConfig();
 		TCContinuation<void> f_SetupPermissions();
 		TCContinuation<void> f_JoinReplica(CJoinReplicaOptions const &_Options);
+		TCContinuation<void> f_PreStop();
+		
+		TCContinuation<CActorSubscription> f_StartBackup
+			(
+				TCDistributedActorInterface<CDistributedAppInterfaceBackup> &&_BackupInterface
+				, CActorSubscription &&_ManifestFinished
+				, CStr const &_BackupRoot
+			)
+		;
 		
 		static void fs_SetupEnvironment(CProcessLaunchParams &_Params);
 		
@@ -68,6 +77,7 @@ namespace NMib::NMongo::NMongoManager
 		TCContinuation<void> fp_Destroy() override;
 		
 		void fp_StartMongoBackup();
+		
 		TCContinuation<void> fp_SetupPrerequisites_Mongo();
 		CStr fp_GetMongoExecutable(CStr const &_ExecutableName) const;
 		void fp_RunMongoScriptInternal
@@ -135,9 +145,12 @@ namespace NMib::NMongo::NMongoManager
 		TCActor<CProcessLaunchActor> mp_pMongoLaunch;
 		CActorSubscription mp_MongoLaunchSubscription;
 		CStr mp_MongoReplicaName = "DefaultReplica";
+		bool mp_bStopped = false;
 
 		// Mongo backup
-		TCActor<CBackupManagerActorInterface> mp_pMongoBackupManagerActor;
+		TCMap<CStr, TCActor<CBackupManagerActorInterface>> mp_MongoBackupManagerActors;
+		TCVector<TCFunctionMovable<void (bool _bAbort)>> mp_PendingBackupStart;
+		bool mp_bMongoBackupCanStart = false;
 		
 		// Tool launches
 		TCLinkedList<CToolLaunch> mp_ToolLaunches;

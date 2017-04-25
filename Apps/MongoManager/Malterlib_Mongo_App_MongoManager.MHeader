@@ -15,6 +15,8 @@
 		MalterlibTargetNameType "Normal"
 		MongoCxxDriver true
 
+		MalterlibCloudVersionInfo_Backup_AddSyncFlagsWildcards "Dump/DynamicOplog.bson=Append;Dump/oplog.bson=Append;@(MalterlibCloudVersionInfo_Backup_AddSyncFlagsWildcards)"
+		
 		MalterlibDoExeFS true
 
 		MongoManagerCopySources "@('Source/Mongo.sh'->MakeAbsolute());@(MongoManagerCopySources)"

@@ -39,7 +39,7 @@ namespace NMib::NMongo::NMongoManager
 			, CStr const &_User
 		)
 	{
-		if (mp_pCanDestroyTracker.f_IsEmpty())
+		if (mp_pCanDestroyTracker.f_IsEmpty() || mp_bStopped)
 			return fg_Explicit("");
 		
 		auto *pToolLaunch = &mp_ToolLaunches.f_Insert();

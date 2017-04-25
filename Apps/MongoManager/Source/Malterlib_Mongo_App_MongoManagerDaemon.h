@@ -19,8 +19,17 @@ namespace NMib::NMongo::NMongoManager
 	private:
 		TCContinuation<void> fp_StartApp(NEncoding::CEJSON const &_Params) override;
 		TCContinuation<void> fp_StopApp() override;
-		void fp_BuildCommandLine(CDistributedAppCommandLineSpecification &o_CommandLine) override; 
+		TCContinuation<void> fp_PreStop() override;
 		void fp_PopulateAppInterfaceRegisterInfo(CDistributedAppInterfaceServer::CRegisterInfo &o_RegisterInfo, NEncoding::CEJSON const &_Params) override;
+		TCContinuation<CActorSubscription> fp_StartBackup
+			(
+				TCDistributedActorInterface<CDistributedAppInterfaceBackup> &&_BackupInterface
+				, CActorSubscription &&_ManifestFinished
+				, CStr const &_BackupRoot
+			) override
+		;
+		
+		void fp_BuildCommandLine(CDistributedAppCommandLineSpecification &o_CommandLine) override; 
 		uint32 fp_CommandLine_ListRestoreRange(NEncoding::CEJSON const &_Params);
 		TCContinuation<CDistributedAppCommandLineResults> fp_CommandLine_Restore(NEncoding::CEJSON const &_Params);
 		TCContinuation<CDistributedAppCommandLineResults> fp_CommandLine_UpdateReplicationConfig(NEncoding::CEJSON const &_Params);

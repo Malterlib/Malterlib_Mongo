@@ -9,117 +9,38 @@
 
 namespace NMib::NMongo::NMongoManager
 {
-	struct CBackupState
-	{
-		uint64 m_Outstanding = 0;
-		uint64 m_Position = 0;
-		TCSharedPointer<CFile> m_pFile;
-		TCActor<CSeparateThreadActor> m_FileActor;
-
-		uint64 m_StartPosition = 0;
-		bool m_bFirst = true;
-		CClock m_Clock;
-		
-#if DMibEnableSafeCheck > 0
-		uint64 m_LastDone = 0;
-#endif
-		
-		CBackupState();
-		void f_Clear();
-	};
-	
-	enum EBackupState
-	{
-		EBackupState_Dump
-		, EBackupState_Oplog
-		, EBackupState_Max
-	};
-	
-	struct CBackupConnection
-	{
-		CBackupConnection();
-		~CBackupConnection();
-		void f_Clear(NCloud::CBackupManager::CBackupKey const &_BackupKey);
-		TCDistributedActor<NCloud::CBackupManager> const &f_GetBackupManager() const;
-		
-		TCSharedPointer<bool> m_pDestroyed;
-		CStr m_FriendlyName;
-
-		CBackupState m_State[EBackupState_Max];
-		bool m_bInitialized = false;
-		uint32 m_ProtocolVersion = 0;
-	};
-	
-	enum EBackupCallback
-	{
-		EBackupCallback_Error
-		, EBackupCallback_DumpUploadFinished
-	};
-	
-	struct CBackupCallbackEvent_Error
-	{
-		CBackupCallbackEvent_Error(CStr const &_Error)
-			: m_Error(_Error)
-		{
-		}
-		
-		CStr m_Error;
-	};
-	
-	struct CBackupCallbackEvent_DumpUploadFinished
-	{
-	};
-	
-	using CBackupCallbackEvent = TCStreamableFixedVariant<EBackupCallback, CBackupCallbackEvent_Error, CBackupCallbackEvent_DumpUploadFinished>;
-
 	struct CMongoBackupInstanceActor : public CActor
 	{
 		CMongoBackupInstanceActor
 			(
 				CMongoConnectionSettings const &_MongoConnectionSettings
 				, CStr const &_MongoExecutable
-				, TCActor<CDistributedActorTrustManager> const &_TrustManager
+				, TCDistributedActor<CDistributedAppInterfaceBackup> const &_BackupInterface
 			)
 		;
 		~CMongoBackupInstanceActor();
 
-		TCContinuation<CActorSubscription> f_StartBackup(TCActor<CActor> const &_CallbackActor, TCFunction<void (CBackupCallbackEvent const &_Event)> &&_fOnEvent);
+		TCContinuation<void> f_StartBackup(CActorSubscription &&_ManifestFinished, CStr const &_BackupRoot);
+		
+		void f_MongoStopped();
 		
 	private:
 		TCContinuation<void> fp_Destroy() override;
-		void fp_SubscribeToBackupServers();
 		
-		void fp_UploadBackupToServer(CBackupConnection *_pConnection, EBackupState _Backup);
-		void fp_BackupConnectionConnected(CBackupConnection *_pConnection);
-		ch8 const *fp_GetBackupName(EBackupState _Backup);
-		ch8 const *fp_GetBackupFileName(EBackupState _Backup);
-		void fp_UploadDumpToServers();
-		void fp_UploadOplogToServers();
-		TCContinuation<void> fp_DumpDistribution();
+		TCContinuation<TCSharedPointer<CFile>> fp_OpenBackupFiles();
 		TCContinuation<void> fp_DumpDatabase();
-		TCContinuation<void> fp_CompressDump();
-		void fp_OnOplogTailing();
-		void fp_TailOplog(TCSharedPointer<CFile> const &_pBackupFile, TCContinuation<CActorSubscription> const &_Continuation, CActorSubscription &&_ActorSubscription);
+		TCContinuation<void> fp_TailOplog(TCSharedPointer<CFile> const &_pBackupFile);
 		void fp_SavePendingOplogData(TCSharedPointer<CFile> const &_pBackupFile);
 		TCContinuation<void> fp_DeleteBackup();
+		void fp_MarkBackupFinished();
 		
 	private:
-		uint64 mp_FileSizes[EBackupState_Max];
-		CStr mp_BackupPath[EBackupState_Max];
-		bool mp_bInitialBackupFinished[EBackupState_Max] = {};
-		bool mp_bInitialBackupUploaded[EBackupState_Max] = {};
 
-		TCActor<CDistributedActorTrustManager> mp_TrustManager;
-		TCTrustedActorSubscription<NCloud::CBackupManager> mp_BackupServerActorsSubscription;
-		TCMap<TCDistributedActor<NCloud::CBackupManager>, CBackupConnection> mp_BackupManagers;
-		
-		TCActorSubscriptionManager<void (CBackupCallbackEvent const &_Event), false> mp_OnEventCallback;
-		
+		TCDistributedActor<CDistributedAppInterfaceBackup> mp_BackupInterface;
 		TCActor<CMongoClientActor> mp_MongoClient;
 		TCActor<CProcessLaunchActor> mp_DumpProcessLaunch;
-		TCActor<CProcessLaunchActor> mp_CompressProcessLaunch;
 		TCActor<CSeparateThreadActor> mp_FileWriteActor;
-		CActorSubscription mp_MongoTailCallback;
+		CActorSubscription mp_MongoTailSubscription;
 		CMongoConnectionSettings mp_MongoConnectionSettings;
 
 		NCloud::CBackupManager::CBackupKey mp_BackupKey;
@@ -130,6 +51,12 @@ namespace NMib::NMongo::NMongoManager
 		CStr mp_BackupID;
 		TCSharedPointer<CCanDestroyTracker> mp_pCanDestroy;
 		TCVector<NEncoding::CEJSON> mp_PendingOplogData;
+		CActorSubscription mp_InitialBackupFinishedSubscription;
+		CActorSubscription mp_BackupStoppedSubscription;
 		bool mp_PendingSaveScheduled = false;
+		bool mp_bInitialDumpFinished = false;
+		bool mp_bInitialBackupUploaded = false;
+		bool mp_bBackupStopped = false;
+		bool mp_bMongoStopped = false;
 	};
 }

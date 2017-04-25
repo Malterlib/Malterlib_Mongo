@@ -39,7 +39,6 @@ namespace NMib::NMongo::NMongoManager
 	
 	TCContinuation<void> CMongoManagerDaemonActor::fp_StartApp(NEncoding::CEJSON const &_Params)
 	{
-		TCContinuation<void> Continuation;
 		mp_pManager = fg_ConstructActor<CMongoManagerActor>(fg_Construct(self), mp_State);
 		CMongoManagerActor::EMode Mode = CMongoManagerActor::EMode_Normal;
 		
@@ -86,5 +85,49 @@ namespace NMib::NMongo::NMongoManager
 		}
 		
 		return pCanDestroy->m_Continuation;
+	}
+	
+	TCContinuation<void> CMongoManagerDaemonActor::fp_PreStop()
+	{
+		if (!mp_pManager)
+			return fg_Explicit();
+
+		DMibLogWithCategory(Mib/Mongo/MongoManager/Daemon, Info, "Running pre-stop");
+		
+		TCContinuation<void> Continuation;
+		mp_pManager(&CMongoManagerActor::f_PreStop) > [Continuation](TCAsyncResult<void> &&_Result)
+			{
+				if (!_Result)
+					DMibLogWithCategory(Mib/Mongo/MongoManager/Daemon, Error, "Failed to pre-stop down server: {}", _Result.f_GetExceptionStr());
+				Continuation.f_SetResult();
+			}
+		;
+
+		return Continuation;
+	}
+	
+	TCContinuation<CActorSubscription> CMongoManagerDaemonActor::fp_StartBackup
+		(
+			TCDistributedActorInterface<CDistributedAppInterfaceBackup> &&_BackupInterface
+			, CActorSubscription &&_ManifestFinished
+			, CStr const &_BackupRoot
+		)
+	{
+		if (!mp_pManager)
+			return DMibErrorInstance("App not started");
+
+		TCContinuation<CActorSubscription> Continuation;
+		mp_pManager(&CMongoManagerActor::f_StartBackup, fg_Move(_BackupInterface), fg_Move(_ManifestFinished), _BackupRoot) > [Continuation](TCAsyncResult<CActorSubscription> &&_Result)
+			{
+				if (!_Result)
+				{
+					DMibLogWithCategory(MongoManager/Daemon, Error, "Failed to start backup: {}", _Result.f_GetExceptionStr());
+				}
+				
+				Continuation.f_SetResult(fg_Move(_Result));
+			}
+		;
+		
+		return Continuation;
 	}
 }
