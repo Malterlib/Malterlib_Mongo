@@ -328,18 +328,11 @@ namespace NMib::NMongo::NMongoManager
 							if (!mp_pCanDestroyTracker.f_IsEmpty() && !mp_bStopped)
 							{
 								DLogWithCategory(mongod, Info, "Scheduling relaunch of mongod in 10 seconds");
-								fg_TimerActor()
-									(
-										&CTimerActor::f_OneshotTimer
-										, 10.0
-										, fg_ThisActor(this)
-										, [this]()
-										{
-											if (!mp_pCanDestroyTracker.f_IsEmpty() && !mp_bStopped)
-												fp_StartMongo();
-										}
-									)
-									> fg_DiscardResult()
+								fg_Timeout(10.0) > [this](auto &&)
+									{
+										if (!mp_pCanDestroyTracker.f_IsEmpty() && !mp_bStopped)
+											fp_StartMongo();
+									}
 								;
 							}
 							mp_pMongoLaunch.f_Clear();
