@@ -95,7 +95,7 @@ namespace NMib::NMongo::NMongoManager
 					;
 				}
 			) 
-			> [this, Continuation, pCanDestroy](TCAsyncResult<TCSharedPointer<CFile>> &&_Result) mutable
+			> [Continuation, pCanDestroy](TCAsyncResult<TCSharedPointer<CFile>> &&_Result) mutable
 			{
 				if (!_Result)
 				{
@@ -127,7 +127,7 @@ namespace NMib::NMongo::NMongoManager
 			{
 				CFile::fs_Touch(FinishedPath);
 			}
-			> [this, Continuation, pCanDestroy](TCAsyncResult<void> &&_Result) mutable
+			> [Continuation, pCanDestroy](TCAsyncResult<void> &&_Result) mutable
 			{
 				if (!_Result)
 					DLogWithCategory(MongoManager/Backup, Error, "Failed to mark backup as finished: {}", _Result.f_GetExceptionStr());
@@ -281,7 +281,7 @@ namespace NMib::NMongo::NMongoManager
 					;
 				}
 			) 
-			> [this, Result](TCAsyncResult<void> &&_Result)
+			> [Result](TCAsyncResult<void> &&_Result)
 			{
 				if (!_Result)
 					DLogWithCategory(MongoManager/Backup, Error, "Failed to delete the backup: {}", _Result.f_GetExceptionStr());

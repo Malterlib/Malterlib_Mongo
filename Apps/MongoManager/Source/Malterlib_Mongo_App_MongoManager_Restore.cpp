@@ -52,7 +52,7 @@ namespace NMib::NMongo::NMongoManager
 						, ELogVerbosity_All
 						, false
 					)
-					> [this, Continuation](TCAsyncResult<CStr> &&_StdOut)
+					> [Continuation](TCAsyncResult<CStr> &&_StdOut)
 					{
 						if (!_StdOut)
 							Continuation.f_SetException(_StdOut);

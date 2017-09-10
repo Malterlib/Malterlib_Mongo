@@ -76,11 +76,7 @@ namespace NMib::NMongo::NMongoManager
 			mp_FileWriteActor
 				(
 					&CActor::f_DispatchWithReturn<TCContinuation<void>>
-					,
-					[
-						pCanDestroy
-						, this
-					]
+					, [pCanDestroy]
 					{
 						return TCContinuation<void>::fs_RunProtected<CExceptionFile>()
 							> [&]()
@@ -123,7 +119,7 @@ namespace NMib::NMongo::NMongoManager
 						;
 					}
 				) 
-				> [this, Result](TCAsyncResult<void> &&_Result)
+				> [Result](TCAsyncResult<void> &&_Result)
 				{
 					if (!_Result)
 						DLogWithCategory(MongoManager/Backup, Error, "Failed to clean up old backups: {}", _Result.f_GetExceptionStr());

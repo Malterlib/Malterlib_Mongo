@@ -93,7 +93,7 @@ namespace NMib::NMongo::NMongoManager
 		
 		TCContinuation<CStr> Continuation;
 		pToolLaunch->m_ProcessLaunch(&CProcessLaunchActor::f_LaunchSimple, fg_Move(Launch))
-			> Continuation / [this, pCleanup, Continuation, _bSeparateStdErr](CProcessLaunchActor::CSimpleLaunchResult &&_Result)
+			> Continuation / [pCleanup, Continuation, _bSeparateStdErr](CProcessLaunchActor::CSimpleLaunchResult &&_Result)
 			{
 				if (_Result.m_ExitCode != 0)
 				{

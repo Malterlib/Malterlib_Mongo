@@ -114,7 +114,7 @@ namespace NMib::NMongo::NMongoManager
 		Destroys.f_GetResults()
 			> [this, Continuation](auto &&)
 			{
-				fp_DestroyApp_Mongo() > [this, Continuation](auto &&)
+				fp_DestroyApp_Mongo() > [Continuation](auto &&)
 					{
 						DLog(Debug, "Pre-stop server done");
 						Continuation.f_SetResult();
@@ -154,7 +154,7 @@ namespace NMib::NMongo::NMongoManager
 				
 				Destroys.f_GetResults() > [this, pCanDestroy](auto &&_Results)
 					{
-						fp_DestroyApp_Mongo() > [this, pCanDestroy](auto &&)
+						fp_DestroyApp_Mongo() > [pCanDestroy](auto &&)
 							{
 								DLog(Debug, "Destroy server done");
 							}
