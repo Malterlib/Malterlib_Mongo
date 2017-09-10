@@ -12,7 +12,10 @@
 #include "Malterlib_Mongo_Client.h"
 #include "Malterlib_Mongo_BSON.h"
 
-#include <mongo/client/dbclient.h>
+#include <mongocxx/instance.hpp>
+#include <mongocxx/client.hpp>
+#include <mongocxx/stdx.hpp>
+#include <mongocxx/uri.hpp>
 
 #include <Mib/Concurrency/ActorCallbackManager>
 
@@ -20,35 +23,19 @@ namespace
 {
 	struct CMongoClientInit
 	{
-		NMib::NMongo::CMongoConnectionSettings m_Settings;
+		mongocxx::instance m_MongoInstance;
 		
-		CMongoClientInit(NMib::NMongo::CMongoConnectionSettings const &_Settings)
-			: m_Settings(_Settings)
+		CMongoClientInit()
 		{
-			mongo::client::Options Options;
-			
-			if (m_Settings.m_bEnableSSL)
-			{
-				Options.setSSLMode(mongo::client::Options::kSSLRequired);
-				Options.setSSLAllowInvalidCertificates(false);
-				Options.setSSLAllowInvalidHostnames(false);
-				Options.setSSLCAFile(m_Settings.m_CACertificatePath.f_GetStr());
-				Options.setSSLPEMKeyFile(m_Settings.m_ClientCertificatePath.f_GetStr());
-			}
-			
-			mongo::client::initialize(Options);
-			atexit([]{mongo::client::shutdown();});
 		}
 		~CMongoClientInit()
 		{
 		}
 		
 	};
+
 	NMib::NAggregate::TCAggregate<CMongoClientInit> g_MongoClientInit = {DAggregateInit};
-
 }
-
-using namespace mongo;
 
 namespace NMib
 {
@@ -71,7 +58,7 @@ namespace NMib
 			;
 		}
 
-		NStr::CStr CMongoConnectionSettings::f_GetConnectionString()
+		NStr::CStr CMongoConnectionSettings::f_GetConnectionString() const
 		{
 			return fg_Format("{}:{}", m_Host, m_Port);
 		}
@@ -125,36 +112,65 @@ namespace NMib
 			return Params;
 		}
 
+		namespace
+		{
+			mongocxx::options::client fg_GetConnectionOptions(CMongoConnectionSettings const &_ConnectionSettings, NStr::CStr const &_DefaultDatabase)
+			{
+				if (!_ConnectionSettings.m_bEnableSSL)
+					return {};
+				
+				mongocxx::options::client Options;
+				mongocxx::options::ssl SSLOptions;
+
+				SSLOptions.allow_invalid_certificates(false);
+				SSLOptions.ca_file(_ConnectionSettings.m_CACertificatePath.f_GetStr());
+				SSLOptions.pem_file(_ConnectionSettings.m_ClientCertificatePath.f_GetStr());
+				
+				Options.ssl_opts(fg_Move(SSLOptions));
+				
+				return Options;
+			}
+			
+			mongocxx::uri fg_GetConnectionURI(CMongoConnectionSettings const &_ConnectionSettings, NStr::CStr const &_DefaultDatabase)
+			{
+				NStr::CStr URI = _ConnectionSettings.f_GetConnectionString();
+				
+				if (_ConnectionSettings.m_bEnableSSL && !_ConnectionSettings.m_UserName.f_IsEmpty())
+				{
+					URI = fg_Format
+						(
+							"mongodb://{}@{}:{}/{}?authMechanism=MONGODB-X509&ssl=true&authSource=$external"
+							, _ConnectionSettings.m_UserName
+							, _ConnectionSettings.m_Host
+							, _ConnectionSettings.m_Port
+							, _DefaultDatabase
+						)
+					;
+				}
+				else
+					URI = fg_Format("mongodb://{}:{}/{}", _ConnectionSettings.m_Host, _ConnectionSettings.m_Port, _DefaultDatabase);
+			
+				return mongocxx::uri{URI.f_GetStr()};
+			}
+		}
+		
 		struct CMongoClientActor::CInternal
 		{
 			CInternal(CMongoConnectionSettings const &_ConnectionSettings, NStr::CStr const &_DefaultDatabase)
 				: m_ConnectionSettings(_ConnectionSettings)
-				, m_DefaultDatabase(_DefaultDatabase) 
+				, m_DefaultDatabase(_DefaultDatabase)
 			{
 			}
 			
 			NStr::CStr f_MakeSureConnected()
 			{
-				if (m_bConnected)
-					return NStr::CStr();
+				if (m_pConnection)
+					return {};
 				
 				try
 				{
-					std::string Error;
-					if (!m_Connection.connect(m_ConnectionSettings.f_GetConnectionString().f_GetStr(), Error))
-						return Error.c_str();
+					m_pConnection = fg_Construct(fg_GetConnectionURI(m_ConnectionSettings, m_DefaultDatabase), fg_GetConnectionOptions(m_ConnectionSettings, m_DefaultDatabase));
 					
-					if (!m_ConnectionSettings.m_UserName.f_IsEmpty())
-					{
-						NEncoding::CEJSON ToAuth;
-						ToAuth["mechanism"] = "MONGODB-X509";
-						ToAuth["user"] = m_ConnectionSettings.m_UserName;
-						ToAuth["db"] = "$external";
-						
-						m_Connection.auth(fg_ToBSON(ToAuth));
-					}
-					
-					m_bConnected = true;
 					return {};
 				}
 				catch (std::exception const &_Exception)
@@ -166,36 +182,35 @@ namespace NMib
 				}
 			}
 			
-			std::string f_GetNamespace(NStr::CStr const &_Collection) const
+			decltype(auto) f_GetCollection(NStr::CStr _Collection) const
 			{
-				NStr::CStr DatabaseAndConnection;
+				NStr::CStr Database;
+				NStr::CStr Collection;
 				
 				if	(_Collection.f_FindChar('.') >= 0)
-					DatabaseAndConnection = _Collection;
+				{
+					Database = NStr::fg_GetStrSep(_Collection, ".");
+					Collection = _Collection;
+				}
 				else
 				{
-					DatabaseAndConnection = m_DefaultDatabase;
-					DatabaseAndConnection += ".";
-					DatabaseAndConnection += _Collection;
+					Database = m_DefaultDatabase;
+					Collection = _Collection;
 				}
 				
-				return DatabaseAndConnection.f_GetStr();
+				return (*m_pConnection)[Database.f_GetStr()][Collection.f_GetStr()];
 			}
 			
 			CMongoConnectionSettings m_ConnectionSettings;
 			NStr::CStr m_DefaultDatabase;
 			NPtr::TCUniquePointer<NThread::CThreadObject> m_pTailThread;
-			mongo::DBClientConnection m_Connection;
-			bool m_bConnected = false;
+			NPtr::TCUniquePointer<mongocxx::client> m_pConnection;
 		};
 
 		CMongoClientActor::CMongoClientActor(CMongoConnectionSettings const &_ConnectionSettings, NStr::CStr const &_DefaultDatabase)
 			: mp_pInternal(fg_Construct(_ConnectionSettings, _DefaultDatabase))
 		{
-			auto &Internal = *mp_pInternal;
-			auto &Settings = *g_MongoClientInit(Internal.m_ConnectionSettings);
-			(void)Settings;
-			DMibRequire(Settings.m_Settings.f_Compatible(Internal.m_ConnectionSettings))("The mongo driver does not support different settings");
+			*g_MongoClientInit;
 			fg_ThisActor(this)(&CMongoClientActor::fp_ConnectToServer) > NConcurrency::fg_DiscardResult();
 		}
 
@@ -206,8 +221,10 @@ namespace NMib
 		void CMongoClientActor::fp_ConnectToServer()
 		{
 			auto &Internal = *mp_pInternal;
-			Internal.m_Connection.setWriteConcern(WriteConcern::journaled);
 			Internal.f_MakeSureConnected();
+			mongocxx::write_concern Concern;
+			Concern.journal(true);
+			Internal.m_pConnection->write_concern(fg_Move(Concern));
 		}
 
 		NConcurrency::TCContinuation<void> CMongoClientActor::fp_Destroy()
@@ -218,13 +235,63 @@ namespace NMib
 			if (Internal.m_pTailThread)
 			{
 				Internal.m_pTailThread->f_Stop(false);
-				Internal.m_Connection.abort();
+				Internal.m_pConnection->abort();
 				Internal.m_pTailThread->f_Stop(true);
 				Internal.m_pTailThread.f_Clear();
+				Internal.m_pConnection.f_Clear();
 			}
 			
 			Continuation.f_SetResult();
 			return Continuation;			
+		}
+		
+		namespace
+		{
+			mongocxx::options::find fg_QueryOptions
+				(
+					CMongoClientActor::EQueryOption _Options
+					, NPtr::TCUniquePointer<NEncoding::CEJSON> const &_pFields
+					, NPtr::TCUniquePointer<NEncoding::CEJSON> const &_pOrder
+				)
+			{
+				mongocxx::options::find Options;
+				
+				if (_Options & CMongoClientActor::EQueryOption_CursorTailable)
+				{
+					if (_Options & CMongoClientActor::EQueryOption_AwaitData)
+						Options.cursor_type(mongocxx::cursor::type::k_tailable_await);
+					else
+						Options.cursor_type(mongocxx::cursor::type::k_tailable);
+				}
+				else
+					Options.cursor_type(mongocxx::cursor::type::k_non_tailable);
+				
+				if (_Options & CMongoClientActor::EQueryOption_NoCursorTimeout)
+					Options.no_cursor_timeout(true);
+
+				if (_Options & CMongoClientActor::EQueryOption_SlaveOk)
+				{
+					mongocxx::read_preference ReadPref;
+					ReadPref.mode(mongocxx::read_preference::read_mode::k_nearest);
+				}
+				
+				if (_Options & CMongoClientActor::EQueryOption_OplogReplay)
+					Options.oplog_replay(true);
+				
+				if (_Options & CMongoClientActor::EQueryOption_Exhaust)
+					Options.exhaust(true);
+				
+				if (_Options & CMongoClientActor::EQueryOption_PartialResults)
+					Options.allow_partial_results(true);
+				
+				if (_pFields)
+					Options.projection(fg_ToBSON(*_pFields));
+				
+				if (_pOrder)
+					Options.sort(fg_ToBSON(*_pOrder));
+				
+				return Options;
+			}
 		}
 
 		NConcurrency::TCContinuation<NConcurrency::CActorSubscription> CMongoClientActor::f_TailQuery
@@ -252,15 +319,13 @@ namespace NMib
 				return Result;
 			}
 			
-			NEncoding::CEJSON Query;
-			
-			Query["$query"] = _Query;
-			Query["orderby"]["$natural"] = -1;
+			NPtr::TCUniquePointer<NEncoding::CEJSON> pOrder = fg_Construct();
+			(*pOrder)["$natural"] = -1;
 			
 			NPtr::TCUniquePointer<NEncoding::CEJSON> pFields = fg_Construct();
 			(*pFields)[_OrderBy] = 1;
 			
-			fg_ThisActor(this)(&CMongoClientActor::f_Query, _Collection, Query, 1, 0, fg_Move(pFields), EQueryOption_None)
+			fg_ThisActor(this)(&CMongoClientActor::f_Query, _Collection, _Query, 1, 0, fg_Move(pFields), fg_Move(pOrder), EQueryOption_None)
 				>
 				[
 					=
@@ -300,9 +365,10 @@ namespace NMib
 												if (Internal.m_pTailThread)
 												{
 													Internal.m_pTailThread->f_Stop(false);
-													Internal.m_Connection.abort();
+													Internal.m_pConnection->abort();
 													Internal.m_pTailThread->f_Stop(true);
 													Internal.m_pTailThread.f_Clear();
+													Internal.m_pConnection.f_Clear();
 												}
 											}
 										) > NConcurrency::fg_DiscardResult()
@@ -335,19 +401,11 @@ namespace NMib
 							{ 
 								auto &Internal = *mp_pInternal;
 								
-								BSONObj Fields;
-								BSONObj *pFields = nullptr;
+								NEncoding::CEJSON Order;
 								
-								if (pFields)
-								{
-									Fields = fg_ToBSON(*pInputFields);
-									pFields = &Fields;
-								}
+								auto UserQuery = _Query;
 								
-								NEncoding::CEJSON Query;
-								
-								auto &UserQuery = Query["$query"] = _Query;
-								Query["orderby"]["$natural"] = 1;
+								Order["$natural"] = 1;
 								
 								CMongoClientActor::EQueryOption Options = _Options
 									| CMongoClientActor::EQueryOption_AwaitData
@@ -362,37 +420,30 @@ namespace NMib
 										Options |= CMongoClientActor::EQueryOption_OplogReplay;
 								}
 								
+								auto QueryOptions = fg_QueryOptions(_Options, pInputFields, nullptr);
+								QueryOptions.sort(fg_ToBSON(Order));
+								
 								bool bDoneRegistration = false;
 								
 								try
 								{
-									while (true)
+									while (_pThread->f_GetState() != NThread::EThreadState_EventWantQuit)
 									{
-										auto pCursor = Internal.m_Connection.query
-											(
-												Internal.f_GetNamespace(_Collection)
-												, fg_ToBSON(Query)
-												, 0
-												, 0
-												, pFields
-												, Options
-											)
-										;
+										auto Collection = Internal.f_GetCollection(_Collection);
 										
-										if (!pCursor.get())
-											break;
-										
+										auto Cursor = Collection.find(fg_ToBSON(UserQuery), QueryOptions);
+								
 										if (!bDoneRegistration)
 										{
 											bDoneRegistration = true;
 											Result.f_SetResult(fg_Move(Registration));
 										}
 										
-										while (true)
+										while (_pThread->f_GetState() != NThread::EThreadState_EventWantQuit)
 										{
-											while (pCursor->more())
+											for (auto &&Document : Cursor)
 											{
-												auto Data = fg_FromBSON(pCursor->nextSafe());
+												auto Data = fg_FromBSON(Document);
 												if (auto pValue = Data.f_Object().f_GetMember(_OrderBy))
 													UserQuery[_OrderBy]["$gt"] = *pValue;
 												fg_ThisActor(this)
@@ -405,13 +456,16 @@ namespace NMib
 													) > NConcurrency::fg_DiscardResult()
 												;
 											}
-											if (pCursor->isDead())
+											if (Cursor.begin() == Cursor.end())
 												break;
 										}
 									}
 								}
 								catch (std::exception const &_Exception)
 								{
+									if (_pThread->f_GetState() == NThread::EThreadState_EventWantQuit)
+										return 0;
+									
 									const ch8 *pError = "Unknown mongo error";
 									if (_Exception.what())
 										pError = _Exception.what();
@@ -419,7 +473,15 @@ namespace NMib
 									NEncoding::CEJSON Error;
 									Error["error"] = pError;
 
-									(*pCallbackManager)(fg_Move(Error));
+									fg_ThisActor(this)
+										(
+											&CActor::f_Dispatch
+											, [=, Error = fg_Move(Error)]() mutable
+											{
+												(*pCallbackManager)(fg_Move(Error));
+											}
+										) > NConcurrency::fg_DiscardResult()
+									;
 								}
 								
 								return 0;
@@ -440,6 +502,7 @@ namespace NMib
 				, uint32 _nToReturn
 				, uint32 _nToSkip
 				, NPtr::TCUniquePointer<NEncoding::CEJSON> const &_pFields
+				, NPtr::TCUniquePointer<NEncoding::CEJSON> const &_pOrder
 				, EQueryOption _Options
 			)
 		{
@@ -456,21 +519,24 @@ namespace NMib
 				Result.f_SetException(DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error)));
 				return Result;
 			}
+
+			auto QueryOptions = fg_QueryOptions(_Options, _pFields, _pOrder);
 			
-			BSONObj Fields;
-			BSONObj *pFields = nullptr;
+			if (_nToSkip)
+				QueryOptions.skip(_nToSkip);
+
+			if (_nToReturn)
+				QueryOptions.limit(_nToReturn);
 			
-			if (_pFields)
-			{
-				Fields = fg_ToBSON(*_pFields);
-				pFields = &Fields;
-			}
 			try
 			{
-				auto pCursor = Internal.m_Connection.query(Internal.f_GetNamespace(_Collection), fg_ToBSON(_Query), _nToReturn, _nToSkip, pFields, _Options);
+				auto Collection = Internal.f_GetCollection(_Collection);
+
+				auto Cursor = Collection.find(fg_ToBSON(_Query), QueryOptions);
+
 				NContainer::TCVector<NEncoding::CEJSON> ToReturn;
-				while (pCursor->more())
-				   ToReturn.f_Insert(fg_FromBSON(pCursor->nextSafe()));
+				for (auto &&Document : Cursor)
+				   ToReturn.f_Insert(fg_FromBSON(Document));
 				
 				Result.f_SetResult(fg_Move(ToReturn));
 				return Result;
@@ -486,7 +552,7 @@ namespace NMib
 			}
 		}
 
-		NConcurrency::TCContinuation<uint64> CMongoClientActor::f_Count(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, uint32 _nToReturn, uint32 _nToSkip, EQueryOption _Options)
+		NConcurrency::TCContinuation<uint64> CMongoClientActor::f_Count(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, uint32 _nToReturn, uint32 _nToSkip, NPtr::TCUniquePointer<NEncoding::CEJSON> const &_pOrder, EQueryOption _Options)
 		{
 			NConcurrency::TCContinuation<uint64> Result;
 			auto &Internal = *mp_pInternal;
@@ -501,19 +567,21 @@ namespace NMib
 				Result.f_SetException(DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error)));
 				return Result;
 			}
+
+			auto QueryOptions = fg_QueryOptions(_Options, nullptr, _pOrder);
+			
+			if (_nToSkip)
+				QueryOptions.skip(_nToSkip);
+
+			if (_nToReturn)
+				QueryOptions.limit(_nToReturn);
 			
 			try
 			{
-				uint64 Count = Internal.m_Connection.count(Internal.f_GetNamespace(_Collection), fg_ToBSON(_Query), _nToReturn, _nToSkip, _Options);
+				auto Collection = Internal.f_GetCollection(_Collection);
+				
+				uint64 Count = Collection.count(fg_ToBSON(_Query));
 
-				std::string CountError = Internal.m_Connection.getLastError();
-				
-				if (!CountError.empty())
-				{
-					Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongeDB count failed: {}", CountError.c_str())));
-					return Result;
-				}
-				
 				Result.f_SetResult(Count);
 				return Result;
 			}
@@ -523,7 +591,7 @@ namespace NMib
 				if (_Exception.what())
 					pError = _Exception.what();
 				
-				Result.f_SetException(DMibErrorInstance(NStr::fg_Format("Mongo count failed: {}", pError)));
+				Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongoDB count failed: {}", pError)));
 				return Result;
 			}
 		}
@@ -537,6 +605,7 @@ namespace NMib
 				Result.f_SetException(DMibErrorInstance("Tailing query already running"));
 				return Result;
 			}
+			
 			NStr::CStr Error = Internal.f_MakeSureConnected();
 			if (!Error.f_IsEmpty())
 			{
@@ -544,17 +613,16 @@ namespace NMib
 				return Result;
 			}
 			
+			mongocxx::options::insert InsertOptions;
+			if (_Options & EInsertOption_ContinueOnError)
+				InsertOptions.ordered(false);
+			else
+				InsertOptions.ordered(true);
+
 			try
 			{
-				Internal.m_Connection.insert(Internal.f_GetNamespace(_Collection), fg_ToBSON(_Document));
-				
-				std::string InsertError = Internal.m_Connection.getLastError();
-				
-				if (!InsertError.empty())
-				{
-					Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongeDB insert failed: {}", InsertError.c_str())));
-					return Result;
-				}
+				auto Collection = Internal.f_GetCollection(_Collection);
+				Collection.insert_one(fg_ToBSON(_Document), InsertOptions);
 				
 				Result.f_SetResult();
 				return Result;
@@ -565,7 +633,7 @@ namespace NMib
 				if (_Exception.what())
 					pError = _Exception.what();
 				
-				Result.f_SetException(DMibErrorInstance(NStr::fg_Format("Mongo insert failed: {}", pError)));
+				Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongoDB insert failed: {}", pError)));
 				return Result;
 			}
 		}
@@ -585,23 +653,23 @@ namespace NMib
 				Result.f_SetException(DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error)));
 				return Result;
 			}
+
+			mongocxx::options::insert InsertOptions;
+			if (_Options & EInsertOption_ContinueOnError)
+				InsertOptions.ordered(false);
+			else
+				InsertOptions.ordered(true);
 			
 			try
 			{
-				std::vector<BSONObj> AllDocuments;
+				auto Collection = Internal.f_GetCollection(_Collection);
+				
+				std::vector<bsoncxx::document::value> AllDocuments;
 				
 				for (auto &Document : _Documents)
 					AllDocuments.push_back(fg_ToBSON(Document));
 				
-				Internal.m_Connection.insert(Internal.f_GetNamespace(_Collection), AllDocuments, _Options);
-				
-				std::string InsertError = Internal.m_Connection.getLastError();
-				
-				if (!InsertError.empty())
-				{
-					Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongeDB insert failed: {}", InsertError.c_str())));
-					return Result;
-				}
+				Collection.insert_many(AllDocuments);
 				
 				Result.f_SetResult();
 				return Result;
@@ -612,7 +680,7 @@ namespace NMib
 				if (_Exception.what())
 					pError = _Exception.what();
 				
-				Result.f_SetException(DMibErrorInstance(NStr::fg_Format("Mongo insert failed: {}", pError)));
+				Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongoDB insert failed: {}", pError)));
 				return Result;
 			}
 		}
@@ -626,6 +694,7 @@ namespace NMib
 				Result.f_SetException(DMibErrorInstance("Tailing query already running"));
 				return Result;
 			}
+
 			NStr::CStr Error = Internal.f_MakeSureConnected();
 			if (!Error.f_IsEmpty())
 			{
@@ -633,17 +702,19 @@ namespace NMib
 				return Result;
 			}
 			
+			mongocxx::options::update UpdateOptions;
+			
+			if (_Options & EUpdateOption_Upsert)
+				UpdateOptions.upsert(true);
+			
 			try
 			{
-				Internal.m_Connection.update(Internal.f_GetNamespace(_Collection), fg_ToBSON(_Query), fg_ToBSON(_Update), _Options);
-				
-				std::string UpdateError = Internal.m_Connection.getLastError();
-				
-				if (!UpdateError.empty())
-				{
-					Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongeDB update failed: {}", UpdateError.c_str())));
-					return Result;
-				}
+				auto Collection = Internal.f_GetCollection(_Collection);
+
+				if (_Options & EUpdateOption_Multi)
+					Collection.update_one(fg_ToBSON(_Query), fg_ToBSON(_Update), UpdateOptions);
+				else
+					Collection.update_many(fg_ToBSON(_Query), fg_ToBSON(_Update), UpdateOptions);
 				
 				Result.f_SetResult();
 				return Result;
@@ -654,7 +725,7 @@ namespace NMib
 				if (_Exception.what())
 					pError = _Exception.what();
 				
-				Result.f_SetException(DMibErrorInstance(NStr::fg_Format("Mongo update failed: {}", pError)));
+				Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongoDB update failed: {}", pError)));
 				return Result;
 			}
 		}
@@ -677,15 +748,12 @@ namespace NMib
 			
 			try
 			{
-				Internal.m_Connection.remove(Internal.f_GetNamespace(_Collection), fg_ToBSON(_Query), _Options);
-				
-				std::string RemoveError = Internal.m_Connection.getLastError();
-				
-				if (!RemoveError.empty())
-				{
-					Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongeDB update failed: {}", RemoveError.c_str())));
-					return Result;
-				}
+				auto Collection = Internal.f_GetCollection(_Collection);
+
+				if (_Options & ERemoveOption_JustOne)
+					Collection.delete_one(fg_ToBSON(_Query));
+				else
+					Collection.delete_many(fg_ToBSON(_Query));
 				
 				Result.f_SetResult();
 				return Result;
@@ -696,7 +764,7 @@ namespace NMib
 				if (_Exception.what())
 					pError = _Exception.what();
 				
-				Result.f_SetException(DMibErrorInstance(NStr::fg_Format("Mongo remove failed: {}", pError)));
+				Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongoDB remove failed: {}", pError)));
 				return Result;
 			}
 		}

@@ -25,7 +25,8 @@ namespace NMib::NMongo::NMongoManager
 					for (auto &JSONData : Pending)
 					{
 						auto BSON = fg_ToBSON(JSONData);
-						Data.f_Insert((uint8 const *)BSON.objdata(), BSON.objsize());
+						
+						Data.f_Insert((uint8 const *)BSON.view().data(), BSON.view().length());
 					}
 					pBackupFile->f_Write(Data.f_GetArray(), Data.f_GetLen());
 #ifdef DPlatformFamily_OSX
@@ -35,7 +36,7 @@ namespace NMib::NMongo::NMongoManager
 					return pBackupFile->f_GetPosition();
 				}
 			)
-			> [this](TCAsyncResult<uint64> &&_Result)
+			> [](TCAsyncResult<uint64> &&_Result)
 			{
 				if (!_Result)
 				{

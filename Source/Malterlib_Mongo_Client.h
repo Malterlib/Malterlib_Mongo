@@ -18,7 +18,7 @@ namespace NMib
 			
 			bool f_Compatible(CMongoConnectionSettings const &_Settings) const;
 			NContainer::TCVector<NStr::CStr> f_GetToolParams() const;
-			NStr::CStr f_GetConnectionString();
+			NStr::CStr f_GetConnectionString() const;
 			CMongoConnectionSettings f_ForConnectionString(NStr::CStr const &_ConnectionString) const;
 
 			NStr::CStr m_Host = "localhost";
@@ -56,14 +56,12 @@ namespace NMib
 				EUpdateOption_None = 0
 				, EUpdateOption_Upsert = DMibBit(0)
 				, EUpdateOption_Multi = DMibBit(1)
-				, EUpdateOption_Broadcast = DMibBit(2)
 			};
 
 			enum ERemoveOption
 			{
 				ERemoveOption_None = 0
 				, ERemoveOption_JustOne = DMibBit(0)
-				, ERemoveOption_Broadcast = DMibBit(1)
 			};
 
 			enum EInsertOption
@@ -78,7 +76,8 @@ namespace NMib
 					, NEncoding::CEJSON const &_Query
 					, uint32 _nToReturn
 					, uint32 _nToSkip
-					, NPtr::TCUniquePointer<NEncoding::CEJSON> const &_Fields
+					, NPtr::TCUniquePointer<NEncoding::CEJSON> const &_pFields
+					, NPtr::TCUniquePointer<NEncoding::CEJSON> const &_pOrder
 					, EQueryOption _Options
 				)
 			;
@@ -93,7 +92,7 @@ namespace NMib
 					, NFunction::TCFunctionMutable<void (NEncoding::CEJSON &&_Result)> &&_fOnResult
 				)
 			;
-			NConcurrency::TCContinuation<uint64> f_Count(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, uint32 _nToReturn, uint32 _nToSkip, EQueryOption _Options);
+			NConcurrency::TCContinuation<uint64> f_Count(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, uint32 _nToReturn, uint32 _nToSkip, NPtr::TCUniquePointer<NEncoding::CEJSON> const &_pOrder, EQueryOption _Options);
 			NConcurrency::TCContinuation<void> f_BatchInsert(NStr::CStr const &_Collection, NContainer::TCVector<NEncoding::CEJSON> const &_Documents, EInsertOption _Options);
 			NConcurrency::TCContinuation<void> f_Insert(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Document, EInsertOption _Options);
 			NConcurrency::TCContinuation<void> f_Update(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, NEncoding::CEJSON const &_Update, EUpdateOption _Options);

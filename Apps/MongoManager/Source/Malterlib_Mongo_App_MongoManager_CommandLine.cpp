@@ -117,6 +117,41 @@ namespace NMib::NMongo::NMongoManager
 				, true
 			)
 		;
+		DefaultSection.f_RegisterCommand
+			(
+				{
+					"Names"_= {"--run-backup"}
+					, "Description"_= "Run a backup without running from an AppManager.\n"
+					, "Output"_= "Backup ID.\n"
+				}
+				, [this](NEncoding::CEJSON const &_Parameters) -> TCContinuation<CDistributedAppCommandLineResults>
+				{
+					return fp_CommandLine_RunBackup(_Parameters);
+				}
+				, false
+			)
+		;
+		DefaultSection.f_RegisterCommand
+			(
+				{
+					"Names"_= {"--cancel-backups"}
+					, "Description"_= "Run a backup without running from an AppManager.\n"
+					, "Parameters"_=
+					{
+						"BackupIDs...?"_=
+						{
+							"Type"_= {1}
+							, "Description"_= "The backup IDs to cancel. Specify none to cancel all backups"
+						}
+					}
+				}
+				, [this](NEncoding::CEJSON const &_Parameters) -> TCContinuation<CDistributedAppCommandLineResults>
+				{
+					return fp_CommandLine_CancelBackups(_Parameters);
+				}
+				, false
+			)
+		;
 		
 		DefaultSection.f_RegisterCommand
 			(
@@ -222,7 +257,7 @@ namespace NMib::NMongo::NMongoManager
 				Data.f_SetLen(EntrySize);
 				Stream.f_ConsumeBytes(Data.f_GetArray(), EntrySize);
 				
-				auto OplogEntry = fg_FromBSON(mongo::BSONObj{reinterpret_cast<char const *>(Data.f_GetArray())});
+				auto OplogEntry = fg_FromBSON(bsoncxx::document::view{Data.f_GetArray(), Data.f_GetLen()});
 				
 				if (auto pTimestamp = OplogEntry.f_GetMember("ts", EEJSONType_UserType))
 				{
@@ -292,6 +327,161 @@ namespace NMib::NMongo::NMongoManager
 				Continuation.f_SetResult(Results);
 			}
 		;
+		return Continuation;
+	}
+	
+	struct CDummyBackupInterface : public CDistributedAppInterfaceBackup
+	{
+		enum : uint32
+		{
+			EMinProtocolVersion = 0x101
+			, EProtocolVersion = 0x101
+		};
+
+		CDummyBackupInterface(uint32 _BackupID)
+			: m_BackupID{_BackupID}
+		{
+		}
+		~CDummyBackupInterface() = default;
+
+		NConcurrency::TCContinuation<void> f_AppendManifest(NFile::CDirectoryManifestConfig const &_Config) override
+		{
+			CStr AppendData;
+			AppendData += "\tRoot: {}\n"_f << _Config.m_Root;
+			AppendData += "\tInclude wildcards: {vs}\n"_f << _Config.m_IncludeWildcards;
+			AppendData += "\tExclude wildcards: {vs}\n"_f << _Config.m_ExcludeWildcards;
+			AppendData += "\tAdd sync flags wildcards: {vs}\n"_f << _Config.m_AddSyncFlagsWildcards;
+			AppendData += "\tRemove sync flags wildcards: {vs}\n"_f << _Config.m_RemoveSyncFlagsWildcards;
+			
+			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Append manifest:\n{}", m_BackupID, AppendData);
+			return fg_Explicit();
+		}
+		
+		NConcurrency::TCContinuation<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeInitialFinished
+			(
+				NConcurrency::TCActorFunctorWithID<TCContinuation<void> ()> &&_fOnInitialFinished
+			) override
+		{
+			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Subscribe initial finished", m_BackupID);
+			_fOnInitialFinished() > fg_DiscardResult();
+			return fg_Explicit();
+		}
+		
+		NConcurrency::TCContinuation<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeBackupStopped
+			(
+				NConcurrency::TCActorFunctorWithID<TCContinuation<void> ()> &&_fOnStopped
+			) override
+		{
+			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Subscribe backup stopped", m_BackupID);
+			return fg_Explicit();
+		}
+		
+		uint32 m_BackupID = -1;
+	};
+	
+	TCContinuation<CDistributedAppCommandLineResults> CMongoManagerDaemonActor::fp_CommandLine_RunBackup(NEncoding::CEJSON const &_Params)
+	{
+		TCContinuation<CDistributedAppCommandLineResults> Continuation;
+		
+		uint32 BackupID = mp_NextLocalBackup++;
+		
+		auto &LocalBackup = mp_LocalBackups[BackupID];
+		
+		LocalBackup.m_BackupInterface = mp_State.m_DistributionManager->f_ConstructActor<CDummyBackupInterface>(BackupID);
+		
+		fp_StartBackup
+			(
+				LocalBackup.m_BackupInterface->f_ShareInterface<CDistributedAppInterfaceBackup>().f_GetActor()
+				, nullptr
+				, CFile::fs_GetProgramDirectory()
+			)
+			> [this, BackupID, Continuation](TCAsyncResult<CActorSubscription> &&_Subscription)
+			{
+				if (!_Subscription)
+				{
+					mp_LocalBackups.f_Remove(BackupID);
+					Continuation.f_SetException(_Subscription);
+					return;
+				}
+				
+				auto *pLocalBackup = mp_LocalBackups.f_FindEqual(BackupID);
+				
+				if (!pLocalBackup)
+					return Continuation.f_SetException(DErrorInstance("Backup already cancelled"));
+				
+				auto &LocalBackup = *pLocalBackup;
+				
+				LocalBackup.m_Subscription = fg_Move(*_Subscription);
+				
+				Continuation.f_SetResult(fg_Format("{}\n", BackupID));
+			}
+		;
+		
+		return Continuation;
+	}
+
+	TCContinuation<CDistributedAppCommandLineResults> CMongoManagerDaemonActor::fp_CommandLine_CancelBackups(NEncoding::CEJSON const &_Params)
+	{
+		TCContinuation<CDistributedAppCommandLineResults> Continuation;
+		
+		TCSet<uint32> BackupIDs;
+		if (auto pValue = _Params.f_GetMember("BackupIDs"))
+		{
+			for (auto &ID : pValue->f_Array())
+				BackupIDs[ID.f_Integer()];
+		}
+		
+		if (BackupIDs.f_IsEmpty())
+			BackupIDs = mp_LocalBackups;
+		
+		TCSet<uint32> MissingBackupIDs;
+		
+		TCActorResultMap<uint32, void> DestroyResults;
+		
+		for (auto &ID : BackupIDs)
+		{
+			auto *pLocalBackup = mp_LocalBackups.f_FindEqual(ID);
+			
+			if (!pLocalBackup)
+			{
+				MissingBackupIDs[ID];
+				continue;
+			}
+			
+			auto &LocalBackup = *pLocalBackup;
+			
+			if (LocalBackup.m_Subscription)
+				LocalBackup.m_Subscription->f_Destroy() > DestroyResults.f_AddResult(ID);
+			
+			mp_LocalBackups.f_Remove(pLocalBackup);
+		}
+		
+		DestroyResults.f_GetResults() > Continuation / [=](TCMap<uint32, TCAsyncResult<void>> &&_Results)
+			{
+				CDistributedAppCommandLineResults CommandlineResults;
+				for (auto &Result : _Results)
+				{
+					uint32 ID = _Results.fs_GetKey(Result);
+					
+					if (!Result)
+					{
+						if (CommandlineResults.m_Status < 2)
+							CommandlineResults.f_SetExitStatus(2);
+						CommandlineResults.f_AddStdErr(fg_Format("Error cancelling backup {}: {}\n", ID, Result.f_GetExceptionStr()));
+					}
+				}
+				
+				if (!MissingBackupIDs.f_IsEmpty())
+				{
+					if (CommandlineResults.m_Status < 1)
+						CommandlineResults.f_SetExitStatus(1);
+					CommandlineResults.f_AddStdErr(fg_Format("Non-existing or already cancelled backups: {vs}\n", MissingBackupIDs));
+				}
+				
+				Continuation.f_SetResult(fg_Move(CommandlineResults));
+			}
+		;
+	
 		return Continuation;
 	}
 	

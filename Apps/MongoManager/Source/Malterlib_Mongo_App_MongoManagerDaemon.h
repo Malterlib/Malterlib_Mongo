@@ -17,6 +17,13 @@ namespace NMib::NMongo::NMongoManager
 		~CMongoManagerDaemonActor();
 		
 	private:
+		
+		struct CLocalBackup
+		{
+			TCDistributedActor<CDistributedAppInterfaceBackup> m_BackupInterface;
+			CActorSubscription m_Subscription;
+		};
+		
 		TCContinuation<void> fp_StartApp(NEncoding::CEJSON const &_Params) override;
 		TCContinuation<void> fp_StopApp() override;
 		TCContinuation<void> fp_PreStop() override;
@@ -35,7 +42,11 @@ namespace NMib::NMongo::NMongoManager
 		TCContinuation<CDistributedAppCommandLineResults> fp_CommandLine_UpdateReplicationConfig(NEncoding::CEJSON const &_Params);
 		TCContinuation<CDistributedAppCommandLineResults> fp_CommandLine_SetupPermissions(NEncoding::CEJSON const &_Params);
 		TCContinuation<CDistributedAppCommandLineResults> fp_CommandLine_JoinReplica(NEncoding::CEJSON const &_Params);
+		TCContinuation<CDistributedAppCommandLineResults> fp_CommandLine_RunBackup(NEncoding::CEJSON const &_Params);
+		TCContinuation<CDistributedAppCommandLineResults> fp_CommandLine_CancelBackups(NEncoding::CEJSON const &_Params);
 		
 		TCActor<CMongoManagerActor> mp_pManager;
+		TCMap<uint32, CLocalBackup> mp_LocalBackups;
+		uint32 mp_NextLocalBackup = 0;
 	};
 }

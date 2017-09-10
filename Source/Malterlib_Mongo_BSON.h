@@ -2,15 +2,19 @@
 // Distributed under the MIT license, see license text in LICENSE.Malterlib
 
 #include <Mib/Core/Core>
-#include <mongo/client/dbclient.h>
+#include <bsoncxx/json.hpp>
+#include <bsoncxx/document/view_or_value.hpp>
+#include <bsoncxx/array/view_or_value.hpp>
 #include <Mib/Encoding/EJSON>
 
 namespace NMib
 {
 	namespace NMongo
 	{
-		mongo::BSONObj fg_ToBSON(NEncoding::CEJSON const &_JSON);
-		NEncoding::CEJSON fg_FromBSON(mongo::BSONObj const &_BSON);
+		bsoncxx::document::value fg_ToBSON(NEncoding::CEJSON const &_JSON);
+		bsoncxx::array::value fg_ToBSONArray(NEncoding::CEJSON const &_JSON);
+		NEncoding::CEJSON fg_FromBSON(bsoncxx::document::view_or_value _BSON);
+		NEncoding::CEJSON fg_FromBSON(bsoncxx::array::view_or_value _BSON);
 	}
 }
 

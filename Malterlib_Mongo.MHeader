@@ -2,12 +2,168 @@
 // Distributed under the MIT license, see license text in LICENSE.Malterlib
 
 Import "../Core/Lib_Malterlib.MTarget"
-Import "../../SDK/mongo-cxx-driver/Lib_Mongo.MTarget"
 Import "Apps/*/*.MHeader"
+
+%Repository "mongo-cxx-driver"
+{
+	Repository
+	{
+		Type External
+		Remotes "upstream=https://github.com/mongodb/mongo-cxx-driver.git;@(Repository.Remotes)"
+	}
+}
+
+%Repository "mongo-c-driver"
+{
+	Repository
+	{
+		Type External
+		Remotes "upstream=https://github.com/mongodb/mongo-c-driver.git;@(Repository.Remotes)"
+	}
+}
+
+%Repository "libbson"
+{
+	Repository
+	{
+		Type External
+		Remotes "upstream=https://github.com/mongodb/libbson.git;@(Repository.Remotes)"
+	}
+}
+
+Property
+{
+	CurlTargetInDependenciesTemplate_TargetName ""
+	
+	TargetIdentityAbsolutePath "@(Target:this.IdentityAsAbsolutePath->GetPath())"
+	
+	MalterlibMongoIncludePath_bson "@('../../External/libbson/src/bson'->MakeAbsolute());@(Builtin.Function->GetProperty('Property', 'TargetIdentityAbsolutePath', 'Group:External.Group:libbson.Target:Lib_bson_static.Target:Lib_bson_static'))/src/bson"
+	MalterlibMongoIncludePath_mongoc "@('../../External/mongo-c-driver/src/mongoc'->MakeAbsolute());@(Builtin.Function->GetProperty('Property', 'TargetIdentityAbsolutePath', 'Group:External.Group:libmongoc.Target:Lib_mongoc_static.Target:Lib_mongoc_static'))/src/mongoc"
+
+}
+
+%Import "../../External/libbson/CMakeLists.txt"
+{
+	Import.CMake_FullRebuildVersion 1
+
+	Import.CMake_Variables "ENABLE_STATIC=ON;ENABLE_TESTS=OFF;ENABLE_EXAMPLES=OFF;@(Import.CMake_Variables)"
+	Import.CMake_Variables "CMAKE_BUILD_WITH_INSTALL_RPATH=ON;THREADS_PTHREAD_ARG=2;@(Import.CMake_Variables)"
+	{
+		&
+		{
+			PlatformFamily Linux
+			!HostPlatformFamily Linux 
+		}
+	}
+	
+	Compile
+	{
+		!!MalterlibCompileSupportTabSetings true
+		IndentWidth 3
+		TabWidth 3
+		UsesTabs false
+	}
+	Compile.PrefixHeader ""
+
+	%Target Lib_bson_static
+	{
+		Property.ImportCacheDir "@(Import.CMake_CacheDirectory)"
+	}
+}
+
+%Import "../../External/mongo-c-driver/CMakeLists.txt"
+{
+	Import.CMake_FullRebuildVersion 1
+
+	Import.CMake_Variables "ENABLE_STATIC=ON;MONGOC_ENABLE_STATIC=ON;ENABLE_TESTS=OFF;ENABLE_EXAMPLES=OFF;ENABLE_SASL=OFF;ENABLE_SSL=OPENSSL;DISABLE_PACKAGES=ON;ENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF;@(Import.CMake_Variables)"
+	Import.CMake_Variables "CMAKE_BUILD_WITH_INSTALL_RPATH=ON;THREADS_PTHREAD_ARG=2;@(Import.CMake_Variables)"
+	{
+		&
+		{
+			PlatformFamily Linux
+			!HostPlatformFamily Linux 
+		}
+	}
+	
+	Compile
+	{
+		!!MalterlibCompileSupportTabSetings true
+		IndentWidth 3
+		TabWidth 3
+		UsesTabs false
+	}
+	
+	Compile.PrefixHeader ""
+	
+	%Target Lib_mongoc_static
+	{
+		Compile
+		{
+			SearchPath "@(MalterlibMongoIncludePath_bson);@(Compile.SearchPath)"
+		}
+	}
+}
+
+%Import "../../External/mongo-cxx-driver/CMakeLists.txt"
+{
+	Import.CMake_FullRebuildVersion 1
+
+	Import.CMake_Variables "CMAKE_CXX_STANDARD=14;BUILD_SHARED_LIBS=OFF;DISABLE_PACKAGES=ON;BSONCXX_POLY_USE_STD_EXPERIMENTAL=ON;BSONCXX_POLY_USE_MNMLSTC_DEFAULT=OFF;BSONCXX_POLY_USE_BOOST_DEFAULT=OFF;@(Import.CMake_Variables)"
+	
+	Compile
+	{
+		!!MalterlibCompileSupportTabSetings true
+		IndentWidth 3
+		TabWidth 3
+		UsesTabs false
+	}
+
+	Compile.PrefixHeader ""
+	
+	%Target Lib_bsoncxx_static
+	{
+		Compile
+		{
+			SearchPath "@(MalterlibMongoIncludePath_bson);@(MalterlibMongoIncludePath_mongoc);@(Compile.SearchPath)"
+		}
+	}
+	%Target Lib_mongocxx_static
+	{
+		Compile
+		{
+			SearchPath "@(MalterlibMongoIncludePath_bson);@(MalterlibMongoIncludePath_mongoc);@(Compile.SearchPath)"
+		}
+	}
+}
+
+Compile
+{
+	&
+	{
+		MongoCxxDriver true
+		!DocumentationEnabled true
+ 		CompileDialect "C"
+	}
+	
+	SearchPath "@('../../External/mongo-cxx-driver/src'->MakeAbsolute());@(MalterlibMongoIncludePath_bson);@(Compile.SearchPath)"
+	SearchPath "@(Builtin.Function->GetProperty('Property', 'TargetIdentityAbsolutePath', 'Group:External.Group:BSONCXX.Target:Lib_bsoncxx_static.Target:Lib_bsoncxx_static'))/src;@(Compile.SearchPath)"
+	SearchPath "@(MalterlibMongoIncludePath_mongoc);@(MalterlibMongoIncludePath_bson);@(Compile.SearchPath)"
+}
+
+Property
+{
+	&
+	{
+		MongoCxxDriver true
+		TargetIsExecutable true
+	}
+	MalterlibLinkWithOpenSSL true
+}
 
 %Group "{Malterlib}/{Lib_Malterlib_Mongo}"
 {
 	Property.MongoCxxDriver true
+
 	%Group Mongo
 	{
 		%Group Include
@@ -24,10 +180,24 @@ Import "Apps/*/*.MHeader"
 			%File "Documentation/*"
 		}
 	}
-	%Dependency Lib_Mongo
+	%Dependency Lib_bson_static
 	{
 		!DocumentationEnabled true
-		
+		Dependency.Indirect true
+	}
+	%Dependency Lib_mongoc_static
+	{
+		!DocumentationEnabled true
+		Dependency.Indirect true
+	}
+	%Dependency Lib_bsoncxx_static
+	{
+		!DocumentationEnabled true
+		Dependency.Indirect true
+	}
+	%Dependency Lib_mongocxx_static
+	{
+		!DocumentationEnabled true
 		Dependency.Indirect true
 	}
 }
@@ -60,6 +230,7 @@ Property
 	Property
 	{
 		MalterlibLinkWithOpenSSL true
+		MongoCxxDriver true
 	}
 }
 
@@ -92,4 +263,3 @@ Property
 
 	%Target "@(Malterlib_Mongo_App_Targets)"
 }
-
