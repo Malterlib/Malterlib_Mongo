@@ -1,0 +1,1695 @@
+Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
+%Target Dll_bsoncxx
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('src'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_EXPORT;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/BSONCXX"
+	Target.Type SharedDynamicLibrary
+	Target.BaseName bsoncxx
+	%Group src
+	{
+		%Group bsoncxx
+		{
+			%Group array
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/array/element.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/array/value.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/array/view.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group builder
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/builder/core.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/bsoncxx/decimal128.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group document
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/document/element.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/document/value.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/document/view.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group exception
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/exception/error_code.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/bsoncxx/json.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/bsoncxx/oid.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group private
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/private/itoa.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group string
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/string/view_or_value.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/bsoncxx/types.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group types
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/types/value.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/bsoncxx/validate.cpp"
+			{
+				Compile.Type C++
+			}
+		}
+	}
+}
+%Target Lib_bsoncxx_static
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('src'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_STATIC;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/BSONCXX"
+	Target.Type StaticLibrary
+	Target.BaseName bsoncxx_static
+	%Group src
+	{
+		%Group bsoncxx
+		{
+			%Group array
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/array/element.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/array/value.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/array/view.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group builder
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/builder/core.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/bsoncxx/decimal128.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group document
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/document/element.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/document/value.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/document/view.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group exception
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/exception/error_code.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/bsoncxx/json.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/bsoncxx/oid.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group private
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/private/itoa.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group string
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/string/view_or_value.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/bsoncxx/types.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group types
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/types/value.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/bsoncxx/validate.cpp"
+			{
+				Compile.Type C++
+			}
+		}
+	}
+}
+%Target Exe_test_bson
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('src'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/src/third_party/catch/include'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_STATIC;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/BSONCXX"
+	Target.Type ConsoleExecutable
+	Target.BaseName test_bson
+	%Group src
+	{
+		%Group third_party
+		{
+			%Group catch
+			{
+				%File "../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+		}
+		%Group bsoncxx
+		{
+			%Group test
+			{
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/test/bson_b_date.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/test/bson_builder.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/test/bson_get_values.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/test/bson_util_itoa.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/test/bson_validate.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/test/json.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/bsoncxx/test/view_or_value.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+		}
+	}
+	%Dependency Lib_bsoncxx_static
+}
+%Target Lib_mongocxx_static
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('src'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGOCXX"
+	Target.Type StaticLibrary
+	Target.BaseName mongocxx_static
+	%Group src
+	{
+		%Group mongocxx
+		{
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/bulk_write.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/client.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/collection.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/cursor.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/database.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group exception
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/exception/error_code.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/exception/server_error_code.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/exception/operation_exception.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/hint.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/insert_many_builder.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/instance.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/logger.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group model
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/delete_many.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/delete_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/insert_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/replace_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/update_many.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/update_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/write.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group options
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/aggregate.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/bulk_write.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/client.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/count.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/create_collection.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/create_view.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/delete.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/distinct.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/find.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/find_one_and_delete.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/find_one_and_replace.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/find_one_and_update.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/index.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/insert.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/modify_collection.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/pool.cpp"
+				{
+					Compile.Type C++
+				}
+				%Group private
+				{
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/private/rewriter.cpp"
+					{
+						Compile.Type C++
+					}
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/ssl.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/update.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/pipeline.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/pool.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group private
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/private/libbson.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/private/libmongoc.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/read_concern.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/read_preference.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group result
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/bulk_write.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/delete.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/insert_many.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/insert_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/replace_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/update.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/uri.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/validation_criteria.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/write_concern.cpp"
+			{
+				Compile.Type C++
+			}
+		}
+	}
+	%Dependency Lib_bsoncxx_static
+	{
+		Dependency.Indirect true
+	}
+}
+%Target Lib_mongocxx_mocked
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('src'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;MONGOCXX_TESTING;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGOCXX"
+	Target.Type StaticLibrary
+	Target.BaseName mongocxx_mocked
+	%Group src
+	{
+		%Group mongocxx
+		{
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/bulk_write.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/client.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/collection.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/cursor.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/database.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group exception
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/exception/error_code.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/exception/server_error_code.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/exception/operation_exception.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/hint.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/insert_many_builder.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/instance.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/logger.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group model
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/delete_many.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/delete_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/insert_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/replace_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/update_many.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/update_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/write.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group options
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/aggregate.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/bulk_write.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/client.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/count.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/create_collection.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/create_view.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/delete.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/distinct.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/find.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/find_one_and_delete.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/find_one_and_replace.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/find_one_and_update.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/index.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/insert.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/modify_collection.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/pool.cpp"
+				{
+					Compile.Type C++
+				}
+				%Group private
+				{
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/private/rewriter.cpp"
+					{
+						Compile.Type C++
+					}
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/ssl.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/update.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/pipeline.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/pool.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group private
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/private/libbson.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/private/libmongoc.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/read_concern.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/read_preference.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group result
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/bulk_write.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/delete.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/insert_many.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/insert_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/replace_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/update.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/uri.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/validation_criteria.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/write_concern.cpp"
+			{
+				Compile.Type C++
+			}
+		}
+	}
+	%Dependency Lib_bsoncxx_static
+	{
+		Dependency.Indirect true
+	}
+}
+%Target Dll_mongocxx
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('src'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "MONGOCXX_EXPORTS;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGOCXX"
+	Target.Type SharedDynamicLibrary
+	Target.BaseName mongocxx
+	%Group src
+	{
+		%Group mongocxx
+		{
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/bulk_write.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/client.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/collection.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/cursor.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/database.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group exception
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/exception/error_code.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/exception/server_error_code.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/exception/operation_exception.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/hint.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/insert_many_builder.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/instance.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/logger.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group model
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/delete_many.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/delete_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/insert_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/replace_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/update_many.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/update_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/model/write.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group options
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/aggregate.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/bulk_write.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/client.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/count.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/create_collection.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/create_view.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/delete.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/distinct.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/find.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/find_one_and_delete.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/find_one_and_replace.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/find_one_and_update.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/index.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/insert.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/modify_collection.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/pool.cpp"
+				{
+					Compile.Type C++
+				}
+				%Group private
+				{
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/private/rewriter.cpp"
+					{
+						Compile.Type C++
+					}
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/ssl.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/update.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/pipeline.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/pool.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group private
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/private/libbson.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/private/libmongoc.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/read_concern.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/read_preference.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group result
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/bulk_write.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/delete.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/insert_many.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/insert_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/replace_one.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/update.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/uri.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/validation_criteria.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/write_concern.cpp"
+			{
+				Compile.Type C++
+			}
+		}
+	}
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_test_driver
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('src'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/src/third_party/catch/include'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;MONGOCXX_TESTING;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGOCXX"
+	Target.Type ConsoleExecutable
+	Target.BaseName test_driver
+	%Group src
+	{
+		%Group mongocxx
+		{
+			%Group test_util
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group test
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/CMakeLists.txt"
+				{
+					Compile.Type None
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/bulk_write.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/client.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/collection.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/collection_mocked.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/database.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/hint.cpp"
+				{
+					Compile.Type C++
+				}
+				%Group model
+				{
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/model/delete_many.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/model/delete_one.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/model/insert_one.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/model/replace_one.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/model/update_many.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/model/update_one.cpp"
+					{
+						Compile.Type C++
+					}
+				}
+				%Group options
+				{
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/aggregate.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/count.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/create_collection.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/create_view.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/delete.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/distinct.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/find.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/find_one_and_delete.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/find_one_and_replace.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/find_one_and_update.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/index.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/insert.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/modify_collection.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/pool.cpp"
+					{
+						Compile.Type C++
+					}
+					%Group private
+					{
+						%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/private/rewriter.cpp"
+						{
+							Compile.Type C++
+						}
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/update.cpp"
+					{
+						Compile.Type C++
+					}
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/pool.cpp"
+				{
+					Compile.Type C++
+				}
+				%Group private
+				{
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/private/scoped_bson_t.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/private/write_concern.cpp"
+					{
+						Compile.Type C++
+					}
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/read_concern.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/read_preference.cpp"
+				{
+					Compile.Type C++
+				}
+				%Group result
+				{
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/result/delete.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/result/insert_one.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/result/replace_one.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/result/update.cpp"
+					{
+						Compile.Type C++
+					}
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/uri.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/validation_criteria.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/write_concern.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+		}
+		%Group third_party
+		{
+			%Group catch
+			{
+				%File "../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+		}
+	}
+	%Dependency Lib_mongocxx_mocked
+	%Dependency Lib_bsoncxx_static
+}
+%Target Exe_test_instance
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('src'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/src/third_party/catch/include'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;MONGOCXX_TESTING;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGOCXX"
+	Target.Type ConsoleExecutable
+	Target.BaseName test_instance
+	%Group src
+	{
+		%Group third_party
+		{
+			%Group catch
+			{
+				%File "../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+		}
+		%Group mongocxx
+		{
+			%Group test
+			{
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/instance.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+		}
+	}
+	%Dependency Lib_mongocxx_mocked
+	%Dependency Lib_bsoncxx_static
+}
+%Target Exe_builder_core
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName builder_core
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_decimal128
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName decimal128
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_builder_stream_customization
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName builder_stream_customization
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_builder_basic
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName builder_basic
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_builder_stream
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName builder_stream
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_view_and_value
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName view_and_value
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_getting_values
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName getting_values
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_get_values_from_documents
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName get_values_from_documents
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_query
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName query
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_index
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName index
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_remove
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName remove
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_exception
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName exception
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_aggregate
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName aggregate
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_inserted_id
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName inserted_id
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_create
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName create
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_bulk_write
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName bulk_write
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_query_projection
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName query_projection
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_instance_management
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName instance_management
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_document_validation
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName document_validation
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_connect
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName connect
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_view_or_value_variant
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName view_or_value_variant
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}
+%Target Exe_update
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines ";@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName update
+	%Group examples
+	{
+		Compile.Type C++
+	}
+	%Dependency Dll_mongocxx
+	%Dependency Dll_bsoncxx
+}

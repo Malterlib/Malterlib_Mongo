@@ -1,0 +1,270 @@
+Property.CMakeOutputPath_BSONCXX "@('../..'->MakeAbsolute())"
+%Target Dll_bsoncxx
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_EXPORT;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/BSONCXX"
+	Target.Type SharedDynamicLibrary
+	Target.BaseName bsoncxx
+	%Group src
+	{
+		%Group bsoncxx
+		{
+			%Group array
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/array/element.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/array/value.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/array/view.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group builder
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/builder/core.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/decimal128.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group document
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/document/element.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/document/value.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/document/view.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group exception
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/exception/error_code.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/json.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/oid.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group private
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/private/itoa.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group string
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/string/view_or_value.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/types.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group types
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/types/value.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/validate.cpp"
+			{
+				Compile.Type C++
+			}
+		}
+	}
+}
+%Target Lib_bsoncxx_static
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_STATIC;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/BSONCXX"
+	Target.Type StaticLibrary
+	Target.BaseName bsoncxx_static
+	%Group src
+	{
+		%Group bsoncxx
+		{
+			%Group array
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/array/element.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/array/value.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/array/view.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group builder
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/builder/core.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/decimal128.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group document
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/document/element.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/document/value.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/document/view.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group exception
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/exception/error_code.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/json.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/oid.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group private
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/private/itoa.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group string
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/string/view_or_value.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/types.cpp"
+			{
+				Compile.Type C++
+			}
+			%Group types
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/types/value.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/validate.cpp"
+			{
+				Compile.Type C++
+			}
+		}
+	}
+}
+%Target Exe_test_bson
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@('../../../../../../External/mongo-cxx-driver/src/third_party/catch/include'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_STATIC;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/BSONCXX"
+	Target.Type ConsoleExecutable
+	Target.BaseName test_bson
+	%Group src
+	{
+		%Group third_party
+		{
+			%Group catch
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+		}
+		%Group bsoncxx
+		{
+			%Group test
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/test/bson_b_date.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/test/bson_builder.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/test/bson_get_values.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/test/bson_util_itoa.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/test/bson_validate.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/test/json.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/test/view_or_value.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+		}
+	}
+	%Dependency Lib_bsoncxx_static
+}
