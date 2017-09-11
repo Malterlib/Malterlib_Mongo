@@ -4,7 +4,7 @@ Property.CMakeOutputPath_libmongoc "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C
-		SearchPath "@('src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/mongoc'->MakeAbsolute());@('/opt/local/include'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/mongoc'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "MONGOC_COMPILATION;NDEBUG;_BSD_SOURCE;_DEFAULT_SOURCE;_GNU_SOURCE;mongoc_shared_EXPORTS;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -251,26 +251,6 @@ Property.CMakeOutputPath_libmongoc "@('.'->MakeAbsolute())"
 			{
 				Compile.Type C
 			}
-			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-crypto-openssl.c"
-			{
-				Compile.Type C
-			}
-			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-rand-openssl.c"
-			{
-				Compile.Type C
-			}
-			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-stream-tls-openssl.c"
-			{
-				Compile.Type C
-			}
-			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-stream-tls-openssl-bio.c"
-			{
-				Compile.Type C
-			}
-			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-openssl.c"
-			{
-				Compile.Type C
-			}
 			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc.h"
 			{
 				Compile.Type None
@@ -470,7 +450,7 @@ Property.CMakeOutputPath_libmongoc "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C
-		SearchPath "@('src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/mongoc'->MakeAbsolute());@('/opt/local/include'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/mongoc'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "MONGOC_COMPILATION;MONGOC_STATIC;NDEBUG;_BSD_SOURCE;_DEFAULT_SOURCE;_GNU_SOURCE;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -714,26 +694,6 @@ Property.CMakeOutputPath_libmongoc "@('.'->MakeAbsolute())"
 				Compile.Type C
 			}
 			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-ssl.c"
-			{
-				Compile.Type C
-			}
-			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-crypto-openssl.c"
-			{
-				Compile.Type C
-			}
-			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-rand-openssl.c"
-			{
-				Compile.Type C
-			}
-			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-stream-tls-openssl.c"
-			{
-				Compile.Type C
-			}
-			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-stream-tls-openssl-bio.c"
-			{
-				Compile.Type C
-			}
-			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-openssl.c"
 			{
 				Compile.Type C
 			}

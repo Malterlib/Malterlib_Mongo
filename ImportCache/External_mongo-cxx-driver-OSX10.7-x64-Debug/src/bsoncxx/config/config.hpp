@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#define BSONCXX_POLY_USE_STD_EXPERIMENTAL
+/* #undef BSONCXX_POLY_USE_STD_EXPERIMENTAL */
+#define BSONCXX_POLY_USE_STD
 /* #undef BSONCXX_POLY_USE_MNMLSTC */
 /* #undef BSONCXX_POLY_USE_SYSTEM_MNMLSTC */
 /* #undef BSONCXX_POLY_USE_BOOST */
