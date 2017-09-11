@@ -55,7 +55,15 @@ Property
 			!HostPlatformFamily Linux 
 		}
 	}
-	
+
+	Property
+	{
+		!!PlatformFamily Windows
+
+		MalterlibWindowsNtVersion "_WIN32_WINNT_VISTA"
+		MalterlibWindowsVersion "NTDDI_VISTA"
+	}
+
 	Compile
 	{
 		!!MalterlibCompileSupportTabSetings true
@@ -64,6 +72,9 @@ Property
 		UsesTabs false
 	}
 	Compile.PrefixHeader ""
+	{
+ 		!!CompileDialect "C"
+	}
 
 	%Target Lib_bson_static
 	{
@@ -75,7 +86,7 @@ Property
 {
 	Import.CMake_FullRebuildVersion 1
 
-	Import.CMake_Variables "ENABLE_STATIC=ON;MONGOC_ENABLE_STATIC=ON;ENABLE_TESTS=OFF;ENABLE_EXAMPLES=OFF;ENABLE_SASL=OFF;ENABLE_SSL=OPENSSL;DISABLE_PACKAGES=ON;ENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF;@(Import.CMake_Variables)"
+	Import.CMake_Variables "ENABLE_STATIC=ON;MONGOC_ENABLE_STATIC=ON;ENABLE_TESTS=OFF;ENABLE_EXAMPLES=OFF;ENABLE_SASL=OFF;ENABLE_SSL=EXTERNAL_OPENSSL;DISABLE_PACKAGES=ON;ENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF;@(Import.CMake_Variables)"
 	Import.CMake_Variables "CMAKE_BUILD_WITH_INSTALL_RPATH=ON;THREADS_PTHREAD_ARG=2;@(Import.CMake_Variables)"
 	{
 		&
@@ -92,8 +103,15 @@ Property
 		TabWidth 3
 		UsesTabs false
 	}
-	
-	Compile.PrefixHeader ""
+
+	Compile
+	{
+ 		!!CompileDialect "C"
+
+		PreprocessorDefines "BSON_STATIC;@(Compile.PreprocessorDefines)"
+		PrefixHeader ""
+		Warnings "Minimal"
+	}
 	
 	%Target Lib_mongoc_static
 	{
@@ -108,7 +126,7 @@ Property
 {
 	Import.CMake_FullRebuildVersion 1
 
-	Import.CMake_Variables "CMAKE_CXX_STANDARD=14;BUILD_SHARED_LIBS=OFF;DISABLE_PACKAGES=ON;BSONCXX_POLY_USE_STD_EXPERIMENTAL=ON;BSONCXX_POLY_USE_MNMLSTC_DEFAULT=OFF;BSONCXX_POLY_USE_BOOST_DEFAULT=OFF;@(Import.CMake_Variables)"
+	Import.CMake_Variables "CMAKE_CXX_STANDARD=14;BUILD_SHARED_LIBS=OFF;DISABLE_PACKAGES=ON;BSONCXX_POLY_USE_STD=ON;BSONCXX_POLY_USE_MNMLSTC_DEFAULT=OFF;BSONCXX_POLY_USE_BOOST_DEFAULT=OFF;@(Import.CMake_Variables)"
 	
 	Compile
 	{
@@ -118,20 +136,61 @@ Property
 		UsesTabs false
 	}
 
-	Compile.PrefixHeader ""
+	Compile
+	{
+ 		!!CompileDialect "C"
+
+		PrefixHeader ""
+	}
+	Property.IdentityFileName "@(this.Identity->GetFile())"
 	
 	%Target Lib_bsoncxx_static
 	{
 		Compile
 		{
+			PreprocessorDefines "BSON_STATIC;@(Compile.PreprocessorDefines)"
 			SearchPath "@(MalterlibMongoIncludePath_bson);@(MalterlibMongoIncludePath_mongoc);@(Compile.SearchPath)"
+			FullEval true
+			ObjectFileName "$(IntDir)/%(Directory)%(FileName).obj"
+			{
+				&
+				{
+					PlatformFamily Windows
+					|
+					{
+						IdentityFileName "element.cpp"
+						IdentityFileName "value.cpp"
+						IdentityFileName "view.cpp"
+					}
+				}
+			}
 		}
 	}
 	%Target Lib_mongocxx_static
 	{
 		Compile
 		{
+			PreprocessorDefines "BSON_STATIC;@(Compile.PreprocessorDefines)"
 			SearchPath "@(MalterlibMongoIncludePath_bson);@(MalterlibMongoIncludePath_mongoc);@(Compile.SearchPath)"
+			FullEval true
+			ObjectFileName "$(IntDir)/%(Directory)%(FileName).obj"
+			{
+				&
+				{
+					PlatformFamily Windows
+					|
+					{
+						IdentityFileName "bulk_write.cpp"
+						IdentityFileName "client.cpp"
+						IdentityFileName "delete.cpp"
+						IdentityFileName "pool.cpp"
+						IdentityFileName "update.cpp"
+						IdentityFileName "pool.cpp"
+						IdentityFileName "insert_one.cpp"
+						IdentityFileName "replace_one.cpp"
+					}
+				}
+			}
 		}
 	}
 }
@@ -148,6 +207,7 @@ Compile
 	SearchPath "@('../../External/mongo-cxx-driver/src'->MakeAbsolute());@(MalterlibMongoIncludePath_bson);@(Compile.SearchPath)"
 	SearchPath "@(Builtin.Function->GetProperty('Property', 'TargetIdentityAbsolutePath', 'Group:External.Group:BSONCXX.Target:Lib_bsoncxx_static.Target:Lib_bsoncxx_static'))/src;@(Compile.SearchPath)"
 	SearchPath "@(MalterlibMongoIncludePath_mongoc);@(MalterlibMongoIncludePath_bson);@(Compile.SearchPath)"
+	PreprocessorDefines "BSONCXX_STATIC;@(Compile.PreprocessorDefines)"
 }
 
 Property

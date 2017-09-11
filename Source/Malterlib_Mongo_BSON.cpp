@@ -232,7 +232,7 @@ namespace NMib
 
 			NStr::CStr fg_FromStringData(stdx::string_view const &_Data)
 			{
-				return NStr::CStr(_Data.cbegin(), _Data.length());
+				return NStr::CStr(_Data.data(), _Data.length());
 			}
 			
 			void fg_FromBSONImp(NEncoding::CEJSON &_JSON, bsoncxx::document::view const &_BSON);
