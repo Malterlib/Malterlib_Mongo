@@ -169,6 +169,7 @@ namespace NMib::NMongo::NMongoManager
 	
 	void CMongoManagerActor::fsp_SetupUser(CUser &_User)
 	{
+#ifndef DPlatformFamily_Windows
 		if (!NSys::fg_UserManagement_GroupExists(_User.m_Name, _User.m_GroupID))
 			NSys::fg_UserManagement_CreateGroup(_User.m_Name, _User.m_GroupID);
 
@@ -185,6 +186,7 @@ namespace NMib::NMongo::NMongoManager
 				)
 			;
 		}
+#endif
 	}
 	
 	TCContinuation<void> CMongoManagerActor::fp_ExtractExeFS() const

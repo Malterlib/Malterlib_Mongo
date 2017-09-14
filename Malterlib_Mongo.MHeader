@@ -79,6 +79,10 @@ Property
 	%Target Lib_bson_static
 	{
 		Property.ImportCacheDir "@(Import.CMake_CacheDirectory)"
+		Compile.PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;BSON_STATIC;MONGOC_STATIC;@(Compile.PreprocessorDefines)"
+		{
+	 		!!CompileDialect "C"
+		}
 	}
 }
 
@@ -117,7 +121,10 @@ Property
 	{
 		Compile
 		{
+	 		!!CompileDialect "C"
+
 			SearchPath "@(MalterlibMongoIncludePath_bson);@(Compile.SearchPath)"
+			PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;BSON_STATIC;MONGOC_STATIC;@(Compile.PreprocessorDefines)"
 		}
 	}
 }
@@ -148,7 +155,9 @@ Property
 	{
 		Compile
 		{
-			PreprocessorDefines "BSON_STATIC;@(Compile.PreprocessorDefines)"
+	 		!!CompileDialect "C"
+	 		
+			PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;BSON_STATIC;MONGOC_STATIC;@(Compile.PreprocessorDefines)"
 			SearchPath "@(MalterlibMongoIncludePath_bson);@(MalterlibMongoIncludePath_mongoc);@(Compile.SearchPath)"
 			FullEval true
 			ObjectFileName "$(IntDir)/%(Directory)%(FileName).obj"
@@ -170,7 +179,9 @@ Property
 	{
 		Compile
 		{
-			PreprocessorDefines "BSON_STATIC;@(Compile.PreprocessorDefines)"
+	 		!!CompileDialect "C"
+
+			PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;BSON_STATIC;MONGOC_STATIC;@(Compile.PreprocessorDefines)"
 			SearchPath "@(MalterlibMongoIncludePath_bson);@(MalterlibMongoIncludePath_mongoc);@(Compile.SearchPath)"
 			FullEval true
 			ObjectFileName "$(IntDir)/%(Directory)%(FileName).obj"
@@ -207,7 +218,7 @@ Compile
 	SearchPath "@('../../External/mongo-cxx-driver/src'->MakeAbsolute());@(MalterlibMongoIncludePath_bson);@(Compile.SearchPath)"
 	SearchPath "@(Builtin.Function->GetProperty('Property', 'TargetIdentityAbsolutePath', 'Group:External.Group:BSONCXX.Target:Lib_bsoncxx_static.Target:Lib_bsoncxx_static'))/src;@(Compile.SearchPath)"
 	SearchPath "@(MalterlibMongoIncludePath_mongoc);@(MalterlibMongoIncludePath_bson);@(Compile.SearchPath)"
-	PreprocessorDefines "BSONCXX_STATIC;@(Compile.PreprocessorDefines)"
+	PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;BSON_STATIC;MONGOC_STATIC;@(Compile.PreprocessorDefines)"
 }
 
 Property
