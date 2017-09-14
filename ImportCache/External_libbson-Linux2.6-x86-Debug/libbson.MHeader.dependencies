@@ -1,6 +1,7 @@
 ../../../../External/libbson/CMakeLists.txt
 ../../../../External/libbson/build/cmake/BSONPackage.cmake
 ../../../../External/libbson/build/cmake/LoadVersion.cmake
+../../../../External/libbson/build/cmake/MaintainerFlags.cmake
 ../../../../External/libbson/build/cmake/bson/bson-stdint.h
 ../../../../External/libbson/build/cmake/libbson-1.0-config-version.cmake.in
 ../../../../External/libbson/build/cmake/libbson-1.0-config.cmake.in

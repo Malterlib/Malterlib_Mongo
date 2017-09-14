@@ -71,9 +71,11 @@ Property
 		TabWidth 3
 		UsesTabs false
 	}
-	Compile.PrefixHeader ""
+	Compile
 	{
  		!!CompileDialect "C"
+		
+		PrefixHeader ""
 	}
 
 	%Target Lib_bson_static
@@ -115,6 +117,10 @@ Property
 		PreprocessorDefines "BSON_STATIC;@(Compile.PreprocessorDefines)"
 		PrefixHeader ""
 		Warnings "Minimal"
+		Warnings_UnusedFunction false
+		{
+			!!GeneratorFamily Xcode
+		}
 	}
 	
 	%Target Lib_mongoc_static
@@ -148,6 +154,10 @@ Property
  		!!CompileDialect "C"
 
 		PrefixHeader ""
+		Warnings_DeprecatedDeclarations false
+		{
+			!!GeneratorFamily Xcode
+		}
 	}
 	Property.IdentityFileName "@(this.Identity->GetFile())"
 	

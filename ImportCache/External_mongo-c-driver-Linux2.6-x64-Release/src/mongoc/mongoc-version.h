@@ -37,7 +37,7 @@
  *
  * MONGOC minor version component (e.g. 2 if %MONGOC_VERSION is 1.2.3)
  */
-#define MONGOC_MINOR_VERSION (7)
+#define MONGOC_MINOR_VERSION (8)
 
 
 /**
@@ -61,7 +61,7 @@
  *
  * MONGOC version.
  */
-#define MONGOC_VERSION (1.7.0)
+#define MONGOC_VERSION (1.8.0)
 
 
 /**
@@ -70,7 +70,7 @@
  * MONGOC version, encoded as a string, useful for printing and
  * concatenation.
  */
-#define MONGOC_VERSION_S "1.7.0"
+#define MONGOC_VERSION_S "1.8.0"
 
 
 /**

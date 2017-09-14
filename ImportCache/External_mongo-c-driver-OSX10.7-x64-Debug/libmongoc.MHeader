@@ -3,8 +3,14 @@ Property.CMakeOutputPath_libmongoc "@('.'->MakeAbsolute())"
 {
 	Compile
 	{
+		!!Compile.Type C++
+		SearchPath "@('../../../../External/mongo-c-driver/src/snappy-1.1.3'->MakeAbsolute());@('src/snappy-1.1.3'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/zlib-1.2.11'->MakeAbsolute());@('src/zlib-1.2.11'->MakeAbsolute());@('src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/mongoc'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "MONGOC_COMPILATION;_BSD_SOURCE;_DEFAULT_SOURCE;_GNU_SOURCE;mongoc_shared_EXPORTS;@(Compile.PreprocessorDefines)"
+	}
+	Compile
+	{
 		!!Compile.Type C
-		SearchPath "@('src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/mongoc'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('../../../../External/mongo-c-driver/src/snappy-1.1.3'->MakeAbsolute());@('src/snappy-1.1.3'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/zlib-1.2.11'->MakeAbsolute());@('src/zlib-1.2.11'->MakeAbsolute());@('src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/mongoc'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "MONGOC_COMPILATION;_BSD_SOURCE;_DEFAULT_SOURCE;_GNU_SOURCE;mongoc_shared_EXPORTS;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -147,6 +153,10 @@ Property.CMakeOutputPath_libmongoc "@('.'->MakeAbsolute())"
 			{
 				Compile.Type C
 			}
+			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-cmd.c"
+			{
+				Compile.Type C
+			}
 			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-queue.c"
 			{
 				Compile.Type C
@@ -440,6 +450,88 @@ Property.CMakeOutputPath_libmongoc "@('.'->MakeAbsolute())"
 				Compile.Type None
 			}
 		}
+		%Group snappy-1.1.3
+		{
+			%File "../../../../External/mongo-c-driver/src/snappy-1.1.3/snappy.cc"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-c-driver/src/snappy-1.1.3/snappy-sinksource.cc"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-c-driver/src/snappy-1.1.3/snappy-stubs-internal.cc"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-c-driver/src/snappy-1.1.3/snappy-c.cc"
+			{
+				Compile.Type C++
+			}
+		}
+		%Group zlib-1.2.11
+		{
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/adler32.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/crc32.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/deflate.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/infback.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/inffast.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/inflate.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/inftrees.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/trees.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/zutil.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/compress.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/uncompr.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/gzclose.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/gzlib.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/gzread.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/gzwrite.c"
+			{
+				Compile.Type C
+			}
+		}
 	}
 	%Group OSX10.7
 	{
@@ -469,8 +561,14 @@ Property.CMakeOutputPath_libmongoc "@('.'->MakeAbsolute())"
 {
 	Compile
 	{
+		!!Compile.Type C++
+		SearchPath "@('../../../../External/mongo-c-driver/src/snappy-1.1.3'->MakeAbsolute());@('src/snappy-1.1.3'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/zlib-1.2.11'->MakeAbsolute());@('src/zlib-1.2.11'->MakeAbsolute());@('src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/mongoc'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "MONGOC_COMPILATION;MONGOC_STATIC;_BSD_SOURCE;_DEFAULT_SOURCE;_GNU_SOURCE;@(Compile.PreprocessorDefines)"
+	}
+	Compile
+	{
 		!!Compile.Type C
-		SearchPath "@('src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/mongoc'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('../../../../External/mongo-c-driver/src/snappy-1.1.3'->MakeAbsolute());@('src/snappy-1.1.3'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/zlib-1.2.11'->MakeAbsolute());@('src/zlib-1.2.11'->MakeAbsolute());@('src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/mongoc'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "MONGOC_COMPILATION;MONGOC_STATIC;_BSD_SOURCE;_DEFAULT_SOURCE;_GNU_SOURCE;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -613,6 +711,10 @@ Property.CMakeOutputPath_libmongoc "@('.'->MakeAbsolute())"
 			{
 				Compile.Type C
 			}
+			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-cmd.c"
+			{
+				Compile.Type C
+			}
 			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-queue.c"
 			{
 				Compile.Type C
@@ -904,6 +1006,88 @@ Property.CMakeOutputPath_libmongoc "@('.'->MakeAbsolute())"
 			%File "../../../../External/mongo-c-driver/src/mongoc/mongoc-ssl.h"
 			{
 				Compile.Type None
+			}
+		}
+		%Group snappy-1.1.3
+		{
+			%File "../../../../External/mongo-c-driver/src/snappy-1.1.3/snappy.cc"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-c-driver/src/snappy-1.1.3/snappy-sinksource.cc"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-c-driver/src/snappy-1.1.3/snappy-stubs-internal.cc"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-c-driver/src/snappy-1.1.3/snappy-c.cc"
+			{
+				Compile.Type C++
+			}
+		}
+		%Group zlib-1.2.11
+		{
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/adler32.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/crc32.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/deflate.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/infback.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/inffast.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/inflate.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/inftrees.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/trees.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/zutil.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/compress.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/uncompr.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/gzclose.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/gzlib.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/gzread.c"
+			{
+				Compile.Type C
+			}
+			%File "../../../../External/mongo-c-driver/src/zlib-1.2.11/gzwrite.c"
+			{
+				Compile.Type C
 			}
 		}
 	}
