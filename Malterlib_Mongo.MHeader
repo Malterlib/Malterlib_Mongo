@@ -261,12 +261,7 @@ Property
 			%File "Documentation/*"
 		}
 	}
-	%Dependency Lib_bson_static
-	{
-		!DocumentationEnabled true
-		Dependency.Indirect true
-	}
-	%Dependency Lib_mongoc_static
+	%Dependency Lib_mongocxx_static
 	{
 		!DocumentationEnabled true
 		Dependency.Indirect true
@@ -276,7 +271,12 @@ Property
 		!DocumentationEnabled true
 		Dependency.Indirect true
 	}
-	%Dependency Lib_mongocxx_static
+	%Dependency Lib_mongoc_static
+	{
+		!DocumentationEnabled true
+		Dependency.Indirect true
+	}
+	%Dependency Lib_bson_static
 	{
 		!DocumentationEnabled true
 		Dependency.Indirect true

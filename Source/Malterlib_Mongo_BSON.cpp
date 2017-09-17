@@ -54,7 +54,7 @@ namespace NMib
 					_Builder << fg_ToStringData(Value.f_String());
 					break;
 				case NEncoding::EJSONType_Integer:
-					_Builder << Value.f_Integer();
+					_Builder << (std::int64_t)Value.f_Integer();
 					break;
 				case NEncoding::EJSONType_Float:
 					_Builder << Value.f_Float().f_Get();
@@ -111,7 +111,7 @@ namespace NMib
 					{
 						auto &UserType = Value.f_UserType();
 						if (UserType.m_Type == "int32")
-							_Builder << int32(UserType.m_Value.f_Integer());
+							_Builder << (std::int32_t)UserType.m_Value.f_Integer();
 						else if (UserType.m_Type == "BinData")
 						{
 							NContainer::TCVector<uint8> Data;
