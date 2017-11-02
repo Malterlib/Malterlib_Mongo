@@ -425,9 +425,9 @@ namespace NMib
 								
 								bool bDoneRegistration = false;
 								
-								try
+								while (_pThread->f_GetState() != NThread::EThreadState_EventWantQuit)
 								{
-									while (_pThread->f_GetState() != NThread::EThreadState_EventWantQuit)
+									try
 									{
 										auto Collection = Internal.f_GetCollection(_Collection);
 										
@@ -460,30 +460,30 @@ namespace NMib
 												break;
 										}
 									}
-								}
-								catch (std::exception const &_Exception)
-								{
-									if (_pThread->f_GetState() == NThread::EThreadState_EventWantQuit)
-										return 0;
-									
-									const ch8 *pError = "Unknown mongo error";
-									if (_Exception.what())
-										pError = _Exception.what();
-									
-									NEncoding::CEJSON Error;
-									Error["error"] = pError;
+									catch (std::exception const &_Exception)
+									{
+										if (_pThread->f_GetState() == NThread::EThreadState_EventWantQuit)
+											return 0;
 
-									fg_ThisActor(this)
-										(
-											&CActor::f_Dispatch
-											, [=, Error = fg_Move(Error)]() mutable
-											{
-												(*pCallbackManager)(fg_Move(Error));
-											}
-										) > NConcurrency::fg_DiscardResult()
-									;
+										const ch8 *pError = "Unknown mongo error";
+										if (_Exception.what())
+											pError = _Exception.what();
+
+										NEncoding::CEJSON Error;
+										Error["error"] = pError;
+
+										fg_ThisActor(this)
+											(
+												&CActor::f_Dispatch
+												, [=, Error = fg_Move(Error)]() mutable
+												{
+													(*pCallbackManager)(fg_Move(Error));
+												}
+											) > NConcurrency::fg_DiscardResult()
+										;
+									}
 								}
-								
+
 								return 0;
 							}
 							, "Mongo client tailing thread"
