@@ -1,8 +1,8 @@
 ../../../../../../External/mongo-cxx-driver/src/mongocxx/CMakeLists.txt
-../../../../../../External/mongo-cxx-driver/src/mongocxx/cmake/libmongocxx-config.cmake.in
+../../../../../../External/mongo-cxx-driver/src/mongocxx/cmake/libmongocxx-static-config.cmake.in
 ../../../../../../External/mongo-cxx-driver/src/mongocxx/config/CMakeLists.txt
 ../../../../../../External/mongo-cxx-driver/src/mongocxx/config/config.hpp.in
-../../../../../../External/mongo-cxx-driver/src/mongocxx/config/libmongocxx.pc.in
+../../../../../../External/mongo-cxx-driver/src/mongocxx/config/libmongocxx-static.pc.in
 ../../../../../../External/mongo-cxx-driver/src/mongocxx/config/private/config.hh.in
 ../../../../../../External/mongo-cxx-driver/src/mongocxx/config/version.hpp.in
 ../../../../../../External/mongo-cxx-driver/src/mongocxx/test/CMakeLists.txt

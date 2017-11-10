@@ -7,17 +7,17 @@
 #  define MONGOCXX_PRIVATE
 #else
 #  ifndef MONGOCXX_API
-#    ifdef MONGOCXX_EXPORTS
+#    ifdef mongocxx_mocked_EXPORTS
         /* We are building this library */
-#      define MONGOCXX_API __attribute__((visibility("default")))
+#      define MONGOCXX_API 
 #    else
         /* We are using this library */
-#      define MONGOCXX_API __attribute__((visibility("default")))
+#      define MONGOCXX_API 
 #    endif
 #  endif
 
 #  ifndef MONGOCXX_PRIVATE
-#    define MONGOCXX_PRIVATE __attribute__((visibility("hidden")))
+#    define MONGOCXX_PRIVATE 
 #  endif
 #endif
 

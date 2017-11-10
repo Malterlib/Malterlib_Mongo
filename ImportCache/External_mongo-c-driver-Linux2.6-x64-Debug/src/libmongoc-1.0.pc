@@ -5,7 +5,7 @@ includedir=${exec_prefix}/include
 
 Name: libmongoc
 Description: The libmongoc MongoDB client library.
-Version: 1.8.0
+Version: 1.8.1
 Requires: libbson-1.0
 Libs: -L${libdir} -lmongoc-1.0 
 Cflags: -I${includedir}/libmongoc-1.0

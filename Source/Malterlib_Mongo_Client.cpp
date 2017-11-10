@@ -198,7 +198,12 @@ namespace NMib
 					Collection = _Collection;
 				}
 				
-				return (*m_pConnection)[Database.f_GetStr()][Collection.f_GetStr()];
+				decltype(auto) CollectionReturn = (*m_pConnection)[Database.f_GetStr()][Collection.f_GetStr()];
+
+				mongocxx::write_concern Concern;
+				Concern.journal(true);
+				CollectionReturn.write_concern(fg_Move(Concern));
+				return CollectionReturn;
 			}
 			
 			CMongoConnectionSettings m_ConnectionSettings;
@@ -222,9 +227,6 @@ namespace NMib
 		{
 			auto &Internal = *mp_pInternal;
 			Internal.f_MakeSureConnected();
-			mongocxx::write_concern Concern;
-			Concern.journal(true);
-			Internal.m_pConnection->write_concern(fg_Move(Concern));
 		}
 
 		NConcurrency::TCContinuation<void> CMongoClientActor::fp_Destroy()
@@ -420,7 +422,7 @@ namespace NMib
 										Options |= CMongoClientActor::EQueryOption_OplogReplay;
 								}
 								
-								auto QueryOptions = fg_QueryOptions(_Options, pInputFields, nullptr);
+								auto QueryOptions = fg_QueryOptions(Options, pInputFields, nullptr);
 								QueryOptions.sort(fg_ToBSON(Order));
 								
 								bool bDoneRegistration = false;
@@ -456,8 +458,6 @@ namespace NMib
 													) > NConcurrency::fg_DiscardResult()
 												;
 											}
-											if (Cursor.begin() == Cursor.end())
-												break;
 										}
 									}
 									catch (std::exception const &_Exception)
