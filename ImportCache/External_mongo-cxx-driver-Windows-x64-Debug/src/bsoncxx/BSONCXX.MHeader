@@ -1,5 +1,5 @@
 Property.CMakeOutputPath_BSONCXX "@('../..'->MakeAbsolute())"
-%Target Lib_bsoncxx_static
+%Target Lib_bsoncxx
 {
 	Compile
 	{
@@ -10,7 +10,7 @@ Property.CMakeOutputPath_BSONCXX "@('../..'->MakeAbsolute())"
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/BSONCXX"
 	Target.Type StaticLibrary
-	Target.BaseName bsoncxx_static
+	Target.BaseName bsoncxx
 	%Group src
 	{
 		%Group bsoncxx
@@ -103,18 +103,18 @@ Property.CMakeOutputPath_BSONCXX "@('../..'->MakeAbsolute())"
 		}
 	}
 }
-%Target Dll_bsoncxx
+%Target Lib_bsoncxx_testing
 {
 	Compile
 	{
 		!!Compile.Type C++
 		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSONCXX_EXPORT;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+		PreprocessorDefines "BSONCXX_STATIC;BSONCXX_TESTING;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/BSONCXX"
-	Target.Type SharedDynamicLibrary
-	Target.BaseName bsoncxx
+	Target.Type StaticLibrary
+	Target.BaseName bsoncxx_testing
 	%Group src
 	{
 		%Group bsoncxx
@@ -213,7 +213,7 @@ Property.CMakeOutputPath_BSONCXX "@('../..'->MakeAbsolute())"
 	{
 		!!Compile.Type C++
 		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@('../../../../../../External/mongo-cxx-driver/src/third_party/catch/include'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSONCXX_STATIC;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+		PreprocessorDefines "BSONCXX_STATIC;BSONCXX_TESTING;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/BSONCXX"
@@ -247,6 +247,10 @@ Property.CMakeOutputPath_BSONCXX "@('../..'->MakeAbsolute())"
 				{
 					Compile.Type C++
 				}
+				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/test/bson_types.cpp"
+				{
+					Compile.Type C++
+				}
 				%File "../../../../../../External/mongo-cxx-driver/src/bsoncxx/test/bson_util_itoa.cpp"
 				{
 					Compile.Type C++
@@ -266,5 +270,5 @@ Property.CMakeOutputPath_BSONCXX "@('../..'->MakeAbsolute())"
 			}
 		}
 	}
-	%Dependency Lib_bsoncxx_static
+	%Dependency Lib_bsoncxx_testing
 }

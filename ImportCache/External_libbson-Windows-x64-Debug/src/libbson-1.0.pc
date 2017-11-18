@@ -5,6 +5,6 @@ includedir=${exec_prefix}/include
 
 Name: libbson
 Description: The libbson BSON serialization library.
-Version: 1.8.0
+Version: 1.8.1
 Libs: -L${libdir} -lbson-1.0
 Cflags: -I${includedir}/libbson-1.0
