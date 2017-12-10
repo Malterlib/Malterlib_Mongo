@@ -169,6 +169,10 @@ Property
 	 		!!CompileDialect "C"
 	 		
 			PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;BSON_STATIC;MONGOC_STATIC;@(Compile.PreprocessorDefines)"
+			PreprocessorDefines "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;@(Compile.PreprocessorDefines)"
+			{
+				!!PlatformFamily Windows
+			}
 			SearchPath "@(MalterlibMongoIncludePath_bson);@(MalterlibMongoIncludePath_mongoc);@(Compile.SearchPath)"
 			FullEval true
 			ObjectFileName "$(IntDir)/%(Directory)%(FileName).obj"
@@ -193,6 +197,11 @@ Property
 	 		!!CompileDialect "C"
 
 			PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;BSON_STATIC;MONGOC_STATIC;@(Compile.PreprocessorDefines)"
+			PreprocessorDefines "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;@(Compile.PreprocessorDefines)"
+			{
+				!!PlatformFamily Windows
+			}
+			
 			SearchPath "@(MalterlibMongoIncludePath_bson);@(MalterlibMongoIncludePath_mongoc);@(Compile.SearchPath)"
 			FullEval true
 			ObjectFileName "$(IntDir)/%(Directory)%(FileName).obj"
@@ -210,6 +219,9 @@ Property
 						IdentityFileName "pool.cpp"
 						IdentityFileName "insert_one.cpp"
 						IdentityFileName "replace_one.cpp"
+						IdentityFileName "bucket.cpp"
+						IdentityFileName "index_view.cpp"
+						IdentityFileName "upload.cpp"
 					}
 				}
 			}
@@ -230,6 +242,10 @@ Compile
 	SearchPath "@(Builtin.Function->GetProperty('Property', 'TargetIdentityAbsolutePath', 'Group:External.Group:BSONCXX.Target:Lib_bsoncxx.Target:Lib_bsoncxx'))/src;@(Compile.SearchPath)"
 	SearchPath "@(MalterlibMongoIncludePath_mongoc);@(MalterlibMongoIncludePath_bson);@(Compile.SearchPath)"
 	PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;BSON_STATIC;MONGOC_STATIC;@(Compile.PreprocessorDefines)"
+	PreprocessorDefines "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;@(Compile.PreprocessorDefines)"
+	{
+		!!PlatformFamily Windows
+	}
 }
 
 Property
