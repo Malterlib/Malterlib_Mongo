@@ -53,8 +53,8 @@ namespace
 					<< "k_bool" << true
 					<< "k_date" << types::b_date{std::chrono::milliseconds{CTimeConvert{CTimeConvert::fs_CreateTime(2001, 02, 03)}.f_UnixMilliseconds()}}
 					<< "k_null" << types::b_null{}
-					<< "k_int32" << int32(556)
-					<< "k_int64" << int64(constant_int64(66554466556665))
+					<< "k_int32" << types::b_int32{int32(556)}
+					<< "k_int64" << types::b_int64{constant_int64(66554466556665)}
 					<< "k_binary" << types::b_binary{binary_sub_type::k_binary, fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
 					<< "k_binary k_function" << types::b_binary{binary_sub_type::k_function, fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
 					<< "k_binary k_binary_deprecated" << types::b_binary{binary_sub_type::k_binary_deprecated, fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
