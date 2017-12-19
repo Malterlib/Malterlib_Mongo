@@ -1,0 +1,1561 @@
+[
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\array\\element.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\array\\element.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\array\\element.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\array\\value.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\array\\value.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\array\\value.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\array\\view.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\array\\view.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\array\\view.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\builder\\core.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\builder\\core.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\builder\\core.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\decimal128.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\decimal128.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\decimal128.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\document\\element.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\document\\element.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\document\\element.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\document\\value.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\document\\value.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\document\\value.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\document\\view.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\document\\view.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\document\\view.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\exception\\error_code.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\exception\\error_code.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\exception\\error_code.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\json.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\json.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\json.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\oid.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\oid.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\oid.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\private\\itoa.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\private\\itoa.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\private\\itoa.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\string\\view_or_value.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\string\\view_or_value.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\string\\view_or_value.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\types.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\types.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\types.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\types\\value.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\types\\value.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\types\\value.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx.dir\\validate.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\validate.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\validate.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\array\\element.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\array\\element.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\array\\element.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\array\\value.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\array\\value.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\array\\value.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\array\\view.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\array\\view.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\array\\view.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\builder\\core.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\builder\\core.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\builder\\core.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\decimal128.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\decimal128.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\decimal128.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\document\\element.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\document\\element.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\document\\element.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\document\\value.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\document\\value.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\document\\value.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\document\\view.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\document\\view.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\document\\view.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\exception\\error_code.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\exception\\error_code.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\exception\\error_code.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\json.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\json.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\json.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\oid.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\oid.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\oid.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\private\\itoa.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\private\\itoa.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\private\\itoa.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\string\\view_or_value.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\string\\view_or_value.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\string\\view_or_value.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\types.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\types.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\types.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\types\\value.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\types\\value.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\types\\value.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\CMakeFiles\\bsoncxx_testing.dir\\validate.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\validate.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\validate.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\test\\CMakeFiles\\test_bson.dir\\__\\__\\third_party\\catch\\main.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\main.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\main.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\test\\CMakeFiles\\test_bson.dir\\bson_b_date.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\bson_b_date.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\bson_b_date.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\test\\CMakeFiles\\test_bson.dir\\bson_builder.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\bson_builder.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\bson_builder.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\test\\CMakeFiles\\test_bson.dir\\bson_get_values.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\bson_get_values.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\bson_get_values.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\test\\CMakeFiles\\test_bson.dir\\bson_types.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\bson_types.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\bson_types.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\test\\CMakeFiles\\test_bson.dir\\bson_util_itoa.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\bson_util_itoa.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\bson_util_itoa.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\test\\CMakeFiles\\test_bson.dir\\bson_validate.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\bson_validate.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\bson_validate.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\test\\CMakeFiles\\test_bson.dir\\json.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\json.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\json.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DBSONCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\bsoncxx\\test\\CMakeFiles\\test_bson.dir\\view_or_value.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\view_or_value.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\bsoncxx\\test\\view_or_value.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\bulk_write.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\bulk_write.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\bulk_write.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\client.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\client.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\client.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\collection.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\collection.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\collection.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\cursor.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\cursor.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\cursor.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\database.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\database.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\database.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\exception\\error_code.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\exception\\error_code.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\exception\\error_code.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\exception\\operation_exception.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\exception\\operation_exception.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\exception\\operation_exception.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\exception\\server_error_code.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\exception\\server_error_code.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\exception\\server_error_code.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\gridfs\\bucket.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\gridfs\\bucket.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\gridfs\\bucket.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\gridfs\\downloader.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\gridfs\\downloader.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\gridfs\\downloader.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\gridfs\\uploader.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\gridfs\\uploader.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\gridfs\\uploader.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\hint.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\hint.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\hint.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\index_model.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\index_model.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\index_model.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\index_view.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\index_view.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\index_view.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\instance.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\instance.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\instance.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\logger.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\logger.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\logger.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\model\\delete_many.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\delete_many.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\delete_many.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\model\\delete_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\delete_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\delete_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\model\\insert_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\insert_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\insert_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\model\\replace_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\replace_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\replace_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\model\\update_many.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\update_many.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\update_many.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\model\\update_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\update_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\update_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\model\\write.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\write.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\write.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\aggregate.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\aggregate.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\aggregate.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\bulk_write.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\bulk_write.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\bulk_write.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\client.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\client.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\client.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\count.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\count.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\count.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\create_collection.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\create_collection.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\create_collection.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\create_view.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\create_view.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\create_view.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\delete.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\delete.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\delete.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\distinct.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\distinct.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\distinct.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\find_one_and_delete.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find_one_and_delete.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find_one_and_delete.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\find_one_and_replace.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find_one_and_replace.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find_one_and_replace.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\find_one_and_update.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find_one_and_update.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find_one_and_update.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\find.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\gridfs\\bucket.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\gridfs\\bucket.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\gridfs\\bucket.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\gridfs\\upload.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\gridfs\\upload.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\gridfs\\upload.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\index.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\index.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\index.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\index_view.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\index_view.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\index_view.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\insert.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\insert.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\insert.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\modify_collection.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\modify_collection.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\modify_collection.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\pool.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\pool.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\pool.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\private\\rewriter.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\private\\rewriter.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\private\\rewriter.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\ssl.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\ssl.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\ssl.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\options\\update.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\update.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\update.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\pipeline.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\pipeline.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\pipeline.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\pool.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\pool.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\pool.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\private\\conversions.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\private\\conversions.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\private\\conversions.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\private\\libbson.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\private\\libbson.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\private\\libbson.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\private\\libmongoc.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\private\\libmongoc.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\private\\libmongoc.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\read_concern.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\read_concern.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\read_concern.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\read_preference.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\read_preference.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\read_preference.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\result\\bulk_write.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\bulk_write.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\bulk_write.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\result\\delete.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\delete.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\delete.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\result\\gridfs\\upload.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\gridfs\\upload.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\gridfs\\upload.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\result\\insert_many.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\insert_many.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\insert_many.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\result\\insert_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\insert_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\insert_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\result\\replace_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\replace_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\replace_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\result\\update.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\update.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\update.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\third_party\\md5.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\third_party\\md5.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\third_party\\md5.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\uri.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\uri.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\uri.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\validation_criteria.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\validation_criteria.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\validation_criteria.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\CMakeFiles\\mongocxx.dir\\write_concern.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\write_concern.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\write_concern.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\bulk_write.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\bulk_write.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\bulk_write.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\client.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\client.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\client.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\collection.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\collection.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\collection.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\cursor.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\cursor.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\cursor.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\database.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\database.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\database.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\exception\\error_code.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\exception\\error_code.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\exception\\error_code.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\exception\\operation_exception.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\exception\\operation_exception.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\exception\\operation_exception.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\exception\\server_error_code.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\exception\\server_error_code.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\exception\\server_error_code.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\gridfs\\bucket.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\gridfs\\bucket.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\gridfs\\bucket.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\gridfs\\downloader.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\gridfs\\downloader.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\gridfs\\downloader.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\gridfs\\uploader.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\gridfs\\uploader.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\gridfs\\uploader.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\hint.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\hint.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\hint.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\index_model.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\index_model.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\index_model.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\index_view.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\index_view.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\index_view.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\instance.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\instance.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\instance.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\logger.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\logger.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\logger.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\model\\delete_many.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\delete_many.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\delete_many.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\model\\delete_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\delete_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\delete_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\model\\insert_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\insert_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\insert_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\model\\replace_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\replace_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\replace_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\model\\update_many.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\update_many.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\update_many.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\model\\update_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\update_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\update_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\model\\write.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\write.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\model\\write.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\aggregate.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\aggregate.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\aggregate.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\bulk_write.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\bulk_write.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\bulk_write.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\client.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\client.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\client.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\count.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\count.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\count.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\create_collection.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\create_collection.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\create_collection.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\create_view.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\create_view.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\create_view.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\delete.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\delete.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\delete.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\distinct.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\distinct.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\distinct.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\find_one_and_delete.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find_one_and_delete.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find_one_and_delete.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\find_one_and_replace.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find_one_and_replace.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find_one_and_replace.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\find_one_and_update.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find_one_and_update.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find_one_and_update.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\find.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\find.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\gridfs\\bucket.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\gridfs\\bucket.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\gridfs\\bucket.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\gridfs\\upload.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\gridfs\\upload.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\gridfs\\upload.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\index.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\index.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\index.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\index_view.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\index_view.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\index_view.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\insert.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\insert.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\insert.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\modify_collection.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\modify_collection.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\modify_collection.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\pool.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\pool.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\pool.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\private\\rewriter.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\private\\rewriter.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\private\\rewriter.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\ssl.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\ssl.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\ssl.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\options\\update.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\update.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\options\\update.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\pipeline.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\pipeline.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\pipeline.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\pool.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\pool.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\pool.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\private\\conversions.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\private\\conversions.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\private\\conversions.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\private\\libbson.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\private\\libbson.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\private\\libbson.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\private\\libmongoc.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\private\\libmongoc.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\private\\libmongoc.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\read_concern.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\read_concern.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\read_concern.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\read_preference.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\read_preference.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\read_preference.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\result\\bulk_write.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\bulk_write.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\bulk_write.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\result\\delete.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\delete.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\delete.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\result\\gridfs\\upload.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\gridfs\\upload.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\gridfs\\upload.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\result\\insert_many.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\insert_many.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\insert_many.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\result\\insert_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\insert_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\insert_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\result\\replace_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\replace_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\replace_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\result\\update.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\update.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\result\\update.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\third_party\\md5.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\third_party\\md5.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\third_party\\md5.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\uri.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\uri.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\uri.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\validation_criteria.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\validation_criteria.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\validation_criteria.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\CMakeFiles\\mongocxx_mocked.dir\\write_concern.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\write_concern.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\write_concern.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\__\\test_util\\client_helpers.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test_util\\client_helpers.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test_util\\client_helpers.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\__\\__\\third_party\\catch\\main.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\main.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\main.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\bulk_write.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\bulk_write.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\bulk_write.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\client.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\client.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\client.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\collection.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\collection.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\collection.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\collection_mocked.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\collection_mocked.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\collection_mocked.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\conversions.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\conversions.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\conversions.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\database.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\database.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\database.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\gridfs\\bucket.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\gridfs\\bucket.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\gridfs\\bucket.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\gridfs\\downloader.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\gridfs\\downloader.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\gridfs\\downloader.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\gridfs\\uploader.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\gridfs\\uploader.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\gridfs\\uploader.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\hint.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\hint.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\hint.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\index_view.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\index_view.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\index_view.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\model\\delete_many.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\model\\delete_many.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\model\\delete_many.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\model\\delete_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\model\\delete_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\model\\delete_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\model\\insert_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\model\\insert_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\model\\insert_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\model\\replace_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\model\\replace_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\model\\replace_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\model\\update_many.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\model\\update_many.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\model\\update_many.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\model\\update_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\model\\update_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\model\\update_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\aggregate.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\aggregate.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\aggregate.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\bulk_write.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\bulk_write.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\bulk_write.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\count.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\count.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\count.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\create_collection.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\create_collection.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\create_collection.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\create_view.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\create_view.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\create_view.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\delete.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\delete.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\delete.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\distinct.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\distinct.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\distinct.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\find.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\find.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\find.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\find_one_and_delete.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\find_one_and_delete.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\find_one_and_delete.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\find_one_and_replace.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\find_one_and_replace.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\find_one_and_replace.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\find_one_and_update.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\find_one_and_update.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\find_one_and_update.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\gridfs\\bucket.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\gridfs\\bucket.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\gridfs\\bucket.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\gridfs\\upload.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\gridfs\\upload.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\gridfs\\upload.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\index.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\index.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\index.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\insert.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\insert.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\insert.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\modify_collection.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\modify_collection.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\modify_collection.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\pool.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\pool.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\pool.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\private\\rewriter.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\private\\rewriter.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\private\\rewriter.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\options\\update.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\update.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\options\\update.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\pool.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\pool.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\pool.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\private\\scoped_bson_t.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\private\\scoped_bson_t.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\private\\scoped_bson_t.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\private\\write_concern.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\private\\write_concern.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\private\\write_concern.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\read_concern.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\read_concern.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\read_concern.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\read_preference.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\read_preference.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\read_preference.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\result\\bulk_write.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\result\\bulk_write.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\result\\bulk_write.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\result\\delete.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\result\\delete.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\result\\delete.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\result\\gridfs\\upload.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\result\\gridfs\\upload.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\result\\gridfs\\upload.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\result\\insert_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\result\\insert_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\result\\insert_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\result\\replace_one.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\result\\replace_one.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\result\\replace_one.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\result\\update.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\result\\update.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\result\\update.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\uri.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\uri.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\uri.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\validation_criteria.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\validation_criteria.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\validation_criteria.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /bigobj /Fosrc\\mongocxx\\test\\CMakeFiles\\test_driver.dir\\write_concern.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\write_concern.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\write_concern.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\test\\CMakeFiles\\test_logging.dir\\__\\__\\third_party\\catch\\main.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\main.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\main.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\test\\CMakeFiles\\test_logging.dir\\logging.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\logging.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\logging.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\test\\CMakeFiles\\test_instance.dir\\__\\__\\third_party\\catch\\main.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\main.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\main.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\test\\CMakeFiles\\test_instance.dir\\instance.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\instance.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\instance.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\test\\CMakeFiles\\test_crud_specs.dir\\__\\test_util\\client_helpers.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test_util\\client_helpers.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test_util\\client_helpers.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\test\\CMakeFiles\\test_crud_specs.dir\\__\\__\\third_party\\catch\\main.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\main.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\main.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\test\\CMakeFiles\\test_crud_specs.dir\\spec\\crud.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\spec\\crud.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\spec\\crud.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\test\\CMakeFiles\\test_gridfs_specs.dir\\__\\test_util\\client_helpers.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test_util\\client_helpers.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test_util\\client_helpers.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\test\\CMakeFiles\\test_gridfs_specs.dir\\__\\__\\third_party\\catch\\main.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\main.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\main.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src -Isrc -IX:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\third_party\\catch\\include  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG   /Fosrc\\mongocxx\\test\\CMakeFiles\\test_gridfs_specs.dir\\spec\\gridfs.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\spec\\gridfs.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\src\\mongocxx\\test\\spec\\gridfs.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\bsoncxx\\CMakeFiles\\getting_values.dir\\getting_values.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\bsoncxx\\getting_values.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\bsoncxx\\getting_values.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\bsoncxx\\CMakeFiles\\builder_core.dir\\builder_core.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\bsoncxx\\builder_core.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\bsoncxx\\builder_core.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\bsoncxx\\CMakeFiles\\builder_basic.dir\\builder_basic.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\bsoncxx\\builder_basic.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\bsoncxx\\builder_basic.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\bsoncxx\\CMakeFiles\\decimal128.dir\\decimal128.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\bsoncxx\\decimal128.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\bsoncxx\\decimal128.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\bsoncxx\\CMakeFiles\\builder_stream.dir\\builder_stream.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\bsoncxx\\builder_stream.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\bsoncxx\\builder_stream.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\bsoncxx\\CMakeFiles\\builder_stream_customization.dir\\builder_stream_customization.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\bsoncxx\\builder_stream_customization.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\bsoncxx\\builder_stream_customization.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\bsoncxx\\CMakeFiles\\view_and_value.dir\\view_and_value.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\bsoncxx\\view_and_value.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\bsoncxx\\view_and_value.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\aggregate.dir\\aggregate.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\aggregate.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\aggregate.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\connect.dir\\connect.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\connect.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\connect.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\bulk_write.dir\\bulk_write.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\bulk_write.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\bulk_write.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\remove.dir\\remove.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\remove.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\remove.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\create.dir\\create.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\create.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\create.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\get_values_from_documents.dir\\get_values_from_documents.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\get_values_from_documents.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\get_values_from_documents.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\exception.dir\\exception.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\exception.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\exception.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\document_validation.dir\\document_validation.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\document_validation.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\document_validation.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\gridfs.dir\\gridfs.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\gridfs.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\gridfs.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\index.dir\\index.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\index.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\index.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\inserted_id.dir\\inserted_id.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\inserted_id.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\inserted_id.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\instance_management.dir\\instance_management.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\instance_management.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\instance_management.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\documentation_examples.dir\\mongodb.com\\documentation_examples.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\mongodb.com\\documentation_examples.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\mongodb.com\\documentation_examples.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\usage_overview.dir\\mongodb.com\\usage_overview.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\mongodb.com\\usage_overview.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\mongodb.com\\usage_overview.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\query_projection.dir\\query_projection.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\query_projection.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\query_projection.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\pool.dir\\pool.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\pool.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\pool.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\query.dir\\query.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\query.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\query.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\tailable_cursor.dir\\tailable_cursor.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\tailable_cursor.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\tailable_cursor.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\update.dir\\update.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\update.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\update.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Foexamples\\mongocxx\\CMakeFiles\\view_or_value_variant.dir\\view_or_value_variant.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\view_or_value_variant.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\examples\\mongocxx\\view_or_value_variant.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Fobenchmark\\CMakeFiles\\microbenchmarks.dir\\benchmark_runner.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\benchmark\\benchmark_runner.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\benchmark\\benchmark_runner.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Fobenchmark\\CMakeFiles\\microbenchmarks.dir\\main.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\benchmark\\main.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\benchmark\\main.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Fobenchmark\\CMakeFiles\\microbenchmarks.dir\\microbench.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\benchmark\\microbench.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\benchmark\\microbench.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "X:\\Apps\\Dev\\VS.15\\VC\\Tools\\MSVC\\14.12.25827\\bin\\Hostx64\\x86\\cl.exe  /nologo /TP -DBSONCXX_STATIC -DMONGOCXX_STATIC -Iinstall\\include\\bsoncxx\\v_noabi -Iinstall\\include\\mongocxx\\v_noabi  /DWIN32 /D_WINDOWS /W3 /GR /EHsc /Gv /MD /O2 /Ob2 /DNDEBUG   /Fobenchmark\\CMakeFiles\\microbenchmarks.dir\\score_recorder.cpp.obj /FdTARGET_COMPILE_PDB /FS -c X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\benchmark\\score_recorder.cpp",
+  "file": "X:\\Source\\MalterlibLegacy\\External\\mongo-cxx-driver\\benchmark\\score_recorder.cpp"
+}
+]
