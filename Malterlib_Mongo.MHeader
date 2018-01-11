@@ -85,6 +85,14 @@ Property
 		{
 	 		!!CompileDialect "C"
 		}
+		Compile.PreprocessorDefines "WIN32_LEAN_AND_MEAN;@(Compile.PreprocessorDefines)"
+		{
+			&
+			{
+	 			PlatformFamily "Windows"
+	 			CompileDialect "C"
+			}
+		}
 	}
 }
 
@@ -131,6 +139,14 @@ Property
 
 			SearchPath "@(MalterlibMongoIncludePath_bson);@(Compile.SearchPath)"
 			PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;BSON_STATIC;MONGOC_STATIC;@(Compile.PreprocessorDefines)"
+			PreprocessorDefines "WIN32_LEAN_AND_MEAN;@(Compile.PreprocessorDefines)"
+			{
+				&
+				{
+	 				PlatformFamily "Windows"
+	 				CompileDialect "C"
+				}
+			}
 		}
 	}
 }
