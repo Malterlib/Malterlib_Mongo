@@ -15,8 +15,18 @@ namespace NMib::NMongo::NMongoManager
 			// First try to gracefully stop manager processes
 			nKilled += CProcessLaunch::fs_KillProcessesInDirectory("MongoManager*");
 
+			auto fAddExtension = [](CStr const &_File)
+				{
+#ifdef DPlatformFamily_Windows
+					return _File + ".exe";
+#else
+					return _File;
+#endif
+				}
+			;
+
 			// Kill individual processes
-			nKilled += CProcessLaunch::fs_KillProcessesInDirectory("mongod");
+			nKilled += CProcessLaunch::fs_KillProcessesInDirectory(fAddExtension("mongod"));
 			if (nKilled)
 				DLog(Error, "Cleaned up {} old processes", nKilled);
 		}

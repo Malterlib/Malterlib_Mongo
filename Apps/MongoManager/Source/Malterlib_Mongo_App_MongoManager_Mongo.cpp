@@ -14,6 +14,9 @@ namespace NMib::NMongo::NMongoManager
 		struct CMongoInfo
 		{
 			CUser m_User = {""};
+#ifdef DPlatformFamily_Windows
+			CStrSecure m_Password;
+#endif
 			CStr m_AdminDN;
 		};
 		fg_Dispatch
@@ -29,12 +32,17 @@ namespace NMib::NMongo::NMongoManager
 				{
 					DLog(Info, "Setting up mongod");
 					
+#ifdef DPlatformFamily_Windows
+					CStrSecure Password;
+					fsp_SetupUser(MongoUser, Password);
+#else
 					fsp_SetupUser(MongoUser);
+#endif
 					
 					CFile::fs_CreateDirectory(MongoDirectory + "/db");
 					CFile::fs_CreateDirectory(MongoDirectory + "/log");
 					CFile::fs_CreateDirectory(MongoDirectory + "/.tmp");
-					CFile::fs_SetOwnerAndGroupRecursive(MongoDirectory, MongoUser.m_Name, MongoUser.m_Name);
+					CFile::fs_SetOwnerAndGroupRecursive(MongoDirectory, MongoUser.m_Name, fsp_GetGroupName(MongoUser.m_Name));
 					if (CFile::fs_FileExists(MongoDirectory + "/certificates"))
 					{
 						CFile::fs_SetUnixAttributesRecursive
@@ -56,6 +64,9 @@ namespace NMib::NMongo::NMongoManager
 					DLog(Info, "Setting up mongod was successful");
 					
 					MongoInfo.m_User = MongoUser;
+#ifdef DPlatformFamily_Windows
+					MongoInfo.m_Password = fg_Move(Password);
+#endif
 					return MongoInfo;
 				}
 			)
@@ -64,6 +75,15 @@ namespace NMib::NMongo::NMongoManager
 				mp_MongoUser = fg_Move(_Info.m_User);
 				if (!_Info.m_AdminDN.f_IsEmpty())
 					mp_MongoConnectionSettings.m_UserName = _Info.m_AdminDN; 
+
+#ifdef DPlatformFamily_Windows
+				if (!_Info.m_Password.f_IsEmpty())
+				{
+					mp_AppState.m_StateDatabase.m_Data["Users"][mp_MongoUser.m_Name]["Password"] = _Info.m_Password;
+					mp_AppState.f_SaveStateDatabase() > Continuation;
+					return;
+				}
+#endif
 
 				Continuation.f_SetResult();
 			}
@@ -130,11 +150,15 @@ namespace NMib::NMongo::NMongoManager
 				, false
 				, MongoPath
 				, mp_MongoUser.m_Name
+#ifdef DPlatformFamily_Windows
+				, fp_GetUserPassword(mp_MongoUser.m_Name)
+#endif
 			)
 			> [=](TCAsyncResult<CStr> &&_StdOut)
 			{
 				if (!_StdOut)
 				{
+					DLog(Error, "Mongo script '{}' failed: {}", _LogCategory, _StdOut.f_GetExceptionStr());
 					if (_Timeout != 0.0f)
 					{
 						CStr ErrorString = _StdOut.f_GetExceptionStr();
@@ -157,7 +181,6 @@ namespace NMib::NMongo::NMongoManager
 							}
 						}
 					}
-					DLog(Error, "Mongo script '{}' failed: {}", _LogCategory, _StdOut.f_GetExceptionStr());
 					_Continuation.f_SetException(fg_Move(_StdOut));
 					return;
 				}
@@ -248,8 +271,14 @@ namespace NMib::NMongo::NMongoManager
 					, "TLS1_0,TLS1_1"
 					, "--clusterAuthMode"
 					, "x509"
+#if 1 // Need patched mongod (3.6)
+					, "--setParameter"
+					, "opensslCipherConfig=AES256+EECDH:AES256+EDH:!aNULL:!SHA:!SHA256:!SHA384:!DSS"
+#elif 0
 					, "--sslCipherConfig"
 					, "AES256+EECDH:AES256+EDH:!aNULL:!SHA:!SHA256:!SHA384:!DSS"
+#endif
+					, "--bind_ip_all"
 				)
 			;
 		}
@@ -358,8 +387,12 @@ namespace NMib::NMongo::NMongoManager
 		auto &Params = Launch.m_Params;
 
 		Params.m_bAllowExecutableLocate = true;
+		Params.m_bShowLaunched = false;
 		Params.m_RunAsUser = mp_MongoUser.m_Name;
-		Params.m_RunAsGroup = mp_MongoUser.m_Name;
+#ifdef DPlatformFamily_Windows
+		Params.m_RunAsUserPassword = fp_GetUserPassword(mp_MongoUser.m_Name);
+#endif
+		Params.m_RunAsGroup = fsp_GetGroupName(mp_MongoUser.m_Name);
 		{
 			auto &Limit = Params.m_Limits[EProcessLimit_OpenedFiles];
 			Limit.m_Value = fs_GetMongoFileLimits();
@@ -375,6 +408,10 @@ namespace NMib::NMongo::NMongoManager
 		Params.m_bMergeEnvironment = true;
 		Params.m_Environment["HOME"] = MongoPath;
 		Params.m_Environment["TMPDIR"] = MongoPath + "/.tmp";
+#ifdef DPlatformFamily_Windows
+		Params.m_Environment["TMP"] = MongoPath + "/.tmp";
+		Params.m_Environment["TEMP"] = MongoPath + "/.tmp";
+#endif
 		
 		mp_pMongoLaunch = fg_ConstructActor<CProcessLaunchActor>();
 		
@@ -479,7 +516,7 @@ namespace NMib::NMongo::NMongoManager
 				}
 				
 				auto ConnectionSettings = mp_MongoConnectionSettings.f_ForConnectionString(_Options.m_MemberToJoin);
-				if (ConnectionSettings.m_Host == mp_MongoConnectionSettings.m_Host && ConnectionSettings.m_Port == mp_MongoConnectionSettings.m_Port)
+				if (ConnectionSettings.m_Host == NProcess::NPlatform::fg_Process_GetHostName() && ConnectionSettings.m_Port == mp_MongoConnectionSettings.m_Port)
 				{
 					fp_RunMongoScript(mp_MongoConnectionSettings, "MongoInitReplicaSet", "local", 60.0, Config) 
 						> Continuation / [Continuation]

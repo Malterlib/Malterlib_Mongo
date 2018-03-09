@@ -114,6 +114,9 @@ namespace NMib::NMongo::NMongoManager
 				, bool _bSeparateStdErr = true
 				, CStr const &_Home = {}
 				, CStr const &_User = {}
+#ifdef DPlatformFamily_Windows
+				, CStrSecure const &_UserPassword = {}
+#endif
 			)
 		;
 		TCContinuation<CStr> fp_RunToolForVersionCheck
@@ -123,7 +126,19 @@ namespace NMib::NMongo::NMongoManager
 			)
 		;
 		TCContinuation<void> fp_DestroyApp_Mongo();
-		static void fsp_SetupUser(CUser &_User);
+
+		static CStr fsp_GetGroupName(CStr const &_GroupName);
+		static void fsp_SetupUser
+			(
+				CUser &_User
+#ifdef DPlatformFamily_Windows
+				, CStrSecure &o_Password
+#endif
+			)
+		;
+#ifdef DPlatformFamily_Windows
+		CStrSecure fp_GetUserPassword(CStr const &_User);
+#endif
 		TCContinuation<void> fp_ExtractExeFS() const;
 		TCContinuation<void> fp_CheckVersion(CStr const &_Tool, CStr const &_Argument, CStr const &_ParseString, CVersion const &_NeededVersion);
 		TCContinuation<void> fp_CleanupOldProcesses();

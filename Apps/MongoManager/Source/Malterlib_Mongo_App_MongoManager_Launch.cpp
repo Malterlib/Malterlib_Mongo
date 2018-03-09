@@ -37,6 +37,9 @@ namespace NMib::NMongo::NMongoManager
 			, bool _bSeparateStdErr
 			, CStr const &_Home
 			, CStr const &_User
+#ifdef DPlatformFamily_Windows
+			, CStrSecure const &_UserPassword
+#endif
 		)
 	{
 		if (mp_pCanDestroyTracker.f_IsEmpty() || mp_bStopped)
@@ -70,17 +73,25 @@ namespace NMib::NMongo::NMongoManager
 
 		LaunchParams.m_bSeparateStdErr = _bSeparateStdErr;
 		LaunchParams.m_bAllowExecutableLocate = true;
+		LaunchParams.m_bShowLaunched = false;
 		
 		if (!_User.f_IsEmpty())
 		{
 			LaunchParams.m_RunAsUser = _User;
-			LaunchParams.m_RunAsGroup = _User;
+#ifdef DPlatformFamily_Windows
+			LaunchParams.m_RunAsUserPassword = _UserPassword;
+#endif
+			LaunchParams.m_RunAsGroup = fsp_GetGroupName(_User);
 		}
 
 		if (!_Home.f_IsEmpty())
 		{
 			LaunchParams.m_Environment["HOME"] = _Home;
 			LaunchParams.m_Environment["TMPDIR"] = _Home + "/.tmp";
+#ifdef DPlatformFamily_Windows
+			LaunchParams.m_Environment["TMP"] = _Home + "/.tmp";
+			LaunchParams.m_Environment["TEMP"] = _Home + "/.tmp";
+#endif
 		}
 		
 		TCSharedPointer<bool> pDestroyed = pToolLaunch->m_pDestroyed;

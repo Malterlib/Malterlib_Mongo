@@ -52,7 +52,11 @@ namespace NMib::NMongo::NMongoManager
 			mp_bEnableSSL = pValue->f_Boolean();
 		
 		CStr MongoDirectory = fp_GetDataPath("mongo");
-		mp_MongoConnectionSettings.m_Host = NProcess::NPlatform::fg_Process_GetHostName();
+
+		if (mp_bEnableSSL)
+			mp_MongoConnectionSettings.m_Host = NProcess::NPlatform::fg_Process_GetHostName();
+		else
+			mp_MongoConnectionSettings.m_Host = "127.0.0.1";
 		mp_MongoConnectionSettings.m_CACertificatePath = MongoDirectory + "/certificates/MongoCA.crt";
 		mp_MongoConnectionSettings.m_ClientCertificatePath = MongoDirectory + "/certificates/admin.pem";
 		mp_MongoConnectionSettings.m_bEnableSSL = mp_bEnableSSL;
@@ -167,26 +171,64 @@ namespace NMib::NMongo::NMongoManager
 		return pCanDestroy->m_Continuation;
 	}
 	
-	void CMongoManagerActor::fsp_SetupUser(CUser &_User)
+#ifdef DPlatformFamily_Windows
+	CStrSecure CMongoManagerActor::fp_GetUserPassword(CStr const &_User)
 	{
-#ifndef DPlatformFamily_Windows
-		if (!NSys::fg_UserManagement_GroupExists(_User.m_Name, _User.m_GroupID))
-			NSys::fg_UserManagement_CreateGroup(_User.m_Name, _User.m_GroupID);
+		if (auto pUsers = mp_AppState.m_StateDatabase.m_Data.f_GetMember("Users", EJSONType_Object))
+		{
+			if (auto pUser = pUsers->f_GetMember(_User, EJSONType_Object))
+			{
+				if (auto pPassword = pUser->f_GetMember("Password", EJSONType_String))
+					return pPassword->f_String();
+			}
+		}
+		return {};
+	}
+#endif
+
+	CStr CMongoManagerActor::fsp_GetGroupName(CStr const &_GroupName)
+	{
+		if (_GroupName.f_IsEmpty())
+			return {};
+
+#ifdef DPlatformFamily_Windows
+		return "Group_" + _GroupName;
+#else
+		return _GroupName;
+#endif
+	}
+
+	void CMongoManagerActor::fsp_SetupUser
+		(
+			CUser &_User
+#ifdef DPlatformFamily_Windows
+			, CStrSecure &o_Password
+#endif
+		)
+	{
+		if (!NSys::fg_UserManagement_GroupExists(fsp_GetGroupName(_User.m_Name), _User.m_GroupID))
+			NSys::fg_UserManagement_CreateGroup(fsp_GetGroupName(_User.m_Name), _User.m_GroupID);
 
 		if (!NSys::fg_UserManagement_UserExists(_User.m_Name, _User.m_UserID))
 		{
+#ifdef DPlatformFamily_Windows
+			o_Password = fg_HighEntropyRandomID("23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz&=*!@~^") + "2Dg&";
+#endif
 			NSys::fg_UserManagement_CreateUser
 				(
-					_User.m_Name
+					fsp_GetGroupName(_User.m_Name)
 					, _User.m_Name
+#ifdef DPlatformFamily_Windows
+					, o_Password
+#else
 					, ""
+#endif
 					, _User.m_Name
 					, "/dev/null"
 					, _User.m_UserID
 				)
 			;
 		}
-#endif
 	}
 	
 	TCContinuation<void> CMongoManagerActor::fp_ExtractExeFS() const

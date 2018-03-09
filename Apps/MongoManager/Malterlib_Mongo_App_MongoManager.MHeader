@@ -24,7 +24,7 @@
 		MongoManagerCopySources "@('Source/Malterlib_Mongo_App_MongoManager_Mongo*.js'->MakeAbsolute())|Source;@(MongoManagerCopySources)"
 
 		MalterlibExeFSExtraFiles "@(MongoManagerCopySources);@(MalterlibExeFSExtraFiles)"
-		MalterlibExeFSPath "@(MongoBinariesPath)/bin/*|mongo/bin"
+		MalterlibExeFSExtraFiles "@(MongoBinariesPath)/bin/*|mongo/bin;@(MalterlibExeFSExtraFiles)"
 		{
 			!MongoBinariesPath ""
 		}
