@@ -267,16 +267,15 @@ namespace NMib::NMongo::NMongoManager
 					, fg_Format("{}/certificates/{}.pem", MongoPath, NProcess::NPlatform::fg_Process_GetHostName())
 					, "--sslCAFile"
 					, fg_Format("{}/certificates/MongoCA.crt", MongoPath)
+#ifndef DMibMongo_SupportUnpatchedMongo
 					, "--sslDisabledProtocols"
 					, "TLS1_0,TLS1_1"
+#endif
 					, "--clusterAuthMode"
 					, "x509"
-#if 1 // Need patched mongod (3.6)
+#ifndef DMibMongo_SupportUnpatchedMongo // Need patched mongod (3.6)
 					, "--setParameter"
 					, "opensslCipherConfig=AES256+EECDH:AES256+EDH:!aNULL:!SHA:!SHA256:!SHA384:!DSS"
-#elif 0
-					, "--sslCipherConfig"
-					, "AES256+EECDH:AES256+EDH:!aNULL:!SHA:!SHA256:!SHA384:!DSS"
 #endif
 					, "--bind_ip_all"
 				)
