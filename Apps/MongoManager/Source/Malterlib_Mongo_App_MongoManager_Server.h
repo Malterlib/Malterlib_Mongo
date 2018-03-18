@@ -10,6 +10,7 @@
 #include <Mib/Process/ProcessLaunch>
 #include <Mib/Mongo/Client>
 #include <Mib/Storage/Optional>
+#include <Mib/Security/UniqueUserGroup>
 
 #include "Malterlib_Mongo_App_MongoManager_Backup.h"
 #include "Malterlib_Mongo_App_MongoManager_Helpers.h"
@@ -114,6 +115,7 @@ namespace NMib::NMongo::NMongoManager
 				, bool _bSeparateStdErr = true
 				, CStr const &_Home = {}
 				, CStr const &_User = {}
+			 	, CStr const &_Group = {}
 #ifdef DPlatformFamily_Windows
 				, CStrSecure const &_UserPassword = {}
 #endif
@@ -127,7 +129,6 @@ namespace NMib::NMongo::NMongoManager
 		;
 		TCContinuation<void> fp_DestroyApp_Mongo();
 
-		static CStr fsp_GetGroupName(CStr const &_GroupName);
 		static void fsp_SetupUser
 			(
 				CUser &_User
@@ -142,7 +143,9 @@ namespace NMib::NMongo::NMongoManager
 		TCContinuation<void> fp_ExtractExeFS() const;
 		TCContinuation<void> fp_CheckVersion(CStr const &_Tool, CStr const &_Argument, CStr const &_ParseString, CVersion const &_NeededVersion);
 		TCContinuation<void> fp_CleanupOldProcesses();
-		
+
+		TCSharedPointer<CUniqueUserGroup> mp_pUniqueUserGroup = fg_Construct("/M/App/MongoManager");
+
 		EMode mp_Mode;
 		
 		TCActor<CSeparateThreadActor> mp_pFileActor;
@@ -151,7 +154,7 @@ namespace NMib::NMongo::NMongoManager
 		CDistributedAppState &mp_AppState;
 
 		CMongoConnectionSettings mp_MongoConnectionSettings{"localhost", 25017};
-		CUser mp_MongoUser{"mib_mongo"};
+		CUser mp_MongoUser{mp_pUniqueUserGroup->f_GetUser("mib_mongo"), mp_pUniqueUserGroup->f_GetGroup("mib_mongo")};
 		CVersion mp_Version_MongoDB{3, 4, 0};
 		bool mp_bEnableSSL = true;
 		bool mp_bVerboseMongoScripts = false;

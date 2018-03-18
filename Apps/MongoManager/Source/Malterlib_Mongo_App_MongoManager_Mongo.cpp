@@ -13,7 +13,7 @@ namespace NMib::NMongo::NMongoManager
 		CStr MongoDirectory = fp_GetDataPath("mongo");
 		struct CMongoInfo
 		{
-			CUser m_User = {""};
+			CUser m_User = {"", ""};
 #ifdef DPlatformFamily_Windows
 			CStrSecure m_Password;
 #endif
@@ -42,7 +42,7 @@ namespace NMib::NMongo::NMongoManager
 					CFile::fs_CreateDirectory(MongoDirectory + "/db");
 					CFile::fs_CreateDirectory(MongoDirectory + "/log");
 					CFile::fs_CreateDirectory(MongoDirectory + "/.tmp");
-					CFile::fs_SetOwnerAndGroupRecursive(MongoDirectory, MongoUser.m_Name, fsp_GetGroupName(MongoUser.m_Name));
+					CFile::fs_SetOwnerAndGroupRecursive(MongoDirectory, MongoUser.m_UserName, MongoUser.m_GroupName);
 					if (CFile::fs_FileExists(MongoDirectory + "/certificates"))
 					{
 						CFile::fs_SetUnixAttributesRecursive
@@ -149,7 +149,8 @@ namespace NMib::NMongo::NMongoManager
 				, mp_bVerboseMongoScripts ? ELogVerbosity_All : ELogVerbosity_Errors 
 				, false
 				, MongoPath
-				, mp_MongoUser.m_Name
+				, mp_MongoUser.m_UserName
+			 	, mp_MongoUser.m_GroupName
 #ifdef DPlatformFamily_Windows
 				, fp_GetUserPassword(mp_MongoUser.m_Name)
 #endif
@@ -387,11 +388,11 @@ namespace NMib::NMongo::NMongoManager
 
 		Params.m_bAllowExecutableLocate = true;
 		Params.m_bShowLaunched = false;
-		Params.m_RunAsUser = mp_MongoUser.m_Name;
+		Params.m_RunAsUser = mp_MongoUser.m_UserName;
 #ifdef DPlatformFamily_Windows
 		Params.m_RunAsUserPassword = fp_GetUserPassword(mp_MongoUser.m_Name);
 #endif
-		Params.m_RunAsGroup = fsp_GetGroupName(mp_MongoUser.m_Name);
+		Params.m_RunAsGroup = mp_MongoUser.m_GroupName;
 		{
 			auto &Limit = Params.m_Limits[EProcessLimit_OpenedFiles];
 			Limit.m_Value = fs_GetMongoFileLimits();

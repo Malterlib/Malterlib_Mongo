@@ -186,18 +186,6 @@ namespace NMib::NMongo::NMongoManager
 	}
 #endif
 
-	CStr CMongoManagerActor::fsp_GetGroupName(CStr const &_GroupName)
-	{
-		if (_GroupName.f_IsEmpty())
-			return {};
-
-#ifdef DPlatformFamily_Windows
-		return "Group_" + _GroupName;
-#else
-		return _GroupName;
-#endif
-	}
-
 	void CMongoManagerActor::fsp_SetupUser
 		(
 			CUser &_User
@@ -206,37 +194,41 @@ namespace NMib::NMongo::NMongoManager
 #endif
 		)
 	{
-		if (!NSys::fg_UserManagement_GroupExists(fsp_GetGroupName(_User.m_Name), _User.m_GroupID))
-			NSys::fg_UserManagement_CreateGroup(fsp_GetGroupName(_User.m_Name), _User.m_GroupID);
+		if (!NSys::fg_UserManagement_GroupExists(_User.m_GroupName, _User.m_GroupID))
+			NSys::fg_UserManagement_CreateGroup(_User.m_GroupName, _User.m_GroupID);
 
-		if (!NSys::fg_UserManagement_UserExists(_User.m_Name, _User.m_UserID))
+		if (!NSys::fg_UserManagement_UserExists(_User.m_UserName, _User.m_UserID))
 		{
 #ifdef DPlatformFamily_Windows
 			o_Password = fg_HighEntropyRandomID("23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz&=*!@~^") + "2Dg&";
 #endif
 			NSys::fg_UserManagement_CreateUser
 				(
-					fsp_GetGroupName(_User.m_Name)
-					, _User.m_Name
+					_User.m_GroupName
+					, _User.m_UserName
 #ifdef DPlatformFamily_Windows
 					, o_Password
 #else
 					, ""
 #endif
-					, _User.m_Name
+					, _User.m_UserName
 					, "/dev/null"
 					, _User.m_UserID
 				)
 			;
 		}
 	}
-	
+
+	ch8 const *g_pMongoScript =
+#		include "Mongo.sh"
+	;
+
 	TCContinuation<void> CMongoManagerActor::fp_ExtractExeFS() const
 	{
 		return fg_Dispatch
 			(
 				mp_pFileActor
-				, []
+				, [UserName = mp_MongoUser.m_UserName]
 				{
 					CExeFS ExeFS;
 					if (!fg_OpenExeFS(ExeFS))
@@ -248,6 +240,16 @@ namespace NMib::NMongo::NMongoManager
 					CFileSystemInterface_Disk DiskFS;
 					
 					MalterlibFS.f_CopyFilesWithAttribs("*", DiskFS, ProgramDirectory);
+
+					CStr MongoScript = CStr::CFormat(g_pMongoScript) << UserName;
+					TCVector<uint8> MongoScriptData;
+					CFile::fs_WriteStringToVector(MongoScriptData, MongoScript, false);
+					EFileAttrib Permissions = EFileAttrib_UnixAttributesValid
+						| EFileAttrib_UserWrite | EFileAttrib_UserRead | EFileAttrib_UserExecute
+						| EFileAttrib_GroupRead | EFileAttrib_GroupExecute
+						| EFileAttrib_EveryoneRead | EFileAttrib_EveryoneExecute
+					;
+					CFile::fs_CopyFileDiff(MongoScriptData, ProgramDirectory / "Mongo.sh", CTime::fs_NowUTC(), Permissions);
 				}
 			)
 		;

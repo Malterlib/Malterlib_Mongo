@@ -27,7 +27,6 @@ Property
 		
 		MalterlibDoExeFS true
 
-		MongoManagerCopySources "@('Source/Mongo.sh'->MakeAbsolute());@(MongoManagerCopySources)"
 		MongoManagerCopySources "@('Source/MongoManager_*.sh'->MakeAbsolute())|Source;@(MongoManagerCopySources)"
 		MongoManagerCopySources "@('Source/Malterlib_Mongo_App_MongoManager_Mongo*.js'->MakeAbsolute())|Source;@(MongoManagerCopySources)"
 
