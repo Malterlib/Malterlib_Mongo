@@ -214,6 +214,7 @@ namespace NMib::NMongo::NMongoManager
 					, _User.m_UserName
 					, "/dev/null"
 					, _User.m_UserID
+				 	, NSys::EUserManagementCreateUserFlag_None
 				)
 			;
 		}
