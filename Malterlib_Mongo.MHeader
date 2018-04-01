@@ -253,7 +253,7 @@ Compile
 		!DocumentationEnabled true
  		CompileDialect "C"
 	}
-	
+
 	SearchPath "@('../../External/mongo-cxx-driver/src'->MakeAbsolute());@(MalterlibMongoIncludePath_bson);@(Compile.SearchPath)"
 	SearchPath "@(Builtin.Function->GetProperty('Property', 'TargetIdentityAbsolutePath', 'Group:External.Group:BSONCXX.Target:Lib_bsoncxx.Target:Lib_bsoncxx'))/src;@(Compile.SearchPath)"
 	SearchPath "@(MalterlibMongoIncludePath_mongoc);@(MalterlibMongoIncludePath_bson);@(Compile.SearchPath)"
@@ -261,6 +261,23 @@ Compile
 	PreprocessorDefines "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;@(Compile.PreprocessorDefines)"
 	{
 		!!PlatformFamily Windows
+	}
+}
+
+Target
+{
+	&
+	{
+		LanguageFamily Native
+		TargetIsExecutable "true"
+		MongoCxxDriver true
+		!DocumentationEnabled true
+	}
+
+	LinkWithLibraries "-lresolv @(Target.LinkWithLibraries)"
+	{
+		!!PlatformFamily OSX
+		!!PlatformFamily Linux
 	}
 }
 

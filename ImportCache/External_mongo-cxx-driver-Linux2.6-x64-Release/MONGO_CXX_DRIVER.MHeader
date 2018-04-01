@@ -551,13 +551,6 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 					Compile.Type C++
 				}
 			}
-			%Group third_party
-			{
-				%File "../../../../External/mongo-cxx-driver/src/mongocxx/third_party/md5.cpp"
-				{
-					Compile.Type C++
-				}
-			}
 			%File "../../../../External/mongo-cxx-driver/src/mongocxx/uri.cpp"
 			{
 				Compile.Type C++
@@ -852,13 +845,6 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 					Compile.Type C++
 				}
 				%File "../../../../External/mongo-cxx-driver/src/mongocxx/result/update.cpp"
-				{
-					Compile.Type C++
-				}
-			}
-			%Group third_party
-			{
-				%File "../../../../External/mongo-cxx-driver/src/mongocxx/third_party/md5.cpp"
 				{
 					Compile.Type C++
 				}
@@ -1337,7 +1323,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName builder_core
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/bsoncxx/builder_core.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_bsoncxx
 }
@@ -1355,7 +1344,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName decimal128
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/bsoncxx/decimal128.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_bsoncxx
 }
@@ -1373,7 +1365,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName builder_stream_customization
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/bsoncxx/builder_stream_customization.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_bsoncxx
 }
@@ -1391,7 +1386,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName builder_basic
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/bsoncxx/builder_basic.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_bsoncxx
 }
@@ -1409,7 +1407,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName builder_stream
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/bsoncxx/builder_stream.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_bsoncxx
 }
@@ -1427,7 +1428,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName view_and_value
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/bsoncxx/view_and_value.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_bsoncxx
 }
@@ -1445,7 +1449,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName getting_values
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/bsoncxx/getting_values.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_bsoncxx
 }
@@ -1463,7 +1470,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName documentation_examples
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/mongodb.com/documentation_examples.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1482,7 +1492,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName usage_overview
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/mongodb.com/usage_overview.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1501,7 +1514,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName gridfs
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/gridfs.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1520,7 +1536,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName get_values_from_documents
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/get_values_from_documents.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1539,7 +1558,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName tailable_cursor
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/tailable_cursor.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1558,7 +1580,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName pool
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/pool.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1577,7 +1602,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName query
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/query.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1596,7 +1624,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName index
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/index.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1615,7 +1646,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName remove
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/remove.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1634,7 +1668,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName exception
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/exception.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1653,7 +1690,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName aggregate
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/aggregate.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1672,7 +1712,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName inserted_id
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/inserted_id.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1691,7 +1734,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName create
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/create.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1710,7 +1756,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName bulk_write
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/bulk_write.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1729,7 +1778,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName query_projection
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/query_projection.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1748,7 +1800,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName instance_management
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/instance_management.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1767,7 +1822,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName document_validation
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/document_validation.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1786,7 +1844,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName connect
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/connect.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1805,7 +1866,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName view_or_value_variant
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/view_or_value_variant.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
@@ -1824,7 +1888,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Target.BaseName update
 	%Group examples
 	{
-		Compile.Type C++
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/update.cpp"
+		{
+			Compile.Type C++
+		}
 	}
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx

@@ -1,5 +1,6 @@
 accept_test1.c
 ../../../../External/mongo-c-driver/CMakeLists.txt
+../../../../External/mongo-c-driver/build/cmake/FindResSearch.cmake
 ../../../../External/mongo-c-driver/build/cmake/FindSnappy.cmake
 ../../../../External/mongo-c-driver/build/cmake/LoadVersion.cmake
 ../../../../External/mongo-c-driver/build/cmake/MaintainerFlags.cmake
@@ -13,5 +14,4 @@ accept_test1.c
 ../../../../External/mongo-c-driver/src/libmongoc-static-1.0.pc.in
 ../../../../External/mongo-c-driver/src/mongoc/mongoc-config.h.in
 ../../../../External/mongo-c-driver/src/mongoc/mongoc-version.h.in
-../../../../External/mongo-c-driver/src/snappy-1.1.3/snappy-stubs-public.h.in
 ../../../../External/mongo-c-driver/src/zlib-1.2.11/zconf.h.in

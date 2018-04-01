@@ -467,7 +467,7 @@ namespace NMib
 				for (auto &&Element : _BSON)
 				{
 					auto &Member = _JSON.f_Array().f_Insert();
-					fg_FromBSONImp(Member, bsoncxx::document::element(Element.raw(), Element.length(), Element.offset()));
+					fg_FromBSONImp(Member, reinterpret_cast<bsoncxx::document::element const &>(Element));
 				}
 			}
 		}
