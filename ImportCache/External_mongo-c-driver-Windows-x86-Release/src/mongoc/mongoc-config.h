@@ -25,7 +25,7 @@
 #define MONGOC_USER_SET_LDFLAGS "/machine:X86"
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
-#define MONGOC_CC "X:/Apps/Dev/VS.15/VC/Tools/MSVC/14.12.25827/bin/Hostx64/x86/cl.exe"
+#define MONGOC_CC "X:/Apps/Dev/VS.15/VC/Tools/MSVC/14.13.26128/bin/Hostx64/x86/cl.exe"
 
 /*
  * MONGOC_ENABLE_SSL_SECURE_CHANNEL is set from configure to determine if we are
@@ -237,6 +237,62 @@
 
 
 /*
+ * MONGOC_HAVE_DNSAPI is set from configure to determine if we should use the
+ * Windows dnsapi for SRV record lookups.
+ */
+#define MONGOC_HAVE_DNSAPI 1
+
+#if MONGOC_HAVE_DNSAPI != 1
+#  undef MONGOC_HAVE_DNSAPI
+#endif
+
+
+/*
+ * MONGOC_HAVE_RES_NSEARCH is set from configure to determine if we
+ * have thread-safe res_nsearch().
+ */
+#define MONGOC_HAVE_RES_NSEARCH 0
+
+#if MONGOC_HAVE_RES_NSEARCH != 1
+#  undef MONGOC_HAVE_RES_NSEARCH
+#endif
+
+
+/*
+ * MONGOC_HAVE_RES_NDESTROY is set from configure to determine if we
+ * have BSD / Darwin's res_ndestroy().
+ */
+#define MONGOC_HAVE_RES_NDESTROY 0
+
+#if MONGOC_HAVE_RES_NDESTROY != 1
+#  undef MONGOC_HAVE_RES_NDESTROY
+#endif
+
+
+/*
+ * MONGOC_HAVE_RES_NCLOSE is set from configure to determine if we
+ * have Linux's res_nclose().
+ */
+#define MONGOC_HAVE_RES_NCLOSE 0
+
+#if MONGOC_HAVE_RES_NCLOSE != 1
+#  undef MONGOC_HAVE_RES_NCLOSE
+#endif
+
+
+/*
+ * MONGOC_HAVE_RES_SEARCH is set from configure to determine if we
+ * have thread-unsafe res_search(). It's unset if we have the preferred
+ * res_nsearch().
+ */
+#define MONGOC_HAVE_RES_SEARCH 0
+
+#if MONGOC_HAVE_RES_SEARCH != 1
+#  undef MONGOC_HAVE_RES_SEARCH
+#endif
+
+
+/*
  * Set from configure, see
  * https://curl.haxx.se/mail/lib-2009-04/0287.html
  */
@@ -247,7 +303,7 @@
  * Enable wire protocol compression negotiation
  *
  */
-#define MONGOC_ENABLE_COMPRESSION 0
+#define MONGOC_ENABLE_COMPRESSION 1
 
 #if MONGOC_ENABLE_COMPRESSION != 1
 #  undef MONGOC_ENABLE_COMPRESSION
@@ -268,7 +324,7 @@
  * Set if we have zlib compression support
  *
  */
-#define MONGOC_ENABLE_COMPRESSION_ZLIB 0
+#define MONGOC_ENABLE_COMPRESSION_ZLIB 1
 
 #if MONGOC_ENABLE_COMPRESSION_ZLIB != 1
 #  undef MONGOC_ENABLE_COMPRESSION_ZLIB

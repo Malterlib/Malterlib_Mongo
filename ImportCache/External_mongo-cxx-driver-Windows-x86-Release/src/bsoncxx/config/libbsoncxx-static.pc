@@ -19,7 +19,7 @@ libdir=${prefix}/lib
 Name: libbsoncxx-static
 Description: The MongoDB C++11 BSON Library
 URL: http://github.com/mongodb/mongo-cxx-driver
-Version: 3.2.0-rc0
-Requires: libbson-static-1.0 >= 1.7.0
+Version: 3.2.0
+Requires: libbson-static-1.0 >= 1.9.2
 Cflags: -I${includedir}/bsoncxx/v_noabi -DBSONCXX_STATIC
 Libs: -L${libdir} -lbsoncxx-static
