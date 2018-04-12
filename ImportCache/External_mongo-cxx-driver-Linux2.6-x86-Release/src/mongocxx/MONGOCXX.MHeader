@@ -278,13 +278,6 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 					Compile.Type C++
 				}
 			}
-			%Group third_party
-			{
-				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/third_party/md5.cpp"
-				{
-					Compile.Type C++
-				}
-			}
 			%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/uri.cpp"
 			{
 				Compile.Type C++
@@ -579,13 +572,6 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 					Compile.Type C++
 				}
 				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/result/update.cpp"
-				{
-					Compile.Type C++
-				}
-			}
-			%Group third_party
-			{
-				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/third_party/md5.cpp"
 				{
 					Compile.Type C++
 				}
