@@ -7,6 +7,7 @@
 #include <winsock2.h>
 #include <Windows.h>
 #pragma warning(disable:4267)
+#pragma comment(lib, "Dnsapi.lib")
 #endif
 
 #include "Malterlib_Mongo_Client.h"
