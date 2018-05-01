@@ -595,7 +595,7 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 		Dependency.Indirect true
 	}
 }
-%Target Exe_test_crud_specs
+%Target Exe_test_logging
 {
 	Compile
 	{
@@ -606,34 +606,24 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
 	Target.Type ConsoleExecutable
-	Target.BaseName test_crud_specs
+	Target.BaseName test_logging
 	%Group src
 	{
-		%Group mongocxx
-		{
-			%Group test_util
-			{
-				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp"
-				{
-					Compile.Type C++
-				}
-			}
-			%Group test
-			{
-				%Group spec
-				{
-					%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/crud.cpp"
-					{
-						Compile.Type C++
-					}
-				}
-			}
-		}
 		%Group third_party
 		{
 			%Group catch
 			{
 				%File "../../../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+		}
+		%Group mongocxx
+		{
+			%Group test
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/test/logging.cpp"
 				{
 					Compile.Type C++
 				}
@@ -998,7 +988,7 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	%Dependency Lib_mongocxx_mocked
 	%Dependency Lib_bsoncxx
 }
-%Target Exe_test_logging
+%Target Exe_test_crud_specs
 {
 	Compile
 	{
@@ -1009,24 +999,34 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
 	Target.Type ConsoleExecutable
-	Target.BaseName test_logging
+	Target.BaseName test_crud_specs
 	%Group src
 	{
+		%Group mongocxx
+		{
+			%Group test_util
+			{
+				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp"
+				{
+					Compile.Type C++
+				}
+			}
+			%Group test
+			{
+				%Group spec
+				{
+					%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/crud.cpp"
+					{
+						Compile.Type C++
+					}
+				}
+			}
+		}
 		%Group third_party
 		{
 			%Group catch
 			{
 				%File "../../../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp"
-				{
-					Compile.Type C++
-				}
-			}
-		}
-		%Group mongocxx
-		{
-			%Group test
-			{
-				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/test/logging.cpp"
 				{
 					Compile.Type C++
 				}

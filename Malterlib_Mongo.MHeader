@@ -44,7 +44,7 @@ Property
 
 %Import "../../External/libbson/CMakeLists.txt"
 {
-	Import.CMake_FullRebuildVersion 1
+	Import.CMake_FullRebuildVersion 3
 
 	Import.CMake_Variables "ENABLE_STATIC=ON;ENABLE_TESTS=OFF;ENABLE_EXAMPLES=OFF;@(Import.CMake_Variables)"
 	Import.CMake_Variables "CMAKE_BUILD_WITH_INSTALL_RPATH=ON;THREADS_PTHREAD_ARG=2;@(Import.CMake_Variables)"
@@ -98,7 +98,7 @@ Property
 
 %Import "../../External/mongo-c-driver/CMakeLists.txt"
 {
-	Import.CMake_FullRebuildVersion 1
+	Import.CMake_FullRebuildVersion 3
 
 	Import.CMake_Variables "ENABLE_STATIC=ON;MONGOC_ENABLE_STATIC=ON;ENABLE_TESTS=OFF;ENABLE_EXAMPLES=OFF;ENABLE_SASL=OFF;ENABLE_SSL=EXTERNAL_OPENSSL;DISABLE_PACKAGES=ON;ENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF;@(Import.CMake_Variables)"
 	Import.CMake_Variables "CMAKE_BUILD_WITH_INSTALL_RPATH=ON;THREADS_PTHREAD_ARG=2;@(Import.CMake_Variables)"
@@ -153,7 +153,7 @@ Property
 
 %Import "../../External/mongo-cxx-driver/CMakeLists.txt"
 {
-	Import.CMake_FullRebuildVersion 1
+	Import.CMake_FullRebuildVersion 3
 
 	Import.CMake_Variables "CMAKE_CXX_STANDARD=14;BUILD_SHARED_LIBS=OFF;DISABLE_PACKAGES=ON;BSONCXX_POLY_USE_STD=ON;BSONCXX_POLY_USE_MNMLSTC_DEFAULT=OFF;BSONCXX_POLY_USE_BOOST_DEFAULT=OFF;@(Import.CMake_Variables)"
 	Import.CMake_Variables "CMAKE_BUILD_WITH_INSTALL_RPATH=ON;THREADS_PTHREAD_ARG=2;@(Import.CMake_Variables)"

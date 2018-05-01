@@ -1,16 +1,16 @@
 Property.CMakeOutputPath_libbson "@('.'->MakeAbsolute())"
-%Target Dll_bson_shared
+%Target Lib_bson_static
 {
 	Compile
 	{
 		!!Compile.Type C
 		SearchPath "@('src/bson'->MakeAbsolute());@('../../../../External/libbson/src/bson'->MakeAbsolute());@('../../../../External/libbson/src'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSON_COMPILATION;JSONSL_PARSE_NAN;bson_shared_EXPORTS;@(Compile.PreprocessorDefines)"
+		PreprocessorDefines "BSON_COMPILATION;BSON_STATIC;JSONSL_PARSE_NAN;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/libbson"
-	Target.Type SharedDynamicLibrary
-	Target.BaseName bson_shared
+	Target.Type StaticLibrary
+	Target.BaseName bson_static
 	%Group src
 	{
 		%Group bson
@@ -232,18 +232,18 @@ Property.CMakeOutputPath_libbson "@('.'->MakeAbsolute())"
 		}
 	}
 }
-%Target Lib_bson_static
+%Target Dll_bson_shared
 {
 	Compile
 	{
 		!!Compile.Type C
 		SearchPath "@('src/bson'->MakeAbsolute());@('../../../../External/libbson/src/bson'->MakeAbsolute());@('../../../../External/libbson/src'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSON_COMPILATION;BSON_STATIC;JSONSL_PARSE_NAN;@(Compile.PreprocessorDefines)"
+		PreprocessorDefines "BSON_COMPILATION;JSONSL_PARSE_NAN;bson_shared_EXPORTS;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/libbson"
-	Target.Type StaticLibrary
-	Target.BaseName bson_static
+	Target.Type SharedDynamicLibrary
+	Target.BaseName bson_shared
 	%Group src
 	{
 		%Group bson

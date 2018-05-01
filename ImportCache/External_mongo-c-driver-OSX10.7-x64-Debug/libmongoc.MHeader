@@ -1,16 +1,16 @@
 Property.CMakeOutputPath_libmongoc "@('.'->MakeAbsolute())"
-%Target Dll_mongoc_shared
+%Target Lib_mongoc_static
 {
 	Compile
 	{
 		!!Compile.Type C
 		SearchPath "@('../../../../External/mongo-c-driver/src/zlib-1.2.11'->MakeAbsolute());@('src/zlib-1.2.11'->MakeAbsolute());@('src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/mongoc'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "MONGOC_COMPILATION;_BSD_SOURCE;_DEFAULT_SOURCE;_GNU_SOURCE;mongoc_shared_EXPORTS;@(Compile.PreprocessorDefines)"
+		PreprocessorDefines "MONGOC_COMPILATION;MONGOC_STATIC;_BSD_SOURCE;_DEFAULT_SOURCE;_GNU_SOURCE;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/libmongoc"
-	Target.Type SharedDynamicLibrary
-	Target.BaseName mongoc_shared
+	Target.Type StaticLibrary
+	Target.BaseName mongoc_static
 	%Group src
 	{
 		%Group zlib-1.2.11
@@ -552,18 +552,18 @@ Property.CMakeOutputPath_libmongoc "@('.'->MakeAbsolute())"
 		}
 	}
 }
-%Target Lib_mongoc_static
+%Target Dll_mongoc_shared
 {
 	Compile
 	{
 		!!Compile.Type C
 		SearchPath "@('../../../../External/mongo-c-driver/src/zlib-1.2.11'->MakeAbsolute());@('src/zlib-1.2.11'->MakeAbsolute());@('src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/mongoc'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "MONGOC_COMPILATION;MONGOC_STATIC;_BSD_SOURCE;_DEFAULT_SOURCE;_GNU_SOURCE;@(Compile.PreprocessorDefines)"
+		PreprocessorDefines "MONGOC_COMPILATION;_BSD_SOURCE;_DEFAULT_SOURCE;_GNU_SOURCE;mongoc_shared_EXPORTS;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/libmongoc"
-	Target.Type StaticLibrary
-	Target.BaseName mongoc_static
+	Target.Type SharedDynamicLibrary
+	Target.BaseName mongoc_shared
 	%Group src
 	{
 		%Group zlib-1.2.11

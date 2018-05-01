@@ -22,7 +22,7 @@
  * used to compile mongoc */
 #define MONGOC_USER_SET_CFLAGS ""
 
-#define MONGOC_USER_SET_LDFLAGS ""
+#define MONGOC_USER_SET_LDFLAGS "-Xlinker -rpath-link -Xlinker "/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk/lib32" -Xlinker -rpath-link -Xlinker "/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk/usr/lib32""
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
 #define MONGOC_CC "/CompiledFiles/Dependencies/llvm/6.0/build/main/bin/clang"
