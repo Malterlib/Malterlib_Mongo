@@ -3,7 +3,7 @@
 
 Property
 {
-	MalterlibMongoSupportUnpatchedMongo "false" // User: Set to true to support default unpatched mongo that doesn't use secure TLS settings
+	MalterlibMongoSupportUnpatchedMongo "false" // User(Mongo)=true: Set to true to support default unpatched mongo that doesn't use secure TLS settings
 	{
 		!!MalterlibMongoSupportUnpatchedMongo ""
 	}
