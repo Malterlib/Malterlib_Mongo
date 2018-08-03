@@ -1,0 +1,32 @@
+// Copyright © 2015 Hansoft AB 
+// Distributed under the MIT license, see license text in LICENSE.Malterlib
+
+Property
+{
+	MalterlibMongoBuildBinaries "false" // User(Mongo)=true: Support building mongo and mongo-tools binaries
+	{
+		!!MalterlibMongoBuildBinaries ""
+	}
+}
+
+%Repository "mongo"
+{
+	!!MalterlibMongoBuildBinaries true
+
+	Repository
+	{
+		Type External
+		Remotes "upstream=https://github.com/mongodb/mongo.git;@(Repository.Remotes)"
+	}
+}
+
+%Repository "mongo-tools"
+{
+	!!MalterlibMongoBuildBinaries true
+
+	Repository
+	{
+		Type External
+		Remotes "upstream=https://github.com/mongodb/mongo-tools.git;@(Repository.Remotes)"
+	}
+}
