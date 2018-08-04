@@ -1,3 +1,2 @@
-../../External/libbson 4bf6a2f1c87126a13231e3383d659c1cd841358f
-../../External/mongo-c-driver d531820f208cf543dee66003cf2f6e0cbbdc829b
-../../External/mongo-cxx-driver ad964c30d452550196e22a7380a501455e0b97cc
+../../External/mongo-c-driver 173048f7baea579969e2a6078a2b32be0846eb5f
+../../External/mongo-cxx-driver d662a9cbfe55d2de0cb052f19438c85e3d6f78de

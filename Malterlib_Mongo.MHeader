@@ -23,31 +23,21 @@ Import "Tool/*/*.MHeader"
 	}
 }
 
-%Repository "libbson"
-{
-	Repository
-	{
-		Type External
-		Remotes "upstream=https://github.com/mongodb/libbson.git;@(Repository.Remotes)"
-	}
-}
-
 Property
 {
 	CurlTargetInDependenciesTemplate_TargetName ""
 	
 	TargetIdentityAbsolutePath "@(Target:this.IdentityAsAbsolutePath->GetPath())"
-	
-	MalterlibMongoIncludePath_bson "@('../../External/libbson/src/bson'->MakeAbsolute());@(Builtin.Function->GetProperty('Property', 'TargetIdentityAbsolutePath', 'Group:External.Group:libbson.Target:Lib_bson_static.Target:Lib_bson_static'))/src/bson"
-	MalterlibMongoIncludePath_mongoc "@('../../External/mongo-c-driver/src/mongoc'->MakeAbsolute());@(Builtin.Function->GetProperty('Property', 'TargetIdentityAbsolutePath', 'Group:External.Group:libmongoc.Target:Lib_mongoc_static.Target:Lib_mongoc_static'))/src/mongoc"
 
+	MalterlibMongoIncludePath_bson "@('../../External/mongo-c-driver/src/libbson/src/bson'->MakeAbsolute());@(Builtin.Function->GetProperty('Property', 'TargetIdentityAbsolutePath', 'Group:External.Group:libbson.Target:Lib_bson_static.Target:Lib_bson_static'))/src/libbson/src/bson"
+	MalterlibMongoIncludePath_mongoc "@('../../External/mongo-c-driver/src/libmongoc/src/mongoc'->MakeAbsolute());@(Builtin.Function->GetProperty('Property', 'TargetIdentityAbsolutePath', 'Group:External.Group:libmongoc.Target:Lib_mongoc_static.Target:Lib_mongoc_static'))/src/libmongoc/src/mongoc"
 }
 
-%Import "../../External/libbson/CMakeLists.txt"
+%Import "../../External/mongo-c-driver/CMakeLists.txt"
 {
-	Import.CMake_FullRebuildVersion 3
+	Import.CMake_FullRebuildVersion 8
 
-	Import.CMake_Variables "ENABLE_STATIC=ON;ENABLE_TESTS=OFF;ENABLE_EXAMPLES=OFF;@(Import.CMake_Variables)"
+	Import.CMake_Variables "MONGOC_ENABLE_EXECUTABLES=OFF;ENABLE_BSON=ON;ENABLE_STATIC=ON;MONGOC_ENABLE_STATIC=ON;ENABLE_TESTS=OFF;ENABLE_EXAMPLES=OFF;ENABLE_SASL=OFF;ENABLE_ICU=OFF;ENABLE_SSL=EXTERNAL_OPENSSL;DISABLE_PACKAGES=ON;ENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF;@(Import.CMake_Variables)"
 	Import.CMake_Variables "CMAKE_BUILD_WITH_INSTALL_RPATH=ON;THREADS_PTHREAD_ARG=2;@(Import.CMake_Variables)"
 	{
 		&
@@ -55,6 +45,14 @@ Property
 			PlatformFamily Linux
 			!HostPlatformFamily Linux 
 		}
+	}
+	
+	Compile
+	{
+		!!MalterlibCompileSupportTabSetings true
+		IndentWidth 3
+		TabWidth 3
+		UsesTabs false
 	}
 
 	Property
@@ -67,16 +65,15 @@ Property
 
 	Compile
 	{
-		!!MalterlibCompileSupportTabSetings true
-		IndentWidth 3
-		TabWidth 3
-		UsesTabs false
-	}
-	Compile
-	{
  		!!CompileDialect "C"
-		
+
+		PreprocessorDefines "BSON_STATIC;@(Compile.PreprocessorDefines)"
 		PrefixHeader ""
+		Warnings "Minimal"
+		Warnings_UnusedFunction false
+		{
+			!!GeneratorFamily Xcode
+		}
 	}
 
 	%Target Lib_bson_static
@@ -95,43 +92,7 @@ Property
 			}
 		}
 	}
-}
 
-%Import "../../External/mongo-c-driver/CMakeLists.txt"
-{
-	Import.CMake_FullRebuildVersion 3
-
-	Import.CMake_Variables "ENABLE_STATIC=ON;MONGOC_ENABLE_STATIC=ON;ENABLE_TESTS=OFF;ENABLE_EXAMPLES=OFF;ENABLE_SASL=OFF;ENABLE_SSL=EXTERNAL_OPENSSL;DISABLE_PACKAGES=ON;ENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF;@(Import.CMake_Variables)"
-	Import.CMake_Variables "CMAKE_BUILD_WITH_INSTALL_RPATH=ON;THREADS_PTHREAD_ARG=2;@(Import.CMake_Variables)"
-	{
-		&
-		{
-			PlatformFamily Linux
-			!HostPlatformFamily Linux 
-		}
-	}
-	
-	Compile
-	{
-		!!MalterlibCompileSupportTabSetings true
-		IndentWidth 3
-		TabWidth 3
-		UsesTabs false
-	}
-
-	Compile
-	{
- 		!!CompileDialect "C"
-
-		PreprocessorDefines "BSON_STATIC;@(Compile.PreprocessorDefines)"
-		PrefixHeader ""
-		Warnings "Minimal"
-		Warnings_UnusedFunction false
-		{
-			!!GeneratorFamily Xcode
-		}
-	}
-	
 	%Target Lib_mongoc_static
 	{
 		Compile
@@ -149,14 +110,19 @@ Property
 				}
 			}
 		}
+		%Dependency "Lib_zlib"
+		{
+			!DocumentationEnabled true
+			Dependency.Indirect true
+		}
 	}
 }
 
 %Import "../../External/mongo-cxx-driver/CMakeLists.txt"
 {
-	Import.CMake_FullRebuildVersion 3
+	Import.CMake_FullRebuildVersion 8
 
-	Import.CMake_Variables "CMAKE_CXX_STANDARD=14;BUILD_SHARED_LIBS=OFF;DISABLE_PACKAGES=ON;BSONCXX_POLY_USE_STD=ON;BSONCXX_POLY_USE_MNMLSTC_DEFAULT=OFF;BSONCXX_POLY_USE_BOOST_DEFAULT=OFF;@(Import.CMake_Variables)"
+	Import.CMake_Variables "ENABLE_BSON=ON;CMAKE_CXX_STANDARD=14;BUILD_SHARED_LIBS=OFF;DISABLE_PACKAGES=ON;BSONCXX_POLY_USE_STD=ON;BSONCXX_POLY_USE_MNMLSTC_DEFAULT=OFF;BSONCXX_POLY_USE_BOOST_DEFAULT=OFF;@(Import.CMake_Variables)"
 	Import.CMake_Variables "CMAKE_BUILD_WITH_INSTALL_RPATH=ON;THREADS_PTHREAD_ARG=2;@(Import.CMake_Variables)"
 
 	Compile
