@@ -20,12 +20,12 @@ ProcessorArch=$(uname -m)
 
 if [[ $SysName ==  Darwin* ]] ; then
 	OutputPlatform=OSX
-	NumCPUs=`sysctl -n hw.ncpu`
+	NumCPUs=`getconf _NPROCESSORS_ONLN`
 	BuildPlatform=OSX10.7
 	StripCommand="strip -u -r"
 elif [[ $SysName ==  Linux* ]] ; then
 	OutputPlatform=Linux/Ubuntu1604
-	NumCPUs=`grep -c "processor" /proc/cpuinfo`
+	NumCPUs=`getconf _NPROCESSORS_ONLN`
 	BuildPlatform=Linux2.6
 	StripCommand="strip --strip-unneeded"
 else
