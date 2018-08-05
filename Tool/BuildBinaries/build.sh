@@ -27,6 +27,7 @@ elif [[ $SysName ==  Linux* ]] ; then
 	OutputPlatform=Linux
 	NumCPUs=`getconf _NPROCESSORS_ONLN`
 	ExtraLDFlags="-lstdc++"
+	ExtraBoringSSLFlags="-fPIC"
 	BuildPlatform=Linux2.6
 	StripCommand="strip --strip-unneeded"
 else
@@ -63,7 +64,7 @@ function BuildBoringSSL()
 	pushd "$OpenSSLBuildDir" > /dev/null
 
 	export MACOSX_DEPLOYMENT_TARGET=10.11
-	cmake -GNinja "$MalterlibRoot/External/boringssl" -DCMAKE_BUILD_TYPE=Release
+	cmake -GNinja "$MalterlibRoot/External/boringssl" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="$ExtraBoringSSLFlags" -DCMAKE_C_FLAGS="$ExtraBoringSSLFlags"
 	ninja
 	#ninja -C "$OpenSSLBuildDir" run_tests
 
