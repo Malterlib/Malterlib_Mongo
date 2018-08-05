@@ -24,8 +24,9 @@ if [[ $SysName ==  Darwin* ]] ; then
 	BuildPlatform=OSX10.7
 	StripCommand="strip -u -r"
 elif [[ $SysName ==  Linux* ]] ; then
-	OutputPlatform=Linux/Ubuntu1604
+	OutputPlatform=Linux
 	NumCPUs=`getconf _NPROCESSORS_ONLN`
+	ExtraLDFlags="-lstdc++"
 	BuildPlatform=Linux2.6
 	StripCommand="strip --strip-unneeded"
 else
@@ -79,9 +80,9 @@ function BuildMongo()
 	pushd "$MalterlibRoot/External/mongo" > /dev/null
 
 	python -mpip install --user -r buildscripts/requirements.txt
-	
+
 	ToBuild="mongo mongod"
-	buildscripts/scons.py $ToBuild -j $NumCPUs --release --ssl --ssl-provider=openssl --ssl-static --ssl-boringssl "--ssl-lib-dir=$OpenSSLBuildDir/bin" "--ssl-include-dir=$MalterlibRoot/External/boringssl/include"
+	buildscripts/scons.py $ToBuild -j $NumCPUs --release --disable-warnings-as-errors --ssl --ssl-provider=openssl --ssl-static --ssl-boringssl "--ssl-lib-dir=$OpenSSLBuildDir/bin" "--ssl-include-dir=$MalterlibRoot/External/boringssl/include"
 
 	for Tool in $ToBuild ; do
 		cp -f $Tool $OutputBinDir
@@ -107,13 +108,12 @@ Name: OpenSSL
 Version: 0.0
 Description: Secure Sockets Layer and cryptography libraries and tools
 Requires:
-Libs: -L\${libdir} -lssl -lcrypto -ldl -ldecrepit
+Libs: -L\${libdir} -ldecrepit -lssl -lcrypto -ldl $ExtraLDFlags
 Cflags: -I\${includedir}
 EOF
 
 	export PKG_CONFIG_PATH="$TempPkgConfigDir:$PKG_CONFIG_PATH"
 	export CGO_LDFLAGS="-L$OpenSSLBuildDir/bin -s -w"
-	#  
 	export CGO_CFLAGS="-I$MalterlibRoot/External/boringssl/include"
 
 	pushd "$MalterlibRoot/External/mongo-tools" > /dev/null
