@@ -8,18 +8,27 @@ setupPermissions = function() {
 	if (!adminDB.getRole("oplogger")) {
 		adminDB.createRole({ role: "oplogger",
 			privileges: [{ resource: { db: 'local', collection: 'oplog.rs' },
- 				actions: ['find'] }, 
+ 				actions: ['find'] },
  			],
 			roles: [{ role: 'read', db: 'local' }]
 		});
 	}
-	
+	if (!adminDB.getRole("anyActionOnAnyResource")) {
+		adminDB.createRole({ role: "anyActionOnAnyResource",
+			privileges: [{ resource: { anyResource: true },
+ 				actions: ['anyAction'] },
+ 			],
+			roles: []
+		});
+	}
+
 	adminRoles = [
 		{ role: "root", db: "admin" },
 		{ role: "read", db: "local" },
 		{ role: "oplogger", db: "admin" },
+		{ role: "anyActionOnAnyResource", db: "admin" },
 	];
-	
+
 	if (externalDB.getUser(adminUser))
 		externalDB.updateUser(adminUser, { roles: adminRoles });
 	else
