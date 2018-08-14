@@ -4,6 +4,12 @@ set -e
 
 OutputDir="$1"
 IntermediateDir="$2"
+TempPkgConfigDir=
+
+if [[ "$MongoBuildClean" == "" ]]; then
+	MongoBuildClean=false
+fi
+
 
 if [[ "$OutputDir" == "" ]]; then
 	echo "No output dir specified"
@@ -59,7 +65,6 @@ mkdir -p "$OutputBinDir"
 
 function BuildBoringSSL()
 {
-	#rm -rf "$OpenSSLBuildDir"
 	mkdir -p "$OpenSSLBuildDir"
 	pushd "$OpenSSLBuildDir" > /dev/null
 
@@ -76,24 +81,7 @@ function BuildBoringSSL()
 	cp "$OpenSSLBuildDir/decrepit/libdecrepit.a" "$OpenSSLBuildDir/bin"
 }
 
-function BuildMongo()
-{
-	pushd "$MalterlibRoot/External/mongo" > /dev/null
-
-	python -mpip install --user -r buildscripts/requirements.txt
-
-	ToBuild="mongo mongod"
-	buildscripts/scons.py $ToBuild -j $NumCPUs --release --disable-warnings-as-errors --ssl --ssl-provider=openssl --ssl-static --ssl-boringssl "--ssl-lib-dir=$OpenSSLBuildDir/bin" "--ssl-include-dir=$MalterlibRoot/External/boringssl/include"
-
-	for Tool in $ToBuild ; do
-		cp -f $Tool $OutputBinDir
-		$StripCommand "$OutputBinDir/$Tool"
-	done
-
-	popd > /dev/null
-}
-
-function BuildTools()
+function SetupOpensslPkgConfig()
 {
 	TempPkgConfigDir="$IntermediateDir/OpenSSLpkg"
 	mkdir -p "$TempPkgConfigDir"
@@ -114,10 +102,68 @@ Cflags: -I\${includedir}
 EOF
 
 	export PKG_CONFIG_PATH="$TempPkgConfigDir:$PKG_CONFIG_PATH"
+}
+
+function BuildCurl()
+{
+	SetupOpensslPkgConfig
+
+	export MACOSX_DEPLOYMENT_TARGET=10.11
+	export PKG_CONFIG_PATH="$TempPkgConfigDir:$PKG_CONFIG_PATH"
+
+	pushd "$MalterlibRoot/External/curl" > /dev/null
+	./buildconf
+	CFLAGS="-mmacosx-version-min=10.11" ./configure --disable-shared --with-ssl --prefix "$IntermediateDir/curl_bin"
+	make clean
+	make -j$NumCPUs
+	make install
+
+	popd > /dev/null
+}
+
+function BuildMongo()
+{
+	pushd "$MalterlibRoot/External/mongo" > /dev/null
+
+	if $MongoBuildClean; then
+		rm -rf build
+	fi
+
+	python -mpip install --user -r buildscripts/requirements.txt
+
+	ToBuild="mongo mongod"
+
+	CurlLibs="`pkg-config \"$IntermediateDir/curl_bin/lib/pkgconfig/libcurl.pc\" --libs-only-l --static | sed 's/-l//g'`"
+
+	buildscripts/scons.py LIBPATH="$IntermediateDir/curl_bin/lib $OpenSSLBuildDir/bin" \
+		CPPPATH="$IntermediateDir/curl_bin/include" \
+		LIBS="$CurlLibs" \
+		$ToBuild -j $NumCPUs --release --disable-warnings-as-errors \
+		--ssl --ssl-provider=openssl --ssl-static --ssl-boringssl \
+		"--ssl-lib-dir=$OpenSSLBuildDir/bin" \
+		"--ssl-include-dir=$MalterlibRoot/External/boringssl/include"
+
+	for Tool in $ToBuild ; do
+		cp -f $Tool $OutputBinDir
+		$StripCommand "$OutputBinDir/$Tool"
+	done
+
+	popd > /dev/null
+}
+
+function BuildTools()
+{
+	SetupOpensslPkgConfig
+
+	export PKG_CONFIG_PATH="$TempPkgConfigDir:$PKG_CONFIG_PATH"
 	export CGO_LDFLAGS="-L$OpenSSLBuildDir/bin -s -w"
 	export CGO_CFLAGS="-I$MalterlibRoot/External/boringssl/include"
 
 	pushd "$MalterlibRoot/External/mongo-tools" > /dev/null
+
+	if $MongoBuildClean; then
+		rm -rf bin vendor/pkg node_modules
+	fi
 
 	./build.sh "ssl boringssl"
 
@@ -131,5 +177,6 @@ EOF
 }
 
 BuildBoringSSL
+BuildCurl
 BuildMongo
 BuildTools
