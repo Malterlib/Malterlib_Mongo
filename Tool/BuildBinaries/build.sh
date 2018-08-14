@@ -29,10 +29,11 @@ if [[ $SysName ==  Darwin* ]] ; then
 	NumCPUs=`getconf _NPROCESSORS_ONLN`
 	BuildPlatform=OSX10.7
 	StripCommand="strip -u -r"
+	CurlBuildCFlags="-mmacosx-version-min=10.11"
 elif [[ $SysName ==  Linux* ]] ; then
 	OutputPlatform=Linux
 	NumCPUs=`getconf _NPROCESSORS_ONLN`
-	ExtraLDFlags="-lstdc++"
+	ExtraLDFlags="-lstdc++ -lpthread"
 	ExtraBoringSSLFlags="-fPIC"
 	BuildPlatform=Linux2.6
 	StripCommand="strip --strip-unneeded"
@@ -113,7 +114,7 @@ function BuildCurl()
 
 	pushd "$MalterlibRoot/External/curl" > /dev/null
 	./buildconf
-	CFLAGS="-mmacosx-version-min=10.11" ./configure --disable-shared --with-ssl --prefix "$IntermediateDir/curl_bin"
+	CFLAGS="$CurlBuildCFlags" ./configure --disable-shared --with-ssl --prefix "$IntermediateDir/curl_bin"
 	make clean
 	make -j$NumCPUs
 	make install
