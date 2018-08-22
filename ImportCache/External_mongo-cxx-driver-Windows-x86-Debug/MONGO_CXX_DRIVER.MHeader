@@ -296,6 +296,14 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 			{
 				Compile.Type C++
 			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/client_session.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/change_stream.cpp"
+			{
+				Compile.Type C++
+			}
 			%File "../../../../External/mongo-cxx-driver/src/mongocxx/collection.cpp"
 			{
 				Compile.Type C++
@@ -399,7 +407,15 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 				{
 					Compile.Type C++
 				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/change_stream.cpp"
+				{
+					Compile.Type C++
+				}
 				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/client.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/client_session.cpp"
 				{
 					Compile.Type C++
 				}
@@ -594,6 +610,14 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 			{
 				Compile.Type C++
 			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/client_session.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../External/mongo-cxx-driver/src/mongocxx/change_stream.cpp"
+			{
+				Compile.Type C++
+			}
 			%File "../../../../External/mongo-cxx-driver/src/mongocxx/collection.cpp"
 			{
 				Compile.Type C++
@@ -697,7 +721,15 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 				{
 					Compile.Type C++
 				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/change_stream.cpp"
+				{
+					Compile.Type C++
+				}
 				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/client.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/options/client_session.cpp"
 				{
 					Compile.Type C++
 				}
@@ -901,7 +933,15 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 				{
 					Compile.Type C++
 				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/change_streams.cpp"
+				{
+					Compile.Type C++
+				}
 				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/client.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/client_session.cpp"
 				{
 					Compile.Type C++
 				}
@@ -978,6 +1018,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 						Compile.Type C++
 					}
 					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/bulk_write.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/client_session.cpp"
 					{
 						Compile.Type C++
 					}
@@ -1461,7 +1505,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1478,12 +1522,34 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
 }
+%Target Exe_aggregation_examples
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName aggregation_examples
+	%Group examples
+	{
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/mongodb.com/aggregation_examples.cpp"
+		{
+			Compile.Type C++
+		}
+	}
+	%Dependency Lib_mongocxx
+	%Dependency Lib_bsoncxx
+}
 %Target Exe_connect
 {
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1505,7 +1571,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1522,12 +1588,34 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
 }
+%Target Exe_change_streams
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName change_streams
+	%Group examples
+	{
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/change_streams.cpp"
+		{
+			Compile.Type C++
+		}
+	}
+	%Dependency Lib_mongocxx
+	%Dependency Lib_bsoncxx
+}
 %Target Exe_remove
 {
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1549,7 +1637,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1566,12 +1654,34 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
 }
+%Target Exe_client_session
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName client_session
+	%Group examples
+	{
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/client_session.cpp"
+		{
+			Compile.Type C++
+		}
+	}
+	%Dependency Lib_mongocxx
+	%Dependency Lib_bsoncxx
+}
 %Target Exe_get_values_from_documents
 {
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1593,7 +1703,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1615,7 +1725,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1637,7 +1747,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1659,7 +1769,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1681,7 +1791,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1703,7 +1813,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1720,12 +1830,56 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	%Dependency Lib_mongocxx
 	%Dependency Lib_bsoncxx
 }
+%Target Exe_runcommand_examples
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName runcommand_examples
+	%Group examples
+	{
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/mongodb.com/runcommand_examples.cpp"
+		{
+			Compile.Type C++
+		}
+	}
+	%Dependency Lib_mongocxx
+	%Dependency Lib_bsoncxx
+}
+%Target Exe_index_examples
+{
+	Compile
+	{
+		!!Compile.Type C++
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
+		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
+	}
+	Property.MalterlibTargetNameType Normal
+	Target.Group "External/MONGO_CXX_DRIVER"
+	Target.Type ConsoleExecutable
+	Target.BaseName index_examples
+	%Group examples
+	{
+		%File "../../../../External/mongo-cxx-driver/examples/mongocxx/mongodb.com/index_examples.cpp"
+		{
+			Compile.Type C++
+		}
+	}
+	%Dependency Lib_mongocxx
+	%Dependency Lib_bsoncxx
+}
 %Target Exe_documentation_examples
 {
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1747,7 +1901,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1769,7 +1923,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1813,7 +1967,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1835,7 +1989,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1857,7 +2011,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -1879,7 +2033,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C++
-		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('install/include/bsoncxx/v_noabi'->MakeAbsolute());@('install/include/mongocxx/v_noabi'->MakeAbsolute());@('../../../../External/mongo-cxx-driver/examples/mongocxx'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal

@@ -23,6 +23,14 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 			{
 				Compile.Type C++
 			}
+			%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/client_session.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/change_stream.cpp"
+			{
+				Compile.Type C++
+			}
 			%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/collection.cpp"
 			{
 				Compile.Type C++
@@ -126,7 +134,15 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 				{
 					Compile.Type C++
 				}
+				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/options/change_stream.cpp"
+				{
+					Compile.Type C++
+				}
 				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/options/client.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/options/client_session.cpp"
 				{
 					Compile.Type C++
 				}
@@ -321,6 +337,14 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 			{
 				Compile.Type C++
 			}
+			%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/client_session.cpp"
+			{
+				Compile.Type C++
+			}
+			%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/change_stream.cpp"
+			{
+				Compile.Type C++
+			}
 			%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/collection.cpp"
 			{
 				Compile.Type C++
@@ -424,7 +448,15 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 				{
 					Compile.Type C++
 				}
+				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/options/change_stream.cpp"
+				{
+					Compile.Type C++
+				}
 				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/options/client.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/options/client_session.cpp"
 				{
 					Compile.Type C++
 				}
@@ -628,7 +660,15 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 				{
 					Compile.Type C++
 				}
+				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/test/change_streams.cpp"
+				{
+					Compile.Type C++
+				}
 				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/test/client.cpp"
+				{
+					Compile.Type C++
+				}
+				%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/test/client_session.cpp"
 				{
 					Compile.Type C++
 				}
@@ -705,6 +745,10 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 						Compile.Type C++
 					}
 					%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/test/options/bulk_write.cpp"
+					{
+						Compile.Type C++
+					}
+					%File "../../../../../../External/mongo-cxx-driver/src/mongocxx/test/options/client_session.cpp"
 					{
 						Compile.Type C++
 					}
