@@ -59,6 +59,11 @@ Property
 		MalterlibWindowsVersion "NTDDI_VISTA"
 	}
 
+	Target.CharacterSet "MultiByte"
+	{
+		!!PlatformFamily Windows
+	}
+
 	Compile
 	{
  		!!CompileDialect "C"
