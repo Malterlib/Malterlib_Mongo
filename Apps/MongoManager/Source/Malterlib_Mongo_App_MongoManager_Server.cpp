@@ -56,7 +56,7 @@ namespace NMib::NMongo::NMongoManager
 		if (mp_bEnableSSL)
 			mp_MongoConnectionSettings.m_Host = NProcess::NPlatform::fg_Process_GetHostName();
 		else
-			mp_MongoConnectionSettings.m_Host = "127.0.0.1";
+			mp_MongoConnectionSettings.m_Host = mp_MongoLocalAddress.f_GetString();
 		mp_MongoConnectionSettings.m_CACertificatePath = MongoDirectory + "/certificates/MongoCA.crt";
 		mp_MongoConnectionSettings.m_ClientCertificatePath = MongoDirectory + "/certificates/admin.pem";
 		mp_MongoConnectionSettings.m_bEnableSSL = mp_bEnableSSL;
@@ -74,6 +74,7 @@ namespace NMib::NMongo::NMongoManager
 						DLog(Info, "Done extracting ExeFS");
 						fp_CheckVersion(fp_GetMongoExecutable("mongod"), "--version", "db version v{}.{}.{}\n", mp_Version_MongoDB) 
 							+ fp_SetupPrerequisites_Mongo()
+							+ fp_DetermineHostname()
 							> Continuation / [this, Continuation]
 							{
 								fp_StartMongo() > Continuation / [this, Continuation]

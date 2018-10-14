@@ -11,6 +11,7 @@
 #include <Mib/Mongo/Client>
 #include <Mib/Storage/Optional>
 #include <Mib/Security/UniqueUserGroup>
+#include <Mib/Network/ResolveActor>
 
 #include "Malterlib_Mongo_App_MongoManager_Backup.h"
 #include "Malterlib_Mongo_App_MongoManager_Helpers.h"
@@ -103,6 +104,8 @@ namespace NMib::NMongo::NMongoManager
 			)
 		;
 		TCContinuation<void> fp_StartMongo();
+		TCContinuation<void> fp_DetermineHostname();
+
 		CStr fp_GetDataPath(CStr const &_Path) const;
 		CStr fp_ConcatOutput(CStr const &_StdOut, CStr const &_StdErr) const;
 		TCContinuation<CStr> fp_LaunchTool
@@ -149,6 +152,8 @@ namespace NMib::NMongo::NMongoManager
 		EMode mp_Mode;
 		
 		TCActor<CSeparateThreadActor> mp_pFileActor;
+		TCActor<CResolveActor> mp_ResolveActor;
+		NMib::NNet::CNetAddress mp_MongoLocalAddress;
 		
 		TCSharedPointer<CCanDestroyTracker> mp_pCanDestroyTracker;
 		CDistributedAppState &mp_AppState;

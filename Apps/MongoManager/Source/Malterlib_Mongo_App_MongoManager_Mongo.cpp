@@ -225,6 +225,35 @@ namespace NMib::NMongo::NMongoManager
 		return Continuation;
 	}
 
+	TCContinuation<void> CMongoManagerActor::fp_DetermineHostname()
+	{
+		mp_ResolveActor = fg_Construct();
+
+		CStr HostName = NProcess::NPlatform::fg_Process_GetHostName();
+
+		TCContinuation<void> Continuation;
+		mp_ResolveActor(&CResolveActor::f_Resolve, HostName, NNet::ENetAddressType_TCPv4) > Continuation / [=](NMib::NNet::CNetAddress &&_Address)
+			{
+				if (_Address.f_GetType() != NNet::ENetAddressType_TCPv4)
+					return Continuation.f_SetException(DMibErrorInstance("Hostname '{}' does not resolve to an IPV4 address"_f << HostName));
+
+				NNet::CNetAddressTCPv4 IPAddress;
+				if (!_Address.f_Get(IPAddress))
+					return Continuation.f_SetException(DMibErrorInstance("Hostname '{}' does not resolve to an valid IPV4 address"_f << HostName));
+
+				if (IPAddress.f_GetIP().m_IP[0] != 127)
+					return Continuation.f_SetException(DMibErrorInstance("Hostname '{}' does not resolve to a link local address. {} is not valid"_f << HostName << _Address));
+
+				DLog(Info, "Hostname '{}' resolved to: {}", HostName, _Address);
+
+				mp_MongoLocalAddress = _Address;
+				Continuation.f_SetResult();
+			}
+		;
+
+		return Continuation;
+	}
+
 	TCContinuation<void> CMongoManagerActor::fp_StartMongo()
 	{
 		if (mp_pMongoLaunch)
@@ -286,7 +315,7 @@ namespace NMib::NMongo::NMongoManager
 		{
 			// If not running SSL we just disable external access
 			Arguments.f_Insert("--bind_ip");
-			Arguments.f_Insert("127.0.0.1");
+			Arguments.f_Insert(mp_MongoLocalAddress.f_GetString());
 		}
 		
 #ifdef DPlatformFamily_OSX
