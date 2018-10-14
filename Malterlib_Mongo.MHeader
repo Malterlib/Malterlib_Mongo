@@ -206,6 +206,8 @@ Property
 						IdentityFileName "bucket.cpp"
 						IdentityFileName "index_view.cpp"
 						IdentityFileName "upload.cpp"
+						IdentityFileName "change_stream.cpp"
+						IdentityFileName "client_session.cpp"
 					}
 				}
 			}
