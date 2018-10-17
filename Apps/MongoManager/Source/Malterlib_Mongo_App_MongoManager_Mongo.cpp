@@ -138,7 +138,7 @@ namespace NMib::NMongo::NMongoManager
 				, _Script
 			)
 		;
-		
+
 		DLog(Info, "Running mongo script '{}'", _LogCategory);
 		fp_LaunchTool
 			(
@@ -351,11 +351,21 @@ namespace NMib::NMongo::NMongoManager
 		}
 		
 		TCContinuation<void> Continuation;
-		
+
+#ifdef DPlatformFamily_Linux
+		TCVector<CStr> NumaArguments = {"--interleave=all"};
+		NumaArguments.f_Insert(fp_GetMongoExecutable("mongod"));
+		NumaArguments.f_Insert(Arguments);
+		auto NumaExecutable = "numactl";
+#else
+		auto NumaArguments = Arguments;
+		auto NumaExecutable = fp_GetMongoExecutable("mongod");
+#endif
+
 		CProcessLaunchActor::CLaunch Launch = CProcessLaunchParams::fs_LaunchExecutable
 			(
-				fp_GetMongoExecutable("mongod")
-				, Arguments
+				NumaExecutable
+				, NumaArguments
 				, MongoPath
 				, [this, Continuation](CProcessLaunchStateChangeVariant const &_Change, fp64 _TimeSinceStart)
 				{
