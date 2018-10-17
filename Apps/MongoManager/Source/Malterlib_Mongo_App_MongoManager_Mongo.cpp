@@ -353,19 +353,19 @@ namespace NMib::NMongo::NMongoManager
 		TCContinuation<void> Continuation;
 
 #ifdef DPlatformFamily_Linux
-		TCVector<CStr> NumaArguments = {"--interleave=all"};
-		NumaArguments.f_Insert(fp_GetMongoExecutable("mongod"));
-		NumaArguments.f_Insert(Arguments);
-		auto NumaExecutable = "numactl";
+		TCVector<CStr> LaunchArguments = {"--interleave=all"};
+		LaunchArguments.f_Insert(fp_GetMongoExecutable("mongod"));
+		LaunchArguments.f_Insert(Arguments);
+		auto LaunchExecutable = "numactl";
 #else
-		auto NumaArguments = Arguments;
-		auto NumaExecutable = fp_GetMongoExecutable("mongod");
+		auto LaunchArguments = Arguments;
+		auto LaunchExecutable = fp_GetMongoExecutable("mongod");
 #endif
 
 		CProcessLaunchActor::CLaunch Launch = CProcessLaunchParams::fs_LaunchExecutable
 			(
-				NumaExecutable
-				, NumaArguments
+				LaunchExecutable
+				, LaunchArguments
 				, MongoPath
 				, [this, Continuation](CProcessLaunchStateChangeVariant const &_Change, fp64 _TimeSinceStart)
 				{
