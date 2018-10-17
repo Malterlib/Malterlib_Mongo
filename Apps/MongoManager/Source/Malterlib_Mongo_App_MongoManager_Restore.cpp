@@ -28,7 +28,7 @@ namespace NMib::NMongo::NMongoManager
 				auto Params = fg_CreateVector<CStr>
 					(
 						"--host"
-						, "localhost"
+						, NProcess::NPlatform::fg_Process_GetHostName()
 						, "--port"
 						, CStr::fs_ToStr(mp_MongoConnectionSettings.m_Port)
 						, "--oplogReplay"

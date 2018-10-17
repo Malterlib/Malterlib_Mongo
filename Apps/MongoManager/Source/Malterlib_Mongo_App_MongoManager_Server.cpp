@@ -53,10 +53,6 @@ namespace NMib::NMongo::NMongoManager
 		
 		CStr MongoDirectory = fp_GetDataPath("mongo");
 
-		if (mp_bEnableSSL)
-			mp_MongoConnectionSettings.m_Host = NProcess::NPlatform::fg_Process_GetHostName();
-		else
-			mp_MongoConnectionSettings.m_Host = mp_MongoLocalAddress.f_GetString();
 		mp_MongoConnectionSettings.m_CACertificatePath = MongoDirectory + "/certificates/MongoCA.crt";
 		mp_MongoConnectionSettings.m_ClientCertificatePath = MongoDirectory + "/certificates/admin.pem";
 		mp_MongoConnectionSettings.m_bEnableSSL = mp_bEnableSSL;

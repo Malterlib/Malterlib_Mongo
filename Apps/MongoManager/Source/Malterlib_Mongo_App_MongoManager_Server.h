@@ -158,7 +158,7 @@ namespace NMib::NMongo::NMongoManager
 		TCSharedPointer<CCanDestroyTracker> mp_pCanDestroyTracker;
 		CDistributedAppState &mp_AppState;
 
-		CMongoConnectionSettings mp_MongoConnectionSettings{"localhost", 25017};
+		CMongoConnectionSettings mp_MongoConnectionSettings{NProcess::NPlatform::fg_Process_GetHostName(), 25017};
 		CUser mp_MongoUser{mp_pUniqueUserGroup->f_GetUser("mib_mongo"), mp_pUniqueUserGroup->f_GetGroup("mib_mongo")};
 		CVersion mp_Version_MongoDB{3, 4, 0};
 		bool mp_bEnableSSL = true;
