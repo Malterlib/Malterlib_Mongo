@@ -1,6 +1,6 @@
 var status = rs.status();
 
-if (status.ok != 0 ||status.info != "run rs.initiate(...) if not yet done for the set")
+if (status.ok != 0 || status.codeName != "NotYetInitialized")
 	throw new Error("Expected database with no replica set config, not this: " + JSON.stringify(status, null, '\t'));
 
 var memberConfig = scriptConfig.replicationConfig;

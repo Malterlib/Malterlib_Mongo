@@ -1,7 +1,7 @@
 var status = rs.status();
 
 if (!scriptConfig.expectReplica) {
-	if (status.ok == 0 && status.info == "run rs.initiate(...) if not yet done for the set")
+	if (status.ok == 0 && status.codeName == "NotYetInitialized")
 		quit(0);
 	else
 		throw new Error("Replication config not expected but found: " + JSON.stringify(status, null, "\t"));
