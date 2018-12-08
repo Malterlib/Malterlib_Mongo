@@ -21,7 +21,7 @@ namespace NMib::NMongo::NMongoManager
 				mp_FileWriteActor
 				, [pCanDestroy, pBackupFile, Pending = fg_Move(mp_PendingOplogData)]() -> uint64
 				{
-					TCVector<uint8> Data;
+					CByteVector Data;
 					for (auto &JSONData : Pending)
 					{
 						auto BSON = fg_ToBSON(JSONData);

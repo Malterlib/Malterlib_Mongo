@@ -153,7 +153,7 @@ namespace NMib::NMongo::NMongoManager
 		
 		TCActor<CSeparateThreadActor> mp_pFileActor;
 		TCActor<CResolveActor> mp_ResolveActor;
-		NMib::NNet::CNetAddress mp_MongoLocalAddress;
+		NMib::NNetwork::CNetAddress mp_MongoLocalAddress;
 		
 		TCSharedPointer<CCanDestroyTracker> mp_pCanDestroyTracker;
 		CDistributedAppState &mp_AppState;

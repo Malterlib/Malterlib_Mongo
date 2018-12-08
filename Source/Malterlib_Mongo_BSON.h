@@ -7,17 +7,14 @@
 #include <bsoncxx/array/view_or_value.hpp>
 #include <Mib/Encoding/EJSON>
 
-namespace NMib
+namespace NMib::NMongo
 {
-	namespace NMongo
-	{
-		bsoncxx::document::value fg_ToBSON(NEncoding::CEJSON const &_JSON);
-		bsoncxx::array::value fg_ToBSONArray(NEncoding::CEJSON const &_JSON);
-		NEncoding::CEJSON fg_FromBSON(bsoncxx::document::view_or_value _BSON);
-		NEncoding::CEJSON fg_FromBSON(bsoncxx::array::view_or_value _BSON);
-	}
+	bsoncxx::document::value fg_ToBSON(NEncoding::CEJSON const &_JSON);
+	bsoncxx::array::value fg_ToBSONArray(NEncoding::CEJSON const &_JSON);
+	NEncoding::CEJSON fg_FromBSON(bsoncxx::document::view_or_value _BSON);
+	NEncoding::CEJSON fg_FromBSON(bsoncxx::array::view_or_value _BSON);
 }
 
 #ifndef DMibPNoShortCuts
-using namespace NMib::NMongo;
+	using namespace NMib::NMongo;
 #endif

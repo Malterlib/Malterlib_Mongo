@@ -38,12 +38,12 @@ namespace NMib::NMongo::NMongoManager
 		
 		void fp_BuildCommandLine(CDistributedAppCommandLineSpecification &o_CommandLine) override; 
 		uint32 fp_CommandLine_ListRestoreRange(NEncoding::CEJSON const &_Params);
-		TCContinuation<uint32> fp_CommandLine_Restore(NEncoding::CEJSON const &_Params, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCContinuation<uint32> fp_CommandLine_UpdateReplicationConfig(NEncoding::CEJSON const &_Params, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCContinuation<uint32> fp_CommandLine_SetupPermissions(NEncoding::CEJSON const &_Params, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCContinuation<uint32> fp_CommandLine_JoinReplica(NEncoding::CEJSON const &_Params, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCContinuation<uint32> fp_CommandLine_RunBackup(NEncoding::CEJSON const &_Params, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCContinuation<uint32> fp_CommandLine_CancelBackups(NEncoding::CEJSON const &_Params, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
+		TCContinuation<uint32> fp_CommandLine_Restore(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
+		TCContinuation<uint32> fp_CommandLine_UpdateReplicationConfig(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
+		TCContinuation<uint32> fp_CommandLine_SetupPermissions(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
+		TCContinuation<uint32> fp_CommandLine_JoinReplica(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
+		TCContinuation<uint32> fp_CommandLine_RunBackup(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
+		TCContinuation<uint32> fp_CommandLine_CancelBackups(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
 		
 		TCActor<CMongoManagerActor> mp_pManager;
 		TCMap<uint32, CLocalBackup> mp_LocalBackups;

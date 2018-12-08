@@ -232,12 +232,12 @@ namespace NMib::NMongo::NMongoManager
 		CStr HostName = NProcess::NPlatform::fg_Process_GetHostName();
 
 		TCContinuation<void> Continuation;
-		mp_ResolveActor(&CResolveActor::f_Resolve, HostName, NNet::ENetAddressType_TCPv4) > Continuation / [=](NMib::NNet::CNetAddress &&_Address)
+		mp_ResolveActor(&CResolveActor::f_Resolve, HostName, NNetwork::ENetAddressType_TCPv4) > Continuation / [=](NMib::NNetwork::CNetAddress &&_Address)
 			{
-				if (_Address.f_GetType() != NNet::ENetAddressType_TCPv4)
+				if (_Address.f_GetType() != NNetwork::ENetAddressType_TCPv4)
 					return Continuation.f_SetException(DMibErrorInstance("Hostname '{}' does not resolve to an IPV4 address"_f << HostName));
 
-				NNet::CNetAddressTCPv4 IPAddress;
+				NNetwork::CNetAddressTCPv4 IPAddress;
 				if (!_Address.f_Get(IPAddress))
 					return Continuation.f_SetException(DMibErrorInstance("Hostname '{}' does not resolve to an valid IPV4 address"_f << HostName));
 

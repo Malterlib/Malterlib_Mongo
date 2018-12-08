@@ -78,7 +78,7 @@ namespace NMib::NMongo::NMongoManager
 						}
 					}
 				}
-				, [this](NEncoding::CEJSON const &_Parameters, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCContinuation<uint32>
+				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCContinuation<uint32>
 				{
 					return fp_CommandLine_Restore(_Parameters, _pCommandLine);
 				}
@@ -91,7 +91,7 @@ namespace NMib::NMongo::NMongoManager
 					"Names"_= {"--setup-permissions"}
 					, "Description"_= "Sets up permissions for a empty database by adding the admin user.\n"
 				}
-				, [this](NEncoding::CEJSON const &_Parameters, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCContinuation<uint32>
+				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCContinuation<uint32>
 				{
 					return fp_CommandLine_SetupPermissions(_Parameters, _pCommandLine);
 				}
@@ -110,7 +110,7 @@ namespace NMib::NMongo::NMongoManager
 						"Should not be run when the daemon is started. Should not be run in a distributed replica.\n"
 					)
 				}
-				, [this](NEncoding::CEJSON const &_Parameters, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCContinuation<uint32>
+				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCContinuation<uint32>
 				{
 					return fp_CommandLine_UpdateReplicationConfig(_Parameters, _pCommandLine);
 				}
@@ -124,7 +124,7 @@ namespace NMib::NMongo::NMongoManager
 					, "Description"_= "Run a backup without running from an AppManager.\n"
 					, "Output"_= "Backup ID.\n"
 				}
-				, [this](NEncoding::CEJSON const &_Parameters, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCContinuation<uint32>
+				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCContinuation<uint32>
 				{
 					return fp_CommandLine_RunBackup(_Parameters, _pCommandLine);
 				}
@@ -145,7 +145,7 @@ namespace NMib::NMongo::NMongoManager
 						}
 					}
 				}
-				, [this](NEncoding::CEJSON const &_Parameters, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCContinuation<uint32>
+				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCContinuation<uint32>
 				{
 					return fp_CommandLine_CancelBackups(_Parameters, _pCommandLine);
 				}
@@ -219,7 +219,7 @@ namespace NMib::NMongo::NMongoManager
 						}
 					}
 				}
-				, [this](NEncoding::CEJSON const &_Parameters, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCContinuation<uint32>
+				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCContinuation<uint32>
 				{
 					return fp_CommandLine_JoinReplica(_Parameters, _pCommandLine);
 				}
@@ -253,7 +253,7 @@ namespace NMib::NMongo::NMongoManager
 				Stream >> EntrySize;
 				Stream.f_AddPosition(-int32(sizeof(int32)));
 				
-				TCVector<uint8> Data;
+				CByteVector Data;
 				Data.f_SetLen(EntrySize);
 				Stream.f_ConsumeBytes(Data.f_GetArray(), EntrySize);
 				
@@ -283,7 +283,7 @@ namespace NMib::NMongo::NMongoManager
 		return 0;
 	}
 	
-	TCContinuation<uint32> CMongoManagerDaemonActor::fp_CommandLine_Restore(NEncoding::CEJSON const &_Params, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCContinuation<uint32> CMongoManagerDaemonActor::fp_CommandLine_Restore(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
 		TCContinuation<uint32> Continuation;
 		
@@ -303,7 +303,11 @@ namespace NMib::NMongo::NMongoManager
 		return Continuation;
 	}
 	
-	TCContinuation<uint32> CMongoManagerDaemonActor::fp_CommandLine_UpdateReplicationConfig(NEncoding::CEJSON const &_Params, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCContinuation<uint32> CMongoManagerDaemonActor::fp_CommandLine_UpdateReplicationConfig
+		(
+		 	NEncoding::CEJSON const &_Params
+		 	, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine
+		)
 	{
 		TCContinuation<uint32> Continuation;
  		mp_pManager(&CMongoManagerActor::f_UpdateReplicationConfig) > Continuation / [=]
@@ -315,7 +319,7 @@ namespace NMib::NMongo::NMongoManager
 		return Continuation;
 	}
 	
-	TCContinuation<uint32> CMongoManagerDaemonActor::fp_CommandLine_SetupPermissions(NEncoding::CEJSON const &_Param, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCContinuation<uint32> CMongoManagerDaemonActor::fp_CommandLine_SetupPermissions(NEncoding::CEJSON const &_Param, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
 		TCContinuation<uint32> Continuation;
  		mp_pManager(&CMongoManagerActor::f_SetupPermissions) > Continuation / [=]
@@ -376,7 +380,7 @@ namespace NMib::NMongo::NMongoManager
 		uint32 m_BackupID = -1;
 	};
 	
-	TCContinuation<uint32> CMongoManagerDaemonActor::fp_CommandLine_RunBackup(NEncoding::CEJSON const &_Params, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCContinuation<uint32> CMongoManagerDaemonActor::fp_CommandLine_RunBackup(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
 		TCContinuation<uint32> Continuation;
 		
@@ -418,7 +422,7 @@ namespace NMib::NMongo::NMongoManager
 		return Continuation;
 	}
 
-	TCContinuation<uint32> CMongoManagerDaemonActor::fp_CommandLine_CancelBackups(NEncoding::CEJSON const &_Params, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCContinuation<uint32> CMongoManagerDaemonActor::fp_CommandLine_CancelBackups(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
 		TCContinuation<uint32> Continuation;
 		
@@ -483,7 +487,7 @@ namespace NMib::NMongo::NMongoManager
 		return Continuation;
 	}
 	
-	TCContinuation<uint32> CMongoManagerDaemonActor::fp_CommandLine_JoinReplica(NEncoding::CEJSON const &_Params, NPtr::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCContinuation<uint32> CMongoManagerDaemonActor::fp_CommandLine_JoinReplica(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
 		CJoinReplicaOptions Options;
 		if (auto pValue = _Params.f_GetMember("MongoPort"))

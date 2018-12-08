@@ -240,7 +240,7 @@ namespace NMib::NMongo::NMongoManager
 					MalterlibFS.f_CopyFilesWithAttribs("*", DiskFS, ProgramDirectory);
 
 					CStr MongoScript = CStr::CFormat(g_pMongoScript) << UserName;
-					TCVector<uint8> MongoScriptData;
+					CByteVector MongoScriptData;
 					CFile::fs_WriteStringToVector(MongoScriptData, MongoScript, false);
 					EFileAttrib Permissions = EFileAttrib_UnixAttributesValid
 						| EFileAttrib_UserWrite | EFileAttrib_UserRead | EFileAttrib_UserExecute

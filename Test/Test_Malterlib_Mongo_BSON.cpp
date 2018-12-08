@@ -11,7 +11,7 @@ using namespace NMib::NMongo;
 using namespace NMib::NEncoding;
 using namespace NMib::NTime;
 using namespace NMib::NContainer;
-using namespace NMib::NDataProcessing;
+using namespace NMib::NCryptography;
 using namespace NMib;
 
 namespace
