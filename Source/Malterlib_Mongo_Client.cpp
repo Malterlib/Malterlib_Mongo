@@ -447,14 +447,12 @@ namespace NMib::NMongo
 											auto Data = fg_FromBSON(Document);
 											if (auto pValue = Data.f_Object().f_GetMember(_OrderBy))
 												UserQuery[_OrderBy]["$gt"] = *pValue;
-											fg_ThisActor(this)
-												(
-													&CActor::f_Dispatch
-													, [=, Data = fg_Move(Data)]() mutable
-													{
-														(*pCallbackManager)(fg_Move(Data));
-													}
-												) > NConcurrency::fg_DiscardResult()
+
+											NConcurrency::g_Dispatch(fg_ThisActor(this)) / [=, Data = fg_Move(Data)]() mutable
+												{
+													(*pCallbackManager)(fg_Move(Data)) > NConcurrency::fg_DiscardResult();
+												}
+												> NConcurrency::fg_DiscardResult()
 											;
 										}
 									}
@@ -471,14 +469,11 @@ namespace NMib::NMongo
 									NEncoding::CEJSON Error;
 									Error["error"] = pError;
 
-									fg_ThisActor(this)
-										(
-											&CActor::f_Dispatch
-											, [=, Error = fg_Move(Error)]() mutable
-											{
-												(*pCallbackManager)(fg_Move(Error));
-											}
-										) > NConcurrency::fg_DiscardResult()
+									NConcurrency::g_Dispatch(fg_ThisActor(this)) / [=, Error = fg_Move(Error)]() mutable
+										{
+											(*pCallbackManager)(fg_Move(Error)) > NConcurrency::fg_DiscardResult();
+										}
+										> NConcurrency::fg_DiscardResult()
 									;
 								}
 							}
