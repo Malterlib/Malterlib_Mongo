@@ -37,7 +37,7 @@ namespace NMib::NMongo::NMongoManager
 		o_RegisterInfo.m_Resources_Processes = nMaxPids; 
 	}
 	
-	TCContinuation<void> CMongoManagerDaemonActor::fp_StartApp(NEncoding::CEJSON const &_Params)
+	TCFuture<void> CMongoManagerDaemonActor::fp_StartApp(NEncoding::CEJSON const &_Params)
 	{
 		mp_pManager = fg_ConstructActor<CMongoManagerActor>(fg_Construct(self), mp_State);
 		CMongoManagerActor::EMode Mode = CMongoManagerActor::EMode_Normal;
@@ -67,7 +67,7 @@ namespace NMib::NMongo::NMongoManager
 		return mp_pManager(&CMongoManagerActor::f_Startup, Mode, ReplicaName, Port, VerboseMongoScrips); 
 	}
 	
-	TCContinuation<void> CMongoManagerDaemonActor::fp_StopApp()
+	TCFuture<void> CMongoManagerDaemonActor::fp_StopApp()
 	{	
 		TCSharedPointer<CCanDestroyTracker> pCanDestroy = fg_Construct();
 		
@@ -84,29 +84,29 @@ namespace NMib::NMongo::NMongoManager
 			mp_pManager = nullptr;
 		}
 		
-		return pCanDestroy->m_Continuation;
+		return pCanDestroy->f_Future();
 	}
 	
-	TCContinuation<void> CMongoManagerDaemonActor::fp_PreStop()
+	TCFuture<void> CMongoManagerDaemonActor::fp_PreStop()
 	{
 		if (!mp_pManager)
 			return fg_Explicit();
 
 		DMibLogWithCategory(Mib/Mongo/MongoManager/Daemon, Info, "Running pre-stop");
 		
-		TCContinuation<void> Continuation;
-		mp_pManager(&CMongoManagerActor::f_PreStop) > [Continuation](TCAsyncResult<void> &&_Result)
+		TCPromise<void> Promise;
+		mp_pManager(&CMongoManagerActor::f_PreStop) > [Promise](TCAsyncResult<void> &&_Result)
 			{
 				if (!_Result)
 					DMibLogWithCategory(Mib/Mongo/MongoManager/Daemon, Error, "Failed to pre-stop down server: {}", _Result.f_GetExceptionStr());
-				Continuation.f_SetResult();
+				Promise.f_SetResult();
 			}
 		;
 
-		return Continuation;
+		return Promise.f_MoveFuture();
 	}
 	
-	TCContinuation<CActorSubscription> CMongoManagerDaemonActor::fp_StartBackup
+	TCFuture<CActorSubscription> CMongoManagerDaemonActor::fp_StartBackup
 		(
 			TCDistributedActorInterface<CDistributedAppInterfaceBackup> &&_BackupInterface
 			, CActorSubscription &&_ManifestFinished
@@ -116,18 +116,18 @@ namespace NMib::NMongo::NMongoManager
 		if (!mp_pManager)
 			return DMibErrorInstance("App not started");
 
-		TCContinuation<CActorSubscription> Continuation;
-		mp_pManager(&CMongoManagerActor::f_StartBackup, fg_Move(_BackupInterface), fg_Move(_ManifestFinished), _BackupRoot) > [Continuation](TCAsyncResult<CActorSubscription> &&_Result)
+		TCPromise<CActorSubscription> Promise;
+		mp_pManager(&CMongoManagerActor::f_StartBackup, fg_Move(_BackupInterface), fg_Move(_ManifestFinished), _BackupRoot) > [Promise](TCAsyncResult<CActorSubscription> &&_Result)
 			{
 				if (!_Result)
 				{
 					DMibLogWithCategory(MongoManager/Daemon, Error, "Failed to start backup: {}", _Result.f_GetExceptionStr());
 				}
 				
-				Continuation.f_SetResult(fg_Move(_Result));
+				Promise.f_SetResult(fg_Move(_Result));
 			}
 		;
 		
-		return Continuation;
+		return Promise.f_MoveFuture();
 	}
 }

@@ -32,7 +32,7 @@ namespace NMib::NMongo::NMongoManager
 		}
 	}
 
-	TCContinuation<void> CMongoManagerActor::fp_CleanupOldProcesses()
+	TCFuture<void> CMongoManagerActor::fp_CleanupOldProcesses()
 	{
 		return fg_Dispatch
 			(

@@ -4,14 +4,14 @@
  
 namespace NMib::NMongo::NMongoManager
 {
-	TCContinuation<void> CMongoBackupInstanceActor::fp_DumpDatabase()
+	TCFuture<void> CMongoBackupInstanceActor::fp_DumpDatabase()
 	{
 		TCSharedPointer<CCanDestroyTracker> pCanDestroy = mp_pCanDestroy;
 		
 		if (!pCanDestroy)
-			return TCContinuation<void>::fs_Finished();
+			return fg_Explicit();
 		
-		TCContinuation<void> Continuation;
+		TCPromise<void> Promise;
 		
 		mp_DumpProcessLaunch = fg_ConstructActor<CProcessLaunchActor>();
 		DLogWithCategory(Backup, Info, "Launching mongodump");
@@ -40,19 +40,19 @@ namespace NMib::NMongo::NMongoManager
 		CMongoManagerActor::fs_SetupEnvironment(Launch.m_Params);
 		
 		mp_DumpProcessLaunch(&CProcessLaunchActor::f_LaunchSimple, Launch)
-			> Continuation / [this, Continuation, pCanDestroy](CProcessLaunchActor::CSimpleLaunchResult &&_Result)
+			> Promise / [this, Promise, pCanDestroy](CProcessLaunchActor::CSimpleLaunchResult &&_Result)
 			{
 				if (_Result.m_ExitCode == 0)
 				{
 					DLogWithCategory(Backup, Info, "Full database dump finished");
 					mp_bInitialDumpFinished = true;
-					Continuation.f_SetResult();
+					Promise.f_SetResult();
 				}
 				else
-					Continuation.f_SetException(DMibErrorInstance(fg_Format("Backup dump failed: {}", _Result.f_GetCombinedOut())));
+					Promise.f_SetException(DMibErrorInstance(fg_Format("Backup dump failed: {}", _Result.f_GetCombinedOut())));
 			}
 		;
 		
-		return Continuation;
+		return Promise.f_MoveFuture();
 	}
 }

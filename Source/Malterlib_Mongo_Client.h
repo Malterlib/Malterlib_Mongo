@@ -68,7 +68,7 @@ namespace NMib::NMongo
 			, EInsertOption_ContinueOnError = DMibBit(0)
 		};
 
-		NConcurrency::TCContinuation<NContainer::TCVector<NEncoding::CEJSON>> f_Query
+		NConcurrency::TCFuture<NContainer::TCVector<NEncoding::CEJSON>> f_Query
 			(
 				NStr::CStr const &_Collection
 				, NEncoding::CEJSON const &_Query
@@ -79,7 +79,7 @@ namespace NMib::NMongo
 				, EQueryOption _Options
 			)
 		;
-		NConcurrency::TCContinuation<NConcurrency::CActorSubscription> f_TailQuery
+		NConcurrency::TCFuture<NConcurrency::CActorSubscription> f_TailQuery
 			(
 				NStr::CStr const &_Collection
 				, NEncoding::CEJSON const &_Query
@@ -90,7 +90,7 @@ namespace NMib::NMongo
 				, NFunction::TCFunctionMutable<void (NEncoding::CEJSON &&_Result)> &&_fOnResult
 			)
 		;
-		NConcurrency::TCContinuation<uint64> f_Count
+		NConcurrency::TCFuture<uint64> f_Count
 			(
 				 NStr::CStr const &_Collection
 				, NEncoding::CEJSON const &_Query
@@ -100,13 +100,13 @@ namespace NMib::NMongo
 				, EQueryOption _Options
 			)
 		;
-		NConcurrency::TCContinuation<void> f_BatchInsert(NStr::CStr const &_Collection, NContainer::TCVector<NEncoding::CEJSON> const &_Documents, EInsertOption _Options);
-		NConcurrency::TCContinuation<void> f_Insert(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Document, EInsertOption _Options);
-		NConcurrency::TCContinuation<void> f_Update(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, NEncoding::CEJSON const &_Update, EUpdateOption _Options);
-		NConcurrency::TCContinuation<void> f_Remove(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, ERemoveOption _Options);
+		NConcurrency::TCFuture<void> f_BatchInsert(NStr::CStr const &_Collection, NContainer::TCVector<NEncoding::CEJSON> const &_Documents, EInsertOption _Options);
+		NConcurrency::TCFuture<void> f_Insert(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Document, EInsertOption _Options);
+		NConcurrency::TCFuture<void> f_Update(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, NEncoding::CEJSON const &_Update, EUpdateOption _Options);
+		NConcurrency::TCFuture<void> f_Remove(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, ERemoveOption _Options);
 
 	private:
-		NConcurrency::TCContinuation<void> fp_Destroy() override;
+		NConcurrency::TCFuture<void> fp_Destroy() override;
 		void fp_ConnectToServer();
 
 		struct CInternal;

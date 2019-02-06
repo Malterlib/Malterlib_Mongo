@@ -20,18 +20,18 @@ namespace NMib::NMongo::NMongoManager
 		;
 		~CMongoBackupInstanceActor();
 
-		TCContinuation<void> f_StartBackup(CActorSubscription &&_ManifestFinished, CStr const &_BackupRoot);
+		TCFuture<void> f_StartBackup(CActorSubscription &&_ManifestFinished, CStr const &_BackupRoot);
 		
 		void f_MongoStopped();
 		
 	private:
-		TCContinuation<void> fp_Destroy() override;
+		TCFuture<void> fp_Destroy() override;
 		
-		TCContinuation<TCSharedPointer<CFile>> fp_OpenBackupFiles();
-		TCContinuation<void> fp_DumpDatabase();
-		TCContinuation<void> fp_TailOplog(TCSharedPointer<CFile> const &_pBackupFile);
+		TCFuture<TCSharedPointer<CFile>> fp_OpenBackupFiles();
+		TCFuture<void> fp_DumpDatabase();
+		TCFuture<void> fp_TailOplog(TCSharedPointer<CFile> const &_pBackupFile);
 		void fp_SavePendingOplogData(TCSharedPointer<CFile> const &_pBackupFile);
-		TCContinuation<void> fp_DeleteBackup();
+		TCFuture<void> fp_DeleteBackup();
 		void fp_MarkBackupFinished();
 		
 	private:

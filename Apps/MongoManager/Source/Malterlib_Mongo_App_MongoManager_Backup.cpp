@@ -28,19 +28,19 @@ namespace NMib::NMongo::NMongoManager
 		{
 		}
 		
-		TCContinuation<void> f_StartBackup(CActorSubscription &&_ManifestFinished, CStr const &_BackupRoot) override
+		TCFuture<void> f_StartBackup(CActorSubscription &&_ManifestFinished, CStr const &_BackupRoot) override
 		{
 			DLogWithCategory(MongoManager/Backup, Info, "Starting initial full backup");
-			TCContinuation<void> Continuation;
+			TCPromise<void> Promise;
 			
-			fp_CleanupOldBackups() > Continuation / [=, ManifestFinished = fg_Move(_ManifestFinished)]() mutable
+			fp_CleanupOldBackups() > Promise / [=, ManifestFinished = fg_Move(_ManifestFinished)]() mutable
 				{
 					mp_Backup = fg_ConstructActor<CMongoBackupInstanceActor>(mp_MongoConnectionSettings, mp_MongoExecutable, mp_BackupInterface.f_GetActor());
-					mp_Backup(&CMongoBackupInstanceActor::f_StartBackup, fg_Move(ManifestFinished), _BackupRoot) > Continuation;
+					mp_Backup(&CMongoBackupInstanceActor::f_StartBackup, fg_Move(ManifestFinished), _BackupRoot) > Promise;
 				}
 			;
 			
-			return Continuation;
+			return Promise.f_MoveFuture();
 		}
 		
 		void f_MongoStopped() override
@@ -51,7 +51,7 @@ namespace NMib::NMongo::NMongoManager
 		}
 		
 	private:
-		TCContinuation<void> fp_Destroy() override
+		TCFuture<void> fp_Destroy() override
 		{
 			TCSharedPointer<CCanDestroyTracker> pCanDestroy = fg_Move(mp_pCanDestroy);
 
@@ -60,26 +60,25 @@ namespace NMib::NMongo::NMongoManager
 			if (mp_Backup)
 				mp_Backup->f_Destroy() > pCanDestroy->f_Track();
 			
-			return pCanDestroy->m_Continuation;
+			return pCanDestroy->f_Future();
 		}
 		
-		TCContinuation<void> fp_CleanupOldBackups()
+		TCFuture<void> fp_CleanupOldBackups()
 		{
 			if (!mp_FileWriteActor)
 				mp_FileWriteActor = fg_ConstructActor<CSeparateThreadActor>(fg_Construct("Global file write actor"));
 			
-			TCContinuation<void> Result;
+			TCPromise<void> Result;
 
 			auto pCanDestroy = mp_pCanDestroy;
 			DLogWithCategory(MongoManager/Backup, Info, "Scheduling remove of old backups");
 			
 			mp_FileWriteActor
 				(
-					&CActor::f_DispatchWithReturn<TCContinuation<void>>
+					&CActor::f_DispatchWithReturn<TCFuture<void>>
 					, [pCanDestroy]
 					{
-						return TCContinuation<void>::fs_RunProtected<CExceptionFile>()
-							> [&]()
+						return TCFuture<void>::fs_RunProtected<CExceptionFile>() / [&]()
 							{
 								CFile::CFindFilesOptions Options{fg_Format("{}/Backup/*", CFile::fs_GetProgramDirectory()), false};
 								Options.m_AttribMask = EFileAttrib_Directory;
@@ -127,7 +126,7 @@ namespace NMib::NMongo::NMongoManager
 				}
 			;
 			
-			return Result;
+			return Result.f_MoveFuture();
 		}
 		
 	private:
@@ -151,7 +150,7 @@ namespace NMib::NMongo::NMongoManager
 		mp_PendingBackupStart.f_Clear();
 	}
 	
-	TCContinuation<CActorSubscription> CMongoManagerActor::f_StartBackup
+	TCFuture<CActorSubscription> CMongoManagerActor::f_StartBackup
 		(
 			TCDistributedActorInterface<CDistributedAppInterfaceBackup> &&_BackupInterface
 			, CActorSubscription &&_ManifestFinished
@@ -174,7 +173,7 @@ namespace NMib::NMongo::NMongoManager
 		
 		mp_MongoBackupManagerActors[BackupID];
 		
-		auto Subscription = g_ActorSubscription > [this, BackupID]() -> TCContinuation<void>
+		auto Subscription = g_ActorSubscription / [this, BackupID]() -> TCFuture<void>
 			{
 				auto pActor = mp_MongoBackupManagerActors.f_FindEqual(BackupID);
 				if (!pActor || !*pActor)
@@ -184,20 +183,20 @@ namespace NMib::NMongo::NMongoManager
 			}
 		;
 		
-		TCContinuation<CActorSubscription> Continuation;
+		TCPromise<CActorSubscription> Promise;
 		
 		auto fStartBackup = [=, BackupInterface = fg_Move(_BackupInterface), Subscription = fg_Move(Subscription), ManifestFinished = fg_Move(_ManifestFinished)](bool _bAbort) mutable
 			{
 				if (_bAbort)
 				{
-					Continuation.f_SetException(DErrorInstance("Destroyed"));
+					Promise.f_SetException(DErrorInstance("Destroyed"));
 					return;
 				}
 				
 				auto *pBackupActor = mp_MongoBackupManagerActors.f_FindEqual(BackupID);
 				if (!pBackupActor)
 				{
-					Continuation.f_SetException(DErrorInstance("Backup actor gone"));
+					Promise.f_SetException(DErrorInstance("Backup actor gone"));
 					return;
 				}
 				
@@ -212,10 +211,10 @@ namespace NMib::NMongo::NMongoManager
 				;
 				
 				BackupActor(&CBackupManagerActorInterface::f_StartBackup, fg_Move(ManifestFinished), _BackupRoot)
-					> Continuation / [Subscription = fg_Move(Subscription), Continuation]() mutable
+					> Promise / [Subscription = fg_Move(Subscription), Promise]() mutable
 					{
 						DLogWithCategory(MongoManager/Backup, Info, "Oplog is tailing");
-						Continuation.f_SetResult(fg_Move(Subscription));
+						Promise.f_SetResult(fg_Move(Subscription));
 					}
 				;
 			}
@@ -226,6 +225,6 @@ namespace NMib::NMongo::NMongoManager
 		else
 			mp_PendingBackupStart.f_Insert(fg_Move(fStartBackup));
 		
-		return Continuation;
+		return Promise.f_MoveFuture();
 	}
 }

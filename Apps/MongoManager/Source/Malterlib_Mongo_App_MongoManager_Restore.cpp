@@ -3,9 +3,9 @@
 
 namespace NMib::NMongo::NMongoManager
 {
-	TCContinuation<void> CMongoManagerActor::f_RestoreMongo(CTime const &_RestoreTime)
+	TCFuture<void> CMongoManagerActor::f_RestoreMongo(CTime const &_RestoreTime)
 	{
-		TCContinuation<void> Continuation;
+		TCPromise<void> Promise;
 		CStr DumpDirectory = CFile::fs_GetProgramDirectory() + "/MongoDump";
 		
 		fg_Dispatch
@@ -23,7 +23,7 @@ namespace NMib::NMongo::NMongoManager
 					
 				}
 			)
-			> Continuation / [Continuation, this, _RestoreTime, DumpDirectory]
+			> Promise / [Promise, this, _RestoreTime, DumpDirectory]
 			{
 				auto Params = fg_CreateVector<CStr>
 					(
@@ -52,17 +52,17 @@ namespace NMib::NMongo::NMongoManager
 						, ELogVerbosity_All
 						, false
 					)
-					> [Continuation](TCAsyncResult<CStr> &&_StdOut)
+					> [Promise](TCAsyncResult<CStr> &&_StdOut)
 					{
 						if (!_StdOut)
-							Continuation.f_SetException(_StdOut);
+							Promise.f_SetException(_StdOut);
 						else
-							Continuation.f_SetResult();
+							Promise.f_SetResult();
 					}
 				;
 			}
 		;		
 
-		return Continuation;
+		return Promise.f_MoveFuture();
 	}
 }

@@ -47,14 +47,14 @@ namespace NMib::NMongo::NMongoManager
 		;
 	}
 	
-	TCContinuation<void> CMongoBackupInstanceActor::fp_TailOplog(TCSharedPointer<CFile> const &_pBackupFile)
+	TCFuture<void> CMongoBackupInstanceActor::fp_TailOplog(TCSharedPointer<CFile> const &_pBackupFile)
 	{
 		TCSharedPointer<CFile> pBackupFile = _pBackupFile;
 
 		CEJSON Query;
 		Query["fromMigrate"]["$exists"] = false;
 	
-		TCContinuation<void> Continuation;
+		TCPromise<void> Promise;
 		
 		// Start by subscribing to the op log
 		mp_MongoClient
@@ -93,14 +93,14 @@ namespace NMib::NMongo::NMongoManager
 					}
 				}
 			)
-			> Continuation / [this, Continuation](CActorSubscription &&_Subscription) mutable
+			> Promise / [this, Promise](CActorSubscription &&_Subscription) mutable
 			{
 				mp_MongoTailSubscription = fg_Move(_Subscription);
 				
-				Continuation.f_SetResult();
+				Promise.f_SetResult();
 			}
 		;
 		
-		return Continuation;
+		return Promise.f_MoveFuture();
 	}
 }

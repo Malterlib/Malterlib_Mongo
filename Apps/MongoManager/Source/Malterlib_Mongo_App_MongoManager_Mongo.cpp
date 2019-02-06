@@ -7,9 +7,9 @@
 
 namespace NMib::NMongo::NMongoManager
 {
-	TCContinuation<void> CMongoManagerActor::fp_SetupPrerequisites_Mongo()
+	TCFuture<void> CMongoManagerActor::fp_SetupPrerequisites_Mongo()
 	{
-		TCContinuation<void> Continuation;
+		TCPromise<void> Promise;
 		CStr MongoDirectory = fp_GetDataPath("mongo");
 		struct CMongoInfo
 		{
@@ -70,7 +70,7 @@ namespace NMib::NMongo::NMongoManager
 					return MongoInfo;
 				}
 			)
-			> Continuation % "Failed to set up mongod" / [this, Continuation](CMongoInfo &&_Info)
+			> Promise % "Failed to set up mongod" / [this, Promise](CMongoInfo &&_Info)
 			{
 				mp_MongoUser = fg_Move(_Info.m_User);
 				if (!_Info.m_AdminDN.f_IsEmpty())
@@ -80,15 +80,15 @@ namespace NMib::NMongo::NMongoManager
 				if (!_Info.m_Password.f_IsEmpty())
 				{
 					mp_AppState.m_StateDatabase.m_Data["Users"][mp_MongoUser.m_Name]["Password"] = _Info.m_Password;
-					mp_AppState.f_SaveStateDatabase() > Continuation;
+					mp_AppState.f_SaveStateDatabase() > Promise;
 					return;
 				}
 #endif
 
-				Continuation.f_SetResult();
+				Promise.f_SetResult();
 			}
 		;
-		return Continuation;
+		return Promise.f_MoveFuture();
 	}
 	
 	CStr CMongoManagerActor::fp_GetMongoExecutable(CStr const &_ExecutableName) const
@@ -107,14 +107,14 @@ namespace NMib::NMongo::NMongoManager
 			, CStr const &_LogCategory
 			, CStr const &_Database
 			, fp32 _Timeout
-			, TCContinuation<CStr> const &_Continuation
+			, TCPromise<CStr> const &_Promise
 			, CClock const &_Clock
 			, CEJSON const &_Config
 		)
 	{
 		CStr MongoPath = fp_GetDataPath("mongo");
 	
-		TCContinuation<void> Continuation;
+		TCPromise<void> Promise;
 		
 		TCVector<CStr> Params = _MongoConnectionSettings.f_GetToolParams();
 		
@@ -173,7 +173,7 @@ namespace NMib::NMongo::NMongoManager
 										0.1
 										, [=]
 										{
-											fp_RunMongoScriptInternal(_MongoConnectionSettings, _Script, _LogCategory, _Database, _Timeout, _Continuation, _Clock, _Config);
+											fp_RunMongoScriptInternal(_MongoConnectionSettings, _Script, _LogCategory, _Database, _Timeout, _Promise, _Clock, _Config);
 										}
 										, self 
 									)
@@ -182,17 +182,17 @@ namespace NMib::NMongo::NMongoManager
 							}
 						}
 					}
-					_Continuation.f_SetException(fg_Move(_StdOut));
+					_Promise.f_SetException(fg_Move(_StdOut));
 					return;
 				}
 				
 				DLog(Info, "Mongo script '{}' finished successfully", _LogCategory);
-				_Continuation.f_SetResult(fg_Move(*_StdOut));
+				_Promise.f_SetResult(fg_Move(*_StdOut));
 			}
 		;
 	}
 	
-	TCContinuation<CStr> CMongoManagerActor::fp_RunMongoScript
+	TCFuture<CStr> CMongoManagerActor::fp_RunMongoScript
 		(
 			CMongoConnectionSettings const &_MongoConnectionSettings
 			, CStr const &_Script
@@ -209,7 +209,7 @@ namespace NMib::NMongo::NMongoManager
 		
 		CClock Clock{true};
 		
-		TCContinuation<CStr> Continuation; 
+		TCPromise<CStr> Promise; 
 		fp_RunMongoScriptInternal
 			(	
 				_MongoConnectionSettings
@@ -217,44 +217,44 @@ namespace NMib::NMongo::NMongoManager
 				, _Script
 				, _Database
 				, _Timeout
-				, Continuation
+				, Promise
 				, Clock
 				, _Config
 			)
 		;
-		return Continuation;
+		return Promise.f_MoveFuture();
 	}
 
-	TCContinuation<void> CMongoManagerActor::fp_DetermineHostname()
+	TCFuture<void> CMongoManagerActor::fp_DetermineHostname()
 	{
 		mp_ResolveActor = fg_Construct();
 
 		CStr HostName = NProcess::NPlatform::fg_Process_GetHostName();
 
-		TCContinuation<void> Continuation;
-		mp_ResolveActor(&CResolveActor::f_Resolve, HostName, NNetwork::ENetAddressType_TCPv4) > Continuation / [=](NMib::NNetwork::CNetAddress &&_Address)
+		TCPromise<void> Promise;
+		mp_ResolveActor(&CResolveActor::f_Resolve, HostName, NNetwork::ENetAddressType_TCPv4) > Promise / [=](NMib::NNetwork::CNetAddress &&_Address)
 			{
 				if (_Address.f_GetType() != NNetwork::ENetAddressType_TCPv4)
-					return Continuation.f_SetException(DMibErrorInstance("Hostname '{}' does not resolve to an IPV4 address"_f << HostName));
+					return Promise.f_SetException(DMibErrorInstance("Hostname '{}' does not resolve to an IPV4 address"_f << HostName));
 
 				NNetwork::CNetAddressTCPv4 IPAddress;
 				if (!_Address.f_Get(IPAddress))
-					return Continuation.f_SetException(DMibErrorInstance("Hostname '{}' does not resolve to an valid IPV4 address"_f << HostName));
+					return Promise.f_SetException(DMibErrorInstance("Hostname '{}' does not resolve to an valid IPV4 address"_f << HostName));
 
 				if (IPAddress.f_GetIP().m_IP[0] != 127)
-					return Continuation.f_SetException(DMibErrorInstance("Hostname '{}' does not resolve to a link local address. {} is not valid"_f << HostName << _Address));
+					return Promise.f_SetException(DMibErrorInstance("Hostname '{}' does not resolve to a link local address. {} is not valid"_f << HostName << _Address));
 
 				DLog(Info, "Hostname '{}' resolved to: {}", HostName, _Address);
 
 				mp_MongoLocalAddress = _Address;
-				Continuation.f_SetResult();
+				Promise.f_SetResult();
 			}
 		;
 
-		return Continuation;
+		return Promise.f_MoveFuture();
 	}
 
-	TCContinuation<void> CMongoManagerActor::fp_StartMongo()
+	TCFuture<void> CMongoManagerActor::fp_StartMongo()
 	{
 		if (mp_pMongoLaunch)
 			return fg_Explicit(); // Launch already in progress
@@ -350,7 +350,7 @@ namespace NMib::NMongo::NMongoManager
 			Arguments.f_Insert(CStr::fs_ToStr(CacheSizeInt));
 		}
 		
-		TCContinuation<void> Continuation;
+		TCPromise<void> Promise;
 
 #ifdef DPlatformFamily_Linux
 		TCVector<CStr> LaunchArguments = {"--interleave=all"};
@@ -367,7 +367,7 @@ namespace NMib::NMongo::NMongoManager
 				LaunchExecutable
 				, LaunchArguments
 				, MongoPath
-				, [this, Continuation](CProcessLaunchStateChangeVariant const &_Change, fp64 _TimeSinceStart)
+				, [this, Promise](CProcessLaunchStateChangeVariant const &_Change, fp64 _TimeSinceStart)
 				{
 					switch (_Change.f_GetTypeID())
 					{
@@ -385,10 +385,10 @@ namespace NMib::NMongo::NMongoManager
 										}
 									)
 								;
-								Continuation.f_SetException(DMibErrorInstance("Application is being destroyed"));
+								Promise.f_SetException(DMibErrorInstance("Application is being destroyed"));
 							}
 							else
-								Continuation.f_SetResult();
+								Promise.f_SetResult();
 						}
 						break;
 					case EProcessLaunchState_Exited:
@@ -399,7 +399,7 @@ namespace NMib::NMongo::NMongoManager
 								fg_Timeout(10.0) > [this]
 									{
 										if (!mp_pCanDestroyTracker.f_IsEmpty() && !mp_bStopped)
-											fp_StartMongo();
+											fp_StartMongo() > fg_DiscardResult();
 									}
 								;
 							}
@@ -409,7 +409,7 @@ namespace NMib::NMongo::NMongoManager
 						break;
 					case EProcessLaunchState_LaunchFailed:
 						{
-							Continuation.f_SetException(DMibErrorInstance(fg_Format("Mongod launch failed: {}", _Change.f_Get<EProcessLaunchState_LaunchFailed>())));
+							Promise.f_SetException(DMibErrorInstance(fg_Format("Mongod launch failed: {}", _Change.f_Get<EProcessLaunchState_LaunchFailed>())));
 							mp_pMongoLaunch.f_Clear();
 							mp_MongoLaunchSubscription.f_Clear();
 						}
@@ -454,11 +454,11 @@ namespace NMib::NMongo::NMongoManager
 		
 		mp_pMongoLaunch = fg_ConstructActor<CProcessLaunchActor>();
 		
-		mp_pMongoLaunch(&CProcessLaunchActor::f_Launch, fg_Move(Launch), fg_ThisActor(this)) > [this, Continuation](TCAsyncResult<CActorSubscription> &&_Subscription)
+		mp_pMongoLaunch(&CProcessLaunchActor::f_Launch, fg_Move(Launch), fg_ThisActor(this)) > [this, Promise](TCAsyncResult<CActorSubscription> &&_Subscription)
 			{
 				if (!_Subscription)
 				{
-					Continuation.f_SetException(fg_Move(_Subscription));
+					Promise.f_SetException(fg_Move(_Subscription));
 					mp_pMongoLaunch.f_Clear();
 					return;
 				}
@@ -466,34 +466,34 @@ namespace NMib::NMongo::NMongoManager
 			}
 		;
 		
-		return Continuation;
+		return Promise.f_MoveFuture();
 	}
 	
-	TCContinuation<void> CMongoManagerActor::f_UpdateReplicationConfig()
+	TCFuture<void> CMongoManagerActor::f_UpdateReplicationConfig()
 	{
-		TCContinuation<void> Continuation; 
+		TCPromise<void> Promise; 
 		fp_RunMongoScript(mp_MongoConnectionSettings, "MongoUpdateReplicationConfig", "local", 60.0, {}) 
-			> Continuation / [Continuation]
+			> Promise / [Promise]
 			{
-				Continuation.f_SetResult();
+				Promise.f_SetResult();
 			}
 		;
-		return Continuation;
+		return Promise.f_MoveFuture();
 	}
 
-	TCContinuation<void> CMongoManagerActor::f_SetupPermissions()
+	TCFuture<void> CMongoManagerActor::f_SetupPermissions()
 	{
-		TCContinuation<void> Continuation; 
+		TCPromise<void> Promise; 
 		fp_RunMongoScript(mp_MongoConnectionSettings, "MongoSetupPermissions", "local", 60.0, {"mongoAdminDN"_= mp_MongoConnectionSettings.m_UserName})
-			> Continuation / [Continuation]
+			> Promise / [Promise]
 			{
-				Continuation.f_SetResult();
+				Promise.f_SetResult();
 			}
 		;
-		return Continuation;
+		return Promise.f_MoveFuture();
 	}
 	
-	TCContinuation<void> CMongoManagerActor::f_JoinReplica(CJoinReplicaOptions const &_Options)
+	TCFuture<void> CMongoManagerActor::f_JoinReplica(CJoinReplicaOptions const &_Options)
 	{
 		bool bConfigChanged = false;
 		
@@ -523,9 +523,9 @@ namespace NMib::NMongo::NMongoManager
 		if (bConfigChanged)
 			mp_AppState.m_ConfigDatabase.f_Save() > Results.f_AddResult();
 		
-		TCContinuation<void> Continuation;
+		TCPromise<void> Promise;
 		
-		Results.f_GetResults() > Continuation / [Continuation, this, _Options]
+		Results.f_GetResults() > Promise / [Promise, this, _Options]
 			{
 				CStr Self = mp_MongoConnectionSettings.f_GetConnectionString();
 				CStr SelfTag = Self.f_ReplaceChar('.', '_').f_ReplaceChar(':', '_'); 
@@ -558,29 +558,29 @@ namespace NMib::NMongo::NMongoManager
 				if (ConnectionSettings.m_Host == NProcess::NPlatform::fg_Process_GetHostName() && ConnectionSettings.m_Port == mp_MongoConnectionSettings.m_Port)
 				{
 					fp_RunMongoScript(mp_MongoConnectionSettings, "MongoInitReplicaSet", "local", 60.0, Config) 
-						> Continuation / [Continuation]
+						> Promise / [Promise]
 						{
-							Continuation.f_SetResult();
+							Promise.f_SetResult();
 						}
 					;
 					return;
 				}
 				
 				fp_RunMongoScript(ConnectionSettings, "MongoGetPrimary", "local", 60.0, {"quiet"_= true})
-					> Continuation / [this, Continuation, Config](CStr &&_Primary)
+					> Promise / [this, Promise, Config](CStr &&_Primary)
 					{
 						CStr Primary = _Primary.f_Trim();
 						auto ConnectionSettings = mp_MongoConnectionSettings.f_ForConnectionString(Primary);
 						fp_RunMongoScript(ConnectionSettings, "MongoJoinReplicaSet", "local", 60.0, Config) 
-							> Continuation / [Continuation]
+							> Promise / [Promise]
 							{
-								Continuation.f_SetResult();
+								Promise.f_SetResult();
 							}
 						;
 					}
 				;
 			}
 		;
-		return Continuation;
+		return Promise.f_MoveFuture();
 	}
 }

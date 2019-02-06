@@ -48,14 +48,14 @@ namespace NMib::NMongo::NMongoManager
 		
 		CMongoManagerActor(CDistributedAppState &_AppState);
 		~CMongoManagerActor();
-		TCContinuation<void> f_RestoreMongo(CTime const &_RestoreTime);
-		TCContinuation<void> f_Startup(EMode _Mode, CStr const &_OverrideReplicaName, uint16 _OverridePort, TCOptional<bool> const &_VerboseMongoScrips);
-		TCContinuation<void> f_UpdateReplicationConfig();
-		TCContinuation<void> f_SetupPermissions();
-		TCContinuation<void> f_JoinReplica(CJoinReplicaOptions const &_Options);
-		TCContinuation<void> f_PreStop();
+		TCFuture<void> f_RestoreMongo(CTime const &_RestoreTime);
+		TCFuture<void> f_Startup(EMode _Mode, CStr const &_OverrideReplicaName, uint16 _OverridePort, TCOptional<bool> const &_VerboseMongoScrips);
+		TCFuture<void> f_UpdateReplicationConfig();
+		TCFuture<void> f_SetupPermissions();
+		TCFuture<void> f_JoinReplica(CJoinReplicaOptions const &_Options);
+		TCFuture<void> f_PreStop();
 		
-		TCContinuation<CActorSubscription> f_StartBackup
+		TCFuture<CActorSubscription> f_StartBackup
 			(
 				TCDistributedActorInterface<CDistributedAppInterfaceBackup> &&_BackupInterface
 				, CActorSubscription &&_ManifestFinished
@@ -76,11 +76,11 @@ namespace NMib::NMongo::NMongoManager
 			, ELogVerbosity_Messages 
 			, ELogVerbosity_All
 		};
-		TCContinuation<void> fp_Destroy() override;
+		TCFuture<void> fp_Destroy() override;
 		
 		void fp_StartMongoBackup();
 		
-		TCContinuation<void> fp_SetupPrerequisites_Mongo();
+		TCFuture<void> fp_SetupPrerequisites_Mongo();
 		CStr fp_GetMongoExecutable(CStr const &_ExecutableName) const;
 		void fp_RunMongoScriptInternal
 			(
@@ -89,12 +89,12 @@ namespace NMib::NMongo::NMongoManager
 				, CStr const &_LogCategory
 				, CStr const &_Database
 				, fp32 _Timeout
-				, TCContinuation<CStr> const &_Continuation
+				, TCPromise<CStr> const &_Promise
 				, CClock const &_Clock
 				, CEJSON const &_Config
 			)
 		;
-		TCContinuation<CStr> fp_RunMongoScript
+		TCFuture<CStr> fp_RunMongoScript
 			(
 				CMongoConnectionSettings const &_MongoConnectionSettings
 				, CStr const &_Script
@@ -103,12 +103,12 @@ namespace NMib::NMongo::NMongoManager
 				, CEJSON const &_Config
 			)
 		;
-		TCContinuation<void> fp_StartMongo();
-		TCContinuation<void> fp_DetermineHostname();
+		TCFuture<void> fp_StartMongo();
+		TCFuture<void> fp_DetermineHostname();
 
 		CStr fp_GetDataPath(CStr const &_Path) const;
 		CStr fp_ConcatOutput(CStr const &_StdOut, CStr const &_StdErr) const;
-		TCContinuation<CStr> fp_LaunchTool
+		TCFuture<CStr> fp_LaunchTool
 			(
 				CStr const &_Executable
 				, CStr const &_WorkingDir
@@ -124,13 +124,13 @@ namespace NMib::NMongo::NMongoManager
 #endif
 			)
 		;
-		TCContinuation<CStr> fp_RunToolForVersionCheck
+		TCFuture<CStr> fp_RunToolForVersionCheck
 			(
 				CStr const &_Tool
 				, TCVector<CStr> const &_Arguments
 			)
 		;
-		TCContinuation<void> fp_DestroyApp_Mongo();
+		TCFuture<void> fp_DestroyApp_Mongo();
 
 		static void fsp_SetupUser
 			(
@@ -143,9 +143,9 @@ namespace NMib::NMongo::NMongoManager
 #ifdef DPlatformFamily_Windows
 		CStrSecure fp_GetUserPassword(CStr const &_User);
 #endif
-		TCContinuation<void> fp_ExtractExeFS() const;
-		TCContinuation<void> fp_CheckVersion(CStr const &_Tool, CStr const &_Argument, CStr const &_ParseString, CVersion const &_NeededVersion);
-		TCContinuation<void> fp_CleanupOldProcesses();
+		TCFuture<void> fp_ExtractExeFS() const;
+		TCFuture<void> fp_CheckVersion(CStr const &_Tool, CStr const &_Argument, CStr const &_ParseString, CVersion const &_NeededVersion);
+		TCFuture<void> fp_CleanupOldProcesses();
 
 		TCSharedPointer<CUniqueUserGroup> mp_pUniqueUserGroup = fg_Construct("/M/App/MongoManager");
 
