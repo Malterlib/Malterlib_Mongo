@@ -25,7 +25,7 @@
 #define MONGOC_USER_SET_LDFLAGS "/machine:X86"
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
-#define MONGOC_CC "X:/Apps/Dev/VS.15/VC/Tools/MSVC/14.14.26428/bin/Hostx64/x86/cl.exe"
+#define MONGOC_CC "X:/Apps/Dev/VS.16/VC/Tools/MSVC/14.20.27508/bin/Hostx64/x86/cl.exe"
 
 /*
  * MONGOC_ENABLE_SSL_SECURE_CHANNEL is set from configure to determine if we are

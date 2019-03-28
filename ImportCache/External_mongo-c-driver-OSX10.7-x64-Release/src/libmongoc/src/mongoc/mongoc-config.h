@@ -25,7 +25,7 @@
 #define MONGOC_USER_SET_LDFLAGS ""
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
-#define MONGOC_CC "/CompiledFiles/Dependencies/llvm/6.0/build/main/bin/clang"
+#define MONGOC_CC "/CompiledFiles/Dependencies/llvm/8.0/build/main/bin/clang"
 
 /*
  * MONGOC_ENABLE_SSL_SECURE_CHANNEL is set from configure to determine if we are
