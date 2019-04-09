@@ -9,6 +9,9 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type StaticLibrary
 	Target.BaseName mongocxx
 	%Group src
@@ -323,6 +326,9 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type StaticLibrary
 	Target.BaseName mongocxx_mocked
 	%Group src
@@ -637,6 +643,9 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName test_driver
 	%Group src
@@ -918,6 +927,9 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName test_logging
 	%Group src
@@ -956,6 +968,9 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName test_instance
 	%Group src
@@ -994,6 +1009,9 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName test_crud_specs
 	%Group src
@@ -1042,6 +1060,9 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName test_gridfs_specs
 	%Group src

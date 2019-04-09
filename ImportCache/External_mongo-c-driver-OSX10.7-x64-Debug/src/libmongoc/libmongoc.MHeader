@@ -9,6 +9,9 @@ Property.CMakeOutputPath_libmongoc "@('../..'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/libmongoc"
+	{
+		!!Target.Group ""
+	}
 	Target.Type StaticLibrary
 	Target.BaseName mongoc_static
 	%Group src

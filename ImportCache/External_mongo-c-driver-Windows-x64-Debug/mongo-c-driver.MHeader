@@ -9,6 +9,9 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/libbson"
+	{
+		!!Target.Group ""
+	}
 	Target.Type SharedDynamicLibrary
 	Target.BaseName bson_shared
 	%Group src
@@ -261,6 +264,9 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/libbson"
+	{
+		!!Target.Group ""
+	}
 	Target.Type StaticLibrary
 	Target.BaseName bson_static
 	%Group src
@@ -513,6 +519,9 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/libmongoc"
+	{
+		!!Target.Group ""
+	}
 	Target.Type StaticLibrary
 	Target.BaseName mongoc_static
 	%Group src

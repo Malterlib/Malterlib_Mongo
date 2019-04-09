@@ -9,6 +9,9 @@ Property.CMakeOutputPath_BSONCXX "@('../..'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/BSONCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type StaticLibrary
 	Target.BaseName bsoncxx
 	%Group src
@@ -113,6 +116,9 @@ Property.CMakeOutputPath_BSONCXX "@('../..'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/BSONCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type StaticLibrary
 	Target.BaseName bsoncxx_testing
 	%Group src
@@ -217,6 +223,9 @@ Property.CMakeOutputPath_BSONCXX "@('../..'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/BSONCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName test_bson
 	%Group src

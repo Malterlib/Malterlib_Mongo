@@ -9,6 +9,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/BSONCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type StaticLibrary
 	Target.BaseName bsoncxx
 	%Group src
@@ -113,6 +116,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/BSONCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type StaticLibrary
 	Target.BaseName bsoncxx_testing
 	%Group src
@@ -217,6 +223,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/BSONCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName test_bson
 	%Group src
@@ -282,6 +291,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type StaticLibrary
 	Target.BaseName mongocxx
 	%Group src
@@ -596,6 +608,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type StaticLibrary
 	Target.BaseName mongocxx_mocked
 	%Group src
@@ -910,6 +925,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName test_driver
 	%Group src
@@ -1191,6 +1209,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName test_logging
 	%Group src
@@ -1229,6 +1250,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName test_instance
 	%Group src
@@ -1267,6 +1291,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName test_crud_specs
 	%Group src
@@ -1315,6 +1342,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName test_gridfs_specs
 	%Group src
@@ -1363,6 +1393,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName getting_values
 	%Group examples
@@ -1384,6 +1417,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName builder_core
 	%Group examples
@@ -1405,6 +1441,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName builder_basic
 	%Group examples
@@ -1426,6 +1465,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName decimal128
 	%Group examples
@@ -1447,6 +1489,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName builder_stream
 	%Group examples
@@ -1468,6 +1513,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName builder_stream_customization
 	%Group examples
@@ -1489,6 +1537,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName view_and_value
 	%Group examples
@@ -1510,6 +1561,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName aggregate
 	%Group examples
@@ -1532,6 +1586,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName aggregation_examples
 	%Group examples
@@ -1554,6 +1611,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName connect
 	%Group examples
@@ -1576,6 +1636,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName bulk_write
 	%Group examples
@@ -1598,6 +1661,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName change_streams
 	%Group examples
@@ -1620,6 +1686,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName remove
 	%Group examples
@@ -1642,6 +1711,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName create
 	%Group examples
@@ -1664,6 +1736,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName client_session
 	%Group examples
@@ -1686,6 +1761,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName get_values_from_documents
 	%Group examples
@@ -1708,6 +1786,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName exception
 	%Group examples
@@ -1730,6 +1811,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName document_validation
 	%Group examples
@@ -1752,6 +1836,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName gridfs
 	%Group examples
@@ -1774,6 +1861,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName index
 	%Group examples
@@ -1796,6 +1886,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName inserted_id
 	%Group examples
@@ -1818,6 +1911,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName instance_management
 	%Group examples
@@ -1840,6 +1936,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName runcommand_examples
 	%Group examples
@@ -1862,6 +1961,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName index_examples
 	%Group examples
@@ -1884,6 +1986,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName documentation_examples
 	%Group examples
@@ -1906,6 +2011,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName usage_overview
 	%Group examples
@@ -1928,6 +2036,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName query_projection
 	%Group examples
@@ -1950,6 +2061,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName pool
 	%Group examples
@@ -1972,6 +2086,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName query
 	%Group examples
@@ -1994,6 +2111,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName tailable_cursor
 	%Group examples
@@ -2016,6 +2136,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName update
 	%Group examples
@@ -2038,6 +2161,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName view_or_value_variant
 	%Group examples
@@ -2060,6 +2186,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER "@('.'->MakeAbsolute())"
 	}
 	Property.MalterlibTargetNameType Normal
 	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group ""
+	}
 	Target.Type ConsoleExecutable
 	Target.BaseName microbenchmarks
 	%Group benchmark
