@@ -31,12 +31,12 @@ namespace NMib::NMongo::NMongoManager
 		TCOptional<bool> m_BuildIndexes;
 		TCOptional<bool> m_Hidden;
 	};
-	
+
 	struct CMongoManagerActor : public CActor
 	{
 	public:
 		using CActorHolder = CDelegatedActorHolder;
-		
+
 		enum EMode
 		{
 			EMode_Normal
@@ -45,7 +45,7 @@ namespace NMib::NMongo::NMongoManager
 			, EMode_SetupPermissions
 			, EMode_JoinReplicaSet
 		};
-		
+
 		CMongoManagerActor(CDistributedAppState &_AppState);
 		~CMongoManagerActor();
 		TCFuture<void> f_RestoreMongo(CTime const &_RestoreTime);
@@ -54,7 +54,7 @@ namespace NMib::NMongo::NMongoManager
 		TCFuture<void> f_SetupPermissions();
 		TCFuture<void> f_JoinReplica(CJoinReplicaOptions const &_Options);
 		TCFuture<void> f_PreStop();
-		
+
 		TCFuture<CActorSubscription> f_StartBackup
 			(
 				TCDistributedActorInterface<CDistributedAppInterfaceBackup> &&_BackupInterface
@@ -62,29 +62,29 @@ namespace NMib::NMongo::NMongoManager
 				, CStr const &_BackupRoot
 			)
 		;
-		
+
 		static void fs_SetupEnvironment(CProcessLaunchParams &_Params);
-		
+
 		static mint fs_GetMongoFileLimits();
 		static mint fs_GetMongoThreadLimits();
-		
+
 	private:
 		enum ELogVerbosity
 		{
 			ELogVerbosity_None
 			, ELogVerbosity_Errors
-			, ELogVerbosity_Messages 
+			, ELogVerbosity_Messages
 			, ELogVerbosity_All
 		};
 		TCFuture<void> fp_Destroy() override;
-		
+
 		void fp_StartMongoBackup();
-		
+
 		TCFuture<void> fp_SetupPrerequisites_Mongo();
 		CStr fp_GetMongoExecutable(CStr const &_ExecutableName) const;
 		void fp_RunMongoScriptInternal
 			(
-				CMongoConnectionSettings const &_MongoConnectionSettings 
+				CMongoConnectionSettings const &_MongoConnectionSettings
 				, CStr const &_Script
 				, CStr const &_LogCategory
 				, CStr const &_Database
@@ -147,14 +147,14 @@ namespace NMib::NMongo::NMongoManager
 		TCFuture<void> fp_CheckVersion(CStr const &_Tool, CStr const &_Argument, CStr const &_ParseString, CVersion const &_NeededVersion);
 		TCFuture<void> fp_CleanupOldProcesses();
 
-		TCSharedPointer<CUniqueUserGroup> mp_pUniqueUserGroup = fg_Construct("/M/App/MongoManager");
+		TCSharedPointer<CUniqueUserGroup> mp_pUniqueUserGroup = fg_Construct("/M/App/MongoManager", CDistributedAppActor::mp_State.m_RootDirectory);
 
 		EMode mp_Mode;
-		
+
 		TCActor<CSeparateThreadActor> mp_pFileActor;
 		TCActor<CResolveActor> mp_ResolveActor;
 		NMib::NNetwork::CNetAddress mp_MongoLocalAddress;
-		
+
 		TCSharedPointer<CCanDestroyTracker> mp_pCanDestroyTracker;
 		CDistributedAppState &mp_AppState;
 
@@ -163,7 +163,7 @@ namespace NMib::NMongo::NMongoManager
 		CVersion mp_Version_MongoDB{3, 4, 0};
 		bool mp_bEnableSSL = true;
 		bool mp_bVerboseMongoScripts = false;
-		
+
 		// Mongo
 		TCActor<CProcessLaunchActor> mp_pMongoLaunch;
 		CActorSubscription mp_MongoLaunchSubscription;
@@ -174,7 +174,7 @@ namespace NMib::NMongo::NMongoManager
 		TCMap<CStr, TCActor<CBackupManagerActorInterface>> mp_MongoBackupManagerActors;
 		TCVector<TCFunctionMovable<void (bool _bAbort)>> mp_PendingBackupStart;
 		bool mp_bMongoBackupCanStart = false;
-		
+
 		// Tool launches
 		TCLinkedList<CToolLaunch> mp_ToolLaunches;
 	};
