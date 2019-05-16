@@ -3,7 +3,7 @@
 #include <Mib/Concurrency/Actor/Timer>
 #include <Mib/Encoding/JSONShortcuts>
 
-#include <Mib/Network/SSL>
+#include <Mib/Cryptography/Certificate>
 
 namespace NMib::NMongo::NMongoManager
 {
@@ -57,7 +57,7 @@ namespace NMib::NMongo::NMongoManager
 					CMongoInfo MongoInfo;
 					
 					if (!ConnectionSettings.m_ClientCertificatePath.f_IsEmpty() && CFile::fs_FileExists(ConnectionSettings.m_ClientCertificatePath))
-						MongoInfo.m_AdminDN = CSSLContext::fs_GetCertificateDistinguishedName_RFC2253(CFile::fs_ReadFile(ConnectionSettings.m_ClientCertificatePath));
+						MongoInfo.m_AdminDN = CCertificate::fs_GetCertificateDistinguishedName_RFC2253(CFile::fs_ReadFile(ConnectionSettings.m_ClientCertificatePath));
 					else if (bNeedAdmin)
 						DError(fg_Format("Could not find mongo admin user certificate at '{}'", ConnectionSettings.m_ClientCertificatePath));
 					
