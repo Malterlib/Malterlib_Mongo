@@ -482,7 +482,7 @@ namespace NMib::NMongo
 			}
 		;
 
-		return fg_Move(Result);
+		return Result.f_MoveFuture();
 	}
 
 	NConcurrency::TCFuture<NContainer::TCVector<NEncoding::CEJSON>> CMongoClientActor::f_Query
@@ -496,19 +496,12 @@ namespace NMib::NMongo
 			, EQueryOption _Options
 		)
 	{
-		NConcurrency::TCPromise<NContainer::TCVector<NEncoding::CEJSON>> Result;
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
-		{
-			Result.f_SetException(DMibErrorInstance("Tailing query already running"));
-			return fg_Move(Result);
-		}
+			return DMibErrorInstance("Tailing query already running");
 		NStr::CStr Error = Internal.f_MakeSureConnected();
 		if (!Error.f_IsEmpty())
-		{
-			Result.f_SetException(DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error)));
-			return fg_Move(Result);
-		}
+			return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
 		auto QueryOptions = fg_QueryOptions(_Options, _pFields, _pOrder);
 
@@ -528,8 +521,7 @@ namespace NMib::NMongo
 			for (auto &&Document : Cursor)
 			   ToReturn.f_Insert(fg_FromBSON(Document));
 
-			Result.f_SetResult(fg_Move(ToReturn));
-			return fg_Move(Result);
+			return fg_Explicit(fg_Move(ToReturn));
 		}
 		catch (std::exception const &_Exception)
 		{
@@ -537,8 +529,7 @@ namespace NMib::NMongo
 			if (_Exception.what())
 				pError = _Exception.what();
 
-			Result.f_SetException(DMibErrorInstance(NStr::fg_Format("Mongo query failed: {}", pError)));
-			return fg_Move(Result);
+			return DMibErrorInstance(NStr::fg_Format("Mongo query failed: {}", pError));
 		}
 	}
 
@@ -552,19 +543,12 @@ namespace NMib::NMongo
 			, EQueryOption _Options
 		)
 	{
-		NConcurrency::TCPromise<uint64> Result;
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
-		{
-			Result.f_SetException(DMibErrorInstance("Tailing query already running"));
-			return fg_Move(Result);
-		}
+			return DMibErrorInstance("Tailing query already running");
 		NStr::CStr Error = Internal.f_MakeSureConnected();
 		if (!Error.f_IsEmpty())
-		{
-			Result.f_SetException(DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error)));
-			return fg_Move(Result);
-		}
+			return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
 		auto QueryOptions = fg_QueryOptions(_Options, nullptr, _pOrder);
 
@@ -579,9 +563,7 @@ namespace NMib::NMongo
 			auto Collection = Internal.f_GetCollection(_Collection);
 
 			uint64 Count = Collection.count(fg_ToBSON(_Query));
-
-			Result.f_SetResult(Count);
-			return fg_Move(Result);
+			return fg_Explicit(Count);
 		}
 		catch (std::exception const &_Exception)
 		{
@@ -589,8 +571,7 @@ namespace NMib::NMongo
 			if (_Exception.what())
 				pError = _Exception.what();
 
-			Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongoDB count failed: {}", pError)));
-			return fg_Move(Result);
+			return DMibErrorInstance(NStr::fg_Format("MongoDB count failed: {}", pError));
 		}
 	}
 
@@ -599,17 +580,11 @@ namespace NMib::NMongo
 		NConcurrency::TCPromise<void> Result;
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
-		{
-			Result.f_SetException(DMibErrorInstance("Tailing query already running"));
-			return fg_Move(Result);
-		}
+			return DMibErrorInstance("Tailing query already running");
 
 		NStr::CStr Error = Internal.f_MakeSureConnected();
 		if (!Error.f_IsEmpty())
-		{
-			Result.f_SetException(DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error)));
-			return fg_Move(Result);
-		}
+			return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
 		mongocxx::options::insert InsertOptions;
 		if (_Options & EInsertOption_ContinueOnError)
@@ -621,9 +596,7 @@ namespace NMib::NMongo
 		{
 			auto Collection = Internal.f_GetCollection(_Collection);
 			Collection.insert_one(fg_ToBSON(_Document), InsertOptions);
-
-			Result.f_SetResult();
-			return fg_Move(Result);
+			return fg_Explicit();
 		}
 		catch (std::exception const &_Exception)
 		{
@@ -631,26 +604,19 @@ namespace NMib::NMongo
 			if (_Exception.what())
 				pError = _Exception.what();
 
-			Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongoDB insert failed: {}", pError)));
-			return fg_Move(Result);
+			return DMibErrorInstance(NStr::fg_Format("MongoDB insert failed: {}", pError));
 		}
 	}
 
 	NConcurrency::TCFuture<void> CMongoClientActor::f_BatchInsert(NStr::CStr const &_Collection, NContainer::TCVector<NEncoding::CEJSON> const &_Documents, EInsertOption _Options)
 	{
-		NConcurrency::TCPromise<void> Result;
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
-		{
-			Result.f_SetException(DMibErrorInstance("Tailing query already running"));
-			return fg_Move(Result);
-		}
+			return DMibErrorInstance("Tailing query already running");
+
 		NStr::CStr Error = Internal.f_MakeSureConnected();
 		if (!Error.f_IsEmpty())
-		{
-			Result.f_SetException(DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error)));
-			return fg_Move(Result);
-		}
+			return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
 		mongocxx::options::insert InsertOptions;
 		if (_Options & EInsertOption_ContinueOnError)
@@ -669,8 +635,7 @@ namespace NMib::NMongo
 
 			Collection.insert_many(AllDocuments);
 
-			Result.f_SetResult();
-			return fg_Move(Result);
+			return fg_Explicit();
 		}
 		catch (std::exception const &_Exception)
 		{
@@ -678,27 +643,19 @@ namespace NMib::NMongo
 			if (_Exception.what())
 				pError = _Exception.what();
 
-			Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongoDB insert failed: {}", pError)));
-			return fg_Move(Result);
+			return DMibErrorInstance(NStr::fg_Format("MongoDB insert failed: {}", pError));
 		}
 	}
 
 	NConcurrency::TCFuture<void> CMongoClientActor::f_Update(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, NEncoding::CEJSON const &_Update, EUpdateOption _Options)
 	{
-		NConcurrency::TCPromise<void> Result;
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
-		{
-			Result.f_SetException(DMibErrorInstance("Tailing query already running"));
-			return fg_Move(Result);
-		}
+			return DMibErrorInstance("Tailing query already running");
 
 		NStr::CStr Error = Internal.f_MakeSureConnected();
 		if (!Error.f_IsEmpty())
-		{
-			Result.f_SetException(DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error)));
-			return fg_Move(Result);
-		}
+			return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
 		mongocxx::options::update UpdateOptions;
 
@@ -714,8 +671,7 @@ namespace NMib::NMongo
 			else
 				Collection.update_many(fg_ToBSON(_Query), fg_ToBSON(_Update), UpdateOptions);
 
-			Result.f_SetResult();
-			return fg_Move(Result);
+			return fg_Explicit();
 		}
 		catch (std::exception const &_Exception)
 		{
@@ -723,8 +679,7 @@ namespace NMib::NMongo
 			if (_Exception.what())
 				pError = _Exception.what();
 
-			Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongoDB update failed: {}", pError)));
-			return fg_Move(Result);
+			return DMibErrorInstance(NStr::fg_Format("MongoDB update failed: {}", pError));
 		}
 	}
 
@@ -733,16 +688,11 @@ namespace NMib::NMongo
 		NConcurrency::TCPromise<void> Result;
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
-		{
-			Result.f_SetException(DMibErrorInstance("Tailing query already running"));
-			return fg_Move(Result);
-		}
+			return DMibErrorInstance("Tailing query already running");
+
 		NStr::CStr Error = Internal.f_MakeSureConnected();
 		if (!Error.f_IsEmpty())
-		{
-			Result.f_SetException(DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error)));
-			return fg_Move(Result);
-		}
+			return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
 		try
 		{
@@ -753,8 +703,7 @@ namespace NMib::NMongo
 			else
 				Collection.delete_many(fg_ToBSON(_Query));
 
-			Result.f_SetResult();
-			return fg_Move(Result);
+			return fg_Explicit();
 		}
 		catch (std::exception const &_Exception)
 		{
@@ -762,8 +711,7 @@ namespace NMib::NMongo
 			if (_Exception.what())
 				pError = _Exception.what();
 
-			Result.f_SetException(DMibErrorInstance(NStr::fg_Format("MongoDB remove failed: {}", pError)));
-			return fg_Move(Result);
+			return DMibErrorInstance(NStr::fg_Format("MongoDB remove failed: {}", pError));
 		}
 	}
 }
