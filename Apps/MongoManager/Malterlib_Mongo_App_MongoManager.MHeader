@@ -13,6 +13,7 @@ Property
 {
 	Property
 	{
+		ProductName "Malterlib Mongo Manager"
 		MalterlibTestApp true
 		MalterlibPostCopyProject "Malterlib_Mongo_MongoManager"
 		{
