@@ -22,10 +22,10 @@
  * used to compile mongoc */
 #define MONGOC_USER_SET_CFLAGS ""
 
-#define MONGOC_USER_SET_LDFLAGS "-Xlinker -rpath-link -Xlinker "/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk/lib32" -Xlinker -rpath-link -Xlinker "/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk/usr/lib32""
+#define MONGOC_USER_SET_LDFLAGS "-Xlinker -rpath-link -Xlinker "/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk/lib32" -Xlinker -rpath-link -Xlinker "/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk/usr/lib32" -fuse-ld=lld -stdlib=libc++"
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
-#define MONGOC_CC "/CompiledFiles/Dependencies/llvm/8.0/build/main/bin/clang"
+#define MONGOC_CC "/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang"
 
 /*
  * MONGOC_ENABLE_SSL_SECURE_CHANNEL is set from configure to determine if we are
