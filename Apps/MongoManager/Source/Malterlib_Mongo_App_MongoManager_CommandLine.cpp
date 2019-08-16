@@ -80,7 +80,7 @@ namespace NMib::NMongo::NMongoManager
 				}
 				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
 				{
-					return fp_CommandLine_Restore(_Parameters, _pCommandLine);
+					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_Restore, _Parameters, _pCommandLine);
 				}
 			 	, CDistributedAppCommandLineSpecification::ECommandFlag_RunLocalApp
 			)
@@ -93,7 +93,7 @@ namespace NMib::NMongo::NMongoManager
 				}
 				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
 				{
-					return fp_CommandLine_SetupPermissions(_Parameters, _pCommandLine);
+					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_SetupPermissions, _Parameters, _pCommandLine);
 				}
 				, CDistributedAppCommandLineSpecification::ECommandFlag_RunLocalApp
 			)
@@ -112,7 +112,7 @@ namespace NMib::NMongo::NMongoManager
 				}
 				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
 				{
-					return fp_CommandLine_UpdateReplicationConfig(_Parameters, _pCommandLine);
+					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_UpdateReplicationConfig, _Parameters, _pCommandLine);
 				}
 				, CDistributedAppCommandLineSpecification::ECommandFlag_RunLocalApp
 			)
@@ -126,7 +126,7 @@ namespace NMib::NMongo::NMongoManager
 				}
 				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
 				{
-					return fp_CommandLine_RunBackup(_Parameters, _pCommandLine);
+					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_RunBackup, _Parameters, _pCommandLine);
 				}
 				, CDistributedAppCommandLineSpecification::ECommandFlag_None
 			)
@@ -147,7 +147,7 @@ namespace NMib::NMongo::NMongoManager
 				}
 				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
 				{
-					return fp_CommandLine_CancelBackups(_Parameters, _pCommandLine);
+					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_CancelBackups, _Parameters, _pCommandLine);
 				}
 				, CDistributedAppCommandLineSpecification::ECommandFlag_None
 			)
@@ -221,7 +221,7 @@ namespace NMib::NMongo::NMongoManager
 				}
 				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
 				{
-					return fp_CommandLine_JoinReplica(_Parameters, _pCommandLine);
+					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_JoinReplica, _Parameters, _pCommandLine);
 				}
 				, CDistributedAppCommandLineSpecification::ECommandFlag_RunLocalApp
 			)
@@ -355,7 +355,7 @@ namespace NMib::NMongo::NMongoManager
 			AppendData += "\tRemove sync flags wildcards: {vs}\n"_f << _Config.m_RemoveSyncFlagsWildcards;
 			
 			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Append manifest:\n{}", m_BackupID, AppendData);
-			return fg_Explicit();
+			co_return {};
 		}
 		
 		NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeInitialFinished
@@ -365,7 +365,7 @@ namespace NMib::NMongo::NMongoManager
 		{
 			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Subscribe initial finished", m_BackupID);
 			_fOnInitialFinished() > fg_DiscardResult();
-			return fg_Explicit();
+			co_return {};
 		}
 		
 		NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeBackupStopped
@@ -374,7 +374,7 @@ namespace NMib::NMongo::NMongoManager
 			) override
 		{
 			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Subscribe backup stopped", m_BackupID);
-			return fg_Explicit();
+			co_return {};
 		}
 		
 		uint32 m_BackupID = -1;
@@ -489,18 +489,20 @@ namespace NMib::NMongo::NMongoManager
 	
 	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_JoinReplica(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
+		TCPromise<uint32> Promise;
+
 		CJoinReplicaOptions Options;
 		if (auto pValue = _Params.f_GetMember("MongoPort"))
 		{
 			int64 MongoPort = pValue->f_Integer();
 			if (MongoPort <= 0 || MongoPort > 65535)
-				return DMibErrorInstance(fg_Format("Invalid network port: {}", MongoPort));
+				return Promise <<= DMibErrorInstance(fg_Format("Invalid network port: {}", MongoPort));
 			Options.m_Port = MongoPort;
 		}
 		if (auto pValue = _Params.f_GetMember("MongoReplicaName"))
 		{
 			if (pValue->f_String().f_IsEmpty())
-				return DMibErrorInstance("Replica name cannot be empty");
+				return Promise <<= DMibErrorInstance("Replica name cannot be empty");
 			Options.m_ReplicaName = pValue->f_String();
 		}
 		if (auto pValue = _Params.f_GetMember("CanVote"))
@@ -509,7 +511,7 @@ namespace NMib::NMongo::NMongoManager
 		{
 			fp64 Priority = pValue->f_Integer();
 			if (Priority < 0.0 || Priority > 1000.0)
-				return DMibErrorInstance("Priority out of range");
+				return Promise <<= DMibErrorInstance("Priority out of range");
 			Options.m_Priority = Priority;
 		}
 		if (auto pValue = _Params.f_GetMember("ArbiterOnly"))
@@ -528,9 +530,8 @@ namespace NMib::NMongo::NMongoManager
 		}
 		Options.m_MemberToJoin = _Params["ReplicaMember"].f_String();
 		if (Options.m_MemberToJoin.f_IsEmpty())
-			return DMibErrorInstance("You must specify replica memeber to join");
+			return Promise <<= DMibErrorInstance("You must specify replica memeber to join");
 		
-		TCPromise<uint32> Promise;
  		mp_pManager(&CMongoManagerActor::f_JoinReplica, Options) > Promise / [=]
 			{
 				*_pCommandLine %= "Replica set successfully joined\n";

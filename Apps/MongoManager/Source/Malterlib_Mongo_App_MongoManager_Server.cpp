@@ -61,44 +61,39 @@ namespace NMib::NMongo::NMongoManager
 
 		DLog(Info, "Extracting ExeFS");
 
-		TCPromise<void> Promise;
+		co_await (self(&CMongoManagerActor::fp_CleanupOldProcesses) % "Failed to clean up old processes");
+		co_await (self(&CMongoManagerActor::fp_ExtractExeFS) % "Failed to extract ExeFS");
 
-		fp_CleanupOldProcesses() > Promise % "Failed to clean up old processes" / [this, Promise]
-			{
-				fp_ExtractExeFS() > Promise % "Failed to extract ExeFS" / [this, Promise]
-					{
-						DLog(Info, "Done extracting ExeFS");
-						fp_CheckVersion(fp_GetMongoExecutable("mongod"), "--version", "db version v{}.{}.{}\n", mp_Version_MongoDB)
-							+ fp_SetupPrerequisites_Mongo()
-							+ fp_DetermineHostname()
-							> Promise / [this, Promise]
-							{
-								fp_StartMongo() > Promise / [this, Promise]
-									{
-										CStr ProgramDirectory = CFile::fs_GetProgramDirectory();
-										if (mp_Mode == EMode_UpdateReplicationConfig || mp_Mode == EMode_SetupPermissions)
-											Promise.f_SetResult();
-										else
-										{
-											fp_RunMongoScript(mp_MongoConnectionSettings, "MongoWaitForPrimary", "local", 5.0*60.0, {"expectReplica"_= mp_Mode != EMode_JoinReplicaSet})
-												> Promise / [Promise, this]
-												{
-													Promise.f_SetResult();
-													if (mp_Mode == EMode_Normal)
-														fp_StartMongoBackup();
-												}
-											;
-										}
-									}
-								;
-							}
-						;
-					}
-				;
-			}
+		DLog(Info, "Done extracting ExeFS");
+
+		co_await
+			(
+			 	self(&CMongoManagerActor::fp_CheckVersion, fp_GetMongoExecutable("mongod"), "--version", "db version v{}.{}.{}\n", mp_Version_MongoDB)
+			 	+ self(&CMongoManagerActor::fp_SetupPrerequisites_Mongo)
+			 	+ self(&CMongoManagerActor::fp_DetermineHostname)
+			)
 		;
 
-		return Promise.f_MoveFuture();
+		co_await self(&CMongoManagerActor::fp_StartMongo);
+
+		if (mp_Mode == EMode_UpdateReplicationConfig || mp_Mode == EMode_SetupPermissions)
+			co_return {};
+
+		co_await self
+			(
+			 	&CMongoManagerActor::fp_RunMongoScript
+			 	, mp_MongoConnectionSettings
+			 	, "MongoWaitForPrimary"
+			 	, "local"
+			 	, 5.0*60.0
+			 	, CEJSON{"expectReplica"_= mp_Mode != EMode_JoinReplicaSet}
+			)
+		;
+
+		if (mp_Mode == EMode_Normal)
+			CMongoManagerActor::fp_StartMongoBackup();
+
+		co_return {};
 	}
 
 	TCFuture<void> CMongoManagerActor::f_PreStop()
@@ -108,64 +103,56 @@ namespace NMib::NMongo::NMongoManager
 
 		TCActorResultVector<void> Destroys;
 		for (auto &ToolLaunch : mp_ToolLaunches)
-			ToolLaunch.m_ProcessLaunch->f_Destroy() > Destroys.f_AddResult();
+			ToolLaunch.m_ProcessLaunch.f_Destroy() > Destroys.f_AddResult();
 
-		TCPromise<void> Promise;
+		co_await Destroys.f_GetResults();
+		co_await fp_DestroyApp_Mongo();
 
-		Destroys.f_GetResults()
-			> [this, Promise](auto &&)
-			{
-				fp_DestroyApp_Mongo() > [Promise](auto &&)
-					{
-						DLog(Debug, "Pre-stop server done");
-						Promise.f_SetResult();
-					}
-				;
-			}
-		;
+		DLog(Debug, "Pre-stop server done");
 
-		return Promise.f_MoveFuture();
+		co_return {};
 	}
 
 	TCFuture<void> CMongoManagerActor::fp_Destroy()
 	{
 		DLog(Debug, "Destroy server");
-		auto pCanDestroy = fg_Move(mp_pCanDestroyTracker);
 
-		TCActorResultVector<void> Destroys;
-		for (auto &ToolLaunch : mp_ToolLaunches)
-			ToolLaunch.m_ProcessLaunch->f_Destroy() > Destroys.f_AddResult();
+		auto CanDestroyFuture = mp_pCanDestroyTracker->f_Future();
+		mp_pCanDestroyTracker.f_Clear();
 
-		Destroys.f_GetResults()
-			> [this, pCanDestroy](auto &&_Results)
+		{
+			TCActorResultVector<void> Destroys;
+			for (auto &ToolLaunch : mp_ToolLaunches)
+				ToolLaunch.m_ProcessLaunch.f_Destroy() > Destroys.f_AddResult();
+
+			co_await Destroys.f_GetResults();
+		}
+
+		{
+			TCActorResultVector<void> Destroys;
+
+			for (auto &Pending : mp_PendingBackupStart)
+				Pending.f_SetException(DMibErrorInstance("Aborted"));
+
+			mp_PendingBackupStart.f_Clear();
+
+			for (auto &Actor : mp_MongoBackupManagerActors)
 			{
-				TCActorResultVector<void> Destroys;
-
-				for (auto &fPending : mp_PendingBackupStart)
-					fPending(true);
-
-				mp_PendingBackupStart.f_Clear();
-
-				for (auto &Actor : mp_MongoBackupManagerActors)
-				{
-					if (!Actor)
-						continue;
-					Actor->f_Destroy() > Destroys.f_AddResult();
-				}
-
-				Destroys.f_GetResults() > [this, pCanDestroy](auto &&_Results)
-					{
-						fp_DestroyApp_Mongo() > [pCanDestroy](auto &&)
-							{
-								DLog(Debug, "Destroy server done");
-							}
-						;
-					}
-				;
+				if (!Actor)
+					continue;
+				Actor.f_Destroy() > Destroys.f_AddResult();
 			}
-		;
 
-		return pCanDestroy->f_Future();
+			co_await Destroys.f_GetResults();
+		}
+
+		co_await fp_DestroyApp_Mongo();
+
+		co_await fg_Move(CanDestroyFuture);
+
+		DLog(Debug, "Destroy server done");
+
+		co_return {};
 	}
 
 #ifdef DPlatformFamily_Windows
@@ -223,10 +210,9 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<void> CMongoManagerActor::fp_ExtractExeFS() const
 	{
-		return fg_Dispatch
+		co_await
 			(
-				mp_pFileActor
-				, [UserName = mp_MongoUser.m_UserName]
+				g_Dispatch(mp_pFileActor) / [UserName = mp_MongoUser.m_UserName]
 				{
 					CExeFS ExeFS;
 					if (!fg_OpenExeFS(ExeFS))
@@ -251,12 +237,14 @@ namespace NMib::NMongo::NMongoManager
 				}
 			)
 		;
+
+		co_return {};
 	}
 
 	TCFuture<void> CMongoManagerActor::fp_CheckVersion(CStr const &_Tool, CStr const &_Argument, CStr const &_ParseString, CVersion const &_NeededVersion)
 	{
 		TCPromise<void> Promise;
-		fp_RunToolForVersionCheck(_Tool, fg_CreateVector<CStr>(_Argument)) > Promise % "Failed to check version" / [=](CStr &&_Data)
+		self(&CMongoManagerActor::fp_RunToolForVersionCheck, _Tool, fg_CreateVector<CStr>(_Argument)) > Promise % "Failed to check version" / [=](CStr &&_Data)
 			{
 				if (_Data.f_IsEmpty())
 				{
@@ -289,7 +277,7 @@ namespace NMib::NMongo::NMongoManager
 	TCFuture<void> CMongoManagerActor::fp_DestroyApp_Mongo()
 	{
 		if (!mp_pMongoLaunch)
-			return fg_Explicit();
+			co_return {};
 
 		TCActorResultVector<void> Results;
 		for (auto &Backup : mp_MongoBackupManagerActors)
@@ -300,19 +288,14 @@ namespace NMib::NMongo::NMongoManager
 			Backup(&CBackupManagerActorInterface::f_MongoStopped) > Results.f_AddResult();
 		}
 
-		TCPromise<void> Promise;
-		Results.f_GetResults() > [this, Promise](auto &&)
-			{
-				if (!mp_pMongoLaunch)
-				{
-					Promise.f_SetResult();
-					return;
-				}
-				mp_pMongoLaunch->f_Destroy() > Promise;
-			}
-		;
+		co_await Results.f_GetResults();
 
-		return Promise.f_MoveFuture();
+		if (!mp_pMongoLaunch)
+			co_return{};
+
+		co_await mp_pMongoLaunch.f_Destroy();
+
+		co_return {};
 	}
 
 	CStr CMongoManagerActor::fp_GetDataPath(CStr const &_Path) const

@@ -39,7 +39,7 @@ namespace NMib::NMongo::NMongoManager
 					;
 
 					mp_bBackupStopped = true;
-					return fg_Explicit();
+					co_return {};
 				}
 			)
 			> [this](TCAsyncResult<TCActorSubscriptionWithID<>> &&_Subscription)
@@ -61,20 +61,14 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<TCSharedPointer<CFile>> CMongoBackupInstanceActor::fp_OpenBackupFiles()
 	{
-		if (!mp_pCanDestroy)
-			return DErrorInstance("Destroyed");
+		if (f_IsDestroyed())
+			co_return DErrorInstance("Destroyed");
 
 		auto pCanDestroy = mp_pCanDestroy;
 
-		TCPromise<TCSharedPointer<CFile> > Promise;
-		mp_FileWriteActor
+		auto pResult = co_await
 			(
-				&CActor::f_DispatchWithReturn<TCFuture<TCSharedPointer<CFile>>>
-				,
-				[
-					BackupDirectory = mp_BackupDirectory
-					, OplogPath = mp_BackupDirectory + "/DynamicOplog.bson"
-				]
+			 	g_Dispatch(mp_FileWriteActor) / [BackupDirectory = mp_BackupDirectory, OplogPath = mp_BackupDirectory + "/DynamicOplog.bson"]
 				{
 					return TCFuture<TCSharedPointer<CFile>>::fs_RunProtected<CExceptionFile>() / [&]()
 						{
@@ -91,20 +85,11 @@ namespace NMib::NMongo::NMongoManager
 						}
 					;
 				}
+				% "Failed to open backup files"
 			)
-			> [Promise, pCanDestroy](TCAsyncResult<TCSharedPointer<CFile>> &&_Result) mutable
-			{
-				if (!_Result)
-				{
-					DLogWithCategory(MongoManager/Backup, Error, "Failed to open backup files: {}", _Result.f_GetExceptionStr());
-					Promise.f_SetException(_Result);
-					return;
-				}
-				Promise.f_SetResult(fg_Move(*_Result));
-			}
 		;
 
-		return Promise.f_MoveFuture();
+		co_return fg_Move(pResult);
 	}
 
 	void CMongoBackupInstanceActor::fp_MarkBackupFinished()
@@ -119,12 +104,11 @@ namespace NMib::NMongo::NMongoManager
 			)
 		;
 
-		TCPromise<TCSharedPointer<CFile> > Promise;
 		g_Dispatch(mp_FileWriteActor) / [FinishedPath = mp_BackupDirectory + "/InitialFinished"]
 			{
 				CFile::fs_Touch(FinishedPath);
 			}
-			> [Promise, pCanDestroy](TCAsyncResult<void> &&_Result) mutable
+			> [pCanDestroy](TCAsyncResult<void> &&_Result) mutable
 			{
 				if (!_Result)
 					DLogWithCategory(MongoManager/Backup, Error, "Failed to mark backup as finished: {}", _Result.f_GetExceptionStr());
@@ -134,100 +118,94 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<void> CMongoBackupInstanceActor::f_StartBackup(CActorSubscription &&_ManifestFinished, CStr const &_BackupRoot)
 	{
-		if (!mp_pCanDestroy)
-			return DErrorInstance("Destroyed");
+		if (f_IsDestroyed())
+			co_return DErrorInstance("Destroyed");
 
 		mp_MongoClient = fg_ConstructActor<CMongoClientActor>(fg_Construct("Mongo client connection"), mp_MongoConnectionSettings, "local");
 
 		TCSharedPointer<CActorSubscription> pManifestFinished = fg_Construct(fg_Move(_ManifestFinished));
 
-		TCPromise<void> Promise;
-		fp_OpenBackupFiles() > Promise / [=](TCSharedPointer<CFile> &&_pOplogFile) mutable
+		auto pOplogFile = co_await self(&CMongoBackupInstanceActor::fp_OpenBackupFiles);
+		
+		if (f_IsDestroyed())
+			co_return DErrorInstance("Destroyed");
+
+		co_await self(&CMongoBackupInstanceActor::fp_TailOplog, pOplogFile);
+
+		if (f_IsDestroyed())
+			co_return DErrorInstance("Destroyed");
+
+		CStr OplogPath = mp_BackupDirectory + "/DynamicOplog.bson";
+		CStr RelativeOplogPath = CFile::fs_MakePathRelative(OplogPath, _BackupRoot);
+
+		CDirectoryManifestConfig ManifestConfig;
+		ManifestConfig.m_IncludeWildcards.f_Clear();
+		ManifestConfig.m_IncludeWildcards[RelativeOplogPath] = "Dump";
+
+		mp_BackupInterface.f_CallActor(&CDistributedAppInterfaceBackup::f_AppendManifest)(ManifestConfig) > [pManifestFinished](TCAsyncResult<void> &&_Result)
 			{
-				if (!mp_pCanDestroy)
-					return Promise.f_SetException(DErrorInstance("Destroyed"));
-
-				fp_TailOplog(_pOplogFile) > Promise / [=]() mutable
-					{
-						if (!mp_pCanDestroy)
-							return Promise.f_SetException(DErrorInstance("Destroyed"));
-
-						CStr OplogPath = mp_BackupDirectory + "/DynamicOplog.bson";
-						CStr RelativeOplogPath = CFile::fs_MakePathRelative(OplogPath, _BackupRoot);
-
-						CDirectoryManifestConfig ManifestConfig;
-						ManifestConfig.m_IncludeWildcards.f_Clear();
-						ManifestConfig.m_IncludeWildcards[RelativeOplogPath] = "Dump";
-
-						mp_BackupInterface.f_CallActor(&CDistributedAppInterfaceBackup::f_AppendManifest)(ManifestConfig) > [pManifestFinished](TCAsyncResult<void> &&_Result)
-							{
-								if (!_Result)
-									DLogWithCategory(MongoManager/Backup, Error, "Failed to append manifest: {}", _Result.f_GetExceptionStr());
-							}
-						;
-						Promise.f_SetResult();
-
-						fp_DumpDatabase() > [=](TCAsyncResult<void> &&_Result) mutable
-							{
-								if (_Result)
-								{
-									DLogWithCategory(MongoManager/Backup, Info, "Finished dumping");
-
-									CStr DumpPath = mp_BackupDirectory + "/Dump/^*";
-									CStr RelativeDumpPath = CFile::fs_MakePathRelative(DumpPath, _BackupRoot);
-
-									CDirectoryManifestConfig ManifestConfig;
-									ManifestConfig.m_IncludeWildcards.f_Clear();
-									ManifestConfig.m_IncludeWildcards[RelativeDumpPath] = "Dump";
-
-									mp_BackupInterface.f_CallActor(&CDistributedAppInterfaceBackup::f_AppendManifest)(ManifestConfig) > [pManifestFinished](TCAsyncResult<void> &&_Result)
-										{
-											if (!_Result)
-												DLogWithCategory(MongoManager/Backup, Error, "Failed to append manifest: {}", _Result.f_GetExceptionStr());
-
-											DMibLogWithCategory
-												(
-													MongoManager/Backup
-													, Debug
-													, "Letting go of manifest finished subscription"
-												)
-											;
-										}
-									;
-
-									mp_BackupInterface.f_CallActor(&CDistributedAppInterfaceBackup::f_SubscribeInitialFinished)
-										(
-											g_ActorFunctor / [this, AllowDestroy = g_AllowWrongThreadDestroy]() -> TCFuture<void>
-											{
-												mp_bInitialBackupUploaded = true;
-												fp_MarkBackupFinished();
-												return fg_Explicit();
-											}
-										)
-										> [this, pManifestFinished](TCAsyncResult<TCActorSubscriptionWithID<>> &&_Subscription)
-										{
-											if (!_Subscription)
-											{
-												DLogWithCategory(MongoManager/Backup, Error, "Failed to subscribe to initial backup finished: (}", _Subscription.f_GetExceptionStr());
-												return;
-											}
-
-											mp_InitialBackupFinishedSubscription = fg_Move(*_Subscription);
-										}
-									;
-								}
-								else
-								{
-									DLogWithCategory(MongoManager/Backup, Error, "Database dump failed: {}", _Result.f_GetExceptionStr());
-								}
-							}
-						;
-					}
-				;
+				if (!_Result)
+					DLogWithCategory(MongoManager/Backup, Error, "Failed to append manifest: {}", _Result.f_GetExceptionStr());
 			}
 		;
 
-		return Promise.f_MoveFuture();
+		self(&CMongoBackupInstanceActor::fp_DumpDatabase) > [=](TCAsyncResult<void> &&_Result) mutable
+			{
+				if (_Result)
+				{
+					DLogWithCategory(MongoManager/Backup, Info, "Finished dumping");
+
+					CStr DumpPath = mp_BackupDirectory + "/Dump/^*";
+					CStr RelativeDumpPath = CFile::fs_MakePathRelative(DumpPath, _BackupRoot);
+
+					CDirectoryManifestConfig ManifestConfig;
+					ManifestConfig.m_IncludeWildcards.f_Clear();
+					ManifestConfig.m_IncludeWildcards[RelativeDumpPath] = "Dump";
+
+					mp_BackupInterface.f_CallActor(&CDistributedAppInterfaceBackup::f_AppendManifest)(ManifestConfig) > [pManifestFinished](TCAsyncResult<void> &&_Result)
+						{
+							if (!_Result)
+								DLogWithCategory(MongoManager/Backup, Error, "Failed to append manifest: {}", _Result.f_GetExceptionStr());
+
+							DMibLogWithCategory
+								(
+									MongoManager/Backup
+									, Debug
+									, "Letting go of manifest finished subscription"
+								)
+							;
+						}
+					;
+
+					mp_BackupInterface.f_CallActor(&CDistributedAppInterfaceBackup::f_SubscribeInitialFinished)
+						(
+							g_ActorFunctor / [this, AllowDestroy = g_AllowWrongThreadDestroy]() -> TCFuture<void>
+							{
+								mp_bInitialBackupUploaded = true;
+								fp_MarkBackupFinished();
+								co_return {};
+							}
+						)
+						> [this, pManifestFinished](TCAsyncResult<TCActorSubscriptionWithID<>> &&_Subscription)
+						{
+							if (!_Subscription)
+							{
+								DLogWithCategory(MongoManager/Backup, Error, "Failed to subscribe to initial backup finished: (}", _Subscription.f_GetExceptionStr());
+								return;
+							}
+
+							mp_InitialBackupFinishedSubscription = fg_Move(*_Subscription);
+						}
+					;
+				}
+				else
+				{
+					DLogWithCategory(MongoManager/Backup, Error, "Database dump failed: {}", _Result.f_GetExceptionStr());
+				}
+			}
+		;
+
+		co_return {};
 	}
 
 	void CMongoBackupInstanceActor::f_MongoStopped()
@@ -240,29 +218,22 @@ namespace NMib::NMongo::NMongoManager
 		if (!mp_bInitialBackupUploaded && mp_bInitialDumpFinished)
 		{
 			DLogWithCategory(MongoManager/Backup, Info, "Saving backup which has not yet finished transferring to remote server: {}", mp_BackupDirectory);
-			return fg_Explicit(); // If we haven't uploaded this backup yet, keep it around and let the main backup actor clean it out after a week
+			co_return {}; // If we haven't uploaded this backup yet, keep it around and let the main backup actor clean it out after a week
 		}
 
 		if (!mp_bBackupStopped)
 		{
 			DLogWithCategory(MongoManager/Backup, Info, "Saving backup that has not yet been stopped: {}", mp_BackupDirectory);
-			return fg_Explicit(); // If we haven't uploaded this backup yet, keep it around and let the main backup actor clean it out after a week
+			co_return {}; // If we haven't uploaded this backup yet, keep it around and let the main backup actor clean it out after a week
 		}
 
 		TCPromise<void> Result;
 
 		auto pCanDestroy = mp_pCanDestroy;
 
-		mp_FileWriteActor
+		co_await
 			(
-				&CActor::f_DispatchWithReturn<TCFuture<void>>
-				,
-				[
-					pCanDestroy
-					, Result
-					, BackupDirectory = mp_BackupDirectory
-					, bInitialDumpFinished = mp_bInitialDumpFinished
-				]
+			 	g_Dispatch(mp_FileWriteActor) / [Result, BackupDirectory = mp_BackupDirectory, bInitialDumpFinished = mp_bInitialDumpFinished]
 				{
 					return TCFuture<void>::fs_RunProtected<CExceptionFile>() / [&]()
 						{
@@ -274,21 +245,17 @@ namespace NMib::NMongo::NMongoManager
 						}
 					;
 				}
+			 	% "Failed to delete the backup"
 			)
-			> [Result](TCAsyncResult<void> &&_Result)
-			{
-				if (!_Result)
-					DLogWithCategory(MongoManager/Backup, Error, "Failed to delete the backup: {}", _Result.f_GetExceptionStr());
-				Result.f_SetResult();
-			}
 		;
 
-		return Result.f_MoveFuture();
+		co_return {};
 	}
 
 	TCFuture<void> CMongoBackupInstanceActor::fp_Destroy()
 	{
-		auto pCanDestroy = fg_Move(mp_pCanDestroy);
+		auto CanDestroyFuture = mp_pCanDestroy->f_Future();
+		mp_pCanDestroy.f_Clear();
 		mp_MongoTailSubscription.f_Clear();
 
 		if (!mp_bInitialBackupUploaded)
@@ -297,23 +264,18 @@ namespace NMib::NMongo::NMongoManager
 		TCActorResultVector<void> AllDestroyed;
 
 		if (mp_DumpProcessLaunch)
-			mp_DumpProcessLaunch->f_Destroy() > AllDestroyed.f_AddResult();
+			mp_DumpProcessLaunch.f_Destroy() > AllDestroyed.f_AddResult();
 
 		if (mp_MongoClient)
-			mp_MongoClient->f_Destroy() > AllDestroyed.f_AddResult();
+			mp_MongoClient.f_Destroy() > AllDestroyed.f_AddResult();
 
-		AllDestroyed.f_GetResults()
-			> [this, pCanDestroy](TCAsyncResult<TCVector<TCAsyncResult<void>>> &&_Results)
-			{
-				fg_ThisActor(this)(&CMongoBackupInstanceActor::fp_DeleteBackup)
-					> [this, pCanDestroy](TCAsyncResult<void> &&_Result)
-					{
-						mp_FileWriteActor->f_Destroy() > pCanDestroy->f_Track();
-					}
-				;
-			}
-		;
+		co_await AllDestroyed.f_GetResults();
+		co_await self(&CMongoBackupInstanceActor::fp_DeleteBackup);
 
-		return pCanDestroy->f_Future();
+		co_await mp_FileWriteActor.f_Destroy();
+
+		co_await fg_Move(CanDestroyFuture);
+
+		co_return {};
 	}
 }

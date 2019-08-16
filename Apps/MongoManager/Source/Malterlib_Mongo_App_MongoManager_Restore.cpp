@@ -43,14 +43,21 @@ namespace NMib::NMongo::NMongoManager
 				
 				Params.f_Insert(DumpDirectory);
 			
-				CMongoManagerActor::fp_LaunchTool
+				self
 					(
-						fp_GetMongoExecutable("mongorestore")
+					 	&CMongoManagerActor::fp_LaunchTool
+						, fp_GetMongoExecutable("mongorestore")
 						, CFile::fs_GetProgramDirectory()
 						, Params
-						, "Restore"
+						, CStr("Restore")
 						, ELogVerbosity_All
 						, false
+					 	, CStr()
+					 	, CStr()
+					 	, CStr()
+#ifdef DPlatformFamily_Windows
+					 	, CStrSecure()
+#endif
 					)
 					> [Promise](TCAsyncResult<CStr> &&_StdOut)
 					{

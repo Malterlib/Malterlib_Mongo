@@ -30,9 +30,10 @@ namespace NMib::NMongo::NMongoManager
 		
 		TCFuture<void> f_StartBackup(CActorSubscription &&_ManifestFinished, CStr const &_BackupRoot) override
 		{
-			DLogWithCategory(MongoManager/Backup, Info, "Starting initial full backup");
 			TCPromise<void> Promise;
-			
+
+			DLogWithCategory(MongoManager/Backup, Info, "Starting initial full backup");
+
 			fp_CleanupOldBackups() > Promise / [=, ManifestFinished = fg_Move(_ManifestFinished)]() mutable
 				{
 					mp_Backup = fg_ConstructActor<CMongoBackupInstanceActor>(mp_MongoConnectionSettings, mp_MongoExecutable, mp_BackupInterface.f_GetActor());
@@ -53,14 +54,17 @@ namespace NMib::NMongo::NMongoManager
 	private:
 		TCFuture<void> fp_Destroy() override
 		{
-			TCSharedPointer<CCanDestroyTracker> pCanDestroy = fg_Move(mp_pCanDestroy);
-
-			mp_FileWriteActor->f_Destroy() > pCanDestroy->f_Track();
+			co_await mp_FileWriteActor.f_Destroy();
 			
 			if (mp_Backup)
-				mp_Backup->f_Destroy() > pCanDestroy->f_Track();
+				co_await mp_Backup.f_Destroy();
+
+			auto Future = mp_pCanDestroy->f_Future();
+			mp_pCanDestroy.f_Clear();
+
+			co_await fg_Move(Future);
 			
-			return pCanDestroy->f_Future();
+			co_return {};
 		}
 		
 		TCFuture<void> fp_CleanupOldBackups()
@@ -68,15 +72,12 @@ namespace NMib::NMongo::NMongoManager
 			if (!mp_FileWriteActor)
 				mp_FileWriteActor = fg_ConstructActor<CSeparateThreadActor>(fg_Construct("Global file write actor"));
 			
-			TCPromise<void> Result;
-
 			auto pCanDestroy = mp_pCanDestroy;
 			DLogWithCategory(MongoManager/Backup, Info, "Scheduling remove of old backups");
-			
-			mp_FileWriteActor
+
+			co_await
 				(
-					&CActor::f_DispatchWithReturn<TCFuture<void>>
-					, [pCanDestroy]
+					g_Dispatch(mp_FileWriteActor) / []
 					{
 						return TCFuture<void>::fs_RunProtected<CExceptionFile>() / [&]()
 							{
@@ -89,17 +90,17 @@ namespace NMib::NMongo::NMongoManager
 								{
 									if (File.m_Attribs & EFileAttrib_Link)
 										continue;
-									
+
 									CStr FileName = CFile::fs_GetFile(File.m_Path);
 									aint nParsed = 0;
 									uint64 Year;
 									uint32 Month;
 									uint32 Day;
 									(CStr::CParse("{}-{}-{} ") >> Year >> Month >> Day).f_Parse(FileName, nParsed);
-									
+
 									if (nParsed != 3)
 										continue; // Skip stray files
-									
+
 									CTime BackupTime = CTimeConvert::fs_CreateTime(Year, Month, Day);
 									if (BackupTime < RemoveOlderThan)
 									{
@@ -117,16 +118,11 @@ namespace NMib::NMongo::NMongoManager
 							}
 						;
 					}
-				) 
-				> [Result](TCAsyncResult<void> &&_Result)
-				{
-					if (!_Result)
-						DLogWithCategory(MongoManager/Backup, Error, "Failed to clean up old backups: {}", _Result.f_GetExceptionStr());
-					Result.f_SetResult();
-				}
+					% "Failed to clean up old backups"
+				)
 			;
-			
-			return Result.f_MoveFuture();
+
+			co_return {};
 		}
 		
 	private:
@@ -144,8 +140,8 @@ namespace NMib::NMongo::NMongoManager
 	{
 		mp_bMongoBackupCanStart = true;
 		
-		for (auto &fPending : mp_PendingBackupStart)
-			fPending(false);
+		for (auto &Pending : mp_PendingBackupStart)
+			Pending.f_SetResult();
 		
 		mp_PendingBackupStart.f_Clear();
 	}
@@ -157,16 +153,16 @@ namespace NMib::NMongo::NMongoManager
 			, CStr const &_BackupRoot
 		)
 	{
-		if (mp_bDestroyed)
-			return DErrorInstance("Destroyed");
+		if (f_IsDestroyed())
+			co_return DErrorInstance("Destroyed");
 
 		if (mp_Mode != EMode_Normal)
-			return fg_Explicit();
+			co_return {};
 		
 		if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("BackupEnable", EJSONType_Boolean))
 		{
 			if (!pValue->f_Boolean())
-				return fg_Explicit();
+				co_return {};
 		}
 		
 		CStr BackupID = fg_RandomID();
@@ -177,54 +173,35 @@ namespace NMib::NMongo::NMongoManager
 			{
 				auto pActor = mp_MongoBackupManagerActors.f_FindEqual(BackupID);
 				if (!pActor || !*pActor)
-					return fg_Explicit();
+					co_return {};
 				
-				return (*pActor)->f_Destroy();
+				co_await fg_Move(*pActor).f_Destroy();
+
+				co_return {};
 			}
 		;
 		
-		TCPromise<CActorSubscription> Promise;
-		
-		auto fStartBackup = [=, BackupInterface = fg_Move(_BackupInterface), Subscription = fg_Move(Subscription), ManifestFinished = fg_Move(_ManifestFinished)](bool _bAbort) mutable
-			{
-				if (_bAbort)
-				{
-					Promise.f_SetException(DErrorInstance("Destroyed"));
-					return;
-				}
-				
-				auto *pBackupActor = mp_MongoBackupManagerActors.f_FindEqual(BackupID);
-				if (!pBackupActor)
-				{
-					Promise.f_SetException(DErrorInstance("Backup actor gone"));
-					return;
-				}
-				
-				auto &BackupActor = *pBackupActor;
-				
-				BackupActor = fg_ConstructActor<CMongoBackupManagerActor>
-					(
-						mp_MongoConnectionSettings
-						, fp_GetMongoExecutable("mongodump")
-						, fg_Move(BackupInterface)
-					)
-				;
-				
-				BackupActor(&CBackupManagerActorInterface::f_StartBackup, fg_Move(ManifestFinished), _BackupRoot)
-					> Promise / [Subscription = fg_Move(Subscription), Promise]() mutable
-					{
-						DLogWithCategory(MongoManager/Backup, Info, "Oplog is tailing");
-						Promise.f_SetResult(fg_Move(Subscription));
-					}
-				;
-			}
+		if (!mp_bMongoBackupCanStart)
+			co_await mp_PendingBackupStart.f_Insert().f_Future();
+
+		auto *pBackupActor = mp_MongoBackupManagerActors.f_FindEqual(BackupID);
+		if (!pBackupActor)
+			co_return DErrorInstance("Backup actor gone");
+
+		auto &BackupActor = *pBackupActor;
+
+		BackupActor = fg_ConstructActor<CMongoBackupManagerActor>
+			(
+				mp_MongoConnectionSettings
+				, fp_GetMongoExecutable("mongodump")
+				, fg_Move(_BackupInterface)
+			)
 		;
-		
-		if (mp_bMongoBackupCanStart)
-			fStartBackup(false);
-		else
-			mp_PendingBackupStart.f_Insert(fg_Move(fStartBackup));
-		
-		return Promise.f_MoveFuture();
+
+		co_await BackupActor(&CBackupManagerActorInterface::f_StartBackup, fg_Move(_ManifestFinished), _BackupRoot);
+
+		DLogWithCategory(MongoManager/Backup, Info, "Oplog is tailing");
+
+		co_return fg_Move(Subscription);
 	}
 }

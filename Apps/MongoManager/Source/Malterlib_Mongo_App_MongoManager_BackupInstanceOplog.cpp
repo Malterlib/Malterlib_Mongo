@@ -49,13 +49,13 @@ namespace NMib::NMongo::NMongoManager
 	
 	TCFuture<void> CMongoBackupInstanceActor::fp_TailOplog(TCSharedPointer<CFile> const &_pBackupFile)
 	{
+		TCPromise<void> Promise;
+
 		TCSharedPointer<CFile> pBackupFile = _pBackupFile;
 
 		CEJSON Query;
 		Query["fromMigrate"]["$exists"] = false;
 	
-		TCPromise<void> Promise;
-		
 		// Start by subscribing to the op log
 		mp_MongoClient
 			(

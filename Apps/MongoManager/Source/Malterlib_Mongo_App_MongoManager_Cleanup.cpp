@@ -34,14 +34,15 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<void> CMongoManagerActor::fp_CleanupOldProcesses()
 	{
-		return fg_Dispatch
+		co_await
 			(
-				mp_pFileActor
-				, []
+				g_Dispatch(mp_pFileActor) / []
 				{
 					fg_CleanupOldProcesses();
 				}
 			)
 		;
+
+		co_return {};
 	}
 }

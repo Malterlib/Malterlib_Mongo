@@ -172,7 +172,7 @@ namespace NMib::NMongo::NMongoManager
 
 		// Mongo backup
 		TCMap<CStr, TCActor<CBackupManagerActorInterface>> mp_MongoBackupManagerActors;
-		TCVector<TCFunctionMovable<void (bool _bAbort)>> mp_PendingBackupStart;
+		TCVector<TCPromise<void>> mp_PendingBackupStart;
 		bool mp_bMongoBackupCanStart = false;
 
 		// Tool launches

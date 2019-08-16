@@ -64,46 +64,32 @@ namespace NMib::NMongo::NMongoManager
 		if (auto pValue = _Params.f_GetMember("VerboseMongoScripts"))
 			VerboseMongoScrips = pValue->f_Boolean(); 
 		
-		return mp_pManager(&CMongoManagerActor::f_Startup, Mode, ReplicaName, Port, VerboseMongoScrips); 
+		co_await mp_pManager(&CMongoManagerActor::f_Startup, Mode, ReplicaName, Port, VerboseMongoScrips);
+
+		co_return {};
 	}
 	
 	TCFuture<void> CMongoManagerDaemonActor::fp_StopApp()
 	{	
-		TCSharedPointer<CCanDestroyTracker> pCanDestroy = fg_Construct();
-		
 		if (mp_pManager)
 		{
 			DMibLogWithCategory(Mib/Mongo/MongoManager/Daemon, Info, "Shutting down");
-			
-			mp_pManager->f_Destroy() > [pCanDestroy](TCAsyncResult<void> &&_Result)
-				{
-					if (!_Result)
-						DMibLogWithCategory(Mib/Mongo/MongoManager/Daemon, Error, "Failed to shut down server: {}", _Result.f_GetExceptionStr());
-				}
-			;
-			mp_pManager = nullptr;
+			co_await (fg_Move(mp_pManager).f_Destroy() % "Failed to shut down server");
 		}
 		
-		return pCanDestroy->f_Future();
+		co_return {};
 	}
 	
 	TCFuture<void> CMongoManagerDaemonActor::fp_PreStop()
 	{
 		if (!mp_pManager)
-			return fg_Explicit();
+			co_return {};
 
 		DMibLogWithCategory(Mib/Mongo/MongoManager/Daemon, Info, "Running pre-stop");
 		
-		TCPromise<void> Promise;
-		mp_pManager(&CMongoManagerActor::f_PreStop) > [Promise](TCAsyncResult<void> &&_Result)
-			{
-				if (!_Result)
-					DMibLogWithCategory(Mib/Mongo/MongoManager/Daemon, Error, "Failed to pre-stop down server: {}", _Result.f_GetExceptionStr());
-				Promise.f_SetResult();
-			}
-		;
+		co_await (mp_pManager(&CMongoManagerActor::f_PreStop) % "Failed to pre-stop server");
 
-		return Promise.f_MoveFuture();
+		co_return {};
 	}
 	
 	TCFuture<CActorSubscription> CMongoManagerDaemonActor::fp_StartBackup
@@ -114,20 +100,8 @@ namespace NMib::NMongo::NMongoManager
 		)
 	{
 		if (!mp_pManager)
-			return DMibErrorInstance("App not started");
+			co_return DMibErrorInstance("App not started");
 
-		TCPromise<CActorSubscription> Promise;
-		mp_pManager(&CMongoManagerActor::f_StartBackup, fg_Move(_BackupInterface), fg_Move(_ManifestFinished), _BackupRoot) > [Promise](TCAsyncResult<CActorSubscription> &&_Result)
-			{
-				if (!_Result)
-				{
-					DMibLogWithCategory(MongoManager/Daemon, Error, "Failed to start backup: {}", _Result.f_GetExceptionStr());
-				}
-				
-				Promise.f_SetResult(fg_Move(_Result));
-			}
-		;
-		
-		return Promise.f_MoveFuture();
+		co_return co_await (mp_pManager(&CMongoManagerActor::f_StartBackup, fg_Move(_BackupInterface), fg_Move(_ManifestFinished), _BackupRoot) % "Failed to start backup");
 	}
 }

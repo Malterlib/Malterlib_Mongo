@@ -140,10 +140,11 @@ namespace NMib::NMongo::NMongoManager
 		;
 
 		DLog(Info, "Running mongo script '{}'", _LogCategory);
-		fp_LaunchTool
+		self
 			(
-				fp_GetMongoExecutable("mongo")
-				, {}
+			 	&CMongoManagerActor::fp_LaunchTool
+				, fp_GetMongoExecutable("mongo")
+				, CStr()
 				, fg_Move(Params)
 				, _LogCategory
 				, mp_bVerboseMongoScripts ? ELogVerbosity_All : ELogVerbosity_Errors 
@@ -201,15 +202,16 @@ namespace NMib::NMongo::NMongoManager
 			, CEJSON const &_Config
 		)
 	{
+		TCPromise<CStr> Promise;
+
 		CStr HostName = NProcess::NPlatform::fg_Process_GetHostName();
 		CStr ProgramDirectory = CFile::fs_GetProgramDirectory();
 		
 		if (HostName.f_IsEmpty())
-			return DErrorInstance(fg_Format("Failed to launch mongo for running {}: Hostname is empty", _Script));
+			return Promise <<= DErrorInstance(fg_Format("Failed to launch mongo for running {}: Hostname is empty", _Script));
 		
 		CClock Clock{true};
 		
-		TCPromise<CStr> Promise; 
 		fp_RunMongoScriptInternal
 			(	
 				_MongoConnectionSettings
@@ -231,33 +233,31 @@ namespace NMib::NMongo::NMongoManager
 
 		CStr HostName = NProcess::NPlatform::fg_Process_GetHostName();
 
-		TCPromise<void> Promise;
-		mp_ResolveActor(&CResolveActor::f_Resolve, HostName, NNetwork::ENetAddressType_TCPv4) > Promise / [=](NMib::NNetwork::CNetAddress &&_Address)
-			{
-				if (_Address.f_GetType() != NNetwork::ENetAddressType_TCPv4)
-					return Promise.f_SetException(DMibErrorInstance("Hostname '{}' does not resolve to an IPV4 address"_f << HostName));
+		auto Address = co_await mp_ResolveActor(&CResolveActor::f_Resolve, HostName, NNetwork::ENetAddressType_TCPv4);
 
-				NNetwork::CNetAddressTCPv4 IPAddress;
-				if (!_Address.f_Get(IPAddress))
-					return Promise.f_SetException(DMibErrorInstance("Hostname '{}' does not resolve to an valid IPV4 address"_f << HostName));
+		if (Address.f_GetType() != NNetwork::ENetAddressType_TCPv4)
+			co_return DMibErrorInstance("Hostname '{}' does not resolve to an IPV4 address"_f << HostName);
 
-				if (IPAddress.f_GetIP().m_IP[0] != 127)
-					return Promise.f_SetException(DMibErrorInstance("Hostname '{}' does not resolve to a link local address. {} is not valid"_f << HostName << _Address));
+		NNetwork::CNetAddressTCPv4 IPAddress;
+		if (!Address.f_Get(IPAddress))
+			co_return DMibErrorInstance("Hostname '{}' does not resolve to an valid IPV4 address"_f << HostName);
 
-				DLog(Info, "Hostname '{}' resolved to: {}", HostName, _Address);
+		if (IPAddress.f_GetIP().m_IP[0] != 127)
+			co_return DMibErrorInstance("Hostname '{}' does not resolve to a link local address. {} is not valid"_f << HostName << Address);
 
-				mp_MongoLocalAddress = _Address;
-				Promise.f_SetResult();
-			}
-		;
+		DLog(Info, "Hostname '{}' resolved to: {}", HostName, Address);
 
-		return Promise.f_MoveFuture();
+		mp_MongoLocalAddress = Address;
+
+		co_return {};
 	}
 
 	TCFuture<void> CMongoManagerActor::fp_StartMongo()
 	{
+		TCPromise<void> Promise;
+
 		if (mp_pMongoLaunch)
-			return fg_Explicit(); // Launch already in progress
+			return Promise <<= g_Void; // Launch already in progress
 		
 		CStr MongoPath = fp_GetDataPath("mongo");
 		CStr LogPath = MongoPath + "/log/mongo.log";
@@ -350,8 +350,6 @@ namespace NMib::NMongo::NMongoManager
 			Arguments.f_Insert(CStr::fs_ToStr(CacheSizeInt));
 		}
 		
-		TCPromise<void> Promise;
-
 #ifdef DPlatformFamily_Linux
 		TCVector<CStr> LaunchArguments = {"--interleave=all"};
 		LaunchArguments.f_Insert(fp_GetMongoExecutable("mongod"));
@@ -399,7 +397,7 @@ namespace NMib::NMongo::NMongoManager
 								fg_Timeout(10.0) > [this]
 									{
 										if (!mp_pCanDestroyTracker.f_IsEmpty() && !mp_bStopped)
-											fp_StartMongo() > fg_DiscardResult();
+											self(&CMongoManagerActor::fp_StartMongo) > fg_DiscardResult();
 									}
 								;
 							}
@@ -495,6 +493,8 @@ namespace NMib::NMongo::NMongoManager
 	
 	TCFuture<void> CMongoManagerActor::f_JoinReplica(CJoinReplicaOptions const &_Options)
 	{
+		TCPromise<void> Promise;
+
 		bool bConfigChanged = false;
 		
 		if (_Options.m_ReplicaName)
@@ -522,8 +522,6 @@ namespace NMib::NMongo::NMongoManager
 		
 		if (bConfigChanged)
 			mp_AppState.m_ConfigDatabase.f_Save() > Results.f_AddResult();
-		
-		TCPromise<void> Promise;
 		
 		Results.f_GetResults() > Promise / [Promise, this, _Options]
 			{

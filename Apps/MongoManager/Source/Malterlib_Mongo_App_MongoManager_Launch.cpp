@@ -44,7 +44,7 @@ namespace NMib::NMongo::NMongoManager
 		)
 	{
 		if (mp_pCanDestroyTracker.f_IsEmpty() || mp_bStopped)
-			return fg_Explicit("");
+			co_return "";
 		
 		auto *pToolLaunch = &mp_ToolLaunches.f_Insert();
 		pToolLaunch->m_ProcessLaunch = fg_ConstructActor<CProcessLaunchActor>();
@@ -103,25 +103,18 @@ namespace NMib::NMongo::NMongoManager
 			}
 		;
 		
-		TCPromise<CStr> Promise;
-		pToolLaunch->m_ProcessLaunch(&CProcessLaunchActor::f_LaunchSimple, fg_Move(Launch))
-			> Promise / [pCleanup, Promise, _bSeparateStdErr](CProcessLaunchActor::CSimpleLaunchResult &&_Result)
-			{
-				if (_Result.m_ExitCode != 0)
-				{
-					CStr ErrorOut;
-					if (_bSeparateStdErr)
-						ErrorOut = _Result.f_GetErrorOut().f_TrimRight();
-					else
-						ErrorOut = _Result.f_GetStdOut().f_TrimRight();
-					Promise.f_SetException(DErrorInstance(fg_Format("Tool exited with: {}\n{}", _Result.m_ExitCode, ErrorOut)));
-					return;
-				}
-				Promise.f_SetResult(_Result.f_GetStdOut());
-			}
-		;
-		
-		return Promise.f_MoveFuture();
+		auto LaunchResult = co_await pToolLaunch->m_ProcessLaunch(&CProcessLaunchActor::f_LaunchSimple, fg_Move(Launch));
+		if (LaunchResult.m_ExitCode != 0)
+		{
+			CStr ErrorOut;
+			if (_bSeparateStdErr)
+				ErrorOut = LaunchResult.f_GetErrorOut().f_TrimRight();
+			else
+				ErrorOut = LaunchResult.f_GetStdOut().f_TrimRight();
+			co_return DErrorInstance(fg_Format("Tool exited with: {}\n{}", LaunchResult.m_ExitCode, ErrorOut));
+		}
+
+		co_return LaunchResult.f_GetStdOut();
 	}
 
 	TCFuture<CStr> CMongoManagerActor::fp_RunToolForVersionCheck(CStr const &_Tool, TCVector<CStr> const &_Arguments)
