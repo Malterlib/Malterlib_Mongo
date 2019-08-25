@@ -263,7 +263,11 @@ Property
 
 %Group "{Malterlib}/{Lib_Malterlib_Mongo}"
 {
-	Property.MongoCxxDriver true
+	Property
+	{
+		MalterlibConcurrency_DistributedActors true
+		MongoCxxDriver true
+	}
 
 	%Group Mongo
 	{
