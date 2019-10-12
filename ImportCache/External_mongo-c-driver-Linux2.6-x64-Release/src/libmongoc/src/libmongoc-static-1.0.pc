@@ -7,5 +7,5 @@ Name: libmongoc
 Description: The libmongoc MongoDB client library.
 Version: 1.12.0
 Requires: libbson-static-1.0
-Libs: -L${libdir} -lmongoc-static-1.0  -lrt -lresolv -L/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk/usr/lib -lz
+Libs: -L${libdir} -lmongoc-static-1.0  -lrt -lresolv -L/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk/usr/lib -lz
 Cflags: -I${includedir}/libmongoc-1.0 -DMONGOC_STATIC

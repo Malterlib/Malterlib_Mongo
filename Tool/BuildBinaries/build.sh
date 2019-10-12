@@ -17,7 +17,7 @@ if [[ "$OutputDir" == "" ]]; then
 fi
 
 if [[ "$IntermediateDir" == "" ]]; then
-	IntermediateDir="/CompiledFiles/BuildMongo"
+	IntermediateDir="/opt/CompiledFiles/BuildMongo"
 	rm -rf "$IntermediateDir"
 fi
 
@@ -51,7 +51,7 @@ else
 	exit 1
 fi
 
-function AbsolutePath() 
+function AbsolutePath()
 {
 	pushd "$(dirname "$1")" > /dev/null
 	printf "%s/%s\n" "$(pwd)" "$(basename "$1")"
