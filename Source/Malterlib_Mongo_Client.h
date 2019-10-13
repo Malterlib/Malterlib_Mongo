@@ -96,8 +96,6 @@ namespace NMib::NMongo
 				, NEncoding::CEJSON const &_Query
 				, uint32 _nToReturn
 				, uint32 _nToSkip
-				, NStorage::TCUniquePointer<NEncoding::CEJSON> const &_pOrder
-				, EQueryOption _Options
 			)
 		;
 		NConcurrency::TCFuture<void> f_BatchInsert(NStr::CStr const &_Collection, NContainer::TCVector<NEncoding::CEJSON> const &_Documents, EInsertOption _Options);

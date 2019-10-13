@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+#if !defined(MONGOC_INSIDE) && !defined(MONGOC_COMPILATION)
+#error "Only <mongoc/mongoc.h> can be included directly."
+#endif
+
 
 #ifndef MONGOC_CONFIG_H
 #define MONGOC_CONFIG_H
@@ -25,7 +29,7 @@
 #define MONGOC_USER_SET_LDFLAGS "-stdlib=libc++"
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
-#define MONGOC_CC "/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang"
+#define MONGOC_CC "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang"
 
 /*
  * MONGOC_ENABLE_SSL_SECURE_CHANNEL is set from configure to determine if we are
@@ -178,18 +182,6 @@
 #  undef MONGOC_ENABLE_SASL_SSPI
 #endif
 
-
-/*
- * MONGOC_ENABLE_SASL_GSSAPI is set from configure to determine if we are
- * compiled with GSSAPI support.
- */
-#define MONGOC_ENABLE_SASL_GSSAPI 0
-
-#if MONGOC_ENABLE_SASL_GSSAPI != 1
-#  undef MONGOC_ENABLE_SASL_GSSAPI
-#endif
-
-
 /*
  * MONGOC_HAVE_SASL_CLIENT_DONE is set from configure to determine if we
  * have SASL and its version is new enough to use sasl_client_done (),
@@ -315,6 +307,16 @@
 
 #if MONGOC_ENABLE_COMPRESSION_ZLIB != 1
 #  undef MONGOC_ENABLE_COMPRESSION_ZLIB
+#endif
+
+/*
+ * Set if we have zstd compression support
+ *
+ */
+#define MONGOC_ENABLE_COMPRESSION_ZSTD 0
+
+#if MONGOC_ENABLE_COMPRESSION_ZSTD != 1
+#  undef MONGOC_ENABLE_COMPRESSION_ZSTD
 #endif
 
 /*

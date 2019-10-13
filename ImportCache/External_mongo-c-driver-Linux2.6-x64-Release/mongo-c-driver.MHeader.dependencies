@@ -8,10 +8,12 @@ src/libmongoc/accept_test1.c
 ../../../../External/mongo-c-driver/build/cmake/LoadVersion.cmake
 ../../../../External/mongo-c-driver/build/cmake/MaintainerFlags.cmake
 ../../../../External/mongo-c-driver/build/cmake/MongoCPackage.cmake
+../../../../External/mongo-c-driver/build/cmake/ParseVersion.cmake
 ../../../../External/mongo-c-driver/build/cmake/make_dist/CMakeLists.txt
 ../../../../External/mongo-c-driver/build/cmake/make_dist/MakeDistFiles.cmake
 ../../../../External/mongo-c-driver/build/sphinx/CMakeLists.txt
 ../../../../External/mongo-c-driver/build/sphinx/mongoc-theme/CMakeLists.txt
+../../../../External/mongo-c-driver/generate_uninstall/CMakeLists.txt
 ../../../../External/mongo-c-driver/orchestration_configs/CMakeLists.txt
 ../../../../External/mongo-c-driver/src/CMakeLists.txt
 ../../../../External/mongo-c-driver/src/common/CMakeLists.txt

@@ -541,8 +541,6 @@ namespace NMib::NMongo
 			, NEncoding::CEJSON const &_Query
 			, uint32 _nToReturn
 			, uint32 _nToSkip
-			, NStorage::TCUniquePointer<NEncoding::CEJSON> const &_pOrder
-			, EQueryOption _Options
 		)
 	{
 		NConcurrency::TCPromise<uint64> Promise;
@@ -554,19 +552,19 @@ namespace NMib::NMongo
 		if (!Error.f_IsEmpty())
 			return Promise <<= DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
-		auto QueryOptions = fg_QueryOptions(_Options, nullptr, _pOrder);
+		mongocxx::options::count CountOptions;
 
 		if (_nToSkip)
-			QueryOptions.skip(_nToSkip);
+			CountOptions.skip(_nToSkip);
 
 		if (_nToReturn)
-			QueryOptions.limit(_nToReturn);
+			CountOptions.limit(_nToReturn);
 
 		try
 		{
 			auto Collection = Internal.f_GetCollection(_Collection);
 
-			uint64 Count = Collection.count(fg_ToBSON(_Query));
+			uint64 Count = Collection.count_documents(fg_ToBSON(_Query), CountOptions);
 			return Promise <<= Count;
 		}
 		catch (std::exception const &_Exception)

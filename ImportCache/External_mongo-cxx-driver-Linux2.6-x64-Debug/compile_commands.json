@@ -289,6 +289,90 @@
 
 {
   "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/events/command_failed_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/command_failed_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/command_failed_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/events/command_started_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/command_started_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/command_started_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/events/command_succeeded_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/command_succeeded_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/command_succeeded_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/events/heartbeat_failed_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/heartbeat_failed_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/heartbeat_failed_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/events/heartbeat_started_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/heartbeat_started_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/heartbeat_started_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/events/heartbeat_succeeded_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/heartbeat_succeeded_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/heartbeat_succeeded_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/events/server_changed_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/server_changed_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/server_changed_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/events/server_closed_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/server_closed_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/server_closed_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/events/server_description.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/server_description.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/server_description.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/events/server_opening_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/server_opening_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/server_opening_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/events/topology_changed_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_changed_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_changed_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/events/topology_closed_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_closed_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_closed_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/events/topology_description.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_description.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_description.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/events/topology_opening_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_opening_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_opening_event.cpp"
+},
+
+{
+  "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/exception/error_code.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/exception/error_code.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/exception/error_code.cpp"
 },
@@ -403,6 +487,12 @@
 
 {
   "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/options/apm.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/apm.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/apm.cpp"
+},
+
+{
+  "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/options/bulk_write.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/bulk_write.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/bulk_write.cpp"
 },
@@ -429,6 +519,12 @@
   "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/options/count.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/count.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/count.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/options/estimated_document_count.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/estimated_document_count.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/estimated_document_count.cpp"
 },
 
 {
@@ -511,12 +607,6 @@
 
 {
   "directory": ".",
-  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/options/modify_collection.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/modify_collection.cpp",
-  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/modify_collection.cpp"
-},
-
-{
-  "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/options/pool.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/pool.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/pool.cpp"
 },
@@ -529,8 +619,20 @@
 
 {
   "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/options/replace.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/replace.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/replace.cpp"
+},
+
+{
+  "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/options/ssl.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/ssl.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/ssl.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx_mocked.dir/options/transaction.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/transaction.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/transaction.cpp"
 },
 
 {
@@ -685,6 +787,90 @@
 
 {
   "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/events/command_failed_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/command_failed_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/command_failed_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/events/command_started_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/command_started_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/command_started_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/events/command_succeeded_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/command_succeeded_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/command_succeeded_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/events/heartbeat_failed_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/heartbeat_failed_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/heartbeat_failed_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/events/heartbeat_started_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/heartbeat_started_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/heartbeat_started_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/events/heartbeat_succeeded_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/heartbeat_succeeded_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/heartbeat_succeeded_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/events/server_changed_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/server_changed_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/server_changed_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/events/server_closed_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/server_closed_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/server_closed_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/events/server_description.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/server_description.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/server_description.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/events/server_opening_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/server_opening_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/server_opening_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/events/topology_changed_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_changed_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_changed_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/events/topology_closed_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_closed_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_closed_event.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/events/topology_description.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_description.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_description.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/events/topology_opening_event.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_opening_event.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/events/topology_opening_event.cpp"
+},
+
+{
+  "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/exception/error_code.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/exception/error_code.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/exception/error_code.cpp"
 },
@@ -799,6 +985,12 @@
 
 {
   "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/options/apm.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/apm.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/apm.cpp"
+},
+
+{
+  "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/options/bulk_write.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/bulk_write.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/bulk_write.cpp"
 },
@@ -825,6 +1017,12 @@
   "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/options/count.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/count.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/count.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/options/estimated_document_count.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/estimated_document_count.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/estimated_document_count.cpp"
 },
 
 {
@@ -907,12 +1105,6 @@
 
 {
   "directory": ".",
-  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/options/modify_collection.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/modify_collection.cpp",
-  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/modify_collection.cpp"
-},
-
-{
-  "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/options/pool.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/pool.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/pool.cpp"
 },
@@ -925,8 +1117,20 @@
 
 {
   "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/options/replace.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/replace.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/replace.cpp"
+},
+
+{
+  "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/options/ssl.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/ssl.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/ssl.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/CMakeFiles/mongocxx.dir/options/transaction.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/options/transaction.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/options/transaction.cpp"
 },
 
 {
@@ -1047,6 +1251,150 @@
   "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_logging.dir/logging.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/logging.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/logging.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_transactions_specs.dir/__/test_util/client_helpers.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_transactions_specs.dir/__/__/third_party/catch/main.cpp.o -c ../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_transactions_specs.dir/spec/transactions.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/transactions.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/transactions.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_transactions_specs.dir/spec/operation.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/operation.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/operation.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_transactions_specs.dir/spec/monitoring.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/monitoring.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/monitoring.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_transactions_specs.dir/spec/util.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/util.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/util.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_command_monitoring_specs.dir/__/test_util/client_helpers.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_command_monitoring_specs.dir/__/__/third_party/catch/main.cpp.o -c ../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_command_monitoring_specs.dir/spec/command_monitoring.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/command_monitoring.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/command_monitoring.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_command_monitoring_specs.dir/spec/operation.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/operation.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/operation.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_command_monitoring_specs.dir/spec/monitoring.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/monitoring.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/monitoring.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_command_monitoring_specs.dir/spec/util.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/util.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/util.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_gridfs_specs.dir/__/test_util/client_helpers.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_gridfs_specs.dir/__/__/third_party/catch/main.cpp.o -c ../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_gridfs_specs.dir/spec/gridfs.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/gridfs.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/gridfs.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_gridfs_specs.dir/spec/operation.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/operation.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/operation.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_gridfs_specs.dir/spec/monitoring.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/monitoring.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/monitoring.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_gridfs_specs.dir/spec/util.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/util.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/util.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_change_stream_specs.dir/__/test_util/client_helpers.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_change_stream_specs.dir/__/__/third_party/catch/main.cpp.o -c ../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_change_stream_specs.dir/spec/change_stream.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/change_stream.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/change_stream.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_change_stream_specs.dir/spec/operation.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/operation.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/operation.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_change_stream_specs.dir/spec/monitoring.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/monitoring.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/monitoring.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_change_stream_specs.dir/spec/util.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/util.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/util.cpp"
 },
 
 {
@@ -1273,12 +1621,6 @@
 
 {
   "directory": ".",
-  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_driver.dir/options/modify_collection.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/options/modify_collection.cpp",
-  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/modify_collection.cpp"
-},
-
-{
-  "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_driver.dir/options/pool.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/options/pool.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/pool.cpp"
 },
@@ -1287,6 +1629,12 @@
   "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_driver.dir/options/private/rewriter.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/options/private/rewriter.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/private/rewriter.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_driver.dir/options/replace.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/options/replace.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/options/replace.cpp"
 },
 
 {
@@ -1363,6 +1711,18 @@
 
 {
   "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_driver.dir/sdam-monitoring.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/sdam-monitoring.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/sdam-monitoring.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_driver.dir/transactions.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/transactions.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/transactions.cpp"
+},
+
+{
+  "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_driver.dir/uri.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/uri.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/uri.cpp"
 },
@@ -1393,24 +1753,6 @@
 
 {
   "directory": ".",
-  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_gridfs_specs.dir/__/test_util/client_helpers.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp",
-  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp"
-},
-
-{
-  "directory": ".",
-  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_gridfs_specs.dir/__/__/third_party/catch/main.cpp.o -c ../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp",
-  "file": "../../../../External/mongo-cxx-driver/src/third_party/catch/main.cpp"
-},
-
-{
-  "directory": ".",
-  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_gridfs_specs.dir/spec/gridfs.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/gridfs.cpp",
-  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/gridfs.cpp"
-},
-
-{
-  "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_crud_specs.dir/__/test_util/client_helpers.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test_util/client_helpers.cpp"
 },
@@ -1425,6 +1767,24 @@
   "directory": ".",
   "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_crud_specs.dir/spec/crud.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/crud.cpp",
   "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/crud.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_crud_specs.dir/spec/operation.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/operation.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/operation.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_crud_specs.dir/spec/monitoring.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/monitoring.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/monitoring.cpp"
+},
+
+{
+  "directory": ".",
+  "command": "/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin/clang++ --target=x86_64-pc-linux-gnu -B/opt/CompiledFiles/Dependencies/llvm/9.0/build/main/bin --sysroot=/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk  -DBSONCXX_STATIC -DMONGOCXX_STATIC -DMONGOCXX_TESTING -DMONGO_CXX_DRIVER_COMPILING -I../../../../External/mongo-cxx-driver/src -Isrc -I../../../../External/mongo-cxx-driver/src/third_party/catch/include  -stdlib=libc++ -g   -std=c++14 -o src/mongocxx/test/CMakeFiles/test_crud_specs.dir/spec/util.cpp.o -c ../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/util.cpp",
+  "file": "../../../../External/mongo-cxx-driver/src/mongocxx/test/spec/util.cpp"
 },
 
 {
