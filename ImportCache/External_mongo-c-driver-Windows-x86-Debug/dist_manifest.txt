@@ -5,9 +5,11 @@ NEWS
 README.rst
 THIRD_PARTY_NOTICES
 VERSION_CURRENT
-VERSION_RELEASED
+generate_uninstall/CMakeLists.txt
 build/CMakeLists.txt
 build/maintainer-flags.txt
+build/generate-uninstall.cmd
+build/generate-uninstall.sh
 build/cmake/CMakeLists.txt
 build/cmake/CheckSchedGetCPU.cmake
 build/cmake/FindResSearch.cmake
@@ -17,6 +19,7 @@ build/cmake/FindSphinx.cmake
 build/cmake/LoadVersion.cmake
 build/cmake/MaintainerFlags.cmake
 build/cmake/MongoCPackage.cmake
+build/cmake/ParseVersion.cmake
 build/cmake/SphinxBuild.cmake
 build/cmake/make_dist/CMakeLists.txt
 build/cmake/make_dist/COPYING-CMAKE-SCRIPTS.txt
@@ -34,11 +37,6 @@ build/sphinx/mongoc-theme/static/mongoc.css_t
 build/sphinx/mongoc-theme/static/pygments.css
 build/sphinx/mongoc-theme/theme.conf
 orchestration_configs/CMakeLists.txt
-orchestration_configs/certificates/ca.pem
-orchestration_configs/certificates/client.pem
-orchestration_configs/certificates/crl.pem
-orchestration_configs/certificates/password_protected.pem
-orchestration_configs/certificates/server.pem
 orchestration_configs/replica_sets/auth-ssl.json
 orchestration_configs/replica_sets/auth-thisDB-ssl.json
 orchestration_configs/replica_sets/auth.json
@@ -50,10 +48,11 @@ orchestration_configs/servers/basic-ipv4-only.json
 orchestration_configs/servers/basic-ssl.json
 orchestration_configs/servers/basic.json
 orchestration_configs/servers/mmapv1.json
-orchestration_configs/servers/snappy-zlib.json
+orchestration_configs/servers/snappy-zlib-zstd.json
 orchestration_configs/servers/snappy.json
 orchestration_configs/servers/wiredtiger.json
 orchestration_configs/servers/zlib.json
+orchestration_configs/servers/zstd.json
 orchestration_configs/sharded_clusters/auth-ssl.json
 orchestration_configs/sharded_clusters/auth.json
 orchestration_configs/sharded_clusters/basic-ssl.json
@@ -92,6 +91,8 @@ src/common/common-b64.c
 src/common/common-md5.c
 src/common/common-b64-private.h
 src/common/common-md5-private.h
+src/common/common-prelude.h
+src/common/common-thread-private.h
 src/libbson/CMakeLists.txt
 src/libbson/NEWS
 src/libbson/THIRD_PARTY_NOTICES
@@ -110,6 +111,7 @@ src/libbson/src/libbson-static-1.0.pc.in
 src/libbson/src/bson/CMakeLists.txt
 src/libbson/src/bson/bson-config.h.in
 src/libbson/src/bson/bson-version.h.in
+src/libbson/src/bson/modules/module.modulemap.in
 src/libbson/src/bson/bcon.h
 src/libbson/src/bson/bson.h
 src/libbson/src/bson/bson-atomic.h
@@ -133,12 +135,12 @@ src/libbson/src/bson/bson-utf8.h
 src/libbson/src/bson/bson-value.h
 src/libbson/src/bson/bson-version-functions.h
 src/libbson/src/bson/bson-writer.h
+src/libbson/src/bson/bson-prelude.h
 src/libbson/src/bson/bson-private.h
 src/libbson/src/bson/bson-iso8601-private.h
 src/libbson/src/bson/bson-context-private.h
-src/libbson/src/bson/bson-fnv-private.h
-src/libbson/src/bson/bson-thread-private.h
 src/libbson/src/bson/bson-timegm-private.h
+src/libbson/src/bson/forwarding/bson.h
 src/libbson/src/bson/bcon.c
 src/libbson/src/bson/bson.c
 src/libbson/src/bson/bson-atomic.c
@@ -146,7 +148,6 @@ src/libbson/src/bson/bson-clock.c
 src/libbson/src/bson/bson-context.c
 src/libbson/src/bson/bson-decimal128.c
 src/libbson/src/bson/bson-error.c
-src/libbson/src/bson/bson-fnv.c
 src/libbson/src/bson/bson-iter.c
 src/libbson/src/bson/bson-iso8601.c
 src/libbson/src/bson/bson-json.c
@@ -177,6 +178,8 @@ src/libmongoc/src/libmongoc-1.0.pc.in
 src/libmongoc/src/libmongoc-ssl-1.0.pc.in
 src/libmongoc/src/libmongoc-static-1.0.pc.in
 src/libmongoc/src/mongoc/CMakeLists.txt
+src/libmongoc/src/mongoc/modules/module.modulemap.in
+src/libmongoc/src/mongoc/mongoc-aggregate.c
 src/libmongoc/src/mongoc/mongoc-apm.c
 src/libmongoc/src/mongoc/mongoc-array.c
 src/libmongoc/src/mongoc/mongoc-async.c
@@ -197,6 +200,7 @@ src/libmongoc/src/mongoc/mongoc-cursor-find.c
 src/libmongoc/src/mongoc/mongoc-cursor-find-cmd.c
 src/libmongoc/src/mongoc/mongoc-cursor-find-opquery.c
 src/libmongoc/src/mongoc/mongoc-cursor-cmd.c
+src/libmongoc/src/mongoc/mongoc-cursor-change-stream.c
 src/libmongoc/src/mongoc/mongoc-cursor-cmd-deprecated.c
 src/libmongoc/src/mongoc/mongoc-database.c
 src/libmongoc/src/mongoc/mongoc-error.c
@@ -204,6 +208,8 @@ src/libmongoc/src/mongoc/mongoc-find-and-modify.c
 src/libmongoc/src/mongoc/mongoc-host-list.c
 src/libmongoc/src/mongoc/mongoc-init.c
 src/libmongoc/src/mongoc/mongoc-gridfs.c
+src/libmongoc/src/mongoc/mongoc-gridfs-bucket.c
+src/libmongoc/src/mongoc/mongoc-gridfs-bucket-file.c
 src/libmongoc/src/mongoc/mongoc-gridfs-file.c
 src/libmongoc/src/mongoc/mongoc-gridfs-file-page.c
 src/libmongoc/src/mongoc/mongoc-gridfs-file-list.c
@@ -231,6 +237,8 @@ src/libmongoc/src/mongoc/mongoc-stream.c
 src/libmongoc/src/mongoc/mongoc-stream-buffered.c
 src/libmongoc/src/mongoc/mongoc-stream-file.c
 src/libmongoc/src/mongoc/mongoc-stream-gridfs.c
+src/libmongoc/src/mongoc/mongoc-stream-gridfs-download.c
+src/libmongoc/src/mongoc/mongoc-stream-gridfs-upload.c
 src/libmongoc/src/mongoc/mongoc-stream-socket.c
 src/libmongoc/src/mongoc/mongoc-topology.c
 src/libmongoc/src/mongoc/mongoc-topology-description.c
@@ -267,8 +275,6 @@ src/libmongoc/src/mongoc/mongoc-cluster-cyrus.c
 src/libmongoc/src/mongoc/mongoc-cyrus.c
 src/libmongoc/src/mongoc/mongoc-cluster-sspi.c
 src/libmongoc/src/mongoc/mongoc-sspi.c
-src/libmongoc/src/mongoc/mongoc-cluster-gssapi.c
-src/libmongoc/src/mongoc/mongoc-gssapi.c
 src/libmongoc/src/mongoc/mongoc-apm.h
 src/libmongoc/src/mongoc/mongoc-bulk-operation.h
 src/libmongoc/src/mongoc/mongoc-change-stream.h
@@ -280,6 +286,7 @@ src/libmongoc/src/mongoc/mongoc-database.h
 src/libmongoc/src/mongoc/mongoc-error.h
 src/libmongoc/src/mongoc/mongoc-find-and-modify.h
 src/libmongoc/src/mongoc/mongoc-flags.h
+src/libmongoc/src/mongoc/mongoc-gridfs-bucket.h
 src/libmongoc/src/mongoc/mongoc-gridfs-file.h
 src/libmongoc/src/mongoc/mongoc-gridfs-file-list.h
 src/libmongoc/src/mongoc/mongoc-gridfs-file-page.h
@@ -294,6 +301,7 @@ src/libmongoc/src/mongoc/mongoc-log.h
 src/libmongoc/src/mongoc/mongoc-macros.h
 src/libmongoc/src/mongoc/mongoc-matcher.h
 src/libmongoc/src/mongoc/mongoc-opcode.h
+src/libmongoc/src/mongoc/mongoc-prelude.h
 src/libmongoc/src/mongoc/mongoc-rand.h
 src/libmongoc/src/mongoc/mongoc-read-concern.h
 src/libmongoc/src/mongoc/mongoc-read-prefs.h
@@ -317,6 +325,8 @@ src/libmongoc/src/mongoc/mongoc-version-functions.h
 src/libmongoc/src/mongoc/mongoc-version.h.in
 src/libmongoc/src/mongoc/mongoc-write-concern.h
 src/libmongoc/src/mongoc/utlist.h
+src/libmongoc/src/mongoc/forwarding/mongoc.h
+src/libmongoc/src/mongoc/mongoc-aggregate-private.h
 src/libmongoc/src/mongoc/mongoc-apm-private.h
 src/libmongoc/src/mongoc/mongoc-array-private.h
 src/libmongoc/src/mongoc/mongoc-async-cmd-private.h
@@ -344,7 +354,10 @@ src/libmongoc/src/mongoc/mongoc-cursor-private.h
 src/libmongoc/src/mongoc/mongoc-cyrus-private.h
 src/libmongoc/src/mongoc/mongoc-database-private.h
 src/libmongoc/src/mongoc/mongoc-errno-private.h
+src/libmongoc/src/mongoc/mongoc-error-private.h
 src/libmongoc/src/mongoc/mongoc-find-and-modify-private.h
+src/libmongoc/src/mongoc/mongoc-gridfs-bucket-file-private.h
+src/libmongoc/src/mongoc/mongoc-gridfs-bucket-private.h
 src/libmongoc/src/mongoc/mongoc-gridfs-file-list-private.h
 src/libmongoc/src/mongoc/mongoc-gridfs-file-page-private.h
 src/libmongoc/src/mongoc/mongoc-gridfs-file-private.h
@@ -387,6 +400,8 @@ src/libmongoc/src/mongoc/mongoc-stream-tls-openssl-private.h
 src/libmongoc/src/mongoc/mongoc-stream-tls-private.h
 src/libmongoc/src/mongoc/mongoc-stream-tls-secure-channel-private.h
 src/libmongoc/src/mongoc/mongoc-stream-tls-secure-transport-private.h
+src/libmongoc/src/mongoc/mongoc-stream-gridfs-download-private.h
+src/libmongoc/src/mongoc/mongoc-stream-gridfs-upload-private.h
 src/libmongoc/src/mongoc/mongoc-thread-private.h
 src/libmongoc/src/mongoc/mongoc-topology-description-apm-private.h
 src/libmongoc/src/mongoc/mongoc-topology-description-private.h

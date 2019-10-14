@@ -4,7 +4,7 @@ Property.CMakeOutputPath_libmongoc "@('../..'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C
-		SearchPath "@('../../../../../../External/mongo-c-driver/src/libbson/src/bson'->MakeAbsolute());@('../../src/libbson/src/bson'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/zlib-1.2.11'->MakeAbsolute());@('../../src/zlib-1.2.11'->MakeAbsolute());@('../../src/libmongoc/src/mongoc'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('../../../../../../External/mongo-c-driver/src/libbson/src'->MakeAbsolute());@('../../src/libbson/src'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/zlib-1.2.11'->MakeAbsolute());@('../../src/zlib-1.2.11'->MakeAbsolute());@('../../src/libmongoc/src'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/libmongoc/src'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSON_STATIC;MONGOC_COMPILATION;MONGOC_STATIC;_BSD_SOURCE;_CRT_SECURE_NO_WARNINGS;_DEFAULT_SOURCE;_GNU_SOURCE;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -85,6 +85,10 @@ Property.CMakeOutputPath_libmongoc "@('../..'->MakeAbsolute())"
 			{
 				%Group mongoc
 				{
+					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-aggregate.c"
+					{
+						Compile.Type C
+					}
 					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-apm.c"
 					{
 						Compile.Type C
@@ -153,6 +157,10 @@ Property.CMakeOutputPath_libmongoc "@('../..'->MakeAbsolute())"
 					{
 						Compile.Type C
 					}
+					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-cursor-change-stream.c"
+					{
+						Compile.Type C
+					}
 					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-cursor-cmd-deprecated.c"
 					{
 						Compile.Type C
@@ -190,6 +198,14 @@ Property.CMakeOutputPath_libmongoc "@('../..'->MakeAbsolute())"
 						Compile.Type C
 					}
 					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-gridfs.c"
+					{
+						Compile.Type C
+					}
+					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-gridfs-bucket.c"
+					{
+						Compile.Type C
+					}
+					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-gridfs-bucket-file.c"
 					{
 						Compile.Type C
 					}
@@ -302,6 +318,14 @@ Property.CMakeOutputPath_libmongoc "@('../..'->MakeAbsolute())"
 						Compile.Type C
 					}
 					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-stream-gridfs.c"
+					{
+						Compile.Type C
+					}
+					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-stream-gridfs-download.c"
+					{
+						Compile.Type C
+					}
+					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-stream-gridfs-upload.c"
 					{
 						Compile.Type C
 					}
@@ -437,6 +461,10 @@ Property.CMakeOutputPath_libmongoc "@('../..'->MakeAbsolute())"
 					{
 						Compile.Type None
 					}
+					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-gridfs-bucket.h"
+					{
+						Compile.Type None
+					}
 					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-gridfs-file.h"
 					{
 						Compile.Type None
@@ -482,6 +510,10 @@ Property.CMakeOutputPath_libmongoc "@('../..'->MakeAbsolute())"
 						Compile.Type None
 					}
 					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-opcode.h"
+					{
+						Compile.Type None
+					}
+					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-prelude.h"
 					{
 						Compile.Type None
 					}
@@ -560,6 +592,13 @@ Property.CMakeOutputPath_libmongoc "@('../..'->MakeAbsolute())"
 					%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-ssl.h"
 					{
 						Compile.Type None
+					}
+					%Group forwarding
+					{
+						%File "../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/forwarding/mongoc.h"
+						{
+							Compile.Type None
+						}
 					}
 				}
 			}
