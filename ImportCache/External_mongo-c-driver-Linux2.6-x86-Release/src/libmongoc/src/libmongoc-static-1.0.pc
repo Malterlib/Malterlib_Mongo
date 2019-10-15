@@ -5,7 +5,7 @@ includedir=${exec_prefix}/include
 
 Name: libmongoc
 Description: The libmongoc MongoDB client library.
-Version: 1.15.2-pre
+Version: 1.15.1
 Requires: libbson-static-1.0
 Libs: -L${libdir} -lmongoc-static-1.0  -lrt -lresolv -L/opt/CompiledFiles/Dependencies/Binaries/Malterlib_Linux/SDKs/Linux2.6.sdk/usr/lib32 -lz
 Cflags: -I${includedir}/libmongoc-1.0 -DMONGOC_STATIC
