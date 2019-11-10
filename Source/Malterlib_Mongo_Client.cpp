@@ -35,7 +35,7 @@ namespace
 		
 	};
 
-	NMib::NStorage::TCAggregate<CMongoClientInit> g_MongoClientInit = {DAggregateInit};
+	constinit NMib::NStorage::TCAggregate<CMongoClientInit> g_MongoClientInit = {DAggregateInit};
 }
 
 namespace NMib::NMongo
