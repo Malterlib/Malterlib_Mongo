@@ -322,6 +322,9 @@ namespace NMib::NMongo
 					case binary_sub_type::k_user:
 						Type = "bdtCustom";
 						break;
+					case binary_sub_type::k_binary:
+						DMibNeverGetHere;
+						break;
 					}
 
 					UserType.m_Value["Type"] = Type;
