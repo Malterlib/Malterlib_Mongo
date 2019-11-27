@@ -68,6 +68,12 @@ namespace NMib::NMongo
 			, EInsertOption_ContinueOnError = DMibBit(0)
 		};
 
+		struct CUpdateResult
+		{
+			int32 m_MatchedCount;
+			int32 m_ModifiedCount;
+		};
+
 		NConcurrency::TCFuture<NContainer::TCVector<NEncoding::CEJSON>> f_Query
 			(
 				NStr::CStr const &_Collection
@@ -100,7 +106,7 @@ namespace NMib::NMongo
 		;
 		NConcurrency::TCFuture<void> f_BatchInsert(NStr::CStr const &_Collection, NContainer::TCVector<NEncoding::CEJSON> const &_Documents, EInsertOption _Options);
 		NConcurrency::TCFuture<void> f_Insert(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Document, EInsertOption _Options);
-		NConcurrency::TCFuture<void> f_Update(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, NEncoding::CEJSON const &_Update, EUpdateOption _Options);
+		NConcurrency::TCFuture<CUpdateResult> f_Update(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, NEncoding::CEJSON const &_Update, EUpdateOption _Options);
 		NConcurrency::TCFuture<void> f_Remove(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, ERemoveOption _Options);
 
 	private:

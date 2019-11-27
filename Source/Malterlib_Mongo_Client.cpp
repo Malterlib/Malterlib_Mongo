@@ -651,9 +651,16 @@ namespace NMib::NMongo
 		}
 	}
 
-	NConcurrency::TCFuture<void> CMongoClientActor::f_Update(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, NEncoding::CEJSON const &_Update, EUpdateOption _Options)
+	auto CMongoClientActor::f_Update
+		(
+			NStr::CStr const &_Collection
+			, NEncoding::CEJSON const &_Query
+			, NEncoding::CEJSON const &_Update
+			, EUpdateOption _Options
+		)
+		-> NConcurrency::TCFuture<CUpdateResult>
 	{
-		NConcurrency::TCPromise<void> Promise;
+		NConcurrency::TCPromise<CUpdateResult> Promise;
 
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
@@ -672,12 +679,16 @@ namespace NMib::NMongo
 		{
 			auto Collection = Internal.f_GetCollection(_Collection);
 
+			mongocxx::stdx::optional<mongocxx::result::update> UpdateResult;
 			if (_Options & EUpdateOption_Multi)
-				Collection.update_one(fg_ToBSON(_Query), fg_ToBSON(_Update), UpdateOptions);
+				UpdateResult = Collection.update_one(fg_ToBSON(_Query), fg_ToBSON(_Update), UpdateOptions);
 			else
-				Collection.update_many(fg_ToBSON(_Query), fg_ToBSON(_Update), UpdateOptions);
+				UpdateResult = Collection.update_many(fg_ToBSON(_Query), fg_ToBSON(_Update), UpdateOptions);
 
-			return Promise <<= g_Void;
+			if (!UpdateResult)
+				return Promise <<= DMibErrorInstance("MongoDB update did not return any results");
+
+			return Promise <<= CUpdateResult{UpdateResult->matched_count(), UpdateResult->modified_count()};
 		}
 		catch (std::exception const &_Exception)
 		{
