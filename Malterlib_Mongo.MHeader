@@ -9,7 +9,7 @@ Import "Tool/*/*.MHeader"
 {
 	Repository
 	{
-		Type External
+		Type "External"
 		Remotes "upstream=https://github.com/mongodb/mongo-cxx-driver.git;@(Repository.Remotes)"
 	}
 }
@@ -18,7 +18,7 @@ Import "Tool/*/*.MHeader"
 {
 	Repository
 	{
-		Type External
+		Type "External"
 		Remotes "upstream=https://github.com/mongodb/mongo-c-driver.git;@(Repository.Remotes)"
 	}
 }
@@ -40,7 +40,7 @@ Property
 	Import.CMake_Variables "BUILD_VERSION=1.15.1;CMAKE_BUILD_WITH_INSTALL_RPATH=ON;ENABLE_APPLE_FRAMEWORK=OFF;MONGOC_ENABLE_EXECUTABLES=OFF;ENABLE_BSON=ON;ENABLE_STATIC=ON;MONGOC_ENABLE_STATIC=ON;ENABLE_TESTS=OFF;ENABLE_EXAMPLES=OFF;ENABLE_SASL=OFF;ENABLE_ICU=OFF;ENABLE_SSL=EXTERNAL_OPENSSL;DISABLE_PACKAGES=ON;ENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF;@(Import.CMake_Variables)"
 	Import.CMake_Variables "THREADS_PTHREAD_ARG=2;BSON_HAVE_REALLOCF=0;@(Import.CMake_Variables)"
 	{
-		!!PlatformFamily Linux
+		!!PlatformFamily "Linux"
 	}
 
 	Compile
@@ -53,7 +53,7 @@ Property
 
 	Property
 	{
-		!!PlatformFamily Windows
+		!!PlatformFamily "Windows"
 
 		MalterlibWindowsNtVersion "_WIN32_WINNT_VISTA"
 		MalterlibWindowsVersion "NTDDI_VISTA"
@@ -61,7 +61,7 @@ Property
 
 	Target.CharacterSet "MultiByte"
 	{
-		!!PlatformFamily Windows
+		!!PlatformFamily "Windows"
 	}
 
 	Compile
@@ -73,11 +73,11 @@ Property
 		Warnings "Minimal"
 		Warnings_UnusedFunction false
 		{
-			!!GeneratorFamily Xcode
+			!!GeneratorFamily "Xcode"
 		}
 	}
 
-	%Target Lib_bson_static
+	%Target "Lib_bson_static"
 	{
 		Property.ImportCacheDir "@(Import.CMake_CacheDirectory)"
 		Compile.PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;BSON_STATIC;MONGOC_STATIC;@(Compile.PreprocessorDefines)"
@@ -94,7 +94,7 @@ Property
 		}
 	}
 
-	%Target Lib_mongoc_static
+	%Target "Lib_mongoc_static"
 	{
 		Compile
 		{
@@ -141,12 +141,12 @@ Property
 		PrefixHeader ""
 		Warnings_DeprecatedDeclarations false
 		{
-			!!GeneratorFamily Xcode
+			!!GeneratorFamily "Xcode"
 		}
 	}
 	Property.IdentityFileName "@(this.Identity->GetFile())"
 
-	%Target Lib_bsoncxx
+	%Target "Lib_bsoncxx"
 	{
 		Compile
 		{
@@ -155,7 +155,7 @@ Property
 			PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;BSON_STATIC;MONGOC_STATIC;@(Compile.PreprocessorDefines)"
 			PreprocessorDefines "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;@(Compile.PreprocessorDefines)"
 			{
-				!!PlatformFamily Windows
+				!!PlatformFamily "Windows"
 			}
 			SearchPath "@(MalterlibMongoIncludePath_bson);@(MalterlibMongoIncludePath_mongoc);@(Compile.SearchPath)"
 			FullEval true
@@ -163,7 +163,7 @@ Property
 			{
 				&
 				{
-					PlatformFamily Windows
+					PlatformFamily "Windows"
 					|
 					{
 						IdentityFileName "element.cpp"
@@ -174,7 +174,7 @@ Property
 			}
 		}
 	}
-	%Target Lib_mongocxx
+	%Target "Lib_mongocxx"
 	{
 		Compile
 		{
@@ -183,7 +183,7 @@ Property
 			PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;BSON_STATIC;MONGOC_STATIC;@(Compile.PreprocessorDefines)"
 			PreprocessorDefines "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;@(Compile.PreprocessorDefines)"
 			{
-				!!PlatformFamily Windows
+				!!PlatformFamily "Windows"
 			}
 
 			SearchPath "@(MalterlibMongoIncludePath_bson);@(MalterlibMongoIncludePath_mongoc);@(Compile.SearchPath)"
@@ -192,7 +192,7 @@ Property
 			{
 				&
 				{
-					PlatformFamily Windows
+					PlatformFamily "Windows"
 					|
 					{
 						IdentityFileName "bulk_write.cpp"
@@ -230,7 +230,7 @@ Compile
 	PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;BSON_STATIC;MONGOC_STATIC;@(Compile.PreprocessorDefines)"
 	PreprocessorDefines "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;@(Compile.PreprocessorDefines)"
 	{
-		!!PlatformFamily Windows
+		!!PlatformFamily "Windows"
 	}
 }
 
@@ -238,16 +238,16 @@ Target
 {
 	&
 	{
-		LanguageFamily Native
-		TargetIsExecutable "true"
+		LanguageFamily "Native"
+		TargetIsExecutable true
 		MongoCxxDriver true
 		!DocumentationEnabled true
 	}
 
 	LinkWithLibraries "-lresolv @(Target.LinkWithLibraries)"
 	{
-		!!PlatformFamily OSX
-		!!PlatformFamily Linux
+		!!PlatformFamily "OSX"
+		!!PlatformFamily "Linux"
 	}
 }
 
@@ -269,9 +269,9 @@ Property
 		MongoCxxDriver true
 	}
 
-	%Group Mongo
+	%Group "Mongo"
 	{
-		%Group Include
+		%Group "Include"
 		{
 			Compile.Type "C++"
 			{
@@ -280,27 +280,27 @@ Property
 			%File "Include/Mib/Mongo/^*"
 		}
 		%File "Source/*"
-		%Group Documentation
+		%Group "Documentation"
 		{
 			%File "Documentation/*"
 		}
 	}
-	%Dependency Lib_mongocxx
+	%Dependency "Lib_mongocxx"
 	{
 		!DocumentationEnabled true
 		Dependency.Indirect true
 	}
-	%Dependency Lib_bsoncxx
+	%Dependency "Lib_bsoncxx"
 	{
 		!DocumentationEnabled true
 		Dependency.Indirect true
 	}
-	%Dependency Lib_mongoc_static
+	%Dependency "Lib_mongoc_static"
 	{
 		!DocumentationEnabled true
 		Dependency.Indirect true
 	}
-	%Dependency Lib_bson_static
+	%Dependency "Lib_bson_static"
 	{
 		!DocumentationEnabled true
 		Dependency.Indirect true
