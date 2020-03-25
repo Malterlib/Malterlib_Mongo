@@ -4,7 +4,7 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C
-		SearchPath "@('src/libbson/src/bson'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/libbson/src/bson'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/libbson/src'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('src/libbson/src'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/libbson/src'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSON_COMPILATION;BSON_STATIC;JSONSL_PARSE_NAN;NDEBUG;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -50,10 +50,6 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 					{
 						Compile.Type C
 					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-fnv.c"
-					{
-						Compile.Type C
-					}
 					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-iso8601.c"
 					{
 						Compile.Type C
@@ -174,6 +170,10 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 					{
 						Compile.Type None
 					}
+					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-prelude.h"
+					{
+						Compile.Type None
+					}
 					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-reader.h"
 					{
 						Compile.Type None
@@ -202,260 +202,12 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 					{
 						Compile.Type None
 					}
-				}
-				%Group jsonsl
-				{
-					%File "../../../../External/mongo-c-driver/src/libbson/src/jsonsl/jsonsl.c"
+					%Group forwarding
 					{
-						Compile.Type C
-					}
-				}
-			}
-		}
-		%Group common
-		{
-			%File "../../../../External/mongo-c-driver/src/common/common-b64.c"
-			{
-				Compile.Type C
-			}
-			%File "../../../../External/mongo-c-driver/src/common/common-md5.c"
-			{
-				Compile.Type C
-			}
-		}
-	}
-	%Group OSX10.15
-	{
-		%Group x64
-		{
-			%Group "@(FullConfiguration)"
-			{
-				%Group src
-				{
-					%Group libbson
-					{
-						%Group src
+						%File "../../../../External/mongo-c-driver/src/libbson/src/bson/forwarding/bson.h"
 						{
-							%Group bson
-							{
-								%File "src/libbson/src/bson/bson-config.h"
-								{
-									Compile.Type None
-								}
-								%File "src/libbson/src/bson/bson-version.h"
-								{
-									Compile.Type None
-								}
-							}
+							Compile.Type None
 						}
-					}
-				}
-			}
-		}
-	}
-}
-%Target Dll_bson_shared
-{
-	Compile
-	{
-		!!Compile.Type C
-		SearchPath "@('src/libbson/src/bson'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/libbson/src/bson'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/libbson/src'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSON_COMPILATION;JSONSL_PARSE_NAN;NDEBUG;bson_shared_EXPORTS;@(Compile.PreprocessorDefines)"
-	}
-	Property.MalterlibTargetNameType Normal
-	Target.Group "External/libbson"
-	{
-		!!Target.Group ""
-	}
-	Target.Type SharedDynamicLibrary
-	Target.BaseName bson_shared
-	%Group src
-	{
-		%Group libbson
-		{
-			%Group src
-			{
-				%Group bson
-				{
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bcon.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-atomic.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-clock.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-context.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-decimal128.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-error.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-fnv.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-iso8601.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-iter.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-json.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-keys.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-md5.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-memory.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-oid.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-reader.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-string.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-timegm.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-utf8.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-value.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-version-functions.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-writer.c"
-					{
-						Compile.Type C
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bcon.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-atomic.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-clock.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-compat.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-context.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-decimal128.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-endian.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-error.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-iter.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-json.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-keys.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-macros.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-md5.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-memory.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-oid.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-reader.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-string.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-types.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-utf8.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-value.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-version-functions.h"
-					{
-						Compile.Type None
-					}
-					%File "../../../../External/mongo-c-driver/src/libbson/src/bson/bson-writer.h"
-					{
-						Compile.Type None
 					}
 				}
 				%Group jsonsl
@@ -514,7 +266,7 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C
-		SearchPath "@('../../../../External/mongo-c-driver/src/libbson/src/bson'->MakeAbsolute());@('src/libbson/src/bson'->MakeAbsolute());@('src/libmongoc/src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/libmongoc/src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('../../../../External/mongo-c-driver/src/libbson/src'->MakeAbsolute());@('src/libbson/src'->MakeAbsolute());@('src/libmongoc/src'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/libmongoc/src'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSON_STATIC;MONGOC_COMPILATION;MONGOC_STATIC;NDEBUG;_BSD_SOURCE;_DEFAULT_SOURCE;_GNU_SOURCE;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -532,6 +284,10 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 			{
 				%Group mongoc
 				{
+					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-aggregate.c"
+					{
+						Compile.Type C
+					}
 					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-apm.c"
 					{
 						Compile.Type C
@@ -600,6 +356,10 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 					{
 						Compile.Type C
 					}
+					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-cursor-change-stream.c"
+					{
+						Compile.Type C
+					}
 					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-cursor-cmd-deprecated.c"
 					{
 						Compile.Type C
@@ -637,6 +397,14 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 						Compile.Type C
 					}
 					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-gridfs.c"
+					{
+						Compile.Type C
+					}
+					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-gridfs-bucket.c"
+					{
+						Compile.Type C
+					}
+					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-gridfs-bucket-file.c"
 					{
 						Compile.Type C
 					}
@@ -749,6 +517,14 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 						Compile.Type C
 					}
 					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-stream-gridfs.c"
+					{
+						Compile.Type C
+					}
+					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-stream-gridfs-download.c"
+					{
+						Compile.Type C
+					}
+					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-stream-gridfs-upload.c"
 					{
 						Compile.Type C
 					}
@@ -884,6 +660,10 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 					{
 						Compile.Type None
 					}
+					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-gridfs-bucket.h"
+					{
+						Compile.Type None
+					}
 					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-gridfs-file.h"
 					{
 						Compile.Type None
@@ -929,6 +709,10 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 						Compile.Type None
 					}
 					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-opcode.h"
+					{
+						Compile.Type None
+					}
+					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-prelude.h"
 					{
 						Compile.Type None
 					}
@@ -1007,6 +791,13 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-ssl.h"
 					{
 						Compile.Type None
+					}
+					%Group forwarding
+					{
+						%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/forwarding/mongoc.h"
+						{
+							Compile.Type None
+						}
 					}
 				}
 			}
