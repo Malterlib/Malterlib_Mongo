@@ -29,7 +29,7 @@
 #define MONGOC_USER_SET_LDFLAGS "/machine:x64"
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
-#define MONGOC_CC "X:/Apps/Dev/VS.16/VC/Tools/MSVC/14.23.28105/bin/Hostx64/x64/cl.exe"
+#define MONGOC_CC "X:/Apps/Dev/VS.16/VC/Tools/MSVC/14.25.28610/bin/Hostx64/x64/cl.exe"
 
 /*
  * MONGOC_ENABLE_SSL_SECURE_CHANNEL is set from configure to determine if we are
@@ -372,11 +372,32 @@
 
 
 /*
+ * Set if we have Client Side Encryption support.
+ */
+
+#define MONGOC_ENABLE_CLIENT_SIDE_ENCRYPTION 0
+
+#if MONGOC_ENABLE_CLIENT_SIDE_ENCRYPTION != 1
+#  undef MONGOC_ENABLE_CLIENT_SIDE_ENCRYPTION
+#endif
+
+
+/*
+ * Set if struct sockaddr_storage has __ss_family (instead of ss_family)
+ */
+
+#define MONGOC_HAVE_SS_FAMILY 0
+
+#if MONGOC_HAVE_SS_FAMILY != 1
+#  undef MONGOC_HAVE_SS_FAMILY
+#endif
+
+/*
  * NOTICE:
  * If you're about to update this file and add a config flag, make sure to
  * update:
  * o The bitfield in mongoc-handshake-private.h
- * o _get_config_bitfield() in mongoc-handshake.c
+ * o _mongoc_handshake_get_config_hex_string() in mongoc-handshake.c
  * o examples/parse_handshake_cfg.py
  * o test_handshake_config_string in test-mongoc-handshake.c
  */
