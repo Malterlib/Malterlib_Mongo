@@ -14,6 +14,7 @@
 ../../../../../../External/mongo-c-driver/src/libmongoc/src/libmongoc-1.0.pc.in
 ../../../../../../External/mongo-c-driver/src/libmongoc/src/libmongoc-ssl-1.0.pc.in
 ../../../../../../External/mongo-c-driver/src/libmongoc/src/libmongoc-static-1.0.pc.in
+../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc-config.cmake
 ../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/CMakeLists.txt
 ../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-config.h.in
 ../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-version.h.in

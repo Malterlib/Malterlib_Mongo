@@ -4,7 +4,7 @@ Property.CMakeOutputPath_libbson "@('../..'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C
-		SearchPath "@('../../src/libbson/src'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/libbson/src'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('../../src/libbson/src'->MakeAbsolute());@('../../src/libbson/src/bson'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/libbson/src'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSON_COMPILATION;BSON_STATIC;JSONSL_PARSE_NAN;NDEBUG;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal

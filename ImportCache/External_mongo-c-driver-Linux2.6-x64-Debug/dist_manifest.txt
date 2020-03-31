@@ -30,12 +30,13 @@ build/sphinx/CMakeLists.txt
 build/sphinx/mongoc_common.py
 build/sphinx/mongoc/__init__.py
 build/sphinx/taglist.py
-build/sphinx/mongoc-theme/CMakeLists.txt
-build/sphinx/mongoc-theme/globaltoc.html
-build/sphinx/mongoc-theme/layout.html
-build/sphinx/mongoc-theme/static/mongoc.css_t
-build/sphinx/mongoc-theme/static/pygments.css
-build/sphinx/mongoc-theme/theme.conf
+build/sphinx/customindexlink.html
+build/sphinx/readable/CMakeLists.txt
+build/sphinx/readable/layout.html
+build/sphinx/readable/relations.html
+build/sphinx/readable/static/pygments.css
+build/sphinx/readable/static/readable.css_t
+build/sphinx/readable/theme.conf
 orchestration_configs/CMakeLists.txt
 orchestration_configs/replica_sets/auth-ssl.json
 orchestration_configs/replica_sets/auth-thisDB-ssl.json
@@ -106,6 +107,7 @@ src/libbson/build/cmake/libbson-1.0-config.cmake.in
 src/libbson/build/cmake/libbson-static-1.0-config-version.cmake.in
 src/libbson/build/cmake/libbson-static-1.0-config.cmake.in
 src/libbson/src/CMakeLists.txt
+src/libbson/src/bson-config.cmake
 src/libbson/src/libbson-1.0.pc.in
 src/libbson/src/libbson-static-1.0.pc.in
 src/libbson/src/bson/CMakeLists.txt
@@ -177,6 +179,7 @@ src/libmongoc/src/CMakeLists.txt
 src/libmongoc/src/libmongoc-1.0.pc.in
 src/libmongoc/src/libmongoc-ssl-1.0.pc.in
 src/libmongoc/src/libmongoc-static-1.0.pc.in
+src/libmongoc/src/mongoc-config.cmake
 src/libmongoc/src/mongoc/CMakeLists.txt
 src/libmongoc/src/mongoc/modules/module.modulemap.in
 src/libmongoc/src/mongoc/mongoc-aggregate.c
@@ -189,10 +192,12 @@ src/libmongoc/src/mongoc/mongoc-bulk-operation.c
 src/libmongoc/src/mongoc/mongoc-change-stream.c
 src/libmongoc/src/mongoc/mongoc-client.c
 src/libmongoc/src/mongoc/mongoc-client-pool.c
+src/libmongoc/src/mongoc/mongoc-client-side-encryption.c
 src/libmongoc/src/mongoc/mongoc-cluster.c
 src/libmongoc/src/mongoc/mongoc-collection.c
 src/libmongoc/src/mongoc/mongoc-compression.c
 src/libmongoc/src/mongoc/mongoc-counters.c
+src/libmongoc/src/mongoc/mongoc-crypt.c
 src/libmongoc/src/mongoc/mongoc-cursor.c
 src/libmongoc/src/mongoc/mongoc-cursor-legacy.c
 src/libmongoc/src/mongoc/mongoc-cursor-array.c
@@ -280,6 +285,7 @@ src/libmongoc/src/mongoc/mongoc-bulk-operation.h
 src/libmongoc/src/mongoc/mongoc-change-stream.h
 src/libmongoc/src/mongoc/mongoc-client.h
 src/libmongoc/src/mongoc/mongoc-client-pool.h
+src/libmongoc/src/mongoc/mongoc-client-side-encryption.h
 src/libmongoc/src/mongoc/mongoc-collection.h
 src/libmongoc/src/mongoc/mongoc-cursor.h
 src/libmongoc/src/mongoc/mongoc-database.h
@@ -336,6 +342,7 @@ src/libmongoc/src/mongoc/mongoc-bulk-operation-private.h
 src/libmongoc/src/mongoc/mongoc-change-stream-private.h
 src/libmongoc/src/mongoc/mongoc-client-pool-private.h
 src/libmongoc/src/mongoc/mongoc-client-private.h
+src/libmongoc/src/mongoc/mongoc-client-side-encryption-private.h
 src/libmongoc/src/mongoc/mongoc-cluster-cyrus-private.h
 src/libmongoc/src/mongoc/mongoc-cluster-private.h
 src/libmongoc/src/mongoc/mongoc-cluster-sasl-private.h
@@ -346,6 +353,7 @@ src/libmongoc/src/mongoc/mongoc-collection-private.h
 src/libmongoc/src/mongoc/mongoc-compression-private.h
 src/libmongoc/src/mongoc/mongoc-config.h.in
 src/libmongoc/src/mongoc/mongoc-counters-private.h
+src/libmongoc/src/mongoc/mongoc-crypt-private.h
 src/libmongoc/src/mongoc/mongoc-crypto-cng-private.h
 src/libmongoc/src/mongoc/mongoc-crypto-common-crypto-private.h
 src/libmongoc/src/mongoc/mongoc-crypto-openssl-private.h

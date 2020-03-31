@@ -10,6 +10,7 @@
 ../../../../../../External/mongo-c-driver/src/libbson/build/cmake/libbson-static-1.0-config-version.cmake.in
 ../../../../../../External/mongo-c-driver/src/libbson/build/cmake/libbson-static-1.0-config.cmake.in
 ../../../../../../External/mongo-c-driver/src/libbson/src/CMakeLists.txt
+../../../../../../External/mongo-c-driver/src/libbson/src/bson-config.cmake
 ../../../../../../External/mongo-c-driver/src/libbson/src/bson/CMakeLists.txt
 ../../../../../../External/mongo-c-driver/src/libbson/src/bson/bson-config.h.in
 ../../../../../../External/mongo-c-driver/src/libbson/src/bson/bson-version.h.in

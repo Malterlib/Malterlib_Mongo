@@ -4,7 +4,7 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C
-		SearchPath "@('src/libbson/src'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/libbson/src'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('src/libbson/src'->MakeAbsolute());@('src/libbson/src/bson'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/libbson/src'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSON_COMPILATION;BSON_STATIC;JSONSL_PARSE_NAN;NDEBUG;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -266,7 +266,7 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type C
-		SearchPath "@('../../../../External/mongo-c-driver/src/libbson/src'->MakeAbsolute());@('src/libbson/src'->MakeAbsolute());@('src/libmongoc/src'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/libmongoc/src'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@(Compile.SearchPath)"
+		SearchPath "@('src/libmongoc/src'->MakeAbsolute());@('src/libmongoc/src/mongoc'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/libmongoc/src'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@('../../../../External/mongo-c-driver/src/libbson/src'->MakeAbsolute());@('src/libbson/src'->MakeAbsolute());@('src/libbson/src/bson'->MakeAbsolute());@(Compile.SearchPath)"
 		PreprocessorDefines "BSON_STATIC;MONGOC_COMPILATION;MONGOC_STATIC;NDEBUG;_BSD_SOURCE;_DEFAULT_SOURCE;_GNU_SOURCE;@(Compile.PreprocessorDefines)"
 	}
 	Property.MalterlibTargetNameType Normal
@@ -324,6 +324,10 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 					{
 						Compile.Type C
 					}
+					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-client-side-encryption.c"
+					{
+						Compile.Type C
+					}
 					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-cluster.c"
 					{
 						Compile.Type C
@@ -341,6 +345,10 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 						Compile.Type C
 					}
 					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-counters.c"
+					{
+						Compile.Type C
+					}
+					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-crypt.c"
 					{
 						Compile.Type C
 					}
@@ -629,6 +637,10 @@ Property.CMakeOutputPath_mongo-c-driver "@('.'->MakeAbsolute())"
 						Compile.Type None
 					}
 					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-client-pool.h"
+					{
+						Compile.Type None
+					}
+					%File "../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-client-side-encryption.h"
 					{
 						Compile.Type None
 					}
