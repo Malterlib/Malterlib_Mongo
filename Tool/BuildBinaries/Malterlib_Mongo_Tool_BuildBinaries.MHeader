@@ -3,10 +3,7 @@
 
 Property
 {
-	MalterlibMongoBuildBinaries false // User(Mongo)=true: Support building mongo and mongo-tools binaries
-	{
-		!!MalterlibMongoBuildBinaries ""
-	}
+	MalterlibMongoBuildBinaries define bool = false // User(Mongo)=true: Support building mongo and mongo-tools binaries
 }
 
 %Repository "mongo"
@@ -16,7 +13,7 @@ Property
 	Repository
 	{
 		Type "External"
-		Remotes "upstream=https://github.com/mongodb/mongo.git;@(Repository.Remotes)"
+		Remotes =+ {Name: "upstream", URL: "https://github.com/mongodb/mongo.git"}
 	}
 }
 
@@ -27,6 +24,6 @@ Property
 	Repository
 	{
 		Type "External"
-		Remotes "upstream=https://github.com/mongodb/mongo-tools.git;@(Repository.Remotes)"
+		Remotes =+ {Name: "upstream", URL: "https://github.com/mongodb/mongo-tools.git"}
 	}
 }

@@ -3,10 +3,8 @@
 
 Property
 {
-	MalterlibMongoSupportUnpatchedMongo false // User(Mongo)=true: Set to true to support default unpatched mongo that doesn't use secure TLS settings
-	{
-		!!MalterlibMongoSupportUnpatchedMongo ""
-	}
+	MalterlibMongoSupportUnpatchedMongo define bool = false // User(Mongo)=true: Set to true to support default unpatched mongo that doesn't use secure TLS settings
+	MongoBinariesPath define string?
 }
 
 %Target "Malterlib_Mongo_MongoManager"
@@ -17,41 +15,42 @@ Property
 		MalterlibTestApp true
 		MalterlibPostCopyProject "Malterlib_Mongo_MongoManager"
 		{
-			!!MalterlibPostCopyProject ""
+			!!MalterlibPostCopyProject undefined
 		}
-		MalterlibLinkWithOpenSSL true
 		MalterlibConcurrency_DistributedActors true
 		MalterlibTargetNameType "Normal"
 		MongoCxxDriver true
 
-		MalterlibCloudVersionInfo_Backup_AddSyncFlagsWildcards "Dump/DynamicOplog.bson=Append;Dump/oplog.bson=Append;@(MalterlibCloudVersionInfo_Backup_AddSyncFlagsWildcards)"
+		MalterlibCloudVersionInfo_Backup_AddSyncFlagsWildcards =+ [{Pattern: "Dump/DynamicOplog.bson", Flags: ["Append"]}, {Pattern: "Dump/oplog.bson=Append", Flags: ["Append"]}]
 		
 		MalterlibDoExeFS true
 
-		MongoManagerCopySources "@('Source/MongoManager_*.sh'->MakeAbsolute())|Source;@(MongoManagerCopySources)"
-		MongoManagerCopySources "@('Source/Malterlib_Mongo_App_MongoManager_Mongo*.js'->MakeAbsolute())|Source;@(MongoManagerCopySources)"
+		MongoManagerCopySources define [type(CFileCopyOptions)] = []
 
-		MalterlibExeFSExtraFiles "@(MongoManagerCopySources);@(MalterlibExeFSExtraFiles)"
-		MalterlibExeFSExtraFiles "@(MongoBinariesPath)/bin/*|mongo/bin;@(MalterlibExeFSExtraFiles)"
+		MongoManagerCopySources =+ {Pattern: "Source/MongoManager_*.sh"->MakeAbsolute(), Destination: "Source"}
+		MongoManagerCopySources =+ {Pattern: "Source/Malterlib_Mongo_App_MongoManager_Mongo*.js"->MakeAbsolute(), Destination: "Source"}
+
+		MalterlibExeFSExtraFiles =+ MongoManagerCopySources
+		MalterlibExeFSExtraFiles =+ {Pattern: `@(MongoBinariesPath)/bin/*`, Destination: "mongo/bin"}
 		{
-			!MongoBinariesPath ""
+			!MongoBinariesPath undefined
 		}
 	}
 	Target
 	{
-		DebuggerCommandArguments "--daemon-run-debug"
+		DebuggerCommandArguments ["--daemon-run-debug"]
 		BaseFileName "MongoManager"
 	}
 	Compile
 	{
 		!!CompileDialect "C"
 		
-		PreprocessorDefines "DMibMongo_UseInternalMongo;@(Compile.PreprocessorDefines)"
+		PreprocessorDefines += "DMibMongo_UseInternalMongo"
 		{
-			!MongoBinariesPath ""
+			!MongoBinariesPath undefined
 
 		}
-		PreprocessorDefines "DMibMongo_SupportUnpatchedMongo;@(Compile.PreprocessorDefines)"
+		PreprocessorDefines += "DMibMongo_SupportUnpatchedMongo"
 		{
 			!!MalterlibMongoSupportUnpatchedMongo true
 		}
@@ -66,4 +65,4 @@ Property
 	%Dependency "Lib_Malterlib"
 }
 
-Property.Malterlib_Mongo_App_Targets "Malterlib_Mongo_MongoManager;@(Malterlib_Mongo_App_Targets)"
+Property.Malterlib_Mongo_App_Targets += "Malterlib_Mongo_MongoManager"
