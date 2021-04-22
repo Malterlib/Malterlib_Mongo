@@ -1,16 +1,25 @@
-Property.CMakeOutputPath_libbson "@('../..'->MakeAbsolute())"
+Property.CMakeOutputPath_libbson define string = "../.."->MakeAbsolute()
 %Target "Lib_bson_static"
 {
 	Compile
 	{
 		!!Compile.Type "C"
-		SearchPath "@('../../src/libbson/src'->MakeAbsolute());@('../../src/libbson/src/bson'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/libbson/src'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSON_COMPILATION;BSON_STATIC;JSONSL_PARSE_NAN;@(Compile.PreprocessorDefines)"
+		SearchPath += [
+			"../../src/libbson/src"->MakeAbsolute(),
+			"../../src/libbson/src/bson"->MakeAbsolute(),
+			"../../../../../../External/mongo-c-driver/src/libbson/src"->MakeAbsolute(),
+			"../../../../../../External/mongo-c-driver/src/common"->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSON_COMPILATION",
+			"BSON_STATIC",
+			"JSONSL_PARSE_NAN"
+		]
 	}
 	Property.MalterlibTargetNameType "Normal"
 	Target.Group "External/libbson"
 	{
-		!!Target.Group ""
+		!!Target.Group undefined
 	}
 	Target.Type "StaticLibrary"
 	Target.BaseName "bson_static"
@@ -235,7 +244,7 @@ Property.CMakeOutputPath_libbson "@('../..'->MakeAbsolute())"
 	{
 		%Group "arm64"
 		{
-			%Group "@(FullConfiguration)"
+			%Group `@(FullConfiguration)`
 			{
 				%Group "src"
 				{

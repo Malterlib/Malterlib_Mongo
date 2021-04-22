@@ -1,16 +1,23 @@
-Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
+Property.CMakeOutputPath_MONGOCXX define string = "../.."->MakeAbsolute()
 %Target "Lib_mongocxx"
 {
 	Compile
 	{
 		!!Compile.Type "C++"
-		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+		SearchPath += [
+			"../../../../../../External/mongo-cxx-driver/src"->MakeAbsolute(),
+			"../../src"->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_STATIC",
+			"MONGOCXX_STATIC",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
 	}
 	Property.MalterlibTargetNameType "Normal"
 	Target.Group "External/MONGOCXX"
 	{
-		!!Target.Group ""
+		!!Target.Group undefined
 	}
 	Target.Type "StaticLibrary"
 	Target.BaseName "mongocxx"
@@ -392,13 +399,21 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type "C++"
-		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;MONGOCXX_TESTING;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+		SearchPath += [
+			"../../../../../../External/mongo-cxx-driver/src"->MakeAbsolute(),
+			"../../src"->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_STATIC",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
 	}
 	Property.MalterlibTargetNameType "Normal"
 	Target.Group "External/MONGOCXX"
 	{
-		!!Target.Group ""
+		!!Target.Group undefined
 	}
 	Target.Type "StaticLibrary"
 	Target.BaseName "mongocxx_mocked"
@@ -780,13 +795,22 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type "C++"
-		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@('../../../../../../External/mongo-cxx-driver/src/third_party/catch/include'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;MONGOCXX_TESTING;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+		SearchPath += [
+			"../../../../../../External/mongo-cxx-driver/src"->MakeAbsolute(),
+			"../../src"->MakeAbsolute(),
+			"../../../../../../External/mongo-cxx-driver/src/third_party/catch/include"->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_STATIC",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
 	}
 	Property.MalterlibTargetNameType "Normal"
 	Target.Group "External/MONGOCXX"
 	{
-		!!Target.Group ""
+		!!Target.Group undefined
 	}
 	Target.Type "ConsoleExecutable"
 	Target.BaseName "test_change_stream_specs"
@@ -843,13 +867,22 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type "C++"
-		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@('../../../../../../External/mongo-cxx-driver/src/third_party/catch/include'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;MONGOCXX_TESTING;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+		SearchPath += [
+			"../../../../../../External/mongo-cxx-driver/src"->MakeAbsolute(),
+			"../../src"->MakeAbsolute(),
+			"../../../../../../External/mongo-cxx-driver/src/third_party/catch/include"->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_STATIC",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
 	}
 	Property.MalterlibTargetNameType "Normal"
 	Target.Group "External/MONGOCXX"
 	{
-		!!Target.Group ""
+		!!Target.Group undefined
 	}
 	Target.Type "ConsoleExecutable"
 	Target.BaseName "test_driver"
@@ -1135,13 +1168,22 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type "C++"
-		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@('../../../../../../External/mongo-cxx-driver/src/third_party/catch/include'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;MONGOCXX_TESTING;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+		SearchPath += [
+			"../../../../../../External/mongo-cxx-driver/src"->MakeAbsolute(),
+			"../../src"->MakeAbsolute(),
+			"../../../../../../External/mongo-cxx-driver/src/third_party/catch/include"->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_STATIC",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
 	}
 	Property.MalterlibTargetNameType "Normal"
 	Target.Group "External/MONGOCXX"
 	{
-		!!Target.Group ""
+		!!Target.Group undefined
 	}
 	Target.Type "ConsoleExecutable"
 	Target.BaseName "test_logging"
@@ -1176,13 +1218,22 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type "C++"
-		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@('../../../../../../External/mongo-cxx-driver/src/third_party/catch/include'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;MONGOCXX_TESTING;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+		SearchPath += [
+			"../../../../../../External/mongo-cxx-driver/src"->MakeAbsolute(),
+			"../../src"->MakeAbsolute(),
+			"../../../../../../External/mongo-cxx-driver/src/third_party/catch/include"->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_STATIC",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
 	}
 	Property.MalterlibTargetNameType "Normal"
 	Target.Group "External/MONGOCXX"
 	{
-		!!Target.Group ""
+		!!Target.Group undefined
 	}
 	Target.Type "ConsoleExecutable"
 	Target.BaseName "test_command_monitoring_specs"
@@ -1239,13 +1290,22 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type "C++"
-		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@('../../../../../../External/mongo-cxx-driver/src/third_party/catch/include'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;MONGOCXX_TESTING;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+		SearchPath += [
+			"../../../../../../External/mongo-cxx-driver/src"->MakeAbsolute(),
+			"../../src"->MakeAbsolute(),
+			"../../../../../../External/mongo-cxx-driver/src/third_party/catch/include"->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_STATIC",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
 	}
 	Property.MalterlibTargetNameType "Normal"
 	Target.Group "External/MONGOCXX"
 	{
-		!!Target.Group ""
+		!!Target.Group undefined
 	}
 	Target.Type "ConsoleExecutable"
 	Target.BaseName "test_instance"
@@ -1280,13 +1340,22 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type "C++"
-		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@('../../../../../../External/mongo-cxx-driver/src/third_party/catch/include'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;MONGOCXX_TESTING;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+		SearchPath += [
+			"../../../../../../External/mongo-cxx-driver/src"->MakeAbsolute(),
+			"../../src"->MakeAbsolute(),
+			"../../../../../../External/mongo-cxx-driver/src/third_party/catch/include"->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_STATIC",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
 	}
 	Property.MalterlibTargetNameType "Normal"
 	Target.Group "External/MONGOCXX"
 	{
-		!!Target.Group ""
+		!!Target.Group undefined
 	}
 	Target.Type "ConsoleExecutable"
 	Target.BaseName "test_crud_specs"
@@ -1343,13 +1412,22 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type "C++"
-		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@('../../../../../../External/mongo-cxx-driver/src/third_party/catch/include'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;MONGOCXX_TESTING;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+		SearchPath += [
+			"../../../../../../External/mongo-cxx-driver/src"->MakeAbsolute(),
+			"../../src"->MakeAbsolute(),
+			"../../../../../../External/mongo-cxx-driver/src/third_party/catch/include"->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_STATIC",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
 	}
 	Property.MalterlibTargetNameType "Normal"
 	Target.Group "External/MONGOCXX"
 	{
-		!!Target.Group ""
+		!!Target.Group undefined
 	}
 	Target.Type "ConsoleExecutable"
 	Target.BaseName "test_gridfs_specs"
@@ -1406,13 +1484,22 @@ Property.CMakeOutputPath_MONGOCXX "@('../..'->MakeAbsolute())"
 	Compile
 	{
 		!!Compile.Type "C++"
-		SearchPath "@('../../../../../../External/mongo-cxx-driver/src'->MakeAbsolute());@('../../src'->MakeAbsolute());@('../../../../../../External/mongo-cxx-driver/src/third_party/catch/include'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSONCXX_STATIC;MONGOCXX_STATIC;MONGOCXX_TESTING;MONGO_CXX_DRIVER_COMPILING;@(Compile.PreprocessorDefines)"
+		SearchPath += [
+			"../../../../../../External/mongo-cxx-driver/src"->MakeAbsolute(),
+			"../../src"->MakeAbsolute(),
+			"../../../../../../External/mongo-cxx-driver/src/third_party/catch/include"->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_STATIC",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
 	}
 	Property.MalterlibTargetNameType "Normal"
 	Target.Group "External/MONGOCXX"
 	{
-		!!Target.Group ""
+		!!Target.Group undefined
 	}
 	Target.Type "ConsoleExecutable"
 	Target.BaseName "test_transactions_specs"

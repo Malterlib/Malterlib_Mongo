@@ -1,16 +1,31 @@
-Property.CMakeOutputPath_libmongoc "@('../..'->MakeAbsolute())"
+Property.CMakeOutputPath_libmongoc define string = "../.."->MakeAbsolute()
 %Target "Lib_mongoc_static"
 {
 	Compile
 	{
 		!!Compile.Type "C"
-		SearchPath "@('../../src/libmongoc/src'->MakeAbsolute());@('../../src/libmongoc/src/mongoc'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/libmongoc/src'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/common'->MakeAbsolute());@('../../../../../../External/mongo-c-driver/src/libbson/src'->MakeAbsolute());@('../../src/libbson/src'->MakeAbsolute());@('../../src/libbson/src/bson'->MakeAbsolute());@(Compile.SearchPath)"
-		PreprocessorDefines "BSON_STATIC;MONGOC_COMPILATION;MONGOC_STATIC;_BSD_SOURCE;_DEFAULT_SOURCE;_GNU_SOURCE;@(Compile.PreprocessorDefines)"
+		SearchPath += [
+			"../../src/libmongoc/src"->MakeAbsolute(),
+			"../../src/libmongoc/src/mongoc"->MakeAbsolute(),
+			"../../../../../../External/mongo-c-driver/src/libmongoc/src"->MakeAbsolute(),
+			"../../../../../../External/mongo-c-driver/src/common"->MakeAbsolute(),
+			"../../../../../../External/mongo-c-driver/src/libbson/src"->MakeAbsolute(),
+			"../../src/libbson/src"->MakeAbsolute(),
+			"../../src/libbson/src/bson"->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSON_STATIC",
+			"MONGOC_COMPILATION",
+			"MONGOC_STATIC",
+			"_BSD_SOURCE",
+			"_DEFAULT_SOURCE",
+			"_GNU_SOURCE"
+		]
 	}
 	Property.MalterlibTargetNameType "Normal"
 	Target.Group "External/libmongoc"
 	{
-		!!Target.Group ""
+		!!Target.Group undefined
 	}
 	Target.Type "StaticLibrary"
 	Target.BaseName "mongoc_static"
@@ -568,7 +583,7 @@ Property.CMakeOutputPath_libmongoc "@('../..'->MakeAbsolute())"
 	{
 		%Group "arm64"
 		{
-			%Group "@(FullConfiguration)"
+			%Group `@(FullConfiguration)`
 			{
 				%Group "src"
 				{
