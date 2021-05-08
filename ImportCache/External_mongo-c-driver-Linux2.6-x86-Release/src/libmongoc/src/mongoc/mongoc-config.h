@@ -29,7 +29,7 @@
 #define MONGOC_USER_SET_LDFLAGS "-fuse-ld=lld -stdlib=libc++ -Xlinker -rpath-link -Xlinker "../../../../../../../../Binaries/MalterlibSDK/Linux/x86/Linux.sdk/lib32" -Xlinker -rpath-link -Xlinker "../../../../../../../../Binaries/MalterlibSDK/Linux/x86/Linux.sdk/usr/lib32""
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
-#define MONGOC_CC "/opt/CompiledFiles/Dependencies/llvm/11.0/build/main/bin/clang"
+#define MONGOC_CC "/opt/Source/llvm-malterlib/build/main/bin/clang"
 
 /*
  * MONGOC_ENABLE_SSL_SECURE_CHANNEL is set from configure to determine if we are

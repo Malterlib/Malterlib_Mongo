@@ -62,7 +62,7 @@ Import.CMake_Variables: [
 	CMAKE_SHARED_LINKER_FLAGS_INIT= -fuse-ld=lld -stdlib=libc++,
 	CMAKE_CXX_FLAGS_INIT=-stdlib=libc++,
 	CMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY,
-	CMAKE_RANLIB=Dependencies/llvm/11.0/build/main/bin/llvm-ranlib,
+	CMAKE_RANLIB=/llvm-ranlib,
 	ENABLE_BSON=ON,
 	CMAKE_CXX_STANDARD=14,
 	BUILD_SHARED_LIBS=OFF,
