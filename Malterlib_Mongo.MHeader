@@ -62,11 +62,6 @@ Property
 		, "ENABLE_SNAPPY=OFF"
 	]
 
-	Import.CMake_Variables =+ ["THREADS_PTHREAD_ARG=2", "BSON_HAVE_REALLOCF=0", "BSON_HAVE_STRLCPY=0"]
-	{
-		!!PlatformFamily "Linux"
-	}
-
 	Compile
 	{
 		!!MalterlibCompileSupportTabSetings true
@@ -156,7 +151,10 @@ Property
 		, "BSONCXX_POLY_USE_BOOST_DEFAULT=OFF"
 	]
 
-	Import.CMake_Variables =+ ["CMAKE_BUILD_WITH_INSTALL_RPATH=ON", "THREADS_PTHREAD_ARG=2"]
+	Import.CMake_Variables =+ ["CMAKE_BUILD_WITH_INSTALL_RPATH=ON"]
+	{
+		!!PlatformFamily "Linux"
+	}
 
 	Compile
 	{
