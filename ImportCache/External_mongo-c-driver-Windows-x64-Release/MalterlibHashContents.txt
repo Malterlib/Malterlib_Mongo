@@ -51,6 +51,10 @@ Import.CMake_CacheReplaceContents: [
 	{
 		"Find": "/usr/local/go/bin/",
 		"Replace": ""
+	},
+	{
+		"Find": "/usr/local/bin/",
+		"Replace": ""
 	}
 ]
 
