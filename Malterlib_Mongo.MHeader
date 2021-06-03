@@ -30,13 +30,13 @@ Property
 	MalterlibMongoIncludePath_bson define [string] = [
 		"../../External/mongo-c-driver/src/libbson/src"->MakeAbsolute()
 		, "../../External/mongo-c-driver/src/libbson/src/bson"->MakeAbsolute()
-		, `@(GetProperty("Property", "TargetIdentityAbsolutePath", "Group:External.Group:libbson.Target:Lib_bson_static.Target:Lib_bson_static"))/src/libbson/src/bson`
+		, `@(GetProperty("Property", "TargetIdentityAbsolutePath", "Group:External.Group:libbson.Target:Lib_libbson_bson_static.Import:*.Target:Lib_libbson_bson_static"))/src/libbson/src/bson`
 	]
 
 	MalterlibMongoIncludePath_mongoc define [string] = [
 		"../../External/mongo-c-driver/src/libmongoc/src"->MakeAbsolute()
 		, "../../External/mongo-c-driver/src/libmongoc/src/mongoc"->MakeAbsolute()
-		, `@(GetProperty("Property", "TargetIdentityAbsolutePath", "Group:External.Group:libmongoc.Target:Lib_mongoc_static.Target:Lib_mongoc_static"))/src/libmongoc/src/mongoc`
+		, `@(GetProperty("Property", "TargetIdentityAbsolutePath", "Group:External.Group:libmongoc.Target:Lib_libmongoc_mongoc_static.Import:*.Target:Lib_libmongoc_mongoc_static"))/src/libmongoc/src/mongoc`
 	]
 }
 
@@ -96,7 +96,7 @@ Property
 		}
 	}
 
-	%Target "Lib_bson_static"
+	%Target "Lib_libbson_bson_static"
 	{
 		Compile.PreprocessorDefines += ["BSONCXX_STATIC", "MONGOCXX_STATIC", "BSON_STATIC", "MONGOC_STATIC"]
 		{
@@ -112,7 +112,7 @@ Property
 		}
 	}
 
-	%Target "Lib_mongoc_static"
+	%Target "Lib_libmongoc_mongoc_static"
 	{
 		Compile
 		{
@@ -176,7 +176,7 @@ Property
 	}
 	Property.IdentityFileName define string = this.Identity->GetFile()
 
-	%Target "Lib_bsoncxx"
+	%Target "Lib_BSONCXX_bsoncxx"
 	{
 		Compile
 		{
@@ -204,7 +204,7 @@ Property
 			}
 		}
 	}
-	%Target "Lib_mongocxx"
+	%Target "Lib_MONGOCXX_mongocxx"
 	{
 		Compile
 		{
@@ -257,7 +257,7 @@ Compile
 	}
 
 	SearchPath += ["../../External/mongo-cxx-driver/src"->MakeAbsolute(), MalterlibMongoIncludePath_bson...]
-	SearchPath += `@(GetProperty("Property", "TargetIdentityAbsolutePath", "Group:External.Group:BSONCXX.Target:Lib_bsoncxx.Target:Lib_bsoncxx"))/src`
+	SearchPath += `@(GetProperty("Property", "TargetIdentityAbsolutePath", "Group:External.Group:BSONCXX.Target:Lib_BSONCXX_bsoncxx.Import:*.Target:Lib_BSONCXX_bsoncxx"))/src`
 	SearchPath += [MalterlibMongoIncludePath_mongoc..., MalterlibMongoIncludePath_bson...]
 	PreprocessorDefines += ["BSONCXX_STATIC", "MONGOCXX_STATIC", "BSON_STATIC", "MONGOC_STATIC"]
 	PreprocessorDefines += "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING"
@@ -318,22 +318,22 @@ Property
 			%File "Documentation/*"
 		}
 	}
-	%Dependency "Lib_mongocxx"
+	%Dependency "Lib_MONGOCXX_mongocxx"
 	{
 		!DocumentationEnabled true
 		Dependency.Indirect true
 	}
-	%Dependency "Lib_bsoncxx"
+	%Dependency "Lib_BSONCXX_bsoncxx"
 	{
 		!DocumentationEnabled true
 		Dependency.Indirect true
 	}
-	%Dependency "Lib_mongoc_static"
+	%Dependency "Lib_libmongoc_mongoc_static"
 	{
 		!DocumentationEnabled true
 		Dependency.Indirect true
 	}
-	%Dependency "Lib_bson_static"
+	%Dependency "Lib_libbson_bson_static"
 	{
 		!DocumentationEnabled true
 		Dependency.Indirect true
