@@ -1,9 +1,12 @@
-GeneratorVersion: 20
-Import.CMake_FullRebuildVersion: 3.1-4
+GeneratorVersion: 36
+Import.CMake_FullRebuildVersion: 4.1-4
 Import.CMake_CacheExcludePatterns: [
 	*/CMakeFiles/*,
 	*/cmake.tmp/*,
-	*.cmake,
+	*/cmake_install.cmake,
+	*/CPackConfig.cmake,
+	*/CPackSourceConfig.cmake,
+	*/CTestTestfile.cmake,
 	*.ninja,
 	*/CMakeCache.txt,
 	*/MalterlibFullRebuildVersion,
@@ -14,48 +17,128 @@ Import.CMake_CacheExcludePatterns: [
 Import.CMake_CacheReplaceContents: [
 	{
 		"Find": "C:/Go/bin/",
-		"Replace": ""
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
+	},
+	{
+		"Find": "C:/Program Files/Go/bin/",
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
+	},
+	{
+		"Find": "C:/Python39/",
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
+	},
+	{
+		"Find": "C:\\Program Files\\Go\\bin\\",
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
+	},
+	{
+		"Find": "C:\\Python39\\",
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
+	},
+	{
+		"Find": "C:\\\\Program Files\\\\Go\\\\bin\\\\",
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
+	},
+	{
+		"Find": "C:\\\\Python39\\\\",
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": "C:/strawberry/perl/bin/",
-		"Replace": ""
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": "c:/Program Files/Git/bin/",
-		"Replace": ""
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": "c:/Program Files/Git/usr/bin/",
-		"Replace": ""
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": ,
-		"Replace": "MToolCMake"
+		"Replace": "MToolCMake",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": ,
-		"Replace": "MToolCMake"
+		"Replace": "MToolCMake",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": "/opt/local/bin/",
-		"Replace": ""
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": "/usr/bin/",
-		"Replace": ""
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": "/opt/homebrew/bin/",
-		"Replace": ""
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": "/usr/local/go/bin/",
-		"Replace": ""
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": "/usr/local/bin/",
-		"Replace": ""
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	}
+]
+
+Import.CMake_Environment: {}
+
+Import.CMake_CacheIgnoreInputs: [
 ]
 
 Import.CMake_Languages: [
@@ -66,6 +149,10 @@ Import.CMake_Languages: [
 	{
 		"CMakeLanguage": "CXX",
 		"MalterlibLanguage": "C++"
+	},
+	{
+		"CMakeLanguage": "OBJCXX",
+		"MalterlibLanguage": "ObjC++"
 	},
 	{
 		"CMakeLanguage": "ASM",
@@ -87,6 +174,7 @@ Import.CMake_Languages: [
 
 Import.CMake_Config: Release
 Import.CMake_Variables: [
+	CMAKE_OBJECT_PATH_MAX=4096,
 	ENABLE_BSON=ON,
 	CMAKE_CXX_STANDARD=14,
 	BUILD_SHARED_LIBS=OFF,
@@ -96,3 +184,7 @@ Import.CMake_Variables: [
 	BSONCXX_POLY_USE_BOOST_DEFAULT=OFF
 ]
 
+Import.CMake_IncludeInHash: [
+]
+
+Import.CMake_IntermediateName: External_mongo-cxx-driver

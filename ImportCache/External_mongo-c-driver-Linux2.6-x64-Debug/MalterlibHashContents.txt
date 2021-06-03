@@ -1,9 +1,12 @@
-GeneratorVersion: 20
-Import.CMake_FullRebuildVersion: 3.1-4
+GeneratorVersion: 36
+Import.CMake_FullRebuildVersion: 4.1-4
 Import.CMake_CacheExcludePatterns: [
 	*/CMakeFiles/*,
 	*/cmake.tmp/*,
-	*.cmake,
+	*/cmake_install.cmake,
+	*/CPackConfig.cmake,
+	*/CPackSourceConfig.cmake,
+	*/CTestTestfile.cmake,
 	*.ninja,
 	*/CMakeCache.txt,
 	*/MalterlibFullRebuildVersion,
@@ -14,32 +17,58 @@ Import.CMake_CacheExcludePatterns: [
 Import.CMake_CacheReplaceContents: [
 	{
 		"Find": ,
-		"Replace": "MToolCMake"
+		"Replace": "MToolCMake",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": ,
-		"Replace": "MToolCMake"
+		"Replace": "MToolCMake",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": "/opt/local/bin/",
-		"Replace": ""
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": "/usr/bin/",
-		"Replace": ""
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": "/opt/homebrew/bin/",
-		"Replace": ""
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": "/usr/local/go/bin/",
-		"Replace": ""
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	},
 	{
 		"Find": "/usr/local/bin/",
-		"Replace": ""
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
 	}
+]
+
+Import.CMake_Environment: {}
+
+Import.CMake_CacheIgnoreInputs: [
 ]
 
 Import.CMake_Languages: [
@@ -52,6 +81,10 @@ Import.CMake_Languages: [
 		"MalterlibLanguage": "C++"
 	},
 	{
+		"CMakeLanguage": "OBJCXX",
+		"MalterlibLanguage": "ObjC++"
+	},
+	{
 		"CMakeLanguage": "ASM",
 		"MalterlibLanguage": "Assembler"
 	}
@@ -60,17 +93,18 @@ Import.CMake_Languages: [
 Import.CMake_Config: Debug
 Import.CMake_Variables: [
 	CMAKE_TRY_COMPILE_PLATFORM_VARIABLES=CMAKE_EXE_LINKER_FLAGS_INIT;CMAKE_STATIC_LINKER_FLAGS_INIT;CMAKE_MODULE_LINKER_FLAGS_INIT;CMAKE_SHARED_LINKER_FLAGS_INIT;CMAKE_RANLIB;CMAKE_AR;CMAKE_C_COMPILER;CMAKE_CXX_COMPILER;CMAKE_CXX_COMPILER_TARGET;CMAKE_C_COMPILER_TARGET;CMAKE_TOOLCHAIN_NO_PREFIX;CMAKE_FIND_ROOT_PATH;CMAKE_SYSROOT;CMAKE_C_COMPILER_EXTERNAL_TOOLCHAIN;CMAKE_CXX_COMPILER_EXTERNAL_TOOLCHAIN;CMAKE_SYSTEM_NAME;CMAKE_SYSTEM_PROCESSOR;CMAKE_LINKER,
+	CMAKE_OBJECT_PATH_MAX=4096,
 	CMAKE_EXE_LINKER_FLAGS_INIT= -fuse-ld=lld -stdlib=libc++,
 	CMAKE_MODULE_LINKER_FLAGS_INIT= -fuse-ld=lld -stdlib=libc++,
 	CMAKE_SHARED_LINKER_FLAGS_INIT= -fuse-ld=lld -stdlib=libc++,
 	CMAKE_CXX_FLAGS_INIT=-stdlib=libc++,
 	CMAKE_LINKER=lld,
-	CMAKE_INSTALL_NAME_TOOL=/llvm-install-name-tool,
-	CMAKE_NM=/llvm-nm,
-	CMAKE_OBJDUMP=/llvm-objdump,
-	CMAKE_STRIP=/llvm-strip,
-	CMAKE_RANLIB=/llvm-ranlib,
-	CMAKE_AR=/llvm-ar,
+	CMAKE_INSTALL_NAME_TOOL=llvm-install-name-tool,
+	CMAKE_NM=llvm-nm,
+	CMAKE_OBJDUMP=llvm-objdump,
+	CMAKE_STRIP=llvm-strip,
+	CMAKE_RANLIB=llvm-ranlib,
+	CMAKE_AR=llvm-ar,
 	BUILD_VERSION=1.15.1,
 	CMAKE_BUILD_WITH_INSTALL_RPATH=ON,
 	ENABLE_APPLE_FRAMEWORK=OFF,
@@ -88,3 +122,7 @@ Import.CMake_Variables: [
 	ENABLE_SNAPPY=OFF
 ]
 
+Import.CMake_IncludeInHash: [
+]
+
+Import.CMake_IntermediateName: External_mongo-c-driver
