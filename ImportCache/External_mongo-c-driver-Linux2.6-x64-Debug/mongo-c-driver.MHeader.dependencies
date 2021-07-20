@@ -1,3 +1,4 @@
+src/libmongoc/accept_test1.c
 ../../../../External/mongo-c-driver/CMakeLists.txt
 ../../../../External/mongo-c-driver/build/CMakeLists.txt
 ../../../../External/mongo-c-driver/build/cmake/CMakeLists.txt
@@ -50,4 +51,3 @@
 ../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-version.h.in
 ../../../../External/mongo-c-driver/src/tools/CMakeLists.txt
 ../../../../External/mongo-c-driver/src/zlib-1.2.11/zconf.h.in
-src/libmongoc/accept_test1.c

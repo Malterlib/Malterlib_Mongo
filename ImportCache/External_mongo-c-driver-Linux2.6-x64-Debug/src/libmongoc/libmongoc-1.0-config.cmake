@@ -63,7 +63,7 @@ set (MONGOC_LIBRARIES ${MONGOC_LIBRARY} ${BSON_LIBRARIES})
 set (IS_FRAMEWORK_VAR 0)
 foreach (LIB
      rt resolv
-     ../../../../../../Binaries/MalterlibSDK/Linux/x64/Linux.sdk/usr/lib/x86_64-linux-gnu/libzstd.so 
+      
 )
    if (LIB STREQUAL "-framework")
       set (IS_FRAMEWORK_VAR 1)
