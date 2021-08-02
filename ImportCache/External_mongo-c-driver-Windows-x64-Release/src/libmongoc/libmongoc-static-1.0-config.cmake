@@ -66,7 +66,7 @@ set (MONGOC_STATIC_LIBRARIES ${MONGOC_STATIC_LIBRARY} ${ZLIB_STATIC_LIBRARY} ${B
 # "-framework CoreFoundation -framework Security". Split into a CMake array
 # like "-framework CoreFoundation;-framework Security".
 set (IS_FRAMEWORK_VAR 0)
-foreach (LIB  crypt32.lib  
+foreach (LIB  /dev/null;crypt32.lib  
     Dnsapi   
 )
    if (LIB STREQUAL "-framework")

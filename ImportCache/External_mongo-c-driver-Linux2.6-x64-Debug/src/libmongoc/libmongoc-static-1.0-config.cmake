@@ -66,7 +66,7 @@ set (MONGOC_STATIC_LIBRARIES ${MONGOC_STATIC_LIBRARY} ${ZLIB_STATIC_LIBRARY} ${B
 # "-framework CoreFoundation -framework Security". Split into a CMake array
 # like "-framework CoreFoundation;-framework Security".
 set (IS_FRAMEWORK_VAR 0)
-foreach (LIB   rt ../../../../../../Binaries/MalterlibSDK/Linux/x64/Linux.sdk/usr/lib/x86_64-linux-gnu/libz.so
+foreach (LIB  /dev/null rt ../../../../../../Binaries/MalterlibSDK/Linux/x64/Linux.sdk/usr/lib/x86_64-linux-gnu/libz.so
     resolv   
 )
    if (LIB STREQUAL "-framework")

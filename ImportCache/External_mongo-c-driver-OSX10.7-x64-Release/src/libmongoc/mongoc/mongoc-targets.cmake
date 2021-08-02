@@ -46,7 +46,7 @@ add_library(mongo::mongoc_static STATIC IMPORTED)
 
 set_target_properties(mongo::mongoc_static PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "MONGOC_STATIC;BSON_STATIC"
-  INTERFACE_LINK_LIBRARIES "resolv;/private/var/db/xcode_select_link/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libz.tbd;mongo::bson_static"
+  INTERFACE_LINK_LIBRARIES "/dev/null;resolv;/private/var/db/xcode_select_link/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libz.tbd;mongo::bson_static"
 )
 
 # Import target "mongo::mongoc_static" for configuration "Release"

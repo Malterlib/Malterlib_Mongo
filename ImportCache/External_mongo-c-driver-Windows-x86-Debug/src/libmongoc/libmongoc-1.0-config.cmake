@@ -62,7 +62,7 @@ set (MONGOC_LIBRARIES ${MONGOC_LIBRARY} ${BSON_LIBRARIES})
 # like "-framework CoreFoundation;-framework Security".
 set (IS_FRAMEWORK_VAR 0)
 foreach (LIB
-    crypt32.lib  Dnsapi
+    /dev/null;crypt32.lib  Dnsapi
       
 )
    if (LIB STREQUAL "-framework")

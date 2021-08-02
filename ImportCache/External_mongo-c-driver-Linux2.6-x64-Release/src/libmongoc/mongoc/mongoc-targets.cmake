@@ -46,7 +46,7 @@ add_library(mongo::mongoc_static STATIC IMPORTED)
 
 set_target_properties(mongo::mongoc_static PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "MONGOC_STATIC;BSON_STATIC"
-  INTERFACE_LINK_LIBRARIES "rt;resolv;../../../../../../../Binaries/MalterlibSDK/Linux/x64/Linux.sdk/usr/lib/x86_64-linux-gnu/libz.so;-pthread;mongo::bson_static"
+  INTERFACE_LINK_LIBRARIES "/dev/null;rt;resolv;../../../../../../../Binaries/MalterlibSDK/Linux/x64/Linux.sdk/usr/lib/x86_64-linux-gnu/libz.so;-pthread;mongo::bson_static"
 )
 
 # Import target "mongo::mongoc_static" for configuration "Release"
