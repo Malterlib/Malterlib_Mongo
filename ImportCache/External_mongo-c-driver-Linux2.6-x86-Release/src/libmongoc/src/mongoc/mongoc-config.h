@@ -313,7 +313,7 @@
  * Set if we have zstd compression support
  *
  */
-#define MONGOC_ENABLE_COMPRESSION_ZSTD 1
+#define MONGOC_ENABLE_COMPRESSION_ZSTD 0
 
 #if MONGOC_ENABLE_COMPRESSION_ZSTD != 1
 #  undef MONGOC_ENABLE_COMPRESSION_ZSTD
