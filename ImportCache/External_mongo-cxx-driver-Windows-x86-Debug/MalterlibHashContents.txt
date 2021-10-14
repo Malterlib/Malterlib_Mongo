@@ -23,14 +23,21 @@ Import.CMake_CacheReplaceContents: [
 		"FilePatterns": []
 	},
 	{
-		"Find": "C:/Program Files/Go/bin/",
+		"Find": "C:\\Go\\bin\\",
 		"Replace": "",
 		"ApplyToPaths": false,
 		"ExcludeFilePatterns": [],
 		"FilePatterns": []
 	},
 	{
-		"Find": "C:/Python39/",
+		"Find": "C:\\\\Go\\\\bin\\\\",
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
+	},
+	{
+		"Find": "C:/Program Files/Go/bin/",
 		"Replace": "",
 		"ApplyToPaths": false,
 		"ExcludeFilePatterns": [],
@@ -44,14 +51,21 @@ Import.CMake_CacheReplaceContents: [
 		"FilePatterns": []
 	},
 	{
-		"Find": "C:\\Python39\\",
+		"Find": "C:\\\\Program Files\\\\Go\\\\bin\\\\",
 		"Replace": "",
 		"ApplyToPaths": false,
 		"ExcludeFilePatterns": [],
 		"FilePatterns": []
 	},
 	{
-		"Find": "C:\\\\Program Files\\\\Go\\\\bin\\\\",
+		"Find": "C:/Python39/",
+		"Replace": "",
+		"ApplyToPaths": false,
+		"ExcludeFilePatterns": [],
+		"FilePatterns": []
+	},
+	{
+		"Find": "C:\\Python39\\",
 		"Replace": "",
 		"ApplyToPaths": false,
 		"ExcludeFilePatterns": [],
