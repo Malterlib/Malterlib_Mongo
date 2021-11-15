@@ -263,7 +263,7 @@ namespace NMib::NMongo
 				break;
 			case type::k_date:
 				{
-					_JSON = NTime::CTimeConvert::fs_FromCreateFromUnixMilliseconds(_Element.get_date().to_int64());
+					_JSON = NTime::CTimeConvert::fs_FromUnixMilliseconds(_Element.get_date().to_int64());
 				}
 				break;
 			case type::k_null:

@@ -263,7 +263,7 @@ namespace NMib::NMongo::NMongoManager
 				{
 					if (pTimestamp->f_UserType().m_Type == "Timestamp")
 					{
-						CTime Time = CTimeConvert::fs_FromCreateFromUnixSeconds(pTimestamp->f_UserType().m_Value["Seconds"].f_Integer());
+						CTime Time = CTimeConvert::fs_FromUnixSeconds(pTimestamp->f_UserType().m_Value["Seconds"].f_Integer());
 						if (!First.f_IsValid() || Time < First)
 							First = Time;
 						if (!Last.f_IsValid() || Time > First)
