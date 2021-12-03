@@ -94,7 +94,7 @@ namespace NMib::NMongo::NMongoManager
 	CStr CMongoManagerActor::fp_GetMongoExecutable(CStr const &_ExecutableName) const
 	{
 #ifdef DMibMongo_UseInternalMongo
-		return CFile::fs_GetProgramDirectory() + "/mongo/bin/" + _ExecutableName;
+		return CFile::fs_GetProgramDirectory() / "mongo" / mp_MongoVersion / "bin" / _ExecutableName;
 #else
 		return _ExecutableName;
 #endif
@@ -116,11 +116,12 @@ namespace NMib::NMongo::NMongoManager
 	
 		TCPromise<void> Promise;
 		
-		TCVector<CStr> Params = _MongoConnectionSettings.f_GetToolParams();
-		
+		TCVector<CStr> Params = _MongoConnectionSettings.f_GetToolParams(true);
+		auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
+
 		CEJSON Config = _Config;
 		Config["replicaName"] = mp_MongoReplicaName;
-		Config["mongoSelf"] = fg_Format("{}:{}", NProcess::NPlatform::fg_Process_GetHostName(), mp_MongoConnectionSettings.m_Port);
+		Config["mongoSelf"] = fg_Format("{}:{}", MongoHost.m_Host, MongoHost.m_Port);
 		Config["verbose"] = mp_bVerboseMongoScripts;
 		
 		bool bQuiet = false;
@@ -204,10 +205,11 @@ namespace NMib::NMongo::NMongoManager
 	{
 		TCPromise<CStr> Promise;
 
-		CStr HostName = NProcess::NPlatform::fg_Process_GetHostName();
+		auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
+
 		CStr ProgramDirectory = CFile::fs_GetProgramDirectory();
 		
-		if (HostName.f_IsEmpty())
+		if (MongoHost.m_Host.f_IsEmpty())
 			return Promise <<= DErrorInstance(fg_Format("Failed to launch mongo for running {}: Hostname is empty", _Script));
 		
 		CClock Clock{true};
@@ -231,21 +233,21 @@ namespace NMib::NMongo::NMongoManager
 	{
 		mp_ResolveActor = fg_Construct();
 
-		CStr HostName = NProcess::NPlatform::fg_Process_GetHostName();
+		auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
 
-		auto Address = co_await mp_ResolveActor(&CResolveActor::f_Resolve, HostName, NNetwork::ENetAddressType_TCPv4);
+		auto Address = co_await mp_ResolveActor(&CResolveActor::f_Resolve, MongoHost.m_Host, NNetwork::ENetAddressType_TCPv4);
 
 		if (Address.f_GetType() != NNetwork::ENetAddressType_TCPv4)
-			co_return DMibErrorInstance("Hostname '{}' does not resolve to an IPV4 address"_f << HostName);
+			co_return DMibErrorInstance("Hostname '{}' does not resolve to an IPV4 address"_f << MongoHost.m_Host);
 
 		NNetwork::CNetAddressTCPv4 IPAddress;
 		if (!Address.f_Get(IPAddress))
-			co_return DMibErrorInstance("Hostname '{}' does not resolve to an valid IPV4 address"_f << HostName);
+			co_return DMibErrorInstance("Hostname '{}' does not resolve to an valid IPV4 address"_f << MongoHost.m_Host);
 
 		if (IPAddress.f_GetIP().m_IP[0] != 127)
-			co_return DMibErrorInstance("Hostname '{}' does not resolve to a link local address. {} is not valid"_f << HostName << Address);
+			co_return DMibErrorInstance("Hostname '{}' does not resolve to a link local address. {} is not valid"_f << MongoHost.m_Host << Address);
 
-		DLog(Info, "Hostname '{}' resolved to: {}", HostName, Address);
+		DLog(Info, "Hostname '{}' resolved to: {}", MongoHost.m_Host, Address);
 
 		mp_MongoLocalAddress = Address;
 
@@ -262,6 +264,7 @@ namespace NMib::NMongo::NMongoManager
 		CStr MongoPath = fp_GetDataPath("mongo");
 		CStr LogPath = MongoPath + "/log/mongo.log";
 		CStr DatabasePath = MongoPath + "/db";
+		auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
 
 		TCVector<CStr> Arguments;
 		if (mp_Mode != EMode_UpdateReplicationConfig && mp_Mode != EMode_SetupPermissions)
@@ -280,25 +283,38 @@ namespace NMib::NMongo::NMongoManager
 				, "rename"
 				, "--journal"
 				, "--port"
-				, CStr::fs_ToStr(mp_MongoConnectionSettings.m_Port)
+				, CStr::fs_ToStr(MongoHost.m_Port)
 				, "--storageEngine"
 				, "wiredTiger"
 			)
 		;
 		if (mp_bEnableSSL)
 		{
+			auto fSslToTls = [&](CStr const &_String, CStr const &_Alternate = {})
+				{
+					if (mp_Version_MongoDB >= CVersion(4, 4, 0))
+					{
+						if (_Alternate)
+							return _Alternate;
+						else
+							return _String.f_Replace("ssl", "tls");
+					}
+
+					return _String;
+				}
+			;
 			Arguments << fg_CreateVector<CStr>
 				(
-					"--sslMode"
-					, "requireSSL"
-					, "--sslPEMKeyFile"
-					, fg_Format("{}/certificates/{}.pem", MongoPath, NProcess::NPlatform::fg_Process_GetHostName())
-					, "--sslClusterFile"
-					, fg_Format("{}/certificates/{}.pem", MongoPath, NProcess::NPlatform::fg_Process_GetHostName())
-					, "--sslCAFile"
+					fSslToTls("--sslMode")
+					, fSslToTls("requireSSL", "requireTLS")
+					, fSslToTls("--sslPEMKeyFile", "--tlsCertificateKeyFile")
+					, fg_Format("{}/certificates/{}.pem", MongoPath, MongoHost.m_Host)
+					, fSslToTls("--sslClusterFile")
+					, fg_Format("{}/certificates/{}.pem", MongoPath, MongoHost.m_Host)
+					, fSslToTls("--sslCAFile")
 					, fg_Format("{}/certificates/MongoCA.crt", MongoPath)
 #ifndef DMibMongo_SupportUnpatchedMongo
-					, "--sslDisabledProtocols"
+					, fSslToTls("--sslDisabledProtocols")
 					, "TLS1_0,TLS1_1"
 #endif
 					, "--clusterAuthMode"
@@ -544,7 +560,7 @@ namespace NMib::NMongo::NMongoManager
 						, "votes"_= _Options.m_CanVote.f_Get(true) ? 1 : 0 
 					}
 				;
-				
+
 				if (_Options.m_ExtraTags)
 				{
 					CEJSON &Tags = ReplicationConfig["tags"]; 
@@ -553,9 +569,9 @@ namespace NMib::NMongo::NMongoManager
 				}
 				
 				auto ConnectionSettings = mp_MongoConnectionSettings.f_ForConnectionString(_Options.m_MemberToJoin);
-				if (ConnectionSettings.m_Host == NProcess::NPlatform::fg_Process_GetHostName() && ConnectionSettings.m_Port == mp_MongoConnectionSettings.m_Port)
+				if (ConnectionSettings.m_Hosts == mp_MongoConnectionSettings.m_Hosts)
 				{
-					fp_RunMongoScript(mp_MongoConnectionSettings, "MongoInitReplicaSet", "local", 60.0, Config) 
+					fp_RunMongoScript(mp_MongoConnectionSettings, "MongoInitReplicaSet", "local", 60.0, Config)
 						> Promise / [Promise]
 						{
 							Promise.f_SetResult();

@@ -4,11 +4,13 @@ set -e
 
 ScriptDir="$( cd "$( dirname "${{BASH_SOURCE[0]}" )" && pwd )"
 
-MONGO_PORT="${{MONGO_PORT:-25017}"
+MONGO_PORT="${{MONGO_PORT:-{2}}"
 export HOME="$PWD/mongo"
 
-MongoCommand="$ScriptDir/mongo/bin/$1"
-shift
+MongoCommandName="${{1:-mongo}"
+MongoCommand="$ScriptDir/mongo/{1}/bin/$MongoCommandName"
+
+shift || true
 
 if [[ "$1" == "--port" ]]; then
 	MONGO_PORT=$2
@@ -17,8 +19,8 @@ fi
 
 sudo -u {0} \
 	$MongoCommand --host `hostname` --port $MONGO_PORT \
-	--ssl --authenticationMechanism MONGODB-X509 --authenticationDatabase "\$external" \
-	--sslCAFile "$ScriptDir/mongo/certificates/MongoCA.crt" --sslPEMKeyFile "$ScriptDir/mongo/certificates/admin.pem" \
+	--tls --authenticationMechanism MONGODB-X509 --authenticationDatabase "\$external" \
+	--tlsCAFile "$ScriptDir/mongo/certificates/MongoCA.crt" --tlsCertificateKeyFile "$ScriptDir/mongo/certificates/admin.pem" \
 	--username "O=favro.com,OU=mongo.user,CN=admin" "$@"
 
 )-----"

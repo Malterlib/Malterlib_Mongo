@@ -242,35 +242,35 @@ namespace NMib::NMongo
 			{
 			case type::k_double:
 				_JSON = _Element.get_double().value;
-				break;
-			case type::k_utf8:
-				_JSON = fg_FromStringData(_Element.get_utf8().value);
-				break;
+				return;
+			case type::k_string:
+				_JSON = fg_FromStringData(_Element.get_string().value);
+				return;
 			case type::k_document:
 				{
 					fg_FromBSONImp(_JSON, _Element.get_document().value);
 				}
-				break;
+				return;
 			case type::k_array:
 				{
 					fg_FromBSONImp(_JSON, _Element.get_array().value);
 				}
-				break;
+				return;
 			case type::k_bool:
 				{
 					_JSON = _Element.get_bool().value;
 				}
-				break;
+				return;
 			case type::k_date:
 				{
 					_JSON = NTime::CTimeConvert::fs_FromUnixMilliseconds(_Element.get_date().to_int64());
 				}
-				break;
+				return;
 			case type::k_null:
 				{
 					_JSON = nullptr;
 				}
-				break;
+				return;
 			case type::k_int32:
 				{
 					_JSON = NEncoding::EEJSONType_UserType;
@@ -278,10 +278,10 @@ namespace NMib::NMongo
 					UserType.m_Type = "int32";
 					UserType.m_Value = _Element.get_int32();
 				}
-				break;
+				return;
 			case type::k_int64:
 				_JSON = int64(_Element.get_int64());
-				break;
+				return;
 			case type::k_binary:
 				{
 					auto Binary = _Element.get_binary();
@@ -292,7 +292,7 @@ namespace NMib::NMongo
 					if (Binary.sub_type == binary_sub_type::k_binary)
 					{
 						_JSON = fg_Move(Data);
-						break;
+						return;
 					}
 
 					_JSON = NEncoding::EEJSONType_UserType;
@@ -329,7 +329,7 @@ namespace NMib::NMongo
 
 					UserType.m_Value["Type"] = Type;
 				}
-				break;
+				return;
 			case type::k_undefined:
 				{
 					_JSON = NEncoding::EEJSONType_UserType;
@@ -337,7 +337,7 @@ namespace NMib::NMongo
 					UserType.m_Type = "Undefined";
 					UserType.m_Value = 1;
 				}
-				break;
+				return;
 			case type::k_oid:
 				{
 					_JSON = NEncoding::EEJSONType_UserType;
@@ -346,7 +346,7 @@ namespace NMib::NMongo
 					UserType.m_Type = "jstOID";
 					UserType.m_Value = _Element.get_oid().value.to_string().c_str();
 				}
-				break;
+				return;
 			case type::k_regex:
 				{
 					_JSON = NEncoding::EEJSONType_UserType;
@@ -358,7 +358,7 @@ namespace NMib::NMongo
 					UserType.m_Value["Regex"] = fg_FromStringData(RegEx.regex);
 					UserType.m_Value["RegexFlags"] = fg_FromStringData(RegEx.options);
 				}
-				break;
+				return;
 			case type::k_dbpointer:
 				{
 					auto DbPointer = _Element.get_dbpointer();
@@ -370,7 +370,7 @@ namespace NMib::NMongo
 					UserType.m_Value["NS"] = fg_FromStringData(DbPointer.collection);
 					UserType.m_Value["ObjectID"] = DbPointer.value.to_string().c_str();
 				}
-				break;
+				return;
 			case type::k_code:
 				{
 					_JSON = NEncoding::EEJSONType_UserType;
@@ -379,7 +379,7 @@ namespace NMib::NMongo
 					UserType.m_Type = "Code";
 					UserType.m_Value = fg_FromStringData(_Element.get_code().code);
 				}
-				break;
+				return;
 			case type::k_symbol:
 				{
 					_JSON = NEncoding::EEJSONType_UserType;
@@ -388,7 +388,7 @@ namespace NMib::NMongo
 					UserType.m_Type = "Symbol";
 					UserType.m_Value = fg_FromStringData(_Element.get_symbol().symbol);
 				}
-				break;
+				return;
 			case type::k_codewscope:
 				{
 					_JSON = NEncoding::EEJSONType_UserType;
@@ -403,7 +403,7 @@ namespace NMib::NMongo
 					if (Scope.f_IsValid())
 						UserType.m_Value["Scope"] = Scope.f_ToJSON();
 				}
-				break;
+				return;
 			case type::k_timestamp:
 				{
 					_JSON = NEncoding::EEJSONType_UserType;
@@ -415,7 +415,7 @@ namespace NMib::NMongo
 					UserType.m_Value["Seconds"] = SourceData.timestamp;
 					UserType.m_Value["Increment"] = SourceData.increment;
 				}
-				break;
+				return;
 			case type::k_decimal128:
 				{
 					_JSON = NEncoding::EEJSONType_UserType;
@@ -427,7 +427,7 @@ namespace NMib::NMongo
 					UserType.m_Value["High"] = SourceData.value.high();
 					UserType.m_Value["Low"] = SourceData.value.low();
 				}
-				break;
+				return;
 			case type::k_minkey:
 				{
 					_JSON = NEncoding::EEJSONType_UserType;
@@ -435,7 +435,7 @@ namespace NMib::NMongo
 					UserType.m_Type = "MinKey";
 					UserType.m_Value = 1;
 				}
-				break;
+				return;
 			case type::k_maxkey:
 				{
 					_JSON = NEncoding::EEJSONType_UserType;
@@ -443,11 +443,9 @@ namespace NMib::NMongo
 					UserType.m_Type = "MaxKey";
 					UserType.m_Value = 1;
 				}
-				break;
-			default:
-				DMibNeverGetHere; // Not supported
-				break;
+				return;
 			}
+			DMibNeverGetHere; // Not supported
 		}
 
 		void fg_FromBSONImp(NEncoding::CEJSON &_JSON, bsoncxx::document::view const &_BSON)

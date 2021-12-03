@@ -40,49 +40,111 @@ namespace
 
 namespace NMib::NMongo
 {
-	CMongoConnectionSettings::CMongoConnectionSettings() = default;
-
-	CMongoConnectionSettings::CMongoConnectionSettings(NStr::CStr const &_Host, uint16 _Port)
-		: m_Host(_Host)
-		, m_Port(_Port)
-	{
-	}
-
 	bool CMongoConnectionSettings::f_Compatible(CMongoConnectionSettings const &_Settings) const
 	{
 		if (!m_bEnableSSL && !_Settings.m_bEnableSSL)
 			return true;
+
 		return NStorage::fg_TupleReferences(m_CACertificatePath, m_ClientCertificatePath, m_UserName, m_bEnableSSL)
 			== NStorage::fg_TupleReferences(_Settings.m_CACertificatePath, _Settings.m_ClientCertificatePath, _Settings.m_UserName, _Settings.m_bEnableSSL)
 		;
 	}
 
+	NStr::CStr CMongoConnectionSettings::fs_GetConnectionString(NContainer::TCVector<CMongoServerHost> const &_Hosts)
+	{
+		using namespace NStr;
+
+		CStr ConnectionString;
+
+		for (auto &Host : _Hosts)
+			fg_AddStrSep(ConnectionString, "{}:{}"_f << Host.m_Host << Host.m_Port, ",");
+
+		return ConnectionString;
+	}
+
 	NStr::CStr CMongoConnectionSettings::f_GetConnectionString() const
 	{
-		return fg_Format("{}:{}", m_Host, m_Port);
+		if (m_bEnableSrv)
+		{
+			DMibCheck(m_Hosts.f_GetLen() == 1);
+			if (m_Hosts.f_GetLen() == 1)
+				return m_Hosts[0].m_Host;
+		}
+		return fs_GetConnectionString(m_Hosts);
+	}
+
+	CMongoServerHost const &CMongoConnectionSettings::f_GetSingleHost() const
+	{
+		DMibCheck(m_Hosts.f_GetLen() == 1);
+		return m_Hosts[0];
 	}
 
 	CMongoConnectionSettings CMongoConnectionSettings::f_ForConnectionString(NStr::CStr const &_ConnectionString) const
 	{
 		CMongoConnectionSettings ConnectionSettings = *this;
-		NStr::CStr ConnectString = _ConnectionString;
-		ConnectionSettings.m_Host = fg_GetStrSep(ConnectString, ":");
-		if (ConnectString.f_IsEmpty())
-			ConnectionSettings.m_Port = 27017;
-		else
-			ConnectionSettings.m_Port = ConnectString.f_ToInt(uint16(27017));
+		ConnectionSettings.m_Hosts.f_Clear();
+
+		for (auto HostPort : _ConnectionString.f_Split(","))
+		{
+			CMongoServerHost ServerHost;
+			ServerHost.m_Host = fg_GetStrSep(HostPort, ":");
+			if (HostPort.f_IsEmpty())
+				ServerHost.m_Port = CMongoServerHost::mc_DefaultPort;
+			else
+				ServerHost.m_Port = HostPort.f_ToInt(CMongoServerHost::mc_DefaultPort);
+
+			ConnectionSettings.m_Hosts.f_Insert(ServerHost);
+		}
+
 		return ConnectionSettings;
 	}
 
-	NContainer::TCVector<NStr::CStr> CMongoConnectionSettings::f_GetToolParams() const
+	NWeb::NHTTP::CURL CMongoConnectionSettings::f_GetUrl(NStr::CStr const &_Database) const
+	{
+		NWeb::NHTTP::CURL Url;
+		Url.f_SetScheme(m_bEnableSrv ? "mongodb+srv" : "mongodb");
+		Url.f_SetHost(f_GetConnectionString(), true);
+		if (_Database)
+			Url.f_SetPath({_Database});
+		NContainer::TCVector<NWeb::NHTTP::CURL::CQueryEntry> Query
+			{
+				{
+					{"retryWrites", "true"}
+					, {"w", "majority"}
+				}
+			}
+		;
+
+		if (m_bEnableSSL)
+		{
+			Url.f_SetUsername(m_UserName);
+
+			Query.f_Insert({"authMechanism", "MONGODB-X509"});
+			Query.f_Insert({"authSource", "$external"});
+			Query.f_Insert({"tls", "true"});
+
+			if (m_ClientCertificatePath)
+				Query.f_Insert({"tlsCertificateKeyFile", m_ClientCertificatePath});
+
+			if (m_CACertificatePath)
+				Query.f_Insert({"tlsCAFile", m_CACertificatePath});
+		}
+
+		if (m_ReplicaSet)
+			Query.f_Insert({"replicaSet", m_ReplicaSet});
+
+		Url.f_SetQuery(Query);
+
+		return Url;
+	}
+
+	NContainer::TCVector<NStr::CStr> CMongoConnectionSettings::f_GetToolParams(bool _bTlsSupported) const
 	{
 		NContainer::TCVector<NStr::CStr> Params;
 		Params << NContainer::fg_CreateVector<NStr::CStr>
 			(
 				"--host"
-				, m_Host
-				, "--port"
-				, NStr::CStr::fs_ToStr(m_Port)
+				, f_GetConnectionString()
 			)
 		;
 
@@ -90,7 +152,7 @@ namespace NMib::NMongo
 		{
 			Params << NContainer::fg_CreateVector<NStr::CStr>
 				(
-					"--ssl"
+					(_bTlsSupported ? "--tls" : "--ssl")
 					, "--authenticationMechanism"
 					, "MONGODB-X509"
 					, "--authenticationDatabase"
@@ -99,14 +161,11 @@ namespace NMib::NMongo
 			;
 
 			if (!m_CACertificatePath.f_IsEmpty())
-				Params.f_Insert({"--sslCAFile", m_CACertificatePath});
+				Params.f_Insert({(_bTlsSupported ? "--tlsCAFile" : "--sslCAFile"), m_CACertificatePath});
 
 			if (!m_ClientCertificatePath.f_IsEmpty())
-				Params.f_Insert({"--sslPEMKeyFile", m_ClientCertificatePath});
-
-			if (!m_UserName.f_IsEmpty())
-				Params.f_Insert({"-u", m_UserName});
-		}
+				Params.f_Insert({(_bTlsSupported ? "--tlsCertificateKeyFile" : "--sslPEMKeyFile"), m_ClientCertificatePath});
+	}
 
 		return Params;
 	}
@@ -119,35 +178,22 @@ namespace NMib::NMongo
 				return {};
 
 			mongocxx::options::client Options;
-			mongocxx::options::ssl SSLOptions;
+			mongocxx::options::tls TLSOptions;
 
-			SSLOptions.allow_invalid_certificates(false);
-			SSLOptions.ca_file(_ConnectionSettings.m_CACertificatePath.f_GetStr());
-			SSLOptions.pem_file(_ConnectionSettings.m_ClientCertificatePath.f_GetStr());
+			TLSOptions.allow_invalid_certificates(false);
 
-			Options.ssl_opts(fg_Move(SSLOptions));
+			if (_ConnectionSettings.m_CACertificatePath)
+				TLSOptions.ca_file(_ConnectionSettings.m_CACertificatePath.f_GetStr());
+			TLSOptions.pem_file(_ConnectionSettings.m_ClientCertificatePath.f_GetStr());
+
+			Options.tls_opts(fg_Move(TLSOptions));
 
 			return Options;
 		}
 
 		mongocxx::uri fg_GetConnectionURI(CMongoConnectionSettings const &_ConnectionSettings, NStr::CStr const &_DefaultDatabase)
 		{
-			NStr::CStr URI = _ConnectionSettings.f_GetConnectionString();
-
-			if (_ConnectionSettings.m_bEnableSSL && !_ConnectionSettings.m_UserName.f_IsEmpty())
-			{
-				URI = fg_Format
-					(
-						"mongodb://{}@{}:{}/{}?authMechanism=MONGODB-X509&ssl=true&authSource=$external"
-						, _ConnectionSettings.m_UserName
-						, _ConnectionSettings.m_Host
-						, _ConnectionSettings.m_Port
-						, _DefaultDatabase
-					)
-				;
-			}
-			else
-				URI = fg_Format("mongodb://{}:{}/{}", _ConnectionSettings.m_Host, _ConnectionSettings.m_Port, _DefaultDatabase);
+			NStr::CStr URI = _ConnectionSettings.f_GetUrl(_DefaultDatabase).f_Encode();
 
 			return mongocxx::uri{URI.f_GetStr()};
 		}

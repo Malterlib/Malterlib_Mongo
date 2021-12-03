@@ -144,7 +144,7 @@ namespace NMib::NMongo::NMongoManager
 		CStrSecure fp_GetUserPassword(CStr const &_User);
 #endif
 		TCFuture<void> fp_ExtractExeFS() const;
-		TCFuture<void> fp_CheckVersion(CStr const &_Tool, CStr const &_Argument, CStr const &_ParseString, CVersion const &_NeededVersion);
+		TCFuture<CVersion> fp_CheckVersion(CStr const &_Tool, CStr const &_Argument, CStr const &_ParseString, CVersion const &_NeededVersion);
 		TCFuture<void> fp_CleanupOldProcesses();
 
 		EMode mp_Mode;
@@ -158,15 +158,16 @@ namespace NMib::NMongo::NMongoManager
 
 		TCSharedPointer<CUniqueUserGroup> mp_pUniqueUserGroup = fg_Construct("/M/App/MongoManager", mp_AppState.m_RootDirectory);
 
-		CMongoConnectionSettings mp_MongoConnectionSettings{NProcess::NPlatform::fg_Process_GetHostName(), 25017};
+		CMongoConnectionSettings mp_MongoConnectionSettings{{{NProcess::NPlatform::fg_Process_GetHostName(), 25017}}};
 		CUser mp_MongoUser{mp_pUniqueUserGroup->f_GetUser("mib_mongo"), mp_pUniqueUserGroup->f_GetGroup("mib_mongo")};
-		CVersion mp_Version_MongoDB{3, 4, 0};
+		CVersion mp_Version_MongoDB{4, 0, 0};
 		bool mp_bEnableSSL = true;
 		bool mp_bVerboseMongoScripts = false;
 
 		// Mongo
 		TCActor<CProcessLaunchActor> mp_pMongoLaunch;
 		CActorSubscription mp_MongoLaunchSubscription;
+		CStr mp_MongoVersion = "4.4";
 		CStr mp_MongoReplicaName = "DefaultReplica";
 		bool mp_bStopped = false;
 

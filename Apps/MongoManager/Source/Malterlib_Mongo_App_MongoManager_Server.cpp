@@ -45,14 +45,17 @@ namespace NMib::NMongo::NMongoManager
 			mp_bVerboseMongoScripts = pValue->f_Boolean();
 
 		if (_Port)
-			mp_MongoConnectionSettings.m_Port = _Port;
+			mp_MongoConnectionSettings.m_Hosts[0].m_Port = _Port;
 		else if (auto *pValue = Config.f_GetMember("MongoPort", EJSONType_Integer))
-			mp_MongoConnectionSettings.m_Port = pValue->f_Integer();
+			mp_MongoConnectionSettings.m_Hosts[0].m_Port = pValue->f_Integer();
 
 		if (!_OverrideReplicaName.f_IsEmpty())
 			mp_MongoReplicaName = _OverrideReplicaName;
 		else if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("ReplicaName", EJSONType_String))
 			mp_MongoReplicaName = pValue->f_String();
+
+		if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("MongoVersion", EJSONType_String))
+			mp_MongoVersion = pValue->f_String();
 
 		if (mp_Mode == EMode_SetupPermissions || mp_Mode == EMode_RunRestore)
 			mp_bEnableSSL = false;
@@ -74,13 +77,17 @@ namespace NMib::NMongo::NMongoManager
 
 		DLog(Info, "Done extracting ExeFS");
 
-		co_await
+		auto [Version, Dummy1, Dummy2] = co_await
 			(
 			 	self(&CMongoManagerActor::fp_CheckVersion, fp_GetMongoExecutable("mongod"), "--version", "db version v{}.{}.{}\n", mp_Version_MongoDB)
 			 	+ self(&CMongoManagerActor::fp_SetupPrerequisites_Mongo)
 			 	+ self(&CMongoManagerActor::fp_DetermineHostname)
 			)
 		;
+
+		DLog(Info, "MongoDB client connection URL: {}", mp_MongoConnectionSettings.f_GetUrl("").f_Encode());
+
+		mp_Version_MongoDB = Version;
 
 		co_await self(&CMongoManagerActor::fp_StartMongo);
 
@@ -220,7 +227,7 @@ namespace NMib::NMongo::NMongoManager
 	{
 		co_await
 			(
-				g_Dispatch(mp_pFileActor) / [UserName = mp_MongoUser.m_UserName]
+				g_Dispatch(mp_pFileActor) / [UserName = mp_MongoUser.m_UserName, MongoVersion = mp_MongoVersion, MongoPort = mp_MongoConnectionSettings.f_GetSingleHost().m_Port]
 				{
 					CExeFS ExeFS;
 					if (!fg_OpenExeFS(ExeFS))
@@ -233,13 +240,18 @@ namespace NMib::NMongo::NMongoManager
 
 					MalterlibFS.f_CopyFilesWithAttribs("*", DiskFS, ProgramDirectory);
 
-					CStr MongoScript = CStr::CFormat(g_pMongoScript) << UserName;
+					CStr MongoScript = CStr::CFormat(g_pMongoScript) << UserName << MongoVersion << MongoPort;
 					CByteVector MongoScriptData;
 					CFile::fs_WriteStringToVector(MongoScriptData, MongoScript, false);
-					EFileAttrib Permissions = EFileAttrib_UnixAttributesValid
-						| EFileAttrib_UserWrite | EFileAttrib_UserRead | EFileAttrib_UserExecute
-						| EFileAttrib_GroupRead | EFileAttrib_GroupExecute
-						| EFileAttrib_EveryoneRead | EFileAttrib_EveryoneExecute
+					EFileAttrib Permissions
+						= EFileAttrib_UnixAttributesValid
+						| EFileAttrib_UserWrite
+						| EFileAttrib_UserRead
+						| EFileAttrib_UserExecute
+						| EFileAttrib_GroupRead
+						| EFileAttrib_GroupExecute
+						| EFileAttrib_EveryoneRead
+						| EFileAttrib_EveryoneExecute
 					;
 					CFile::fs_CopyFileDiff(MongoScriptData, ProgramDirectory / "Mongo.sh", CTime::fs_NowUTC(), Permissions);
 				}
@@ -249,9 +261,9 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 
-	TCFuture<void> CMongoManagerActor::fp_CheckVersion(CStr const &_Tool, CStr const &_Argument, CStr const &_ParseString, CVersion const &_NeededVersion)
+	TCFuture<CVersion> CMongoManagerActor::fp_CheckVersion(CStr const &_Tool, CStr const &_Argument, CStr const &_ParseString, CVersion const &_NeededVersion)
 	{
-		TCPromise<void> Promise;
+		TCPromise<CVersion> Promise;
 		self(&CMongoManagerActor::fp_RunToolForVersionCheck, _Tool, fg_CreateVector<CStr>(_Argument)) > Promise % "Failed to check version" / [=](CStr &&_Data)
 			{
 				if (_Data.f_IsEmpty())
@@ -276,7 +288,7 @@ namespace NMib::NMongo::NMongoManager
 					return;
 				}
 				DLog(Info, "{} version {} found", _Tool, Version);
-				Promise.f_SetResult();
+				Promise.f_SetResult(Version);
 			}
 		;
 		return Promise.f_MoveFuture();
@@ -313,11 +325,7 @@ namespace NMib::NMongo::NMongoManager
 
 	mint CMongoManagerActor::fs_GetMongoFileLimits()
 	{
-#ifdef DPlatformFamily_OSX
-		return 10240;
-#else
 		return 64000;
-#endif
 	}
 
 	mint CMongoManagerActor::fs_GetMongoThreadLimits()

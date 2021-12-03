@@ -25,12 +25,14 @@ namespace NMib::NMongo::NMongoManager
 			)
 			> Promise / [Promise, this, _RestoreTime, DumpDirectory]
 			{
+				auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
+
 				auto Params = fg_CreateVector<CStr>
 					(
 						"--host"
-						, NProcess::NPlatform::fg_Process_GetHostName()
+						, MongoHost.m_Host
 						, "--port"
-						, CStr::fs_ToStr(mp_MongoConnectionSettings.m_Port)
+						, CStr::fs_ToStr(MongoHost.m_Port)
 						, "--oplogReplay"
 					)
 				;

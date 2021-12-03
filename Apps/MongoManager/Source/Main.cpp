@@ -17,8 +17,8 @@ class CMongoManager : public CApplication
 	{
 		NConcurrency::CDistributedDaemon Daemon
 			{
-				"MalterlibMongoMongoManager"
-				, "Malterlib Mongo Mongo Manager"
+				"MalterlibMongoManager"
+				, "Malterlib Mongo Manager"
 				, "Manages mongo database daemon"
 				, []
 				{

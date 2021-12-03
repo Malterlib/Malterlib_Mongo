@@ -119,6 +119,22 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<CStr> CMongoManagerActor::fp_RunToolForVersionCheck(CStr const &_Tool, TCVector<CStr> const &_Arguments)
 	{
-		return fp_LaunchTool(_Tool, CFile::fs_GetProgramDirectory(), _Arguments, "VersionCheck", ELogVerbosity_None);
+		co_return co_await self
+			(
+				&CMongoManagerActor::fp_LaunchTool
+				, _Tool
+				, CFile::fs_GetProgramDirectory()
+				, _Arguments
+				, "VersionCheck"
+				, ELogVerbosity_None
+				, true
+				, CStr()
+				, CStr()
+				, CStr()
+#ifdef DPlatformFamily_Windows
+				, CStrSecure()
+#endif
+			)
+		;
 	}
 }

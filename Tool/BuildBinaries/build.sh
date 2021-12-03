@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 
-set -e
+# To build only a stage
+# BuildOnly=BuildMongo ./build.sh
+
+# To build up to and including a stage
+# BuildIncremental=BuildMongo ./build.sh
+
+set -ex
+
+source ../../../Core/Scripts/Detect.sh
 
 OutputDir="$1"
 IntermediateDir="$2"
@@ -10,7 +18,6 @@ if [[ "$MongoBuildClean" == "" ]]; then
 	MongoBuildClean=false
 fi
 
-
 if [[ "$OutputDir" == "" ]]; then
 	echo "No output dir specified"
 	exit 1
@@ -18,24 +25,22 @@ fi
 
 if [[ "$IntermediateDir" == "" ]]; then
 	IntermediateDir="/opt/CompiledFiles/BuildMongo"
-	rm -rf "$IntermediateDir"
+	if [[ "$BuildIncremental" == "" ]] && [[ "$BuildOnly" == "" ]]; then
+		rm -rf "$IntermediateDir"
+	fi
 fi
 
 SysName=$(uname -s)
 ProcessorArch=$(uname -m)
 
-if [[ $SysName ==  Darwin* ]] ; then
-	OutputPlatform=OSX
+if [[ "$MalterlibPlatform" == "OSX" ]] ; then
 	NumCPUs=`getconf _NPROCESSORS_ONLN`
-	BuildPlatform=OSX10.7
 	StripCommand="strip -u -r"
 	CurlBuildCFlags="-mmacosx-version-min=10.11"
-elif [[ $SysName ==  Linux* ]] ; then
-	OutputPlatform=Linux
+elif [[ "$MalterlibPlatform" == "Linux" ]] ; then
 	NumCPUs=`getconf _NPROCESSORS_ONLN`
 	ExtraLDFlags="-lstdc++ -lpthread"
 	ExtraBoringSSLFlags="-fPIC"
-	BuildPlatform=Linux2.6
 	StripCommand="strip --strip-unneeded"
 else
 	echo "Couldn't detect system"
@@ -61,8 +66,12 @@ function AbsolutePath()
 MalterlibRoot=`AbsolutePath "../../../.."`
 OpenSSLBuildDir="$IntermediateDir/boringssl"
 
-OutputBinDir="$OutputDir/$OutputPlatform/mongo/bin/"
-mkdir -p "$OutputBinDir"
+OutputBinDir=""
+
+function SetOutputBinDir()
+{
+	OutputBinDir="$OutputDir/$MalterlibPlatform/$MalterlibArch/mongo/$("$MalterlibRoot/External/mongo/build/install/bin/mongod" --version | head -1 | cut -dv -f3 | cut -d. -f1,2)/bin/"
+}
 
 function BuildBoringSSL()
 {
@@ -113,8 +122,8 @@ function BuildCurl()
 	export PKG_CONFIG_PATH="$TempPkgConfigDir:$PKG_CONFIG_PATH"
 
 	pushd "$MalterlibRoot/External/curl" > /dev/null
-	./buildconf
-	CFLAGS="$CurlBuildCFlags" ./configure --disable-shared --with-ssl --prefix "$IntermediateDir/curl_bin"
+	autoreconf -fi
+	CFLAGS="$CurlBuildCFlags" ./configure --disable-shared --with-ssl --without-brotli --without-nghttp2 --without-libidn2 --without-zstd --prefix "$IntermediateDir/curl_bin"
 	make clean
 	make -j$NumCPUs
 	make install
@@ -130,23 +139,34 @@ function BuildMongo()
 		rm -rf build
 	fi
 
-	python -mpip install --user -r buildscripts/requirements.txt
+	python3 -m pip install -r etc/pip/compile-requirements.txt
 
-	ToBuild="mongo mongod"
+	ToBuild="install-mongod install-mongo"
 
 	CurlLibs="`pkg-config \"$IntermediateDir/curl_bin/lib/pkgconfig/libcurl.pc\" --libs-only-l --static | sed 's/-l//g'`"
 
-	buildscripts/scons.py LIBPATH="$IntermediateDir/curl_bin/lib $OpenSSLBuildDir/bin" \
+	CurlFrameworks=""
+	if [[ "$MalterlibPlatform" == "OSX" ]]; then
+		CurlFrameworks="$CurlFrameworks SystemConfiguration"
+	fi
+
+	python3 buildscripts/scons.py LIBPATH="$IntermediateDir/curl_bin/lib $OpenSSLBuildDir/bin" \
 		CPPPATH="$IntermediateDir/curl_bin/include" \
+		FRAMEWORKS="$CurlFrameworks" \
 		LIBS="$CurlLibs" \
 		$ToBuild -j $NumCPUs --release --disable-warnings-as-errors \
-		--ssl --ssl-provider=openssl --ssl-static --ssl-boringssl \
+		--ssl --ssl-static --ssl-boringssl --ocsp-stapling=off \
 		"--ssl-lib-dir=$OpenSSLBuildDir/bin" \
 		"--ssl-include-dir=$MalterlibRoot/External/boringssl/include"
 
-	for Tool in $ToBuild ; do
-		cp -f $Tool $OutputBinDir
-		$StripCommand "$OutputBinDir/$Tool"
+	SetOutputBinDir
+	mkdir -p "$OutputBinDir"
+
+	cp -f "$PWD/build/install/bin/"* "$OutputBinDir"
+
+	for Tool in "$PWD/build/install/bin/"* ; do
+		cp -f "$Tool" "$OutputBinDir"
+		$StripCommand "${OutputBinDir}$(basename "$Tool")"
 	done
 
 	popd > /dev/null
@@ -166,18 +186,37 @@ function BuildTools()
 		rm -rf bin vendor/pkg node_modules
 	fi
 
-	./build.sh "ssl boringssl"
+	./make build
+	# "ssl boringssl"
 
-	Tools="mongodump bsondump mongoexport mongoimport mongorestore mongotop"
-	for Tool in $Tools ; do
-		cp -f bin/$Tool "$OutputBinDir"
+	for Tool in bin/* ; do
+		cp -f "$Tool" "$OutputBinDir$(basename "$Tool")"
 		#$StripCommand "$OutputBinDir/$Tool" # -s -w takes care of this
 	done
 
 	popd > /dev/null
 }
 
-BuildBoringSSL
-BuildCurl
-BuildMongo
-BuildTools
+function BuildStage()
+{
+	if [[ "$BuildOnly" != "" ]]; then
+		if [[ "$BuildOnly" == "$1" ]]; then
+			$1
+			exit 0
+		fi
+
+		return
+	fi
+
+	$1
+
+	if [[ "$BuildIncremental" == "$1" ]]; then
+		exit 0
+	fi
+}
+
+BuildStage BuildBoringSSL
+BuildStage BuildCurl
+BuildStage BuildMongo
+SetOutputBinDir # For when BuildMongo is not run
+BuildStage BuildTools

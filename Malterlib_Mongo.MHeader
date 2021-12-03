@@ -150,6 +150,8 @@ Property
 		, "BSONCXX_POLY_USE_STD=ON"
 		, "BSONCXX_POLY_USE_MNMLSTC_DEFAULT=OFF"
 		, "BSONCXX_POLY_USE_BOOST_DEFAULT=OFF"
+		, "MONGOCXX_LINK_WITH_STATIC_MONGOC=ON"
+		, "BSONCXX_LINK_WITH_STATIC_MONGOC=ON"
 	]
 
 	Import.CMake_Variables =+ ["CMAKE_BUILD_WITH_INSTALL_RPATH=ON"]
@@ -177,7 +179,7 @@ Property
 	}
 	Property.IdentityFileName define string = this.Identity->GetFile()
 
-	%Target "Lib_BSONCXX_bsoncxx"
+	%Target "Lib_BSONCXX_bsoncxx_static"
 	{
 		Compile
 		{
@@ -205,7 +207,7 @@ Property
 			}
 		}
 	}
-	%Target "Lib_MONGOCXX_mongocxx"
+	%Target "Lib_MONGOCXX_mongocxx_static"
 	{
 		Compile
 		{
@@ -258,7 +260,7 @@ Compile
 	}
 
 	SearchPath += ["../../External/mongo-cxx-driver/src"->MakeAbsolute(), MalterlibMongoIncludePath_bson...]
-	SearchPath += `@(GetProperty("Property", "TargetIdentityAbsolutePath", "Group:External.Group:BSONCXX.Target:Lib_BSONCXX_bsoncxx.Import:*.Target:Lib_BSONCXX_bsoncxx"))/src`
+	SearchPath += `@(GetProperty("Property", "TargetIdentityAbsolutePath", "Group:External.Group:BSONCXX.Target:Lib_BSONCXX_bsoncxx_static.Import:*.Target:Lib_BSONCXX_bsoncxx_static"))/src`
 	SearchPath += [MalterlibMongoIncludePath_mongoc..., MalterlibMongoIncludePath_bson...]
 	PreprocessorDefines += ["BSONCXX_STATIC", "MONGOCXX_STATIC", "BSON_STATIC", "MONGOC_STATIC"]
 	PreprocessorDefines += "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING"
@@ -319,12 +321,12 @@ Property
 			%File "Documentation/*"
 		}
 	}
-	%Dependency "Lib_MONGOCXX_mongocxx"
+	%Dependency "Lib_MONGOCXX_mongocxx_static"
 	{
 		!DocumentationEnabled true
 		Dependency.Indirect true
 	}
-	%Dependency "Lib_BSONCXX_bsoncxx"
+	%Dependency "Lib_BSONCXX_bsoncxx_static"
 	{
 		!DocumentationEnabled true
 		Dependency.Indirect true

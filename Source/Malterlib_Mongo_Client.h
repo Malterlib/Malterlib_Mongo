@@ -6,27 +6,42 @@
 #include <Mib/Core/Core>
 #include <Mib/Concurrency/ConcurrencyManager>
 #include <Mib/Encoding/EJSON>
+#include <Mib/Web/HTTP/URL>
 
 namespace NMib::NMongo
 {
-	struct CMongoConnectionSettings
+	struct CMongoServerHost
 	{
-		CMongoConnectionSettings();
-		CMongoConnectionSettings(NStr::CStr const &_Host, uint16 _Port);
+		auto operator <=> (CMongoServerHost const &_Right) const = default;
 
-		bool f_Compatible(CMongoConnectionSettings const &_Settings) const;
-		NContainer::TCVector<NStr::CStr> f_GetToolParams() const;
-		NStr::CStr f_GetConnectionString() const;
-		CMongoConnectionSettings f_ForConnectionString(NStr::CStr const &_ConnectionString) const;
+		template <typename tf_CStr>
+		void f_Format(tf_CStr &o_Str) const;
+
+		static constexpr uint16 mc_DefaultPort = 27017;
 
 		NStr::CStr m_Host = "localhost";
-		uint16 m_Port = 27017;
+		uint16 m_Port = mc_DefaultPort;
+	};
+
+	struct CMongoConnectionSettings
+	{
+		bool f_Compatible(CMongoConnectionSettings const &_Settings) const;
+		NContainer::TCVector<NStr::CStr> f_GetToolParams(bool _bTlsSupported) const;
+		NStr::CStr f_GetConnectionString() const;
+		static NStr::CStr fs_GetConnectionString(NContainer::TCVector<CMongoServerHost> const &_Hosts);
+		CMongoConnectionSettings f_ForConnectionString(NStr::CStr const &_ConnectionString) const;
+		NWeb::NHTTP::CURL f_GetUrl(NStr::CStr const &_Database) const;
+		CMongoServerHost const &f_GetSingleHost() const;
+
+		NContainer::TCVector<CMongoServerHost> m_Hosts = {{"localhost", CMongoServerHost::mc_DefaultPort}};
 
 		// Needs to be the same to be compatible
 		NStr::CStr m_CACertificatePath;
 		NStr::CStr m_ClientCertificatePath;
 		NStr::CStr m_UserName;
+		NStr::CStr m_ReplicaSet;
 		bool m_bEnableSSL = false;
+		bool m_bEnableSrv = false;
 	};
 
 	class CMongoClientActor : public NConcurrency::CActor
@@ -117,6 +132,8 @@ namespace NMib::NMongo
 		NStorage::TCUniquePointer<CInternal> mp_pInternal;
 	};
 }
+
+#include "Malterlib_Mongo_Client.hpp"
 
 #ifndef DMibPNoShortCuts
 	using namespace NMib::NMongo;

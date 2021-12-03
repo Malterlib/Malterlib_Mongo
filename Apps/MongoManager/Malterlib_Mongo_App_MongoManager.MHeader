@@ -31,7 +31,7 @@ Property
 		MongoManagerCopySources =+ {Pattern: "Source/Malterlib_Mongo_App_MongoManager_Mongo*.js"->MakeAbsolute(), Destination: "Source"}
 
 		MalterlibExeFSExtraFiles =+ MongoManagerCopySources
-		MalterlibExeFSExtraFiles =+ {Pattern: `@(MongoBinariesPath)/bin/*`, Destination: "mongo/bin"}
+		MalterlibExeFSExtraFiles =+ {Pattern: `@(MongoBinariesPath)/*`, Destination: "mongo", Recursive: true}
 		{
 			!MongoBinariesPath undefined
 		}

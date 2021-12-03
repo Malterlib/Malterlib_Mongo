@@ -15,7 +15,7 @@ namespace NMib::NMongo::NMongoManager
 
 		o_CommandLine.f_SetProgramDescription
 			(
-				"Malterlib Mongo Mongo Manager"
+				"Malterlib Mongo Manager"
 				, "Manages mongodb server daemon." 
 			)
 		;
@@ -34,9 +34,9 @@ namespace NMib::NMongo::NMongoManager
 			)
 		;
 		
-		auto DefaultSection = o_CommandLine.f_GetDefaultSection();
+		auto Section = o_CommandLine.f_AddSection("Mongo Manager", "Mongo Manager Commands");
 		
-		DefaultSection.f_RegisterDirectCommand
+		Section.f_RegisterDirectCommand
 			(
 				{
 					"Names"_= {"--list-restore-range"}
@@ -54,7 +54,7 @@ namespace NMib::NMongo::NMongoManager
 				}
 			)
 		;
-		DefaultSection.f_RegisterCommand
+		Section.f_RegisterCommand
 			(
 				{
 					"Names"_= {"--restore"}
@@ -82,23 +82,32 @@ namespace NMib::NMongo::NMongoManager
 				{
 					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_Restore, _Parameters, _pCommandLine);
 				}
-			 	, CDistributedAppCommandLineSpecification::ECommandFlag_RunLocalApp
+			 	, EDistributedAppCommandFlag_RunLocalApp
 			)
 		;
-		DefaultSection.f_RegisterCommand
+		Section.f_RegisterCommand
 			(
 				{
 					"Names"_= {"--setup-permissions"}
 					, "Description"_= "Sets up permissions for a empty database by adding the admin user.\n"
+					, "Options"_=
+					{
+						"MongoPort?"_=
+						{
+							"Names"_= {"--port"}
+							, "Type"_= 0
+							, "Description"_= "Specify the port to run the mongo server on. Will overwrite MongoManagerConfig.json with stripped comments."
+						}
+					}
 				}
 				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
 				{
 					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_SetupPermissions, _Parameters, _pCommandLine);
 				}
-				, CDistributedAppCommandLineSpecification::ECommandFlag_RunLocalApp
+				, EDistributedAppCommandFlag_RunLocalApp
 			)
 		;
-		DefaultSection.f_RegisterCommand
+		Section.f_RegisterCommand
 			(
 				{
 					"Names"_= {"--update-replication-config"}
@@ -114,10 +123,10 @@ namespace NMib::NMongo::NMongoManager
 				{
 					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_UpdateReplicationConfig, _Parameters, _pCommandLine);
 				}
-				, CDistributedAppCommandLineSpecification::ECommandFlag_RunLocalApp
+				, EDistributedAppCommandFlag_RunLocalApp
 			)
 		;
-		DefaultSection.f_RegisterCommand
+		Section.f_RegisterCommand
 			(
 				{
 					"Names"_= {"--run-backup"}
@@ -128,10 +137,10 @@ namespace NMib::NMongo::NMongoManager
 				{
 					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_RunBackup, _Parameters, _pCommandLine);
 				}
-				, CDistributedAppCommandLineSpecification::ECommandFlag_None
+				, EDistributedAppCommandFlag_None
 			)
 		;
-		DefaultSection.f_RegisterCommand
+		Section.f_RegisterCommand
 			(
 				{
 					"Names"_= {"--cancel-backups"}
@@ -149,11 +158,11 @@ namespace NMib::NMongo::NMongoManager
 				{
 					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_CancelBackups, _Parameters, _pCommandLine);
 				}
-				, CDistributedAppCommandLineSpecification::ECommandFlag_None
+				, EDistributedAppCommandFlag_None
 			)
 		;
 		
-		DefaultSection.f_RegisterCommand
+		Section.f_RegisterCommand
 			(
 				{
 					"Names"_= {"--join-replica-set"}
@@ -223,7 +232,7 @@ namespace NMib::NMongo::NMongoManager
 				{
 					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_JoinReplica, _Parameters, _pCommandLine);
 				}
-				, CDistributedAppCommandLineSpecification::ECommandFlag_RunLocalApp
+				, EDistributedAppCommandFlag_RunLocalApp
 			)
 		;
 	}
@@ -382,44 +391,39 @@ namespace NMib::NMongo::NMongoManager
 	
 	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_RunBackup(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
-		TCPromise<uint32> Promise;
-		
 		uint32 BackupID = mp_NextLocalBackup++;
 		
 		auto &LocalBackup = mp_LocalBackups[BackupID];
 		
 		LocalBackup.m_BackupInterface = mp_State.m_DistributionManager->f_ConstructActor<CDummyBackupInterface>(BackupID);
-		
-		fp_StartBackup
+
+		auto Cleanup = g_OnScopeExitActor / [&]
+			{
+				mp_LocalBackups.f_Remove(BackupID);
+			}
+		;
+
+		auto Subscription = co_await self
 			(
-				LocalBackup.m_BackupInterface->f_ShareInterface<CDistributedAppInterfaceBackup>().f_GetActor()
+				&CMongoManagerDaemonActor::fp_StartBackup
+				, LocalBackup.m_BackupInterface->f_ShareInterface<CDistributedAppInterfaceBackup>().f_GetActor()
 				, nullptr
 				, CFile::fs_GetProgramDirectory()
 			)
-			> [=](TCAsyncResult<CActorSubscription> &&_Subscription)
-			{
-				if (!_Subscription)
-				{
-					mp_LocalBackups.f_Remove(BackupID);
-					Promise.f_SetException(_Subscription);
-					return;
-				}
-				
-				auto *pLocalBackup = mp_LocalBackups.f_FindEqual(BackupID);
-				
-				if (!pLocalBackup)
-					return Promise.f_SetException(DErrorInstance("Backup already cancelled"));
-				
-				auto &LocalBackup = *pLocalBackup;
-				
-				LocalBackup.m_Subscription = fg_Move(*_Subscription);
-				
-				*_pCommandLine += "{}\n"_f << BackupID;
-				Promise.f_SetResult(0);
-			}
 		;
-		
-		return Promise.f_MoveFuture();
+
+		Cleanup->f_Clear();
+
+		auto *pLocalBackup = mp_LocalBackups.f_FindEqual(BackupID);
+
+		if (!pLocalBackup)
+			co_return DErrorInstance("Backup already cancelled");
+
+		pLocalBackup->m_Subscription = fg_Move(Subscription);
+
+		*_pCommandLine += "{}\n"_f << BackupID;
+
+		co_return 0;
 	}
 
 	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_CancelBackups(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
@@ -509,7 +513,7 @@ namespace NMib::NMongo::NMongoManager
 			Options.m_CanVote = pValue->f_Boolean(); 
 		if (auto pValue = _Params.f_GetMember("Priority"))
 		{
-			fp64 Priority = pValue->f_Integer();
+			fp64 Priority = pValue->f_Float();
 			if (Priority < 0.0 || Priority > 1000.0)
 				return Promise <<= DMibErrorInstance("Priority out of range");
 			Options.m_Priority = Priority;
