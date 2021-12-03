@@ -5,25 +5,36 @@ Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`-
 	{
 		!!Compile.Type "C"
 		SearchPath += [
+			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src/libmongoc/src`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src/libmongoc/src/mongoc`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
 			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc`->MakeAbsolute(),
 			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/common`->MakeAbsolute(),
-			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libbson/src`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src/common`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src/libbson/src`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src/libbson/src/bson`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute()
+			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libbson/src`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libbson/src/bson`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
 			"BSON_STATIC",
+			"COMMON_PREFIX_=_mongoc_common",
+			"HAVE_STDARG_H",
+			"HAVE_UNISTD_H",
+			"KMS_MESSAGE_ENABLE_CRYPTO",
+			"KMS_MESSAGE_ENABLE_CRYPTO_LIBCRYPTO",
+			"KMS_MSG_STATIC",
 			"MONGOC_COMPILATION",
 			"MONGOC_STATIC",
-			"_BSD_SOURCE",
-			"_DEFAULT_SOURCE",
-			"_GNU_SOURCE"
+			"_DEFAULT_SOURCE"
 		]
 	}
 	Property.MalterlibTargetNameType "Normal"
@@ -88,6 +99,10 @@ Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`-
 						Compile.Type "C"
 					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-cluster.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-cluster-aws.c`
 					{
 						Compile.Type "C"
 					}
@@ -159,6 +174,10 @@ Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`-
 					{
 						Compile.Type "C"
 					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-generation-map.c`
+					{
+						Compile.Type "C"
+					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-init.c`
 					{
 						Compile.Type "C"
@@ -195,7 +214,15 @@ Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`-
 					{
 						Compile.Type "C"
 					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-http.c`
+					{
+						Compile.Type "C"
+					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-index.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-interrupt.c`
 					{
 						Compile.Type "C"
 					}
@@ -227,11 +254,15 @@ Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`-
 					{
 						Compile.Type "C"
 					}
-					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-opts.c`
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-optional.c`
 					{
 						Compile.Type "C"
 					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-opts-helpers.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-opts.c`
 					{
 						Compile.Type "C"
 					}
@@ -251,6 +282,10 @@ Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`-
 					{
 						Compile.Type "C"
 					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-server-api.c`
+					{
+						Compile.Type "C"
+					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-server-description.c`
 					{
 						Compile.Type "C"
@@ -263,7 +298,15 @@ Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`-
 					{
 						Compile.Type "C"
 					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-server-monitor.c`
+					{
+						Compile.Type "C"
+					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-set.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-shared.c`
 					{
 						Compile.Type "C"
 					}
@@ -299,7 +342,15 @@ Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`-
 					{
 						Compile.Type "C"
 					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-timeout.c`
+					{
+						Compile.Type "C"
+					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-topology.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-topology-background-monitoring.c`
 					{
 						Compile.Type "C"
 					}
@@ -312,6 +363,10 @@ Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`-
 						Compile.Type "C"
 					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-topology-scanner.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-ts-pool.c`
 					{
 						Compile.Type "C"
 					}
@@ -372,6 +427,10 @@ Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`-
 						Compile.Type "C"
 					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-openssl.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-ocsp-cache.c`
 					{
 						Compile.Type "C"
 					}
@@ -483,6 +542,10 @@ Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`-
 					{
 						Compile.Disabled true
 					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-optional.h`
+					{
+						Compile.Disabled true
+					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-prelude.h`
 					{
 						Compile.Disabled true
@@ -492,6 +555,10 @@ Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`-
 						Compile.Disabled true
 					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-read-prefs.h`
+					{
+						Compile.Disabled true
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-server-api.h`
 					{
 						Compile.Disabled true
 					}
@@ -582,6 +649,88 @@ Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`-
 			%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/common/common-md5.c`
 			{
 				Compile.Type "C"
+			}
+			%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/common/common-thread.c`
+			{
+				Compile.Type "C"
+			}
+		}
+		%Group "kms-message"
+		{
+			%Group "src"
+			{
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/hexlify.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_b64.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_caller_identity_request.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_crypto_apple.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_crypto_libcrypto.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_crypto_none.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_crypto_windows.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_decrypt_request.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_encrypt_request.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_kv_list.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_message.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_port.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_request.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_request_opt.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_request_str.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_response.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_response_parser.c`
+				{
+					Compile.Type "C"
+				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/sort.c`
+				{
+					Compile.Type "C"
+				}
 			}
 		}
 	}

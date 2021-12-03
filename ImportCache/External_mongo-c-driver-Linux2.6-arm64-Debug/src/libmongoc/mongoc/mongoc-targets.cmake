@@ -46,7 +46,9 @@ add_library(mongo::mongoc_static STATIC IMPORTED)
 
 set_target_properties(mongo::mongoc_static PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "MONGOC_STATIC;BSON_STATIC"
-  INTERFACE_LINK_LIBRARIES "/dev/null;rt;resolv;../../../../../../../Binaries/MalterlibSDK/Linux/arm64/Linux.sdk/usr/lib/aarch64-linux-gnu/libz.so;-pthread;mongo::bson_static"
+  INTERFACE_COMPILE_OPTIONS "-fPIC"
+  INTERFACE_INCLUDE_DIRECTORIES "../../../src/libmongoc/src;../../../src/libmongoc/src/mongoc;../../../../../../../External/mongo-c-driver/src/libmongoc/src;../../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc;../../../../../../../External/mongo-c-driver/src/libmongoc/../../src/common;../../../src/libmongoc/../../src;../../../src/libmongoc/../../src/common"
+  INTERFACE_LINK_LIBRARIES "/dev/null;dl;rt;resolv;../../../../../../../Binaries/MalterlibSDK/Linux/arm64/Linux.sdk/usr/lib/aarch64-linux-gnu/libz.so;-pthread;mongo::bson_static"
 )
 
 # Import target "mongo::mongoc_static" for configuration "Debug"

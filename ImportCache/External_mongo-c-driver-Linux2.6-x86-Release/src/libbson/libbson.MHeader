@@ -10,12 +10,19 @@ Property.CMakeOutputPath_libbson define string = `@('../..'->MakeAbsolute())`->M
 			`@('../..'->MakeAbsolute())/src/libbson/src/bson`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
 			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libbson/src`->MakeAbsolute(),
-			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/common`->MakeAbsolute()
+			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libbson/src/bson`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/common`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src/common`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
 			"BSON_COMPILATION",
 			"BSON_STATIC",
-			"JSONSL_PARSE_NAN"
+			"COMMON_PREFIX_=_bson_common",
+			"JSONSL_PARSE_NAN",
+			"_DEFAULT_SOURCE"
 		]
 	}
 	Property.MalterlibTargetNameType "Normal"
@@ -239,6 +246,10 @@ Property.CMakeOutputPath_libbson define string = `@('../..'->MakeAbsolute())`->M
 				Compile.Type "C"
 			}
 			%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/common/common-md5.c`
+			{
+				Compile.Type "C"
+			}
+			%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/common/common-thread.c`
 			{
 				Compile.Type "C"
 			}

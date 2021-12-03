@@ -1,4 +1,6 @@
+../../../../../../External/mongo-cxx-driver/cmake/BsoncxxUtil.cmake
 ../../../../../../External/mongo-cxx-driver/src/bsoncxx/CMakeLists.txt
+../../../../../../External/mongo-cxx-driver/src/bsoncxx/cmake/bsoncxx-config.cmake.in
 ../../../../../../External/mongo-cxx-driver/src/bsoncxx/cmake/libbsoncxx-static-config.cmake.in
 ../../../../../../External/mongo-cxx-driver/src/bsoncxx/config/CMakeLists.txt
 ../../../../../../External/mongo-cxx-driver/src/bsoncxx/config/config.hpp.in

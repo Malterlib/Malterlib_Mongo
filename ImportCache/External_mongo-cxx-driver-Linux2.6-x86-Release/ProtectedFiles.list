@@ -1,3 +1,4 @@
+CMakeFiles/distcheck.rule
 CMakeFiles/docs_dir_current.rule
 CMakeFiles/doxygen-all.rule
 CMakeFiles/doxygen-current.rule
@@ -7,3 +8,5 @@ CMakeFiles/format.rule
 CMakeFiles/hugo-deploy.rule
 CMakeFiles/hugo.rule
 CMakeFiles/hugo_dir.rule
+generate_uninstall/CMakeFiles/uninstall.rule
+mongo-cxx-driver-r3.7.1-20220207+git16546a6782.tar.gz.rule
