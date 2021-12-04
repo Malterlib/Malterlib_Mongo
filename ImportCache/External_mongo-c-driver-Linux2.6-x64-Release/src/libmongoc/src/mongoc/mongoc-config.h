@@ -26,10 +26,10 @@
  * used to compile mongoc */
 #define MONGOC_USER_SET_CFLAGS ""
 
-#define MONGOC_USER_SET_LDFLAGS "-fuse-ld=lld -stdlib=libc++"
+#define MONGOC_USER_SET_LDFLAGS "-fuse-ld=lld -stdlib=libc++ -L"../../../../../../../../Binaries/MalterlibLLVM/Linux/x64/lib/x86_64-unknown-linux-gnu/c++""
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
-#define MONGOC_CC "/opt/CompiledFiles/Dependencies/llvm/12.0/build/main/bin/clang"
+#define MONGOC_CC "../../../../../../../../Binaries/MalterlibLLVM/OSX/arm64/bin/clang"
 
 /*
  * MONGOC_ENABLE_SSL_SECURE_CHANNEL is set from configure to determine if we are
