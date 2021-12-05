@@ -8,6 +8,8 @@
 #include <Windows.h>
 #pragma warning(disable:4267)
 #pragma comment(lib, "Dnsapi.lib")
+#else
+#include <signal.h>
 #endif
 
 #include "Malterlib_Mongo_Client.h"
@@ -282,7 +284,11 @@ namespace NMib::NMongo
 		if (Internal.m_pTailThread)
 		{
 			Internal.m_pTailThread->f_Stop(false);
+#ifndef DPlatformFamily_Windows
+			pthread_kill((pthread_t)Internal.m_pTailThread->f_GetThreadID(), SIGUSR2);
+#else
 			Internal.m_pConnection->abort();
+#endif
 			Internal.m_pTailThread->f_Stop(true);
 			Internal.m_pTailThread.f_Clear();
 			Internal.m_pConnection.f_Clear();
@@ -394,7 +400,7 @@ namespace NMib::NMongo
 
 				COnScopeExitShared pOnExit = fg_OnScopeExitShared
 					(
-						[WeakThis=fg_ThisActor(pThis).f_Weak(), this]
+						[WeakThis = fg_ThisActor(pThis).f_Weak(), this]
 						{
 							auto This = WeakThis.f_Lock();
 							if (This)
@@ -408,7 +414,11 @@ namespace NMib::NMongo
 											if (Internal.m_pTailThread)
 											{
 												Internal.m_pTailThread->f_Stop(false);
+#ifndef DPlatformFamily_Windows
+												pthread_kill((pthread_t)Internal.m_pTailThread->f_GetThreadID(), SIGUSR2);
+#else
 												Internal.m_pConnection->abort();
+#endif
 												Internal.m_pTailThread->f_Stop(true);
 												Internal.m_pTailThread.f_Clear();
 												Internal.m_pConnection.f_Clear();
@@ -446,6 +456,18 @@ namespace NMib::NMongo
 
 							NEncoding::CEJSON Order;
 
+#ifndef DPlatformFamily_Windows
+							auto SignalSubscription = NSys::fg_System_RegisterForThreadSignal
+								(
+									SIGUSR2
+									, [&]
+									{
+										if (Internal.m_pConnection)
+											Internal.m_pConnection->abort();
+									}
+								)
+							;
+#endif
 							auto UserQuery = _Query;
 
 							Order["$natural"] = 1;
