@@ -51,6 +51,9 @@ if [[ $ProcessorArch == i*86 ]] ; then
 	BuildArch=x86
 elif [[ $ProcessorArch == x86_64 ]] ; then
 	BuildArch=x64
+elif [[ $ProcessorArch == aarch64 ]] ; then
+	BuildArch=arm64
+	SconsCFlags="CCFLAGS=-march=armv8-a+crc"
 else
 	echo $ProcessorArch is not a recognized architecture
 	exit 1
@@ -154,6 +157,7 @@ function BuildMongo()
 		CPPPATH="$IntermediateDir/curl_bin/include" \
 		FRAMEWORKS="$CurlFrameworks" \
 		LIBS="$CurlLibs" \
+		$SconsCFlags \
 		$ToBuild -j $NumCPUs --release --disable-warnings-as-errors \
 		--ssl --ssl-static --ssl-boringssl --ocsp-stapling=off \
 		"--ssl-lib-dir=$OpenSSLBuildDir/bin" \
