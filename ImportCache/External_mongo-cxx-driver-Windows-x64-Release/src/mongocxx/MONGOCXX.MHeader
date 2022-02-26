@@ -1,10 +1,11 @@
 Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->MakeAbsolute()
-%Target "Lib_MONGOCXX_mongocxx"
+%Target "Lib_MONGOCXX_mongocxx_static"
 {
 	Compile
 	{
 		!!Compile.Type "C++"
 		SearchPath += [
+			"/include"->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
@@ -22,8 +23,8 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 		!!Target.Group undefined
 	}
 	Target.Type "StaticLibrary"
-	Target.BaseName "MONGOCXX_mongocxx"
-	Target.BaseFileName "mongocxx"
+	Target.BaseName "MONGOCXX_mongocxx_static"
+	Target.BaseFileName "mongocxx_static"
 	%Group "src"
 	{
 		%Group "mongocxx"
@@ -33,6 +34,10 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 				Compile.Type "C++"
 			}
 			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/client.cpp`
+			{
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/client_encryption.cpp`
 			{
 				Compile.Type "C++"
 			}
@@ -206,6 +211,10 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 				{
 					Compile.Type "C++"
 				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/auto_encryption.cpp`
+				{
+					Compile.Type "C++"
+				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/bulk_write.cpp`
 				{
 					Compile.Type "C++"
@@ -215,6 +224,10 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 					Compile.Type "C++"
 				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/client.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/client_encryption.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -234,7 +247,7 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 				{
 					Compile.Type "C++"
 				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/create_view.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/data_key.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -243,6 +256,10 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 					Compile.Type "C++"
 				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/distinct.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/encrypt.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -289,18 +306,15 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 				{
 					Compile.Type "C++"
 				}
-				%Group "private"
-				{
-					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/private/rewriter.cpp`
-					{
-						Compile.Type "C++"
-					}
-				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/replace.cpp`
 				{
 					Compile.Type "C++"
 				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/ssl.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/server_api.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/tls.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -392,7 +406,7 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 			}
 		}
 	}
-	%Dependency "Lib_BSONCXX_bsoncxx"
+	%Dependency "Lib_BSONCXX_bsoncxx_static"
 	{
 		Dependency.Indirect true
 	}
@@ -403,12 +417,13 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 	{
 		!!Compile.Type "C++"
 		SearchPath += [
+			"/include"->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
-			"BSONCXX_STATIC",
+			"BSONCXX_TESTING",
 			"MONGOCXX_STATIC",
 			"MONGOCXX_TESTING",
 			"MONGO_CXX_DRIVER_COMPILING"
@@ -435,6 +450,10 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 			{
 				Compile.Type "C++"
 			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/client_encryption.cpp`
+			{
+				Compile.Type "C++"
+			}
 			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/client_session.cpp`
 			{
 				Compile.Type "C++"
@@ -605,6 +624,10 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 				{
 					Compile.Type "C++"
 				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/auto_encryption.cpp`
+				{
+					Compile.Type "C++"
+				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/bulk_write.cpp`
 				{
 					Compile.Type "C++"
@@ -614,6 +637,10 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 					Compile.Type "C++"
 				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/client.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/client_encryption.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -633,7 +660,7 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 				{
 					Compile.Type "C++"
 				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/create_view.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/data_key.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -642,6 +669,10 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 					Compile.Type "C++"
 				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/distinct.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/encrypt.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -688,18 +719,15 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 				{
 					Compile.Type "C++"
 				}
-				%Group "private"
-				{
-					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/private/rewriter.cpp`
-					{
-						Compile.Type "C++"
-					}
-				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/replace.cpp`
 				{
 					Compile.Type "C++"
 				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/ssl.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/server_api.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/tls.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -791,7 +819,7 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 			}
 		}
 	}
-	%Dependency "Lib_BSONCXX_bsoncxx"
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
 	{
 		Dependency.Indirect true
 	}
@@ -802,13 +830,14 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 	{
 		!!Compile.Type "C++"
 		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
-			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute()
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
-			"BSONCXX_STATIC",
+			"BSONCXX_TESTING",
 			"MONGOCXX_STATIC",
 			"MONGOCXX_TESTING",
 			"MONGO_CXX_DRIVER_COMPILING"
@@ -846,6 +875,17 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 					{
 						Compile.Type "C++"
 					}
+					%Group "unified_tests"
+					{
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/entity.cpp`
+						{
+							Compile.Type "C++"
+						}
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/assert.cpp`
+						{
+							Compile.Type "C++"
+						}
+					}
 					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
 					{
 						Compile.Type "C++"
@@ -868,7 +908,7 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 			}
 		}
 	}
-	%Dependency "Lib_BSONCXX_bsoncxx"
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
 	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
 }
 %Target "Com_MONGOCXX_test_driver"
@@ -877,13 +917,14 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 	{
 		!!Compile.Type "C++"
 		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
-			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute()
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
-			"BSONCXX_STATIC",
+			"BSONCXX_TESTING",
 			"MONGOCXX_STATIC",
 			"MONGOCXX_TESTING",
 			"MONGO_CXX_DRIVER_COMPILING"
@@ -928,6 +969,10 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 					Compile.Type "C++"
 				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/client_session.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/client_side_encryption.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -1019,10 +1064,6 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 					{
 						Compile.Type "C++"
 					}
-					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/options/create_view.cpp`
-					{
-						Compile.Type "C++"
-					}
 					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/options/delete.cpp`
 					{
 						Compile.Type "C++"
@@ -1069,13 +1110,6 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/options/pool.cpp`
 					{
 						Compile.Type "C++"
-					}
-					%Group "private"
-					{
-						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/options/private/rewriter.cpp`
-						{
-							Compile.Type "C++"
-						}
 					}
 					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/options/replace.cpp`
 					{
@@ -1143,6 +1177,28 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 				{
 					Compile.Type "C++"
 				}
+				%Group "spec"
+				{
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.hh`
+					{
+						Compile.Disabled true
+					}
+					%Group "unified_tests"
+					{
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/assert.cpp`
+						{
+							Compile.Type "C++"
+						}
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/entity.cpp`
+						{
+							Compile.Type "C++"
+						}
+					}
+				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/transactions.cpp`
 				{
 					Compile.Type "C++"
@@ -1172,7 +1228,7 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 			}
 		}
 	}
-	%Dependency "Lib_BSONCXX_bsoncxx"
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
 	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
 }
 %Target "Com_MONGOCXX_test_logging"
@@ -1181,13 +1237,14 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 	{
 		!!Compile.Type "C++"
 		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
-			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute()
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
-			"BSONCXX_STATIC",
+			"BSONCXX_TESTING",
 			"MONGOCXX_STATIC",
 			"MONGOCXX_TESTING",
 			"MONGO_CXX_DRIVER_COMPILING"
@@ -1225,7 +1282,7 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 			}
 		}
 	}
-	%Dependency "Lib_BSONCXX_bsoncxx"
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
 	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
 }
 %Target "Com_MONGOCXX_test_command_monitoring_specs"
@@ -1234,13 +1291,14 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 	{
 		!!Compile.Type "C++"
 		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
-			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute()
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
-			"BSONCXX_STATIC",
+			"BSONCXX_TESTING",
 			"MONGOCXX_STATIC",
 			"MONGOCXX_TESTING",
 			"MONGO_CXX_DRIVER_COMPILING"
@@ -1278,6 +1336,17 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 					{
 						Compile.Type "C++"
 					}
+					%Group "unified_tests"
+					{
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/entity.cpp`
+						{
+							Compile.Type "C++"
+						}
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/assert.cpp`
+						{
+							Compile.Type "C++"
+						}
+					}
 					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
 					{
 						Compile.Type "C++"
@@ -1300,7 +1369,7 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 			}
 		}
 	}
-	%Dependency "Lib_BSONCXX_bsoncxx"
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
 	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
 }
 %Target "Com_MONGOCXX_test_instance"
@@ -1309,13 +1378,14 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 	{
 		!!Compile.Type "C++"
 		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
-			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute()
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
-			"BSONCXX_STATIC",
+			"BSONCXX_TESTING",
 			"MONGOCXX_STATIC",
 			"MONGOCXX_TESTING",
 			"MONGO_CXX_DRIVER_COMPILING"
@@ -1353,7 +1423,7 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 			}
 		}
 	}
-	%Dependency "Lib_BSONCXX_bsoncxx"
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
 	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
 }
 %Target "Com_MONGOCXX_test_crud_specs"
@@ -1362,13 +1432,14 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 	{
 		!!Compile.Type "C++"
 		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
-			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute()
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
-			"BSONCXX_STATIC",
+			"BSONCXX_TESTING",
 			"MONGOCXX_STATIC",
 			"MONGOCXX_TESTING",
 			"MONGO_CXX_DRIVER_COMPILING"
@@ -1406,6 +1477,17 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 					{
 						Compile.Type "C++"
 					}
+					%Group "unified_tests"
+					{
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/entity.cpp`
+						{
+							Compile.Type "C++"
+						}
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/assert.cpp`
+						{
+							Compile.Type "C++"
+						}
+					}
 					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
 					{
 						Compile.Type "C++"
@@ -1428,7 +1510,7 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 			}
 		}
 	}
-	%Dependency "Lib_BSONCXX_bsoncxx"
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
 	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
 }
 %Target "Com_MONGOCXX_test_gridfs_specs"
@@ -1437,13 +1519,14 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 	{
 		!!Compile.Type "C++"
 		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
-			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute()
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
-			"BSONCXX_STATIC",
+			"BSONCXX_TESTING",
 			"MONGOCXX_STATIC",
 			"MONGOCXX_TESTING",
 			"MONGO_CXX_DRIVER_COMPILING"
@@ -1481,6 +1564,17 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 					{
 						Compile.Type "C++"
 					}
+					%Group "unified_tests"
+					{
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/entity.cpp`
+						{
+							Compile.Type "C++"
+						}
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/assert.cpp`
+						{
+							Compile.Type "C++"
+						}
+					}
 					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
 					{
 						Compile.Type "C++"
@@ -1503,7 +1597,94 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 			}
 		}
 	}
-	%Dependency "Lib_BSONCXX_bsoncxx"
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
+	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
+}
+%Target "Com_MONGOCXX_test_client_side_encryption_specs"
+{
+	Compile
+	{
+		!!Compile.Type "C++"
+		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_TESTING",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
+	}
+	Property.MalterlibTargetNameType "Normal"
+	Compile.AllowNonExisting true
+	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group undefined
+	}
+	Target.Type "ConsoleExecutable"
+	Target.BaseName "MONGOCXX_test_client_side_encryption_specs"
+	Target.BaseFileName "test_client_side_encryption_specs"
+	%Group "src"
+	{
+		%Group "mongocxx"
+		{
+			%Group "test_util"
+			{
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test_util/client_helpers.cpp`
+				{
+					Compile.Type "C++"
+				}
+			}
+			%Group "test"
+			{
+				%Group "spec"
+				{
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/client_side_encryption.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/operation.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%Group "unified_tests"
+					{
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/entity.cpp`
+						{
+							Compile.Type "C++"
+						}
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/assert.cpp`
+						{
+							Compile.Type "C++"
+						}
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/util.cpp`
+					{
+						Compile.Type "C++"
+					}
+				}
+			}
+		}
+		%Group "third_party"
+		{
+			%Group "catch"
+			{
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/main.cpp`
+				{
+					Compile.Type "C++"
+				}
+			}
+		}
+	}
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
 	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
 }
 %Target "Com_MONGOCXX_test_transactions_specs"
@@ -1512,13 +1693,14 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 	{
 		!!Compile.Type "C++"
 		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
-			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute()
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
-			"BSONCXX_STATIC",
+			"BSONCXX_TESTING",
 			"MONGOCXX_STATIC",
 			"MONGOCXX_TESTING",
 			"MONGO_CXX_DRIVER_COMPILING"
@@ -1556,6 +1738,17 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 					{
 						Compile.Type "C++"
 					}
+					%Group "unified_tests"
+					{
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/entity.cpp`
+						{
+							Compile.Type "C++"
+						}
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/assert.cpp`
+						{
+							Compile.Type "C++"
+						}
+					}
 					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
 					{
 						Compile.Type "C++"
@@ -1578,6 +1771,445 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 			}
 		}
 	}
-	%Dependency "Lib_BSONCXX_bsoncxx"
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
+	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
+}
+%Target "Com_MONGOCXX_test_retryable_reads_specs"
+{
+	Compile
+	{
+		!!Compile.Type "C++"
+		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_TESTING",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
+	}
+	Property.MalterlibTargetNameType "Normal"
+	Compile.AllowNonExisting true
+	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group undefined
+	}
+	Target.Type "ConsoleExecutable"
+	Target.BaseName "MONGOCXX_test_retryable_reads_specs"
+	Target.BaseFileName "test_retryable_reads_specs"
+	%Group "src"
+	{
+		%Group "mongocxx"
+		{
+			%Group "test_util"
+			{
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test_util/client_helpers.cpp`
+				{
+					Compile.Type "C++"
+				}
+			}
+			%Group "test"
+			{
+				%Group "spec"
+				{
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/retryable-reads.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/operation.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%Group "unified_tests"
+					{
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/entity.cpp`
+						{
+							Compile.Type "C++"
+						}
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/assert.cpp`
+						{
+							Compile.Type "C++"
+						}
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/util.cpp`
+					{
+						Compile.Type "C++"
+					}
+				}
+			}
+		}
+		%Group "third_party"
+		{
+			%Group "catch"
+			{
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/main.cpp`
+				{
+					Compile.Type "C++"
+				}
+			}
+		}
+	}
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
+	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
+}
+%Target "Com_MONGOCXX_test_read_write_concern_specs"
+{
+	Compile
+	{
+		!!Compile.Type "C++"
+		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_TESTING",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
+	}
+	Property.MalterlibTargetNameType "Normal"
+	Compile.AllowNonExisting true
+	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group undefined
+	}
+	Target.Type "ConsoleExecutable"
+	Target.BaseName "MONGOCXX_test_read_write_concern_specs"
+	Target.BaseFileName "test_read_write_concern_specs"
+	%Group "src"
+	{
+		%Group "mongocxx"
+		{
+			%Group "test_util"
+			{
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test_util/client_helpers.cpp`
+				{
+					Compile.Type "C++"
+				}
+			}
+			%Group "test"
+			{
+				%Group "spec"
+				{
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/read_write_concern.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/operation.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%Group "unified_tests"
+					{
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/entity.cpp`
+						{
+							Compile.Type "C++"
+						}
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/assert.cpp`
+						{
+							Compile.Type "C++"
+						}
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/util.cpp`
+					{
+						Compile.Type "C++"
+					}
+				}
+			}
+		}
+		%Group "third_party"
+		{
+			%Group "catch"
+			{
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/main.cpp`
+				{
+					Compile.Type "C++"
+				}
+			}
+		}
+	}
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
+	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
+}
+%Target "Com_MONGOCXX_test_mongohouse_specs"
+{
+	Compile
+	{
+		!!Compile.Type "C++"
+		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_TESTING",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
+	}
+	Property.MalterlibTargetNameType "Normal"
+	Compile.AllowNonExisting true
+	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group undefined
+	}
+	Target.Type "ConsoleExecutable"
+	Target.BaseName "MONGOCXX_test_mongohouse_specs"
+	Target.BaseFileName "test_mongohouse_specs"
+	%Group "src"
+	{
+		%Group "mongocxx"
+		{
+			%Group "test_util"
+			{
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test_util/client_helpers.cpp`
+				{
+					Compile.Type "C++"
+				}
+			}
+			%Group "test"
+			{
+				%Group "spec"
+				{
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/mongohouse.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/operation.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%Group "unified_tests"
+					{
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/entity.cpp`
+						{
+							Compile.Type "C++"
+						}
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/assert.cpp`
+						{
+							Compile.Type "C++"
+						}
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/util.cpp`
+					{
+						Compile.Type "C++"
+					}
+				}
+			}
+		}
+		%Group "third_party"
+		{
+			%Group "catch"
+			{
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/main.cpp`
+				{
+					Compile.Type "C++"
+				}
+			}
+		}
+	}
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
+	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
+}
+%Target "Com_MONGOCXX_test_versioned_api"
+{
+	Compile
+	{
+		!!Compile.Type "C++"
+		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_TESTING",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
+	}
+	Property.MalterlibTargetNameType "Normal"
+	Compile.AllowNonExisting true
+	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group undefined
+	}
+	Target.Type "ConsoleExecutable"
+	Target.BaseName "MONGOCXX_test_versioned_api"
+	Target.BaseFileName "test_versioned_api"
+	%Group "src"
+	{
+		%Group "mongocxx"
+		{
+			%Group "test_util"
+			{
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test_util/client_helpers.cpp`
+				{
+					Compile.Type "C++"
+				}
+			}
+			%Group "test"
+			{
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/versioned_api.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%Group "spec"
+				{
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/operation.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%Group "unified_tests"
+					{
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/entity.cpp`
+						{
+							Compile.Type "C++"
+						}
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/assert.cpp`
+						{
+							Compile.Type "C++"
+						}
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/util.cpp`
+					{
+						Compile.Type "C++"
+					}
+				}
+			}
+		}
+		%Group "third_party"
+		{
+			%Group "catch"
+			{
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/main.cpp`
+				{
+					Compile.Type "C++"
+				}
+			}
+		}
+	}
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
+	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
+}
+%Target "Com_MONGOCXX_test_unified_format_spec"
+{
+	Compile
+	{
+		!!Compile.Type "C++"
+		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_TESTING",
+			"MONGOCXX_STATIC",
+			"MONGOCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
+	}
+	Property.MalterlibTargetNameType "Normal"
+	Compile.AllowNonExisting true
+	Target.Group "External/MONGOCXX"
+	{
+		!!Target.Group undefined
+	}
+	Target.Type "ConsoleExecutable"
+	Target.BaseName "MONGOCXX_test_unified_format_spec"
+	Target.BaseFileName "test_unified_format_spec"
+	%Group "src"
+	{
+		%Group "mongocxx"
+		{
+			%Group "test_util"
+			{
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test_util/client_helpers.cpp`
+				{
+					Compile.Type "C++"
+				}
+			}
+			%Group "test"
+			{
+				%Group "spec"
+				{
+					%Group "unified_tests"
+					{
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/operations.cpp`
+						{
+							Compile.Type "C++"
+						}
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/runner.cpp`
+						{
+							Compile.Type "C++"
+						}
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/entity.cpp`
+						{
+							Compile.Type "C++"
+						}
+						%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/assert.cpp`
+						{
+							Compile.Type "C++"
+						}
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/operation.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/util.cpp`
+					{
+						Compile.Type "C++"
+					}
+				}
+			}
+		}
+		%Group "third_party"
+		{
+			%Group "catch"
+			{
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/main.cpp`
+				{
+					Compile.Type "C++"
+				}
+			}
+		}
+	}
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
 	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
 }

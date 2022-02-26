@@ -7,7 +7,7 @@
 #  define MONGOCXX_PRIVATE
 #else
 #  ifndef MONGOCXX_API
-#    ifdef mongocxx_mocked_EXPORTS
+#    ifdef MONGOCXX_EXPORTS
         /* We are building this library */
 #      define MONGOCXX_API 
 #    else

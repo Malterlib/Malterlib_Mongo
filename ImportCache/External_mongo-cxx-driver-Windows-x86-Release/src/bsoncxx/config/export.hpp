@@ -7,7 +7,7 @@
 #  define BSONCXX_PRIVATE
 #else
 #  ifndef BSONCXX_API
-#    ifdef bsoncxx_testing_EXPORTS
+#    ifdef BSONCXX_EXPORT
         /* We are building this library */
 #      define BSONCXX_API 
 #    else

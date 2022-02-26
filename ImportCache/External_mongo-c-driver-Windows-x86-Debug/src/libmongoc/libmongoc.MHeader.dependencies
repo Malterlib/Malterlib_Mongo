@@ -1,6 +1,7 @@
 ../../../../../../External/mongo-c-driver/build/cmake/CheckSchedGetCPU.cmake
 ../../../../../../External/mongo-c-driver/build/cmake/FindResSearch.cmake
 ../../../../../../External/mongo-c-driver/build/cmake/FindSnappy.cmake
+../../../../../../External/mongo-c-driver/build/cmake/MongoC-Warnings.cmake
 ../../../../../../External/mongo-c-driver/build/cmake/MongoCPackage.cmake
 ../../../../../../External/mongo-c-driver/src/libmongoc/CMakeLists.txt
 ../../../../../../External/mongo-c-driver/src/libmongoc/build/CMakeLists.txt
