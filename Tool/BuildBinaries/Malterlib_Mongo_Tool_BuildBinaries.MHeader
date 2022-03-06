@@ -3,7 +3,7 @@
 
 Property
 {
-	MalterlibMongoBuildBinaries define bool = false // User(Mongo)=true: Support building mongo and mongo-tools binaries
+	MalterlibMongoBuildBinaries: bool = false // User(Mongo)=true: Support building mongo and mongo-tools binaries
 }
 
 %Repository "mongo"

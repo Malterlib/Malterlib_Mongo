@@ -25,18 +25,18 @@ Import "Tool/*/*.MHeader"
 
 Property
 {
-	TargetIdentityAbsolutePath define string = Target:this.IdentityAsAbsolutePath->GetPath()
+	TargetIdentityAbsolutePath: string = Target:this.IdentityAsAbsolutePath->GetPath()
 
-	MalterlibMongoIncludePath_bson define [string] = [
+	MalterlibMongoIncludePath_bson: [string] = [
 		"../../External/mongo-c-driver/src/libbson/src"->MakeAbsolute()
 		, "../../External/mongo-c-driver/src/libbson/src/bson"->MakeAbsolute()
-		, `@(GetProperty("Property", "TargetIdentityAbsolutePath", "Group:External.Group:libbson.Target:Lib_libbson_bson_static.Import:*.Target:Lib_libbson_bson_static"))/src/libbson/src/bson`
+		, `@(GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:libbson.Target:Lib_libbson_bson_static.Import:*.Target:Lib_libbson_bson_static"))/src/libbson/src/bson`
 	]
 
-	MalterlibMongoIncludePath_mongoc define [string] = [
+	MalterlibMongoIncludePath_mongoc: [string] = [
 		"../../External/mongo-c-driver/src/libmongoc/src"->MakeAbsolute()
 		, "../../External/mongo-c-driver/src/libmongoc/src/mongoc"->MakeAbsolute()
-		, `@(GetProperty("Property", "TargetIdentityAbsolutePath", "Group:External.Group:libmongoc.Target:Lib_libmongoc_mongoc_static.Import:*.Target:Lib_libmongoc_mongoc_static"))/src/libmongoc/src/mongoc`
+		, `@(GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:libmongoc.Target:Lib_libmongoc_mongoc_static.Import:*.Target:Lib_libmongoc_mongoc_static"))/src/libmongoc/src/mongoc`
 	]
 }
 
@@ -135,6 +135,11 @@ Property
 			!DocumentationEnabled true
 			Dependency.Indirect true
 		}
+		%Dependency "Lib_BoringSSL_decrepit"
+		{
+			!DocumentationEnabled true
+			Dependency.Indirect true
+		}
 	}
 }
 
@@ -181,7 +186,7 @@ Property
 			!!GeneratorFamily "Xcode"
 		}
 	}
-	Property.IdentityFileName define string = this.Identity->GetFile()
+	Property.IdentityFileName: string = this.Identity->GetFile()
 
 	%Target "Lib_BSONCXX_bsoncxx_static"
 	{
@@ -195,8 +200,13 @@ Property
 				!!PlatformFamily "Windows"
 			}
 			SearchPath += [MalterlibMongoIncludePath_bson..., MalterlibMongoIncludePath_mongoc...]
+		}
+		Compile
+		{
+			!!GeneratorFamily "VisualStudio"
+
 			FullEval true
-			ObjectFileName "$(IntDir)/%(Directory)%(FileName).obj"
+			ObjectFileName "RawMSBuild:$(IntDir)/%(Directory)%(FileName).obj"
 			{
 				&
 				{
@@ -224,8 +234,12 @@ Property
 			}
 
 			SearchPath += [MalterlibMongoIncludePath_bson..., MalterlibMongoIncludePath_mongoc...]
+		}
+		Compile
+		{
+			!!GeneratorFamily "VisualStudio"
 			FullEval true
-			ObjectFileName "$(IntDir)/%(Directory)%(FileName).obj"
+			ObjectFileName "RawMSBuild:$(IntDir)/%(Directory)%(FileName).obj"
 			{
 				&
 				{
@@ -253,61 +267,35 @@ Property
 	}
 }
 
-Property.MongoCxxDriver define bool = fg_IsTargetInDependencies("Lib_Malterlib_Mongo")
-
-Compile
+%Group "{Malterlib}/{Lib_Malterlib_Mongo}/{TargetInjection}"
 {
-	&
-	{
-		MongoCxxDriver true
-		!DocumentationEnabled true
- 		CompileDialect "C"
-	}
+	!DocumentationEnabled true
 
-	SearchPath += ["../../External/mongo-cxx-driver/src"->MakeAbsolute(), MalterlibMongoIncludePath_bson...]
-	SearchPath += `@(GetProperty("Property", "TargetIdentityAbsolutePath", "Group:External.Group:BSONCXX.Target:Lib_BSONCXX_bsoncxx_static.Import:*.Target:Lib_BSONCXX_bsoncxx_static"))/src`
-	SearchPath += [MalterlibMongoIncludePath_mongoc..., MalterlibMongoIncludePath_bson...]
-	PreprocessorDefines += ["BSONCXX_STATIC", "MONGOCXX_STATIC", "BSON_STATIC", "MONGOC_STATIC"]
-	PreprocessorDefines += "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING"
+	Compile
 	{
-		!!PlatformFamily "Windows"
-	}
-}
+		!!CompileDialect "C"
 
-Target
-{
-	&
-	{
-		LanguageFamily "Native"
-		TargetIsExecutable true
-		MongoCxxDriver true
-		!DocumentationEnabled true
+		SearchPath += ["../../External/mongo-cxx-driver/src"->MakeAbsolute(), MalterlibMongoIncludePath_bson...]
+		SearchPath += `@(GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:BSONCXX.Target:Lib_BSONCXX_bsoncxx_static.Import:*.Target:Lib_BSONCXX_bsoncxx_static"))/src`
+		SearchPath += [MalterlibMongoIncludePath_mongoc..., MalterlibMongoIncludePath_bson...]
+		PreprocessorDefines += ["BSONCXX_STATIC", "MONGOCXX_STATIC", "BSON_STATIC", "MONGOC_STATIC"]
+		PreprocessorDefines += "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING"
+		{
+			!!PlatformFamily "Windows"
+		}
 	}
-
-	LinkWithLibraries += "-lresolv"
-	{
-		!!PlatformFamily "macOS"
-		!!PlatformFamily "Linux"
-	}
-}
-
-Property
-{
-	&
-	{
-		MongoCxxDriver true
-		TargetIsExecutable true
-	}
-
-	MalterlibLinkWithBoringSSL true
 }
 
 %Group "{Malterlib}/{Lib_Malterlib_Mongo}"
 {
 	Property
 	{
-		MalterlibConcurrency_DistributedActors true
-		MongoCxxDriver true
+	}
+
+	Target
+	{
+		DependencyInjectionGroups =+ "{Malterlib}/{Lib_Malterlib_Mongo}/{TargetInjection}"
+		ExtraGroups =+ "{Malterlib}/{Lib_Malterlib_Mongo}/{TargetInjection}"
 	}
 
 	%Group "Mongo"
@@ -346,17 +334,47 @@ Property
 		!DocumentationEnabled true
 		Dependency.Indirect true
 	}
+	%Dependency "Lib_BoringSSL_decrepit"
+	{
+		!DocumentationEnabled true
+
+		Dependency.Indirect true
+	}
+	%Dependency "Lib_Malterlib_Concurrency"
+	{
+		!DocumentationEnabled true
+
+		Dependency.Indirect true
+	}
+	%Dependency "resolv"
+	{
+		&
+		{
+			!DocumentationEnabled true
+			|
+			{
+				PlatformFamily "macOS"
+				PlatformFamily "Linux"
+			}
+		}
+
+		Dependency
+		{
+			Type "Library"
+			Indirect true
+		}
+	}
 }
 
 Property
 {
-	MalterlibLibrary_Mongo define bool = MalterlibLibrary_All
+	MalterlibLibrary_Mongo: bool = MalterlibLibrary_All
 	MalterlibSubLibraries =+ "Mongo"
 	{
 		!!MalterlibLibrary_Mongo true
 	}
-	MalterlibLibrarySeparate_Lib_Malterlib_Mongo define bool = true
-	//MalterlibSubLibrarySeparate_Lib_Malterlib_Mongo define bool = true
+	MalterlibLibrarySeparate_Lib_Malterlib_Mongo: bool = true
+	//MalterlibSubLibrarySeparate_Lib_Malterlib_Mongo: bool = true
 	MalterlibIncludeRoots =+ "Include"->MakeAbsolute()
 	{
 		!!MalterlibLibrary_Mongo true
@@ -376,12 +394,12 @@ Property
 	!!MalterlibEnableInternalTests true
 
 	MalterlibTests =+ "Malterlib_Mongo"
-	MalterlibTestDependencies_Malterlib_Mongo define [type(CEntity)] = ["Lib_Malterlib_Mongo"]
-	MalterlibTestFiles_Malterlib_Mongo define [type(CEntity)] = ["Test/*"->MakeAbsolute()]
-	MalterlibTestExtraGroups_Malterlib_Mongo define [string] = ["{Test}/{Malterlib_Mongo}"]
+	MalterlibTestDependencies_Malterlib_Mongo: [type(CEntity)] = ["Lib_Malterlib_Mongo"]
+	MalterlibTestFiles_Malterlib_Mongo: [type(CEntity)] = ["Test/*"->MakeAbsolute()]
+	MalterlibTestExtraGroups_Malterlib_Mongo: [string] = ["{Test}/{Malterlib_Mongo}"]
 }
 
-Property.Malterlib_Mongo_App_Targets define [type(CEntity)] = []
+Property.Malterlib_Mongo_App_Targets: [type(CEntity)] = []
 
 %Workspace "Apps_Malterlib_Mongo"
 {

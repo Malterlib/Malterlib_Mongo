@@ -1,2 +1,8 @@
-../../../../External/mongo 0e8d89ff387598494abd3bcb8bba0e385915154e
-../../../../External/mongo-tools 1d46e6e7021f2f5668763dba624e34bb39208cb0
+{
+	"../../../../External/mongo": {
+		"Hash": "0e8d89ff387598494abd3bcb8bba0e385915154e"
+	},
+	"../../../../External/mongo-tools": {
+		"Hash": "1d46e6e7021f2f5668763dba624e34bb39208cb0"
+	}
+}

@@ -1,2 +1,8 @@
-../../External/mongo-c-driver a3c51ed40ebb596e94167a58462df25dd46e3799
-../../External/mongo-cxx-driver 298ec6e62f3f07a66e727c7e0275b173704da6e1
+{
+	"../../External/mongo-c-driver": {
+		"Hash": "a3c51ed40ebb596e94167a58462df25dd46e3799"
+	},
+	"../../External/mongo-cxx-driver": {
+		"Hash": "298ec6e62f3f07a66e727c7e0275b173704da6e1"
+	}
+}

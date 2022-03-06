@@ -3,9 +3,9 @@
 
 Property
 {
-	MalterlibMongoSupportUnpatchedMongo define bool = false // User(Mongo)=true: Set to true to support default unpatched mongo that doesn't use secure TLS settings
-	MongoBinariesPath define string?
-	MalterlibMongoEnableMongoManagerWithDefultMongoDB define bool = false
+	MalterlibMongoSupportUnpatchedMongo: bool = false // User(Mongo)=true: Set to true to support default unpatched mongo that doesn't use secure TLS settings
+	MongoBinariesPath: string?
+	MalterlibMongoEnableMongoManagerWithDefultMongoDB: bool = false
 }
 
 %Target "Malterlib_Mongo_MongoManager"
@@ -18,15 +18,13 @@ Property
 		{
 			!!MalterlibPostCopyProject undefined
 		}
-		MalterlibConcurrency_DistributedActors true
 		MalterlibTargetNameType "Normal"
-		MongoCxxDriver true
 
 		MalterlibCloudVersionInfo_Backup_AddSyncFlagsWildcards =+ [{Pattern: "Dump/DynamicOplog.bson", Flags: ["Append"]}, {Pattern: "Dump/oplog.bson=Append", Flags: ["Append"]}]
 		
 		MalterlibDoExeFS true
 
-		MongoManagerCopySources define [type(CFileCopyOptions)] = []
+		MongoManagerCopySources: [type(CFileCopyOptions)] = []
 
 		MongoManagerCopySources =+ {Pattern: "Source/MongoManager_*.sh"->MakeAbsolute(), Destination: "Source"}
 		MongoManagerCopySources =+ {Pattern: "Source/Malterlib_Mongo_App_MongoManager_Mongo*.js"->MakeAbsolute(), Destination: "Source"}
