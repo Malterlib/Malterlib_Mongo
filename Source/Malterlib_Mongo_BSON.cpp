@@ -133,6 +133,10 @@ namespace NMib::NMongo
 							Subtype = binary_sub_type::k_md5;
 						else if (Type == "bdtCustom")
 							Subtype = binary_sub_type::k_user;
+						else if (Type == "Encrypt")
+							Subtype = binary_sub_type::k_encrypted;
+						else if (Type == "Column")
+							Subtype = binary_sub_type::k_column;
 						else
 							DMibError(NStr::fg_Format("Unknown BinData type: {}", Type));
 
@@ -321,6 +325,12 @@ namespace NMib::NMongo
 						break;
 					case binary_sub_type::k_user:
 						Type = "bdtCustom";
+						break;
+					case binary_sub_type::k_encrypted:
+						Type = "Encrypt";
+						break;
+					case binary_sub_type::k_column:
+						Type = "Column";
 						break;
 					case binary_sub_type::k_binary:
 						DMibNeverGetHere;
