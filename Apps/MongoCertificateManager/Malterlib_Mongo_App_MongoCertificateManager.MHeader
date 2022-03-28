@@ -1,0 +1,80 @@
+// Copyright © 2022 Favro Holding AB
+// Distributed under the MIT license, see license text in LICENSE.Malterlib
+
+%Target "Lib_Malterlib_Mongo_MongoCertificateManager"
+{
+	Property
+	{
+		MalterlibConcurrency_DistributedActors true
+		MalterlibCloudTargetLibrary true
+	}
+	Compile.PrefixHeader undefined
+	{
+		&
+		{
+			PlatformFamily "Windows"
+			CompileDialect "C"
+		}
+	}
+	Target
+	{
+		Type "StaticLibrary"
+		BaseName "Malterlib_Mongo_MongoCertificateManager"
+		Group "Apps"
+	}
+	%Group "Source"
+	{
+		%File "Source/Malterlib_Mongo_App_*"
+	}
+
+	%Dependency "Lib_Malterlib_Mongo"
+	{
+		Dependency.Indirect true
+	}
+	%Dependency "Lib_Malterlib_Web"
+	{
+		Dependency.Indirect true
+	}
+	%Dependency "Lib_Malterlib_Cloud"
+	{
+		Dependency.Indirect true
+	}
+	%Dependency "Lib_Malterlib_XML"
+	{
+		Dependency.Indirect true
+	}
+	%Dependency "Lib_Malterlib"
+	{
+		Dependency.Indirect true
+	}
+}
+
+%Target "Malterlib_Mongo_MongoCertificateManager"
+{
+	Property
+	{
+		ProductName "Malterlib Mongo Certificate Manager"
+		MalterlibTestApp true
+		MalterlibPostCopyProject "Malterlib_Mongo_MongoCertificateManager"
+		{
+			!!MalterlibPostCopyProject undefined
+		}
+		MalterlibConcurrency_DistributedActors true
+		MalterlibTargetNameType "Normal"
+		MalterlibCloudVersionInfo_RunAsUser "MalterlibMongoMongoCertificateManager"
+		MalterlibCloudVersionInfo_RunAsGroup "MalterlibMongoMongoCertificateManager"
+	}
+	Target
+	{
+		DebuggerCommandArguments ["--daemon-run-debug"]
+		BaseFileName "MongoCertificateManager"
+		Group "Apps"
+	}
+	%Group "Source"
+	{
+		%File "Source/Malterlib_Mongo_AppLocal_*"
+	}
+	%Dependency "Lib_Malterlib_Mongo_MongoCertificateManager"
+}
+
+Property.Malterlib_Mongo_App_Targets =+ "Malterlib_Mongo_MongoCertificateManager"
