@@ -176,6 +176,10 @@ Property
 		{
 			!!GeneratorFamily "Xcode"
 		}
+		Warnings_AlignMismatch false
+		{
+			!!GeneratorFamily "Xcode"
+		}
 	}
 	Property.IdentityFileName define string = this.Identity->GetFile()
 
