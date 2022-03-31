@@ -22,6 +22,18 @@
 #ifndef MONGOC_CONFIG_H
 #define MONGOC_CONFIG_H
 
+/* clang-format off */
+
+/*
+ * NOTICE:
+ * If you're about to update this file and add a config flag, make sure to
+ * update:
+ * o The bitfield in mongoc-handshake-private.h
+ * o _mongoc_handshake_get_config_hex_string() in mongoc-handshake.c
+ * o examples/parse_handshake_cfg.py
+ * o test_handshake_config_string in test-mongoc-handshake.c
+ */
+
 /* MONGOC_USER_SET_CFLAGS is set from config based on what compiler flags were
  * used to compile mongoc */
 #define MONGOC_USER_SET_CFLAGS ""
@@ -29,7 +41,7 @@
 #define MONGOC_USER_SET_LDFLAGS "-stdlib=libc++"
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
-#define MONGOC_CC "/opt/CompiledFiles/Dependencies/llvm/12.0/build/main/bin/clang"
+#define MONGOC_CC "../../../../../../../../Binaries/MalterlibLLVM/OSX/arm64/bin/clang"
 
 /*
  * MONGOC_ENABLE_SSL_SECURE_CHANNEL is set from configure to determine if we are
@@ -353,13 +365,18 @@
 /*
  * Set if tracing is enabled. Logs things like network communication and
  * entry/exit of certain functions.
- *
  */
 #define MONGOC_TRACE 0
 
-#if MONGOC_TRACE != 1
-#  undef MONGOC_TRACE
-#endif
+enum {
+   /**
+    * @brief Compile-time constant determining whether the mongoc library was
+    * compiled with tracing enabled.
+    *
+    * Can be controlled with the 'ENABLE_TRACING" configure-time boolean option
+    */
+   MONGOC_TRACE_ENABLED = MONGOC_TRACE
+};
 
 /*
  * Set if we have ICU support.
@@ -393,13 +410,14 @@
 #endif
 
 /*
- * NOTICE:
- * If you're about to update this file and add a config flag, make sure to
- * update:
- * o The bitfield in mongoc-handshake-private.h
- * o _mongoc_handshake_get_config_hex_string() in mongoc-handshake.c
- * o examples/parse_handshake_cfg.py
- * o test_handshake_config_string in test-mongoc-handshake.c
+ * Set if building with AWS IAM support.
  */
+#define MONGOC_ENABLE_MONGODB_AWS_AUTH 1
+
+#if MONGOC_ENABLE_MONGODB_AWS_AUTH != 1
+#  undef MONGOC_ENABLE_MONGODB_AWS_AUTH
+#endif
+
+/* clang-format on */
 
 #endif /* MONGOC_CONFIG_H */

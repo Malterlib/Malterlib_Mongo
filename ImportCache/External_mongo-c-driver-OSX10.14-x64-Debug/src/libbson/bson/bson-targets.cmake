@@ -46,7 +46,8 @@ add_library(mongo::bson_static STATIC IMPORTED)
 
 set_target_properties(mongo::bson_static PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "BSON_STATIC"
-  INTERFACE_INCLUDE_DIRECTORIES "../../../../../../../External/mongo-c-driver/src/libbson/src;../../../src/libbson/src;../../../src/libbson/src/bson"
+  INTERFACE_COMPILE_OPTIONS "-fPIC"
+  INTERFACE_INCLUDE_DIRECTORIES "../../../src/libbson/src;../../../src/libbson/src/bson;../../../../../../../External/mongo-c-driver/src/libbson/src;../../../../../../../External/mongo-c-driver/src/libbson/src/bson;../../../../../../../External/mongo-c-driver/src/libbson/../../src/common;../../../src/libbson/../../src;../../../src/libbson/../../src/common"
 )
 
 # Import target "mongo::bson_static" for configuration "Debug"

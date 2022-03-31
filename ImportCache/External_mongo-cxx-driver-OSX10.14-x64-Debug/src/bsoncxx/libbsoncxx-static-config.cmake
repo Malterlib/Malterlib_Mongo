@@ -12,10 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+message(WARNING "This CMake target is deprecated.  Use 'mongo::bsoncxx_static' instead.  Consult the example projects for further details.")
+
 set(LIBBSONCXX_STATIC_VERSION_MAJOR 3)
-set(LIBBSONCXX_STATIC_VERSION_MINOR 4)
+set(LIBBSONCXX_STATIC_VERSION_MINOR 7)
 set(LIBBSONCXX_STATIC_VERSION_PATCH 1)
-set(LIBBSONCXX_STATIC_PACKAGE_VERSION 3.4.1)
+set(LIBBSONCXX_STATIC_PACKAGE_VERSION 3.7.1-pre)
 
 # We need to pull in the libbson-static-* library to read the BSON_STATIC_LIBRARIES variable.  We
 # can ignore the other variables exported by that package (e.g. BSON_STATIC_INCLUDE_DIRS,
