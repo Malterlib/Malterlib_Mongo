@@ -245,6 +245,7 @@ Property
 						IdentityFileName "upload.cpp"
 						IdentityFileName "change_stream.cpp"
 						IdentityFileName "client_session.cpp"
+						IdentityFileName "client_encryption.cpp"
 					}
 				}
 			}
