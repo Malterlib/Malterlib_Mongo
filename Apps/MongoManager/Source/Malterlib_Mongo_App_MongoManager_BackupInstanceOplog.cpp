@@ -65,11 +65,10 @@ namespace NMib::NMongo::NMongoManager
 				, "ts"
 				, nullptr
 				, CMongoClientActor::EQueryOption_AwaitData | CMongoClientActor::EQueryOption_CursorTailable | CMongoClientActor::EQueryOption_NoCursorTimeout
-				, fg_ThisActor(this)
-				,[this, pBackupFile = fg_Move(pBackupFile)](NEncoding::CEJSON &&_Result)
+				, g_ActorFunctorWeak / [this, pBackupFile = fg_Move(pBackupFile)](NEncoding::CEJSON &&_Result) -> TCFuture<void>
 				{
 					if (!mp_pCanDestroy)
-						return; // Destroyed
+						co_return {}; // Destroyed
 					
 					auto pCanDestroy = mp_pCanDestroy;
 					
@@ -77,7 +76,7 @@ namespace NMib::NMongo::NMongoManager
 					{
 						if (!mp_bMongoStopped)
 							DLogWithCategory(Backup, Error, "Error tailing oplog: {}", _Result["error"].f_AsString());
-						return;
+						co_return {};
 					}
 					
 					mp_PendingOplogData.f_Insert(fg_Move(_Result));
@@ -91,6 +90,8 @@ namespace NMib::NMongo::NMongoManager
 							}
 						;
 					}
+
+					co_return {};
 				}
 			)
 			> Promise / [this, Promise](CActorSubscription &&_Subscription) mutable

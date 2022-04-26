@@ -7,6 +7,7 @@
 #include <Mib/Concurrency/ConcurrencyManager>
 #include <Mib/Encoding/EJSON>
 #include <Mib/Web/HTTP/URL>
+#include <Mib/Concurrency/ActorFunctorWeak>
 
 namespace NMib::NMongo
 {
@@ -107,8 +108,7 @@ namespace NMib::NMongo
 				, NStr::CStr const &_OrderBy
 				, NStorage::TCUniquePointer<NEncoding::CEJSON> _Fields
 				, EQueryOption _Options
-				, NConcurrency::TCActor<CActor> &&_CallbackActor
-				, NFunction::TCFunctionMutable<void (NEncoding::CEJSON &&_Result)> &&_fOnResult
+				, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSON &&_Result)> &&_fOnResult
 			)
 		;
 		NConcurrency::TCFuture<uint64> f_Count

@@ -2,6 +2,7 @@
 // Distributed under the MIT license, see license text in LICENSE.Malterlib
 
 #include <Mib/Core/Core>
+#include <Mib/Concurrency/ActorSubscription>
 
 #ifdef DPlatformFamily_Windows
 #include <winsock2.h>
@@ -19,8 +20,6 @@
 #include <mongocxx/client.hpp>
 #include <mongocxx/stdx.hpp>
 #include <mongocxx/uri.hpp>
-
-#include <Mib/Concurrency/ActorCallbackManager>
 
 namespace
 {
@@ -354,8 +353,7 @@ namespace NMib::NMongo
 			, NStr::CStr const &_OrderBy
 			, NStorage::TCUniquePointer<NEncoding::CEJSON> _pFields
 			, EQueryOption _Options
-			, NConcurrency::TCActor<CActor> &&_CallbackActor
-			, NFunction::TCFunctionMutable<void (NEncoding::CEJSON &&_Result)> &&_fOnResult
+			, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSON &&_Result)> &&_fOnResult
 		)
 	{
 		NConcurrency::TCPromise<NConcurrency::CActorSubscription> Result;
@@ -378,9 +376,7 @@ namespace NMib::NMongo
 			>
 			[
 				=
-				, pThis = this
 				, _pFields = fg_Move(_pFields)
-				, _CallbackActor = fg_Move(_CallbackActor)
 				, _fOnResult = fg_Move(_fOnResult)
 			]
 			(NConcurrency::TCAsyncResult<NContainer::TCVector<NEncoding::CEJSON>> &&_Result) mutable
@@ -398,44 +394,27 @@ namespace NMib::NMongo
 				if (!_Result->f_IsEmpty() && _Result->f_GetFirst().f_IsValid())
 					GetOnwardsFromValue = fg_Move(_Result->f_GetFirst()[_OrderBy]);
 
-				COnScopeExitShared pOnExit = fg_OnScopeExitShared
-					(
-						[WeakThis = fg_ThisActor(pThis).f_Weak(), this]
+				NStorage::TCSharedPointer<NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSON &&_Data)>> pOnDataCallback
+					= fg_Construct(fg_Move(_fOnResult))
+				;
+
+				auto Subscription = NConcurrency::g_ActorSubscription / [this]
+					{
+						auto &Internal = *mp_pInternal;
+						if (Internal.m_pTailThread)
 						{
-							auto This = WeakThis.f_Lock();
-							if (This)
-							{
-								This
-									(
-										&CActor::f_Dispatch
-										, [this]
-										{
-											auto &Internal = *mp_pInternal;
-											if (Internal.m_pTailThread)
-											{
-												Internal.m_pTailThread->f_Stop(false);
+							Internal.m_pTailThread->f_Stop(false);
 #ifndef DPlatformFamily_Windows
-												pthread_kill((pthread_t)Internal.m_pTailThread->f_GetThreadID(), SIGUSR2);
+							pthread_kill((pthread_t)Internal.m_pTailThread->f_GetThreadID(), SIGUSR2);
 #else
-												Internal.m_pConnection->abort();
+							Internal.m_pConnection->abort();
 #endif
-												Internal.m_pTailThread->f_Stop(true);
-												Internal.m_pTailThread.f_Clear();
-												Internal.m_pConnection.f_Clear();
-											}
-										}
-									) > NConcurrency::fg_DiscardResult()
-								;
-							}
+							Internal.m_pTailThread->f_Stop(true);
+							Internal.m_pTailThread.f_Clear();
+							Internal.m_pConnection.f_Clear();
 						}
-					)
+					}
 				;
-
-				NStorage::TCSharedPointer<NConcurrency::TCActorSubscriptionManager<void (NEncoding::CEJSON &&_Data), false, COnScopeExitShared>> pCallbackManager
-					= fg_Construct(this, false)
-				;
-
-				auto Registration = pCallbackManager->f_Register(fg_Move(_CallbackActor), fg_Move(_fOnResult), pOnExit);
 
 				Internal.m_pTailThread = NThread::CThreadObject::fs_StartThread
 					(
@@ -446,8 +425,8 @@ namespace NMib::NMongo
 							, _Query
 							, _Options
 							, _Collection
-							, pCallbackManager = fg_Move(pCallbackManager)
-							, Registration = fg_Move(Registration)
+							, pOnDataCallback = fg_Move(pOnDataCallback)
+							, Subscription = fg_Move(Subscription)
 							, Result
 							, GetOnwardsFromValue
 						](NThread::CThreadObject *_pThread) mutable -> aint
@@ -501,7 +480,7 @@ namespace NMib::NMongo
 									if (!bDoneRegistration)
 									{
 										bDoneRegistration = true;
-										Result.f_SetResult(fg_Move(Registration));
+										Result.f_SetResult(fg_Move(Subscription));
 									}
 
 									while (_pThread->f_GetState() != NThread::EThreadState_EventWantQuit)
@@ -514,7 +493,7 @@ namespace NMib::NMongo
 
 											NConcurrency::g_Dispatch(fg_ThisActor(this)) / [=, Data = fg_Move(Data)]() mutable
 												{
-													(*pCallbackManager)(fg_Move(Data)) > NConcurrency::fg_DiscardResult();
+													(*pOnDataCallback)(fg_Move(Data)) > NConcurrency::fg_DiscardResult();
 												}
 												> NConcurrency::fg_DiscardResult()
 											;
@@ -535,7 +514,7 @@ namespace NMib::NMongo
 
 									NConcurrency::g_Dispatch(fg_ThisActor(this)) / [=, Error = fg_Move(Error)]() mutable
 										{
-											(*pCallbackManager)(fg_Move(Error)) > NConcurrency::fg_DiscardResult();
+											(*pOnDataCallback)(fg_Move(Error)) > NConcurrency::fg_DiscardResult();
 										}
 										> NConcurrency::fg_DiscardResult()
 									;
