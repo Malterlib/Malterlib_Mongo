@@ -63,7 +63,7 @@ UpdateType: git
 
 # Compiler info
 Compiler: ../../../../Binaries/MalterlibLLVM/OSX/x64/bin/clang++
-CompilerVersion: 12.0.1
+CompilerVersion: 14.0.0
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 

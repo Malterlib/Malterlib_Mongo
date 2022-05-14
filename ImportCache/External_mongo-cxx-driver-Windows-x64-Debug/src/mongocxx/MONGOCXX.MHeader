@@ -349,6 +349,10 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 				{
 					Compile.Type "C++"
 				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/private/numeric_casting.cpp`
+				{
+					Compile.Type "C++"
+				}
 			}
 			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/read_concern.cpp`
 			{
@@ -762,6 +766,10 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 				{
 					Compile.Type "C++"
 				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/private/numeric_casting.cpp`
+				{
+					Compile.Type "C++"
+				}
 			}
 			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/read_concern.cpp`
 			{
@@ -1126,6 +1134,10 @@ Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->
 				}
 				%Group "private"
 				{
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/private/numeric_casting.cpp`
+					{
+						Compile.Type "C++"
+					}
 					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/private/scoped_bson_t.cpp`
 					{
 						Compile.Type "C++"

@@ -55,7 +55,7 @@ find_library (BSON_STATIC_LIBRARY bson-static-1.0 PATHS "${PACKAGE_PREFIX_DIR}/l
 
 set (BSON_STATIC_LIBRARIES ${BSON_STATIC_LIBRARY})
 
-foreach (LIB  ../../../../../../Binaries/MalterlibSDK/Linux/arm64/Linux.sdk/usr/lib/aarch64-linux-gnu/librt.so)
+foreach (LIB  ../../../../../../Binaries/MalterlibSDK/Linux/arm64/Linux.sdk/usr/lib/librt.so)
     list (APPEND BSON_STATIC_LIBRARIES ${LIB})
 endforeach ()
 

@@ -48,7 +48,7 @@ set_target_properties(mongo::bson_static PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "BSON_STATIC"
   INTERFACE_COMPILE_OPTIONS "-fPIC"
   INTERFACE_INCLUDE_DIRECTORIES "../../../src/libbson/src;../../../src/libbson/src/bson;../../../../../../../External/mongo-c-driver/src/libbson/src;../../../../../../../External/mongo-c-driver/src/libbson/src/bson;../../../../../../../External/mongo-c-driver/src/libbson/../../src/common;../../../src/libbson/../../src;../../../src/libbson/../../src/common"
-  INTERFACE_LINK_LIBRARIES "../../../../../../../Binaries/MalterlibSDK/Linux/x64/Linux.sdk/usr/lib/x86_64-linux-gnu/librt.so"
+  INTERFACE_LINK_LIBRARIES "../../../../../../../Binaries/MalterlibSDK/Linux/x64/Linux.sdk/usr/lib/librt.so"
 )
 
 # Import target "mongo::bson_static" for configuration "Debug"

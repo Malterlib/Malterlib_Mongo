@@ -218,16 +218,16 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 				{
 					%File `@('.'->MakeAbsolute())/CMakeFiles/dist.rule`
 				}
-				%File `@('.'->MakeAbsolute())/mongo-cxx-driver-r3.7.1-20220226+git16546a6782.tar.gz.rule`
+				%File `@('.'->MakeAbsolute())/mongo-cxx-driver-r3.7.1-20220515+gitcef2bee28a.tar.gz.rule`
 				{
 					Compile
 					{
-						Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D PACKAGE_PREFIX=mongo-cxx-driver-r3.7.1-20220226+git16546a6782 -D MONGOCXX_SOURCE_DIR=@('../../../../External/mongo-cxx-driver'->MakeAbsolute()) -D BUILD_SOURCE_DIR=@('.'->MakeAbsolute()) -D SHELL= -Ddist_generated="" -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDist.cmake`->MakeAbsolute()->EscapeHost())`
+						Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D PACKAGE_PREFIX=mongo-cxx-driver-r3.7.1-20220515+gitcef2bee28a -D MONGOCXX_SOURCE_DIR=@('../../../../External/mongo-cxx-driver'->MakeAbsolute()) -D BUILD_SOURCE_DIR=@('.'->MakeAbsolute()) -D SHELL= -Ddist_generated="" -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDist.cmake`->MakeAbsolute()->EscapeHost())`
 						AllowNonExisting true
 						Disabled false
 						Custom_WorkingDirectory `@('.'->MakeAbsolute())`->MakeAbsolute()
 						Custom_Outputs [
-							`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver/mongo-cxx-driver-r3.7.1-20220226+git16546a6782.tar.gz`->MakeAbsolute()
+							`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver/mongo-cxx-driver-r3.7.1-20220515+gitcef2bee28a.tar.gz`->MakeAbsolute()
 						]
 						Custom_Inputs [
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/CMakeLists.txt`->MakeAbsolute(),
@@ -371,6 +371,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/change_stream/change-streams-resume-whitelist.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/change_stream/change-streams.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/aggregate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/azureKMS.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/badSchema.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/basic.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/bulk.json`->MakeAbsolute(),
@@ -378,6 +379,8 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/bypassedCommand.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus-encrypted.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus-key-aws.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus-key-azure.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus-key-gcp.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus-key-local.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus-schema.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus.json`->MakeAbsolute(),
@@ -392,6 +395,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/findOneAndDelete.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/findOneAndReplace.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/findOneAndUpdate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/gcpKMS.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/getMore.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/insert.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/keyAltName.json`->MakeAbsolute(),
@@ -408,6 +412,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unsupportedCommand.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/updateMany.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/updateOne.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/collection-management/unified/timeseries-collection.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/command-monitoring/bulkWrite.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/command-monitoring/command.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/command-monitoring/deleteMany.json`->MakeAbsolute(),
@@ -507,6 +512,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/updateOne-hint-serverError.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/updateOne-hint.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/updateWithPipelines.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/aggregate-let.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/estimatedDocumentCount.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/gridfs/delete.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/gridfs/download.json`->MakeAbsolute(),
@@ -571,6 +577,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listIndexes-serverErrors.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listIndexes.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/mapReduce.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/sessions/unified/snapshot-sessions-not-supported-client-error.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/sessions/unified/snapshot-sessions-not-supported-server-error.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/sessions/unified/snapshot-sessions-unsupported-ops.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/sessions/unified/snapshot-sessions.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/transactions/abort.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/transactions/bulk.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/transactions/causal-consistency.json`->MakeAbsolute(),
@@ -632,6 +642,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/CMakeLists.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/change_stream/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/test_files.txt`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/collection-management/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/command-monitoring/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/test_files.txt`->MakeAbsolute(),
@@ -639,6 +650,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/mongohouse/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/read-write-concern/operation/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/test_files.txt`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/sessions/unified/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/transactions/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/versioned-api/test_files.txt`->MakeAbsolute(),
@@ -668,7 +680,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/CMakeLists.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/requirements.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/memcheck.suppressions`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/ubsan.blacklist`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/ubsan.ignorelist`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/examples/CMakeLists.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/examples/README.md`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/examples/bsoncxx/CMakeLists.txt`->MakeAbsolute(),
@@ -1023,6 +1035,8 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/private/libmongoc.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/private/libmongoc.hh`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/private/libmongoc_symbols.hh`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/private/numeric_casting.cpp`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/private/numeric_casting.hh`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/private/pipeline.hh`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/private/pool.hh`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/private/read_concern.hh`->MakeAbsolute(),
@@ -1112,6 +1126,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/options/replace.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/options/update.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/pool.cpp`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/private/numeric_casting.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/private/scoped_bson_t.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/private/write_concern.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/read_concern.cpp`->MakeAbsolute(),
@@ -1367,7 +1382,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 					{
 						Compile
 						{
-							Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D CMAKE_PREFIX_PATH= -D PACKAGE_PREFIX=mongo-cxx-driver-r3.7.1-20220226+git16546a6782 -D "CMAKE_CXX_FLAGS=/DWIN32 /D_WINDOWS /W3 /GR /EHsc" -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDistCheck.cmake`->MakeAbsolute()->EscapeHost())`
+							Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D CMAKE_PREFIX_PATH= -D PACKAGE_PREFIX=mongo-cxx-driver-r3.7.1-20220515+gitcef2bee28a -D "CMAKE_CXX_FLAGS=/DWIN32 /D_WINDOWS /W3 /GR /EHsc" -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDistCheck.cmake`->MakeAbsolute()->EscapeHost())`
 							AllowNonExisting true
 							Disabled false
 							Custom_WorkingDirectory `@('.'->MakeAbsolute())`->MakeAbsolute()
@@ -2074,6 +2089,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 				{
 					Compile.Type "C++"
 				}
+				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/private/numeric_casting.cpp`
+				{
+					Compile.Type "C++"
+				}
 			}
 			%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/read_concern.cpp`
 			{
@@ -2487,6 +2506,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 				{
 					Compile.Type "C++"
 				}
+				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/private/numeric_casting.cpp`
+				{
+					Compile.Type "C++"
+				}
 			}
 			%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/read_concern.cpp`
 			{
@@ -2851,6 +2874,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute()
 				}
 				%Group "private"
 				{
+					%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/private/numeric_casting.cpp`
+					{
+						Compile.Type "C++"
+					}
 					%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/private/scoped_bson_t.cpp`
 					{
 						Compile.Type "C++"

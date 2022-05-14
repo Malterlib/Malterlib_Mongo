@@ -38,7 +38,7 @@
  * used to compile mongoc */
 #define MONGOC_USER_SET_CFLAGS ""
 
-#define MONGOC_USER_SET_LDFLAGS "-fuse-ld=lld -stdlib=libc++ -L"../../../../../../../../Binaries/MalterlibLLVM/Linux/x64/lib/x86_64-unknown-linux-gnu/c++""
+#define MONGOC_USER_SET_LDFLAGS "-fuse-ld=lld -stdlib=libc++ -L"../../../../../../../../Binaries/MalterlibLLVM/Linux/x64/lib/x86_64-unknown-linux-gnu""
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
 #define MONGOC_CC "../../../../../../../../Binaries/MalterlibLLVM/OSX/x64/bin/clang"

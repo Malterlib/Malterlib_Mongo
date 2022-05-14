@@ -139,6 +139,7 @@ data/change_stream/change-streams-resume-errorLabels.json
 data/change_stream/change-streams-resume-whitelist.json
 data/change_stream/change-streams.json
 data/client_side_encryption/aggregate.json
+data/client_side_encryption/azureKMS.json
 data/client_side_encryption/badSchema.json
 data/client_side_encryption/basic.json
 data/client_side_encryption/bulk.json
@@ -146,6 +147,8 @@ data/client_side_encryption/bypassAutoEncryption.json
 data/client_side_encryption/bypassedCommand.json
 data/client_side_encryption/corpus/corpus-encrypted.json
 data/client_side_encryption/corpus/corpus-key-aws.json
+data/client_side_encryption/corpus/corpus-key-azure.json
+data/client_side_encryption/corpus/corpus-key-gcp.json
 data/client_side_encryption/corpus/corpus-key-local.json
 data/client_side_encryption/corpus/corpus-schema.json
 data/client_side_encryption/corpus/corpus.json
@@ -160,6 +163,7 @@ data/client_side_encryption/find.json
 data/client_side_encryption/findOneAndDelete.json
 data/client_side_encryption/findOneAndReplace.json
 data/client_side_encryption/findOneAndUpdate.json
+data/client_side_encryption/gcpKMS.json
 data/client_side_encryption/getMore.json
 data/client_side_encryption/insert.json
 data/client_side_encryption/keyAltName.json
@@ -176,6 +180,7 @@ data/client_side_encryption/types.json
 data/client_side_encryption/unsupportedCommand.json
 data/client_side_encryption/updateMany.json
 data/client_side_encryption/updateOne.json
+data/collection-management/unified/timeseries-collection.json
 data/command-monitoring/bulkWrite.json
 data/command-monitoring/command.json
 data/command-monitoring/deleteMany.json
@@ -275,6 +280,7 @@ data/crud/legacy/v2/updateOne-hint-clientError.json
 data/crud/legacy/v2/updateOne-hint-serverError.json
 data/crud/legacy/v2/updateOne-hint.json
 data/crud/legacy/v2/updateWithPipelines.json
+data/crud/unified/aggregate-let.json
 data/crud/unified/estimatedDocumentCount.json
 data/gridfs/delete.json
 data/gridfs/download.json
@@ -339,6 +345,10 @@ data/retryable-reads/listIndexNames.json
 data/retryable-reads/listIndexes-serverErrors.json
 data/retryable-reads/listIndexes.json
 data/retryable-reads/mapReduce.json
+data/sessions/unified/snapshot-sessions-not-supported-client-error.json
+data/sessions/unified/snapshot-sessions-not-supported-server-error.json
+data/sessions/unified/snapshot-sessions-unsupported-ops.json
+data/sessions/unified/snapshot-sessions.json
 data/transactions/abort.json
 data/transactions/bulk.json
 data/transactions/causal-consistency.json
@@ -400,6 +410,7 @@ data/with_transaction/transaction-options.json
 data/CMakeLists.txt
 data/change_stream/test_files.txt
 data/client_side_encryption/test_files.txt
+data/collection-management/test_files.txt
 data/command-monitoring/test_files.txt
 data/crud/legacy/test_files.txt
 data/crud/unified/test_files.txt
@@ -407,6 +418,7 @@ data/gridfs/test_files.txt
 data/mongohouse/test_files.txt
 data/read-write-concern/operation/test_files.txt
 data/retryable-reads/test_files.txt
+data/sessions/unified/test_files.txt
 data/transactions/test_files.txt
 data/unified-format/test_files.txt
 data/versioned-api/test_files.txt
@@ -436,7 +448,7 @@ etc/update-transactions-spec-tests.sh
 etc/CMakeLists.txt
 etc/requirements.txt
 etc/memcheck.suppressions
-etc/ubsan.blacklist
+etc/ubsan.ignorelist
 examples/CMakeLists.txt
 examples/README.md
 examples/bsoncxx/CMakeLists.txt
@@ -791,6 +803,8 @@ src/mongocxx/private/libbson.hh
 src/mongocxx/private/libmongoc.cpp
 src/mongocxx/private/libmongoc.hh
 src/mongocxx/private/libmongoc_symbols.hh
+src/mongocxx/private/numeric_casting.cpp
+src/mongocxx/private/numeric_casting.hh
 src/mongocxx/private/pipeline.hh
 src/mongocxx/private/pool.hh
 src/mongocxx/private/read_concern.hh
@@ -880,6 +894,7 @@ src/mongocxx/test/options/pool.cpp
 src/mongocxx/test/options/replace.cpp
 src/mongocxx/test/options/update.cpp
 src/mongocxx/test/pool.cpp
+src/mongocxx/test/private/numeric_casting.cpp
 src/mongocxx/test/private/scoped_bson_t.cpp
 src/mongocxx/test/private/write_concern.cpp
 src/mongocxx/test/read_concern.cpp

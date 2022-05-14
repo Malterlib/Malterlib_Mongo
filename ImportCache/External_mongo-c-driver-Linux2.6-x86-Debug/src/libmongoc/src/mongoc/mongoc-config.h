@@ -38,7 +38,7 @@
  * used to compile mongoc */
 #define MONGOC_USER_SET_CFLAGS ""
 
-#define MONGOC_USER_SET_LDFLAGS "-fuse-ld=lld -stdlib=libc++ -L"../../../../../../../../Binaries/MalterlibLLVM/Linux/x86/lib/i386-unknown-linux-gnu/c++" -Xlinker -rpath-link -Xlinker ../../../../../../../../Binaries/MalterlibSDK/Linux/x86/Linux.sdk/lib32 -Xlinker -rpath-link -Xlinker ../../../../../../../../Binaries/MalterlibSDK/Linux/x86/Linux.sdk/usr/lib32"
+#define MONGOC_USER_SET_LDFLAGS "-fuse-ld=lld -stdlib=libc++ -L"../../../../../../../../Binaries/MalterlibLLVM/Linux/x86/lib/i386-unknown-linux-gnu" -Xlinker -rpath-link -Xlinker ../../../../../../../../Binaries/MalterlibSDK/Linux/x86/Linux.sdk/lib32 -Xlinker -rpath-link -Xlinker ../../../../../../../../Binaries/MalterlibSDK/Linux/x86/Linux.sdk/usr/lib32"
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
 #define MONGOC_CC "../../../../../../../../Binaries/MalterlibLLVM/OSX/x64/bin/clang"

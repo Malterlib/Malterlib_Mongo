@@ -11,7 +11,7 @@ BuildDirectory: .
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: erikmacpro03.local
+Site: erikmbp09
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Linux-clang++
@@ -26,8 +26,8 @@ SubmitURL: http://
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "../../../../Binaries/Malterlib/OSX/x64/MToolCMake" "../../../../External/mongo-c-driver"
-MakeCommand: ../../../../Binaries/Malterlib/OSX/x64/MToolCMake --build . --config "${CTEST_CONFIGURATION_TYPE}"
+ConfigureCommand: "../../../../Binaries/Malterlib/OSX/arm64/MToolCMake" "../../../../External/mongo-c-driver"
+MakeCommand: ../../../../Binaries/Malterlib/OSX/arm64/MToolCMake --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 
 # version control
@@ -62,8 +62,8 @@ UpdateOptions:
 UpdateType: git
 
 # Compiler info
-Compiler: ../../../../Binaries/MalterlibLLVM/OSX/x64/bin/clang++
-CompilerVersion: 12.0.1
+Compiler: ../../../../Binaries/MalterlibLLVM/OSX/arm64/bin/clang++
+CompilerVersion: 14.0.0
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 
