@@ -223,7 +223,7 @@ namespace NMib::NMongo::NMongoManager
 				, CStr()
 				, fg_Move(Params)
 				, _LogCategory
-				, mp_bVerboseMongoScripts ? ELogVerbosity_All : ELogVerbosity_Errors 
+				, mp_bVerboseMongoScripts ? ELogVerbosity_All : ELogVerbosity_None
 				, false
 				, MongoPath
 				, mp_MongoUser.m_UserName
@@ -236,7 +236,6 @@ namespace NMib::NMongo::NMongoManager
 			{
 				if (!_StdOut)
 				{
-					DLog(Error, "Mongo script '{}' failed: {}", _LogCategory, _StdOut.f_GetExceptionStr());
 					if (_Timeout != 0.0f)
 					{
 						CStr ErrorString = _StdOut.f_GetExceptionStr();
@@ -244,10 +243,11 @@ namespace NMib::NMongo::NMongoManager
 						{
 							if (_Clock.f_GetTime() < _Timeout)
 							{
+								DLog(Info, "Mongo script '{}' connection failed, retrying", _LogCategory);
 								// Retry
 								fg_OneshotTimer
 									(
-										0.1
+										1.0
 										, [=]
 										{
 											fp_RunMongoScriptInternal(_MongoConnectionSettings, _Script, _LogCategory, _Database, _Timeout, _Promise, _Clock, _Config);
@@ -259,6 +259,8 @@ namespace NMib::NMongo::NMongoManager
 							}
 						}
 					}
+
+					DLog(Error, "Mongo script '{}' failed: {}", _LogCategory, _StdOut.f_GetExceptionStr());
 					_Promise.f_SetException(fg_Move(_StdOut));
 					return;
 				}
