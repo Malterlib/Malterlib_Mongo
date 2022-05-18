@@ -7,7 +7,11 @@
 namespace NMib::NMongo::NMongoManager
 {
 	CMongoManagerDaemonActor::CMongoManagerDaemonActor()
-		: CDistributedAppActor(CDistributedAppActor_Settings{"MongoManager"})
+		: CDistributedAppActor
+		(
+			CDistributedAppActor_Settings{"MongoManager"}
+			.f_CommandLineBeforeAppStart(true)
+		)
 	{
 	}
 	
