@@ -237,7 +237,13 @@ namespace NMib::NMongo::NMongoManager
 	{
 		co_await
 			(
-				g_Dispatch(mp_pFileActor) / [UserName = mp_MongoUser.m_UserName, MongoVersion = mp_MongoVersion, MongoPort = mp_MongoConnectionSettings.f_GetSingleHost().m_Port]
+				g_Dispatch(mp_pFileActor) /
+				[
+					UserName = mp_MongoUser.m_UserName
+					, MongoVersion = mp_MongoVersion
+					, MongoPort = mp_MongoConnectionSettings.f_GetSingleHost().m_Port
+					, MongoReplicaName = mp_MongoReplicaName
+				]
 				{
 					CExeFS ExeFS;
 					if (!fg_OpenExeFS(ExeFS))
@@ -250,7 +256,7 @@ namespace NMib::NMongo::NMongoManager
 
 					MalterlibFS.f_CopyFilesWithAttribs("*", DiskFS, ProgramDirectory);
 
-					CStr MongoScript = CStr::CFormat(g_pMongoScript) << UserName << MongoVersion << MongoPort;
+					CStr MongoScript = CStr::CFormat(g_pMongoScript) << UserName << MongoVersion << MongoPort << MongoReplicaName;
 					CByteVector MongoScriptData;
 					CFile::fs_WriteStringToVector(MongoScriptData, MongoScript, false);
 					EFileAttrib Permissions
@@ -263,7 +269,7 @@ namespace NMib::NMongo::NMongoManager
 						| EFileAttrib_EveryoneRead
 						| EFileAttrib_EveryoneExecute
 					;
-					CFile::fs_CopyFileDiff(MongoScriptData, ProgramDirectory / "Mongo.sh", CTime::fs_NowUTC(), Permissions);
+					CFile::fs_CopyFileDiff(MongoScriptData, ProgramDirectory / "mongo.sh", CTime::fs_NowUTC(), Permissions);
 				}
 			)
 		;
