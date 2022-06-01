@@ -55,16 +55,21 @@ namespace NMib::NMongo::NMongoManager
 
 		CEJSON Query;
 		Query["fromMigrate"]["$exists"] = false;
+
+		CMongoClientActor::CTailQueryParams TailQueryParams
+			{
+				.m_Collection = "local.oplog.rs"
+				, .m_Query = Query
+				, .m_OrderBy = "ts"
+				, .m_Options = CMongoClientActor::EQueryOption_AwaitData | CMongoClientActor::EQueryOption_CursorTailable | CMongoClientActor::EQueryOption_NoCursorTimeout
+			}
+		;
 	
 		// Start by subscribing to the op log
 		mp_MongoClient
 			(
 				&CMongoClientActor::f_TailQuery
-				, "local.oplog.rs"
-				, Query
-				, "ts"
-				, nullptr
-				, CMongoClientActor::EQueryOption_AwaitData | CMongoClientActor::EQueryOption_CursorTailable | CMongoClientActor::EQueryOption_NoCursorTimeout
+				, fg_Move(TailQueryParams)
 				, g_ActorFunctorWeak / [this, pBackupFile = fg_Move(pBackupFile)](NEncoding::CEJSON &&_Result) -> TCFuture<void>
 				{
 					if (!mp_pCanDestroy)

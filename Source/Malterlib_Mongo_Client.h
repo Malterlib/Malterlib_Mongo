@@ -90,6 +90,16 @@ namespace NMib::NMongo
 			int32 m_ModifiedCount;
 		};
 
+		struct CTailQueryParams
+		{
+			NStr::CStr m_Collection;
+			NEncoding::CEJSON m_Query;
+			NStr::CStr m_OrderBy;
+			NStorage::TCOptional<NEncoding::CEJSON> m_Fields;
+			NStorage::TCOptional<NEncoding::CEJSON> m_StartQuery;
+			EQueryOption m_Options = EQueryOption_None;
+		};
+
 		NConcurrency::TCFuture<NContainer::TCVector<NEncoding::CEJSON>> f_Query
 			(
 				NStr::CStr const &_Collection
@@ -103,11 +113,7 @@ namespace NMib::NMongo
 		;
 		NConcurrency::TCFuture<NConcurrency::CActorSubscription> f_TailQuery
 			(
-				NStr::CStr const &_Collection
-				, NEncoding::CEJSON const &_Query
-				, NStr::CStr const &_OrderBy
-				, NStorage::TCUniquePointer<NEncoding::CEJSON> _Fields
-				, EQueryOption _Options
+				CTailQueryParams &&_Params
 				, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSON &&_Result)> &&_fOnResult
 			)
 		;

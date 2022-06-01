@@ -302,7 +302,7 @@ namespace NMib::NMongo
 		mongocxx::options::find fg_QueryOptions
 			(
 				CMongoClientActor::EQueryOption _Options
-				, NStorage::TCUniquePointer<NEncoding::CEJSON> const &_pFields
+				, auto const &_Fields
 				, NStorage::TCUniquePointer<NEncoding::CEJSON> const &_pOrder
 			)
 		{
@@ -336,8 +336,8 @@ namespace NMib::NMongo
 			if (_Options & CMongoClientActor::EQueryOption_PartialResults)
 				Options.allow_partial_results(true);
 
-			if (_pFields)
-				Options.projection(fg_ToBSON(*_pFields));
+			if (_Fields)
+				Options.projection(fg_ToBSON(*_Fields));
 
 			if (_pOrder)
 				Options.sort(fg_ToBSON(*_pOrder));
@@ -348,11 +348,7 @@ namespace NMib::NMongo
 
 	NConcurrency::TCFuture<NConcurrency::CActorSubscription> CMongoClientActor::f_TailQuery
 		(
-			NStr::CStr const &_Collection
-			, NEncoding::CEJSON const &_Query
-			, NStr::CStr const &_OrderBy
-			, NStorage::TCUniquePointer<NEncoding::CEJSON> _pFields
-			, EQueryOption _Options
+			CTailQueryParams &&_Params
 			, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSON &&_Result)> &&_fOnResult
 		)
 	{
@@ -370,14 +366,27 @@ namespace NMib::NMongo
 		(*pOrder)["$natural"] = -1;
 
 		NStorage::TCUniquePointer<NEncoding::CEJSON> pFields = fg_Construct();
-		(*pFields)[_OrderBy] = 1;
+		(*pFields)[_Params.m_OrderBy] = 1;
 
-		fg_ThisActor(this)(&CMongoClientActor::f_Query, _Collection, _Query, 1, 0, fg_Move(pFields), fg_Move(pOrder), EQueryOption_None)
+		auto StartQuery = _Params.m_Query;
+		if (_Params.m_StartQuery)
+		{
+			if (_Params.m_StartQuery->f_Type() != NEncoding::EJSONType_Object)
+				return Result <<= DMibErrorInstance("Expected m_StartQuery to be an object");
+
+			for (auto &Entry : _Params.m_StartQuery->f_Object())
+				StartQuery[Entry.f_Name()] = Entry.f_Value();
+		}
+
+		auto Collection = _Params.m_Collection;
+
+		fg_ThisActor(this)(&CMongoClientActor::f_Query, Collection, StartQuery, 1, 0, fg_Move(pFields), fg_Move(pOrder), EQueryOption_None)
 			>
 			[
-				=
-				, _pFields = fg_Move(_pFields)
-				, _fOnResult = fg_Move(_fOnResult)
+				_fOnResult = fg_Move(_fOnResult)
+				, _Params = fg_Move(_Params)
+				, this
+				, Result
 			]
 			(NConcurrency::TCAsyncResult<NContainer::TCVector<NEncoding::CEJSON>> &&_Result) mutable
 			{
@@ -392,7 +401,12 @@ namespace NMib::NMongo
 				NEncoding::CEJSON GetOnwardsFromValue;
 
 				if (!_Result->f_IsEmpty() && _Result->f_GetFirst().f_IsValid())
-					GetOnwardsFromValue = fg_Move(_Result->f_GetFirst()[_OrderBy]);
+					GetOnwardsFromValue = fg_Move(_Result->f_GetFirst()[_Params.m_OrderBy]);
+				else if (_Params.m_StartQuery)
+				{
+					Result.f_SetException(DMibErrorInstance("Start query didn't return any document"));
+					return;
+				}
 
 				NStorage::TCSharedPointer<NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSON &&_Data)>> pOnDataCallback
 					= fg_Construct(fg_Move(_fOnResult))
@@ -420,16 +434,13 @@ namespace NMib::NMongo
 					(
 						[
 							this
-							, _OrderBy
-							, pInputFields = fg_Move(_pFields)
-							, _Query
-							, _Options
-							, _Collection
+							, _Params = fg_Move(_Params)
 							, pOnDataCallback = fg_Move(pOnDataCallback)
 							, Subscription = fg_Move(Subscription)
 							, Result
 							, GetOnwardsFromValue
-						](NThread::CThreadObject *_pThread) mutable -> aint
+						]
+						(NThread::CThreadObject *_pThread) mutable -> aint
 						{
 							auto &Internal = *mp_pInternal;
 
@@ -447,11 +458,11 @@ namespace NMib::NMongo
 								)
 							;
 #endif
-							auto UserQuery = _Query;
+							auto UserQuery = _Params.m_Query;
 
 							Order["$natural"] = 1;
 
-							CMongoClientActor::EQueryOption Options = _Options
+							CMongoClientActor::EQueryOption Options = _Params.m_Options
 								| CMongoClientActor::EQueryOption_AwaitData
 								| CMongoClientActor::EQueryOption_CursorTailable
 								| CMongoClientActor::EQueryOption_NoCursorTimeout
@@ -459,12 +470,12 @@ namespace NMib::NMongo
 
 							if (GetOnwardsFromValue.f_IsValid())
 							{
-								UserQuery[_OrderBy]["$gt"] = GetOnwardsFromValue;
-								if (_Collection == "local.oplog.rs" && _OrderBy == "ts")
+								UserQuery[_Params.m_OrderBy]["$gt"] = GetOnwardsFromValue;
+								if (_Params.m_Collection == "local.oplog.rs" && _Params.m_OrderBy == "ts")
 									Options |= CMongoClientActor::EQueryOption_OplogReplay;
 							}
 
-							auto QueryOptions = fg_QueryOptions(Options, pInputFields, nullptr);
+							auto QueryOptions = fg_QueryOptions(Options, _Params.m_Fields, nullptr);
 							QueryOptions.sort(fg_ToBSON(Order));
 
 							bool bDoneRegistration = false;
@@ -473,7 +484,7 @@ namespace NMib::NMongo
 							{
 								try
 								{
-									auto Collection = Internal.f_GetCollection(_Collection);
+									auto Collection = Internal.f_GetCollection(_Params.m_Collection);
 
 									auto Cursor = Collection.find(fg_ToBSON(UserQuery), QueryOptions);
 
@@ -488,15 +499,10 @@ namespace NMib::NMongo
 										for (auto &&Document : Cursor)
 										{
 											auto Data = fg_FromBSON(Document);
-											if (auto pValue = Data.f_Object().f_GetMember(_OrderBy))
-												UserQuery[_OrderBy]["$gt"] = *pValue;
+											if (auto pValue = Data.f_Object().f_GetMember(_Params.m_OrderBy))
+												UserQuery[_Params.m_OrderBy]["$gt"] = *pValue;
 
-											NConcurrency::g_Dispatch(fg_ThisActor(this)) / [=, Data = fg_Move(Data)]() mutable
-												{
-													(*pOnDataCallback)(fg_Move(Data)) > NConcurrency::fg_DiscardResult();
-												}
-												> NConcurrency::fg_DiscardResult()
-											;
+											(*pOnDataCallback)(fg_Move(Data)) > NConcurrency::fg_DiscardResult();
 										}
 									}
 								}
@@ -512,12 +518,7 @@ namespace NMib::NMongo
 									NEncoding::CEJSON Error;
 									Error["error"] = pError;
 
-									NConcurrency::g_Dispatch(fg_ThisActor(this)) / [=, Error = fg_Move(Error)]() mutable
-										{
-											(*pOnDataCallback)(fg_Move(Error)) > NConcurrency::fg_DiscardResult();
-										}
-										> NConcurrency::fg_DiscardResult()
-									;
+									(*pOnDataCallback)(fg_Move(Error)) > NConcurrency::fg_DiscardResult();
 								}
 							}
 
