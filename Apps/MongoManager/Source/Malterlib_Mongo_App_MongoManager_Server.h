@@ -9,6 +9,7 @@
 #include <Mib/Daemon/Daemon>
 #include <Mib/Process/ProcessLaunch>
 #include <Mib/Mongo/Client>
+#include <Mib/Mongo/MongoCertificateDeploy>
 #include <Mib/Storage/Optional>
 #include <Mib/Security/UniqueUserGroup>
 #include <Mib/Network/ResolveActor>
@@ -178,5 +179,11 @@ namespace NMib::NMongo::NMongoManager
 
 		// Tool launches
 		TCLinkedList<CToolLaunch> mp_ToolLaunches;
+
+		// Certificate deploy
+		TCActor<CMongoCertificateDeployActor> mp_CertificateDeployActor;
+		CActorSubscription mp_CertificateDeploySubscription_Admin;
+		CActorSubscription mp_CertificateDeploySubscription_Server;
+		bool mp_bCertificateDeployActorStarted = false;
 	};
 }

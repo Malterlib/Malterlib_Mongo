@@ -7,6 +7,7 @@
 #include <Mib/File/VirtualFS>
 #include <Mib/File/VirtualFSs/MalterlibFS>
 #include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Concurrency/LogError>
 
 namespace NMib::NMongo::NMongoManager
 {
@@ -162,6 +163,15 @@ namespace NMib::NMongo::NMongoManager
 		}
 
 		co_await fp_DestroyApp_Mongo();
+
+		if (mp_CertificateDeploySubscription_Admin)
+			co_await fg_Exchange(mp_CertificateDeploySubscription_Admin, nullptr)->f_Destroy().f_Wrap() > fg_LogError("", "Failed to destroy admin user certificate deploy subscription");
+
+		if (mp_CertificateDeploySubscription_Server)
+			co_await fg_Exchange(mp_CertificateDeploySubscription_Server, nullptr)->f_Destroy().f_Wrap() > fg_LogError("", "Failed to destroy server certificate deploy subscription");
+
+		if (mp_CertificateDeployActor)
+			co_await fg_Move(mp_CertificateDeployActor).f_Destroy().f_Wrap() > fg_LogError("", "Failed to destroy certificate deploy actor");
 
 		co_await fg_Move(CanDestroyFuture);
 

@@ -19,76 +19,151 @@ namespace NMib::NMongo::NMongoManager
 #endif
 			CStr m_AdminDN;
 		};
-		fg_Dispatch
-			(
-				mp_pFileActor
-				, 
-				[
-					MongoDirectory
-					, MongoUser = mp_MongoUser
-					, bNeedAdmin = mp_bEnableSSL || mp_Mode == EMode_SetupPermissions
-					, ConnectionSettings = mp_MongoConnectionSettings
-				]() mutable
-				{
-					DLog(Info, "Setting up mongod");
-					
-#ifdef DPlatformFamily_Windows
-					CStrSecure Password;
-					fsp_SetupUser(MongoUser, Password);
-#else
-					fsp_SetupUser(MongoUser);
-#endif
-					
-					CFile::fs_CreateDirectory(MongoDirectory + "/db");
-					CFile::fs_CreateDirectory(MongoDirectory + "/log");
-					CFile::fs_CreateDirectory(MongoDirectory + "/.tmp");
-					CFile::fs_SetOwnerAndGroupRecursive(MongoDirectory, MongoUser.m_UserName, MongoUser.m_GroupName);
-					if (CFile::fs_FileExists(MongoDirectory + "/certificates"))
+
+		mp_CertificateDeployActor = fg_Construct(mp_AppState.m_DistributionManager, mp_AppState.m_TrustManager, mp_pFileActor);
+
+		CStr CertificateAuthority = mp_AppState.m_ConfigDatabase.m_Data.f_GetMemberValue("CertificateAuthority", "MongoCA").f_String();
+		auto MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
+
+		{
+			CMongoCertificateDeployActor::CUserSettings UserSettings;
+			UserSettings.f_InitServer
+				(
+					CertificateAuthority
+					, MongoHost.m_Host
+					,
 					{
-						CFile::fs_SetUnixAttributesRecursive
-							(
-								MongoDirectory + "/certificates"
-								, EFileAttrib_UserRead
-								, EFileAttrib_UserRead | EFileAttrib_UserExecute
-							)
-						;
+						{
+							.m_BasePath = MongoDirectory + "/certificates"
+							, .m_FileUser = mp_MongoUser.m_UserName
+							, .m_FileGroup = mp_MongoUser.m_GroupName
+						}
 					}
+				)
+			;
 
-					CMongoInfo MongoInfo;
-					
-					if (!ConnectionSettings.m_ClientCertificatePath.f_IsEmpty() && CFile::fs_FileExists(ConnectionSettings.m_ClientCertificatePath))
-						MongoInfo.m_AdminDN = CCertificate::fs_GetCertificateDistinguishedName_RFC2253(CFile::fs_ReadFile(ConnectionSettings.m_ClientCertificatePath));
-					else if (bNeedAdmin)
-						DError(fg_Format("Could not find mongo admin user certificate at '{}'", ConnectionSettings.m_ClientCertificatePath));
-					
-					DLog(Info, "Setting up mongod was successful");
-					
-					MongoInfo.m_User = MongoUser;
-#ifdef DPlatformFamily_Windows
-					MongoInfo.m_Password = fg_Move(Password);
-#endif
-					return MongoInfo;
-				}
-			)
-			> Promise % "Failed to set up mongod" / [this, Promise](CMongoInfo &&_Info)
-			{
-				mp_MongoUser = fg_Move(_Info.m_User);
-				if (!_Info.m_AdminDN.f_IsEmpty())
-					mp_MongoConnectionSettings.m_UserName = _Info.m_AdminDN; 
-
-#ifdef DPlatformFamily_Windows
-				if (!_Info.m_Password.f_IsEmpty())
+			UserSettings.m_fOnStatusChange = g_ActorFunctor / [](CHostInfo &&_HostInfo, CMongoCertificateDeployActor::CUserStatus &&_Status) -> TCFuture<void>
 				{
-					mp_AppState.m_StateDatabase.m_Data["Users"][mp_MongoUser.m_Name]["Password"] = _Info.m_Password;
-					mp_AppState.f_SaveStateDatabase() > Promise;
-					return;
+					if (_Status.m_Severity == CMongoCertificateDeployActor::EStatusSeverity_Error)
+						DMibLogWithCategory(Certificate, Error, "Server certificate: {}", _Status.m_Description);
+					else if (_Status.m_Severity == CMongoCertificateDeployActor::EStatusSeverity_Warning)
+						DMibLogWithCategory(Certificate, Warning, "Server certificate: {}", _Status.m_Description);
+					else
+						DMibLogWithCategory(Certificate, Info, "Server certificate: {}", _Status.m_Description);
+
+					co_return {};
 				}
+			;
+
+			UserSettings.m_fOnCertificateUpdated = g_ActorFunctor / [this]() -> TCFuture<void>
+				{
+					if (mp_bCertificateDeployActorStarted)
+						DMibLogWithCategory(Certificate, Warning, "Server certificate updated, please schedule restart of MongoManager daemon");
+
+					co_return {};
+				}
+			;
+
+			mp_CertificateDeploySubscription_Server = co_await mp_CertificateDeployActor(&CMongoCertificateDeployActor::f_AddUser, fg_Move(UserSettings));
+		}
+		{
+			CMongoCertificateDeployActor::CUserSettings UserSettings;
+			UserSettings.f_InitUser
+				(
+					CertificateAuthority
+					, "admin"
+					, 
+					{
+						{
+							.m_BasePath = MongoDirectory + "/certificates"
+							, .m_FileUser = mp_MongoUser.m_UserName
+							, .m_FileGroup = mp_MongoUser.m_GroupName
+						}
+					}
+				)
+			;
+
+			UserSettings.m_fOnStatusChange = g_ActorFunctor / [](CHostInfo &&_HostInfo, CMongoCertificateDeployActor::CUserStatus &&_Status) -> TCFuture<void>
+				{
+					if (_Status.m_Severity == CMongoCertificateDeployActor::EStatusSeverity_Error)
+						DMibLogWithCategory(Certificate, Error, "Admin certificate: {}", _Status.m_Description);
+					else if (_Status.m_Severity == CMongoCertificateDeployActor::EStatusSeverity_Warning)
+						DMibLogWithCategory(Certificate, Warning, "Admin certificate: {}", _Status.m_Description);
+					else
+						DMibLogWithCategory(Certificate, Info, "Admin certificate: {}", _Status.m_Description);
+
+					co_return {};
+				}
+			;
+
+			mp_CertificateDeploySubscription_Admin = co_await mp_CertificateDeployActor(&CMongoCertificateDeployActor::f_AddUser, fg_Move(UserSettings));
+		}
+
+		co_await mp_CertificateDeployActor(&CMongoCertificateDeployActor::f_Start);
+		mp_bCertificateDeployActorStarted = true;
+
+		auto Info = co_await
+			(
+				fg_Dispatch
+				(
+					mp_pFileActor
+					,
+					[
+						MongoDirectory
+						, MongoUser = mp_MongoUser
+						, bNeedAdmin = mp_bEnableSSL || mp_Mode == EMode_SetupPermissions
+						, ConnectionSettings = mp_MongoConnectionSettings
+					]
+					() mutable
+					{
+						DLog(Info, "Setting up mongod");
+
+#ifdef DPlatformFamily_Windows
+						CStrSecure Password;
+						fsp_SetupUser(MongoUser, Password);
+#else
+						fsp_SetupUser(MongoUser);
 #endif
 
-				Promise.f_SetResult();
-			}
+						CFile::fs_CreateDirectory(MongoDirectory + "/db");
+						CFile::fs_CreateDirectory(MongoDirectory + "/log");
+						CFile::fs_CreateDirectory(MongoDirectory + "/.tmp");
+						CFile::fs_SetOwnerAndGroupRecursive(MongoDirectory, MongoUser.m_UserName, MongoUser.m_GroupName);
+
+						CMongoInfo MongoInfo;
+
+						if (!ConnectionSettings.m_ClientCertificatePath.f_IsEmpty() && CFile::fs_FileExists(ConnectionSettings.m_ClientCertificatePath))
+							MongoInfo.m_AdminDN = CCertificate::fs_GetCertificateDistinguishedName_RFC2253(CFile::fs_ReadFile(ConnectionSettings.m_ClientCertificatePath));
+						else if (bNeedAdmin)
+							DError(fg_Format("Could not find mongo admin user certificate at '{}'", ConnectionSettings.m_ClientCertificatePath));
+
+						DLog(Info, "Setting up mongod was successful");
+
+						MongoInfo.m_User = MongoUser;
+#ifdef DPlatformFamily_Windows
+						MongoInfo.m_Password = fg_Move(Password);
+#endif
+						return MongoInfo;
+					}
+				)
+				% "Failed to set up mongod"
+			)
 		;
-		return Promise.f_MoveFuture();
+
+		mp_MongoUser = Info.m_User;
+
+		if (!Info.m_AdminDN.f_IsEmpty())
+			mp_MongoConnectionSettings.m_UserName = Info.m_AdminDN;
+
+#ifdef DPlatformFamily_Windows
+		if (!Info.m_Password.f_IsEmpty())
+		{
+			mp_AppState.m_StateDatabase.m_Data["Users"][mp_MongoUser.m_Name]["Password"] = _Info.m_Password;
+			mp_AppState.f_SaveStateDatabase() > Promise;
+			return;
+		}
+#endif
+		co_return {};
 	}
 	
 	CStr CMongoManagerActor::fp_GetMongoExecutable(CStr const &_ExecutableName) const
