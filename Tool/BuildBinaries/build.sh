@@ -33,7 +33,7 @@ fi
 SysName=$(uname -s)
 ProcessorArch=$(uname -m)
 
-if [[ "$MalterlibPlatform" == "OSX" ]] ; then
+if [[ "$MalterlibPlatform" == "macOS" ]] ; then
 	NumCPUs=`getconf _NPROCESSORS_ONLN`
 	StripCommand="strip -u -r"
 	CurlBuildCFlags="-mmacosx-version-min=10.11"
@@ -149,7 +149,7 @@ function BuildMongo()
 	CurlLibs="`pkg-config \"$IntermediateDir/curl_bin/lib/pkgconfig/libcurl.pc\" --libs-only-l --static | sed 's/-l//g'`"
 
 	CurlFrameworks=""
-	if [[ "$MalterlibPlatform" == "OSX" ]]; then
+	if [[ "$MalterlibPlatform" == "macOS" ]]; then
 		CurlFrameworks="$CurlFrameworks SystemConfiguration"
 	fi
 

@@ -411,7 +411,7 @@ namespace NMib::NMongo::NMongoManager
 			Arguments.f_Insert(mp_MongoLocalAddress.f_GetString());
 		}
 		
-#ifdef DPlatformFamily_OSX
+#ifdef DPlatformFamily_macOS
 		Arguments.f_Insert("--oplogSize");
 		Arguments.f_Insert("25804");
 #endif

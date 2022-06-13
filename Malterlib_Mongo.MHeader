@@ -286,7 +286,7 @@ Target
 
 	LinkWithLibraries += "-lresolv"
 	{
-		!!PlatformFamily "OSX"
+		!!PlatformFamily "macOS"
 		!!PlatformFamily "Linux"
 	}
 }

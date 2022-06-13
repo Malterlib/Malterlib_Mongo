@@ -29,7 +29,7 @@ namespace NMib::NMongo::NMongoManager
 						Data.f_Insert((uint8 const *)BSON.view().data(), BSON.view().length());
 					}
 					pBackupFile->f_Write(Data.f_GetArray(), Data.f_GetLen());
-#ifdef DPlatformFamily_OSX
+#ifdef DPlatformFamily_macOS
 					// Make file change notification notice change
 					pBackupFile->f_SetLength(pBackupFile->f_GetLength());
 #endif
