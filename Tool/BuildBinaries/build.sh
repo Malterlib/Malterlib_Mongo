@@ -36,7 +36,7 @@ ProcessorArch=$(uname -m)
 if [[ "$MalterlibPlatform" == "macOS" ]] ; then
 	NumCPUs=`getconf _NPROCESSORS_ONLN`
 	StripCommand="strip -u -r"
-	CurlBuildCFlags="-mmacosx-version-min=10.11"
+	CurlBuildCFlags="-mmacosx-version-min=10.14"
 elif [[ "$MalterlibPlatform" == "Linux" ]] ; then
 	NumCPUs=`getconf _NPROCESSORS_ONLN`
 	ExtraLDFlags="-lstdc++ -lpthread"
@@ -51,6 +51,8 @@ if [[ $ProcessorArch == i*86 ]] ; then
 	BuildArch=x86
 elif [[ $ProcessorArch == x86_64 ]] ; then
 	BuildArch=x64
+elif [[ $ProcessorArch == arm64 ]] ; then
+	BuildArch=arm64
 elif [[ $ProcessorArch == aarch64 ]] ; then
 	BuildArch=arm64
 	SconsCFlags="CCFLAGS=-march=armv8-a+crc"
@@ -81,7 +83,7 @@ function BuildBoringSSL()
 	mkdir -p "$OpenSSLBuildDir"
 	pushd "$OpenSSLBuildDir" > /dev/null
 
-	export MACOSX_DEPLOYMENT_TARGET=10.11
+	export MACOSX_DEPLOYMENT_TARGET=10.14
 	cmake -GNinja "$MalterlibRoot/External/boringssl" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="$ExtraBoringSSLFlags" -DCMAKE_C_FLAGS="$ExtraBoringSSLFlags"
 	ninja
 	#ninja -C "$OpenSSLBuildDir" run_tests
@@ -121,7 +123,7 @@ function BuildCurl()
 {
 	SetupOpensslPkgConfig
 
-	export MACOSX_DEPLOYMENT_TARGET=10.11
+	export MACOSX_DEPLOYMENT_TARGET=10.14
 	export PKG_CONFIG_PATH="$TempPkgConfigDir:$PKG_CONFIG_PATH"
 
 	pushd "$MalterlibRoot/External/curl" > /dev/null
@@ -166,9 +168,13 @@ function BuildMongo()
 	SetOutputBinDir
 	mkdir -p "$OutputBinDir"
 
-	cp -f "$PWD/build/install/bin/"* "$OutputBinDir"
-
 	for Tool in "$PWD/build/install/bin/"* ; do
+		echo "Tool: $Tool"
+
+		if [[ "$Tool" == "$PWD/build/install/bin/resmoke.py" ]]; then
+			continue
+		fi
+
 		cp -f "$Tool" "$OutputBinDir"
 		$StripCommand "${OutputBinDir}$(basename "$Tool")"
 	done

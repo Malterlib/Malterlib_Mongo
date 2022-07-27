@@ -583,11 +583,22 @@ namespace NMib::NMongo::NMongoManager
 		;
 		return Promise.f_MoveFuture();
 	}
-	
+
+	static CStr fg_FilterScriptOutput(CStr const &_Output)
+	{
+		TCVector<CStr> Return;
+
+		for (auto &Line : _Output.f_SplitLine<true>())
+		{
+			if (!Line.f_StartsWith("{"))
+				Return.f_Insert(fg_Move(Line));
+		}
+
+		return CStr::fs_Join(Return, "\n");
+	}
+
 	TCFuture<void> CMongoManagerActor::f_JoinReplica(CJoinReplicaOptions const &_Options)
 	{
-		TCPromise<void> Promise;
-
 		bool bConfigChanged = false;
 		
 		if (_Options.m_ReplicaName)
@@ -616,62 +627,57 @@ namespace NMib::NMongo::NMongoManager
 		if (bConfigChanged)
 			mp_AppState.m_ConfigDatabase.f_Save() > Results.f_AddResult();
 		
-		Results.f_GetResults() > Promise / [Promise, this, _Options]
-			{
-				CStr Self = mp_MongoConnectionSettings.f_GetConnectionString();
-				CStr SelfTag = Self.f_ReplaceChar('.', '_').f_ReplaceChar(':', '_'); 
-				
-				CEJSON Config = {"selfTag"_= SelfTag};
-				CEJSON &ReplicationConfig = Config["replicationConfig"] = 
-					{
-						"host"_= Self
-						, "arbiterOnly"_= _Options.m_ArbiterOnly.f_Get(false) 
-						, "buildIndexes"_= _Options.m_BuildIndexes.f_Get(true)
-						, "hidden"_= _Options.m_Hidden.f_Get(false)
-						, "priority"_= _Options.m_Priority.f_Get(1.0)
-						, "tags"_=  
-						{
-							_[SelfTag] = "1" 
-						}
-						, "slaveDelay"_= 0
-						, "votes"_= _Options.m_CanVote.f_Get(true) ? 1 : 0 
-					}
-				;
+		co_await Results.f_GetResults();
 
-				if (_Options.m_ExtraTags)
+		CStr Self = mp_MongoConnectionSettings.f_GetConnectionString();
+		CStr SelfTag = Self.f_ReplaceChar('.', '_').f_ReplaceChar(':', '_');
+
+		CEJSON Config = {"selfTag"_= SelfTag};
+		CEJSON &ReplicationConfig = Config["replicationConfig"] =
+			{
+				"host"_= Self
+				, "arbiterOnly"_= _Options.m_ArbiterOnly.f_Get(false)
+				, "buildIndexes"_= _Options.m_BuildIndexes.f_Get(true)
+				, "hidden"_= _Options.m_Hidden.f_Get(false)
+				, "priority"_= _Options.m_Priority.f_Get(1.0)
+				, "tags"_=
 				{
-					CEJSON &Tags = ReplicationConfig["tags"]; 
-					for (auto iTag = _Options.m_ExtraTags->f_GetIterator(); iTag; ++iTag)
-						Tags[iTag.f_GetKey()] = *iTag;
+					_[SelfTag] = "1"
 				}
-				
-				auto ConnectionSettings = mp_MongoConnectionSettings.f_ForConnectionString(_Options.m_MemberToJoin);
-				if (ConnectionSettings.m_Hosts == mp_MongoConnectionSettings.m_Hosts)
-				{
-					fp_RunMongoScript(mp_MongoConnectionSettings, "MongoInitReplicaSet", "local", 60.0, Config)
-						> Promise / [Promise]
-						{
-							Promise.f_SetResult();
-						}
-					;
-					return;
-				}
-				
-				fp_RunMongoScript(ConnectionSettings, "MongoGetPrimary", "local", 60.0, {"quiet"_= true})
-					> Promise / [this, Promise, Config](CStr &&_Primary)
-					{
-						CStr Primary = _Primary.f_Trim();
-						auto ConnectionSettings = mp_MongoConnectionSettings.f_ForConnectionString(Primary);
-						fp_RunMongoScript(ConnectionSettings, "MongoJoinReplicaSet", "local", 60.0, Config) 
-							> Promise / [Promise]
-							{
-								Promise.f_SetResult();
-							}
-						;
-					}
-				;
+				, "secondaryDelaySecs"_= 0
+				, "votes"_= _Options.m_CanVote.f_Get(true) ? 1 : 0
 			}
 		;
-		return Promise.f_MoveFuture();
+
+		if (_Options.m_ExtraTags)
+		{
+			CEJSON &Tags = ReplicationConfig["tags"];
+			for (auto iTag = _Options.m_ExtraTags->f_GetIterator(); iTag; ++iTag)
+				Tags[iTag.f_GetKey()] = *iTag;
+		}
+
+		auto JoinConnectionSettings = mp_MongoConnectionSettings.f_ForConnectionString(_Options.m_MemberToJoin);
+		if (JoinConnectionSettings.m_Hosts == mp_MongoConnectionSettings.m_Hosts)
+		{
+			co_await fp_RunMongoScript(mp_MongoConnectionSettings, "MongoInitReplicaSet", "local", 60.0, Config);
+
+			co_return {};
+		}
+
+		DMibLog(Info, "Get Primary");
+
+		auto Primary = fg_FilterScriptOutput((co_await fp_RunMongoScript(JoinConnectionSettings, "MongoGetPrimary", "local", 60.0, {"quiet"_= true})).f_Trim());
+
+		DMibLog(Info, "Primary: {}", Primary);
+
+		auto ConnectionSettings = mp_MongoConnectionSettings.f_ForConnectionString(Primary);
+
+		DMibLog(Info, "ConnectionSettings: {}", ConnectionSettings.f_GetUrl("").f_Encode());
+
+		co_await fp_RunMongoScript(ConnectionSettings, "MongoJoinReplicaSet", "local", 60.0, Config);
+
+		DMibLog(Info, "Join finished");
+
+		co_return {};
 	}
 }

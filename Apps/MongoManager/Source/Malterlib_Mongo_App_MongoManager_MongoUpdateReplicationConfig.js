@@ -27,7 +27,7 @@ renameReplsetConfig = function() {
 		"hidden": false,
 		"priority": 1,
 		"tags": {},
-		"slaveDelay": 0,
+		"secondaryDelaySecs": 0,
 		"votes": 1
 	}];
 	

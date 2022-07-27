@@ -168,7 +168,7 @@ namespace NMib::NMongo::NMongoManager
 		// Mongo
 		TCActor<CProcessLaunchActor> mp_pMongoLaunch;
 		CActorSubscription mp_MongoLaunchSubscription;
-		CStr mp_MongoVersion = "4.4";
+		CStr mp_MongoVersion = "6.0";
 		CStr mp_MongoReplicaName = "DefaultReplica";
 		bool mp_bStopped = false;
 
