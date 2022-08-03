@@ -5,6 +5,7 @@ Property
 {
 	MalterlibMongoSupportUnpatchedMongo define bool = false // User(Mongo)=true: Set to true to support default unpatched mongo that doesn't use secure TLS settings
 	MongoBinariesPath define string?
+	MalterlibMongoEnableMongoManagerWithDefultMongoDB define bool = false
 }
 
 %Target "Malterlib_Mongo_MongoManager"
@@ -66,3 +67,10 @@ Property
 }
 
 Property.Malterlib_Mongo_App_Targets += "Malterlib_Mongo_MongoManager"
+{
+	|
+	{
+		!MongoBinariesPath undefined
+		MalterlibMongoEnableMongoManagerWithDefultMongoDB true
+	}
+}
