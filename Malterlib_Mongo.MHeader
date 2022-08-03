@@ -390,14 +390,18 @@ Property.Malterlib_Mongo_App_Targets define [type(CEntity)] = []
 		MalterlibEnableInternalWorkspaces true
 	}
 
-	Property.MalterlibPostCopyProject "Malterlib_Mongo"
+	Property
 	{
-		!!TargetIsExecutable true
-	}
+		MalterlibCloud_EnableVersionUpload true
+		MalterlibPostCopyProject "Malterlib_Mongo"
+		{
+			!!TargetIsExecutable true
+		}
 
-	Property.MalterlibLog_Severities ["Error", "Critical", "Warning", "Info"]
-	{
-		!!MalterlibLog_EnableVerboseDebugLog false
+		MalterlibLog_Severities ["Error", "Critical", "Warning", "Info"]
+		{
+			!!MalterlibLog_EnableVerboseDebugLog false
+		}
 	}
 
 	%Target Malterlib_Mongo_App_Targets
