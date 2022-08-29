@@ -38,7 +38,8 @@ namespace NMib::NMongo::NMongoManager
 		o_RegisterInfo.m_Resources_Files = nMaxFilesNeeded;
 		o_RegisterInfo.m_Resources_Threads = nMaxThreads; 
 		o_RegisterInfo.m_Resources_FilesPerProcess = nFilesPerProc;
-		o_RegisterInfo.m_Resources_Processes = nMaxPids; 
+		o_RegisterInfo.m_Resources_Processes = nMaxPids;
+		o_RegisterInfo.m_Resources_MaxMapCount = 128000;
 	}
 	
 	TCFuture<void> CMongoManagerDaemonActor::fp_StartApp(NEncoding::CEJSON const &_Params)
