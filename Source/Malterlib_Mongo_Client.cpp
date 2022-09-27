@@ -134,6 +134,9 @@ namespace NMib::NMongo
 		if (m_ReplicaSet)
 			Query.f_Insert({"replicaSet", m_ReplicaSet});
 
+		if (m_ReadPreference)
+			Query.f_Insert({"readPreference", m_ReadPreference});
+
 		Url.f_SetQuery(Query);
 
 		return Url;

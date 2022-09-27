@@ -41,6 +41,7 @@ namespace NMib::NMongo
 		NStr::CStr m_ClientCertificatePath;
 		NStr::CStr m_UserName;
 		NStr::CStr m_ReplicaSet;
+		NStr::CStr m_ReadPreference;
 		bool m_bEnableSSL = false;
 		bool m_bEnableSrv = false;
 	};
