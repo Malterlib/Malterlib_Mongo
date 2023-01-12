@@ -1,5 +1,5 @@
 Property.CMakeOutputPath_BSONCXX define string = `@('../..'->MakeAbsolute())`->MakeAbsolute()
-%Target "Lib_BSONCXX_bsoncxx_testing"
+%Target "Lib_BSONCXX_bsoncxx_static"
 {
 	Compile
 	{
@@ -10,7 +10,7 @@ Property.CMakeOutputPath_BSONCXX define string = `@('../..'->MakeAbsolute())`->M
 			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
-			"BSONCXX_TESTING",
+			"BSONCXX_STATIC",
 			"MONGO_CXX_DRIVER_COMPILING"
 		]
 	}
@@ -21,8 +21,8 @@ Property.CMakeOutputPath_BSONCXX define string = `@('../..'->MakeAbsolute())`->M
 		!!Target.Group undefined
 	}
 	Target.Type "StaticLibrary"
-	Target.BaseName "BSONCXX_bsoncxx_testing"
-	Target.BaseFileName "bsoncxx_testing"
+	Target.BaseName "BSONCXX_bsoncxx_static"
+	Target.BaseFileName "bsoncxx_static"
 	%Group "src"
 	{
 		%Group "bsoncxx"
@@ -122,7 +122,7 @@ Property.CMakeOutputPath_BSONCXX define string = `@('../..'->MakeAbsolute())`->M
 		}
 	}
 }
-%Target "Lib_BSONCXX_bsoncxx_static"
+%Target "Lib_BSONCXX_bsoncxx_testing"
 {
 	Compile
 	{
@@ -133,7 +133,7 @@ Property.CMakeOutputPath_BSONCXX define string = `@('../..'->MakeAbsolute())`->M
 			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
-			"BSONCXX_STATIC",
+			"BSONCXX_TESTING",
 			"MONGO_CXX_DRIVER_COMPILING"
 		]
 	}
@@ -144,8 +144,8 @@ Property.CMakeOutputPath_BSONCXX define string = `@('../..'->MakeAbsolute())`->M
 		!!Target.Group undefined
 	}
 	Target.Type "StaticLibrary"
-	Target.BaseName "BSONCXX_bsoncxx_static"
-	Target.BaseFileName "bsoncxx_static"
+	Target.BaseName "BSONCXX_bsoncxx_testing"
+	Target.BaseFileName "bsoncxx_testing"
 	%Group "src"
 	{
 		%Group "bsoncxx"

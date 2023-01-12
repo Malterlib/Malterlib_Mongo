@@ -26,15 +26,17 @@ Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`-
 		]
 		PreprocessorDefines += [
 			"BSON_STATIC",
-			"COMMON_PREFIX_=_mongoc_common",
 			"HAVE_STDARG_H",
 			"HAVE_UNISTD_H",
 			"KMS_MESSAGE_ENABLE_CRYPTO",
 			"KMS_MESSAGE_ENABLE_CRYPTO_LIBCRYPTO",
 			"KMS_MSG_STATIC",
+			"MCOMMON_NAME_PREFIX=_mongoc_mcommon",
 			"MONGOC_COMPILATION",
 			"MONGOC_STATIC",
-			"_DEFAULT_SOURCE"
+			"_BSD_SOURCE",
+			"_DEFAULT_SOURCE",
+			"_XOPEN_SOURCE=700"
 		]
 	}
 	Property.MalterlibTargetNameType "Normal"
