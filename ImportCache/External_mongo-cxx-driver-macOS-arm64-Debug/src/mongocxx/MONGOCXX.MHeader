@@ -1,4 +1,4 @@
-Property.CMakeOutputPath_MONGOCXX define string = `@('../..'->MakeAbsolute())`->MakeAbsolute()
+Property.CMakeOutputPath_MONGOCXX: string = `@('../..'->MakeAbsolute())`->MakeAbsolute()
 %Target "Lib_MONGOCXX_mongocxx_static"
 {
 	Compile

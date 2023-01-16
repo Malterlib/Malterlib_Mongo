@@ -1,4 +1,4 @@
-Property.CMakeOutputPath_MONGO_CXX_DRIVER define string = `@('.'->MakeAbsolute())`->MakeAbsolute()
+Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->MakeAbsolute()
 %Target "Tool_MONGO_CXX_DRIVER_hugo_dir"
 {
 	Property.MalterlibTargetNameType "Normal"

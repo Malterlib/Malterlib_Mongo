@@ -1,4 +1,4 @@
-Property.CMakeOutputPath_libbson define string = `@('../..'->MakeAbsolute())`->MakeAbsolute()
+Property.CMakeOutputPath_libbson: string = `@('../..'->MakeAbsolute())`->MakeAbsolute()
 %Target "Lib_libbson_bson_static"
 {
 	Compile

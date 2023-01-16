@@ -1,4 +1,4 @@
-Property.CMakeOutputPath_mongo\-c\-driver define string = `@('.'->MakeAbsolute())`->MakeAbsolute()
+Property.CMakeOutputPath_mongo\-c\-driver: string = `@('.'->MakeAbsolute())`->MakeAbsolute()
 %Target "Tool_mongo-c-driver_Experimental"
 {
 	Property.MalterlibTargetNameType "Normal"

@@ -1,4 +1,4 @@
-Property.CMakeOutputPath_BSONCXX define string = `@('../..'->MakeAbsolute())`->MakeAbsolute()
+Property.CMakeOutputPath_BSONCXX: string = `@('../..'->MakeAbsolute())`->MakeAbsolute()
 %Target "Lib_BSONCXX_bsoncxx_static"
 {
 	Compile

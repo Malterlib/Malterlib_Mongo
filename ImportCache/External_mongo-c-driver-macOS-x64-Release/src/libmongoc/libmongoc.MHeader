@@ -1,4 +1,4 @@
-Property.CMakeOutputPath_libmongoc define string = `@('../..'->MakeAbsolute())`->MakeAbsolute()
+Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeAbsolute()
 %Target "Lib_libmongoc_mongoc_static"
 {
 	Compile
