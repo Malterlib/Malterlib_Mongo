@@ -80,9 +80,9 @@ namespace NMib::NMongo::NMongoManager
 
 		auto [Version, Dummy1, Dummy2] = co_await
 			(
-			 	self(&CMongoManagerActor::fp_CheckVersion, fp_GetMongoExecutable("mongod"), "--version", "db version v{}.{}.{}\n", mp_Version_MongoDB)
-			 	+ self(&CMongoManagerActor::fp_SetupPrerequisites_Mongo)
-			 	+ self(&CMongoManagerActor::fp_DetermineHostname)
+				self(&CMongoManagerActor::fp_CheckVersion, fp_GetMongoExecutable("mongod"), "--version", "db version v{}.{}.{}\n", mp_Version_MongoDB)
+				+ self(&CMongoManagerActor::fp_SetupPrerequisites_Mongo)
+				+ self(&CMongoManagerActor::fp_DetermineHostname)
 			)
 		;
 
@@ -97,12 +97,12 @@ namespace NMib::NMongo::NMongoManager
 
 		co_await self
 			(
-			 	&CMongoManagerActor::fp_RunMongoScript
-			 	, mp_MongoConnectionSettings
-			 	, "MongoWaitForPrimary"
-			 	, "local"
-			 	, 5.0*60.0
-			 	, CEJSON{"expectReplica"_= mp_Mode != EMode_JoinReplicaSet}
+				&CMongoManagerActor::fp_RunMongoScript
+				, mp_MongoConnectionSettings
+				, "MongoWaitForPrimary"
+				, "local"
+				, 5.0*60.0
+				, CEJSON{"expectReplica"_= mp_Mode != EMode_JoinReplicaSet}
 			)
 		;
 
@@ -223,7 +223,7 @@ namespace NMib::NMongo::NMongoManager
 					, _User.m_UserName
 					, "/dev/null"
 					, _User.m_UserID
-				 	, NSys::EUserManagementCreateUserFlag_None
+					, NSys::EUserManagementCreateUserFlag_None
 				)
 			;
 		}

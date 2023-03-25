@@ -24,9 +24,9 @@ namespace NMib::NMongo
 	{
 		CInternal
 			(
-			 	CMongoCertificateDeployActor *_pThis
-			 	, TCActor<CActorDistributionManager> const &_DistributionManager
-			 	, TCActor<CDistributedActorTrustManager> const &_TrustManager
+				CMongoCertificateDeployActor *_pThis
+				, TCActor<CActorDistributionManager> const &_DistributionManager
+				, TCActor<CDistributedActorTrustManager> const &_TrustManager
 				, TCActor<CSeparateThreadActor> const &_FileActor
 			)
 		;

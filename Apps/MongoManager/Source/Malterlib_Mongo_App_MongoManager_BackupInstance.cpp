@@ -68,7 +68,7 @@ namespace NMib::NMongo::NMongoManager
 
 		auto pResult = co_await
 			(
-			 	g_Dispatch(mp_FileWriteActor) / [BackupDirectory = mp_BackupDirectory, OplogPath = mp_BackupDirectory + "/DynamicOplog.bson"]
+				g_Dispatch(mp_FileWriteActor) / [BackupDirectory = mp_BackupDirectory, OplogPath = mp_BackupDirectory + "/DynamicOplog.bson"]
 				{
 					return TCFuture<TCSharedPointer<CFile>>::fs_RunProtected<CExceptionFile>() / [&]()
 						{
@@ -233,7 +233,7 @@ namespace NMib::NMongo::NMongoManager
 
 		co_await
 			(
-			 	g_Dispatch(mp_FileWriteActor) / [Result, BackupDirectory = mp_BackupDirectory, bInitialDumpFinished = mp_bInitialDumpFinished]
+				g_Dispatch(mp_FileWriteActor) / [Result, BackupDirectory = mp_BackupDirectory, bInitialDumpFinished = mp_bInitialDumpFinished]
 				{
 					return TCFuture<void>::fs_RunProtected<CExceptionFile>() / [&]()
 						{
@@ -245,7 +245,7 @@ namespace NMib::NMongo::NMongoManager
 						}
 					;
 				}
-			 	% "Failed to delete the backup"
+				% "Failed to delete the backup"
 			)
 		;
 

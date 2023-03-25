@@ -102,17 +102,17 @@ namespace NMib::NMongo::NMongoCertificateManager
 			TableRenderer.f_AddRow
 				(
 					UserKey.m_Authority
-				 	, fsp_UserTypeToStr(User.m_Type)
-				 	, UserKey.m_Name
-				 	, fsp_EllipticCurveTypeToStr(User.m_EllipticCurveType)
+					, fsp_UserTypeToStr(User.m_Type)
+					, UserKey.m_Name
+					, fsp_EllipticCurveTypeToStr(User.m_EllipticCurveType)
 					, CStr::fs_Join(SecretManagers, "\n")
 					, CStr::fs_Join(MissingSecretManagers, "\n")
-				 	, StatusDescription
+					, StatusDescription
 				)
 			;
 		}
 
- 		if (!bVerbose)
+		if (!bVerbose)
 		{
 			while (auto pLargest = VerboseHeadings.f_FindLargest())
 			{

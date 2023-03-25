@@ -8,16 +8,16 @@ setupPermissions = function() {
 	if (!adminDB.getRole("oplogger")) {
 		adminDB.createRole({ role: "oplogger",
 			privileges: [{ resource: { db: 'local', collection: 'oplog.rs' },
- 				actions: ['find'] },
- 			],
+				actions: ['find'] },
+			],
 			roles: [{ role: 'read', db: 'local' }]
 		});
 	}
 	if (!adminDB.getRole("anyActionOnAnyResource")) {
 		adminDB.createRole({ role: "anyActionOnAnyResource",
 			privileges: [{ resource: { anyResource: true },
- 				actions: ['anyAction'] },
- 			],
+				actions: ['anyAction'] },
+			],
 			roles: []
 		});
 	}

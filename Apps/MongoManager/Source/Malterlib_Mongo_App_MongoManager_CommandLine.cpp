@@ -82,7 +82,7 @@ namespace NMib::NMongo::NMongoManager
 				{
 					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_Restore, _Parameters, _pCommandLine);
 				}
-			 	, EDistributedAppCommandFlag_RunLocalApp
+				, EDistributedAppCommandFlag_RunLocalApp
 			)
 		;
 		Section.f_RegisterCommand
@@ -312,13 +312,13 @@ namespace NMib::NMongo::NMongoManager
 	
 	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_UpdateReplicationConfig
 		(
-		 	NEncoding::CEJSON const &_Params
-		 	, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine
+			NEncoding::CEJSON const &_Params
+			, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine
 		)
 	{
 		co_await fp_WaitForAppStartup();
 
- 		co_await mp_pManager(&CMongoManagerActor::f_UpdateReplicationConfig);
+		co_await mp_pManager(&CMongoManagerActor::f_UpdateReplicationConfig);
 
 		*_pCommandLine += "Replication config updated successfully\n";
 
@@ -329,7 +329,7 @@ namespace NMib::NMongo::NMongoManager
 	{
 		co_await fp_WaitForAppStartup();
 
- 		co_await mp_pManager(&CMongoManagerActor::f_SetupPermissions);
+		co_await mp_pManager(&CMongoManagerActor::f_SetupPermissions);
 
 		*_pCommandLine += "Permissions setup successfully\n";
 
@@ -540,7 +540,7 @@ namespace NMib::NMongo::NMongoManager
 		if (Options.m_MemberToJoin.f_IsEmpty())
 			co_return DMibErrorInstance("You must specify replica memeber to join");
 		
- 		co_await mp_pManager(&CMongoManagerActor::f_JoinReplica, Options);
+		co_await mp_pManager(&CMongoManagerActor::f_JoinReplica, Options);
 
 		*_pCommandLine %= "Replica set successfully joined\n";
 

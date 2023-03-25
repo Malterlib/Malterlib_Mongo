@@ -115,11 +115,11 @@ namespace NMib::NMongo::NMongoManager
 				, CStr const &_WorkingDir
 				, TCVector<CStr> const &_Params
 				, CStr const &_LogCategory
- 				, ELogVerbosity _LogVerbosity
+				, ELogVerbosity _LogVerbosity
 				, bool _bSeparateStdErr = true
 				, CStr const &_Home = {}
 				, CStr const &_User = {}
-			 	, CStr const &_Group = {}
+				, CStr const &_Group = {}
 #ifdef DPlatformFamily_Windows
 				, CStrSecure const &_UserPassword = {}
 #endif

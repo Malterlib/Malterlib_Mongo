@@ -218,7 +218,7 @@ namespace NMib::NMongo::NMongoManager
 		DLog(Info, "Running mongo script '{}'", _LogCategory);
 		self
 			(
-			 	&CMongoManagerActor::fp_LaunchTool
+				&CMongoManagerActor::fp_LaunchTool
 				, fp_GetMongoExecutable("mongo")
 				, CStr()
 				, fg_Move(Params)
@@ -227,7 +227,7 @@ namespace NMib::NMongo::NMongoManager
 				, false
 				, MongoPath
 				, mp_MongoUser.m_UserName
-			 	, mp_MongoUser.m_GroupName
+				, mp_MongoUser.m_GroupName
 #ifdef DPlatformFamily_Windows
 				, fp_GetUserPassword(mp_MongoUser.m_Name)
 #endif

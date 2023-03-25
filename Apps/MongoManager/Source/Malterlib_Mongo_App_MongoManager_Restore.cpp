@@ -47,18 +47,18 @@ namespace NMib::NMongo::NMongoManager
 			
 				self
 					(
-					 	&CMongoManagerActor::fp_LaunchTool
+						&CMongoManagerActor::fp_LaunchTool
 						, fp_GetMongoExecutable("mongorestore")
 						, CFile::fs_GetProgramDirectory()
 						, Params
 						, CStr("Restore")
 						, ELogVerbosity_All
 						, false
-					 	, CStr()
-					 	, CStr()
-					 	, CStr()
+						, CStr()
+						, CStr()
+						, CStr()
 #ifdef DPlatformFamily_Windows
-					 	, CStrSecure()
+						, CStrSecure()
 #endif
 					)
 					> [Promise](TCAsyncResult<CStr> &&_StdOut)

@@ -86,7 +86,7 @@ Property
 
 	Compile
 	{
- 		!!CompileDialect "C"
+		!!CompileDialect "C"
 
 		Analyzer false
 		PreprocessorDefines += "BSON_STATIC"
@@ -102,14 +102,14 @@ Property
 	{
 		Compile.PreprocessorDefines += ["BSONCXX_STATIC", "MONGOCXX_STATIC", "BSON_STATIC", "MONGOC_STATIC"]
 		{
-	 		!!CompileDialect "C"
+			!!CompileDialect "C"
 		}
 		Compile.PreprocessorDefines += "WIN32_LEAN_AND_MEAN"
 		{
 			&
 			{
-	 			PlatformFamily "Windows"
-	 			CompileDialect "C"
+				PlatformFamily "Windows"
+				CompileDialect "C"
 			}
 		}
 	}
@@ -118,7 +118,7 @@ Property
 	{
 		Compile
 		{
-	 		!!CompileDialect "C"
+			!!CompileDialect "C"
 
 			SearchPath += MalterlibMongoIncludePath_bson
 			PreprocessorDefines += ["BSONCXX_STATIC", "MONGOCXX_STATIC", "BSON_STATIC", "MONGOC_STATIC"]
@@ -126,8 +126,8 @@ Property
 			{
 				&
 				{
-	 				PlatformFamily "Windows"
-	 				CompileDialect "C"
+					PlatformFamily "Windows"
+					CompileDialect "C"
 				}
 			}
 		}
@@ -175,7 +175,7 @@ Property
 
 	Compile
 	{
- 		!!CompileDialect "C"
+		!!CompileDialect "C"
 
 		Analyzer false
 		PrefixHeader undefined
@@ -194,7 +194,7 @@ Property
 	{
 		Compile
 		{
-	 		!!CompileDialect "C"
+			!!CompileDialect "C"
 
 			PreprocessorDefines += ["BSONCXX_STATIC", "MONGOCXX_STATIC", "BSON_STATIC", "MONGOC_STATIC"]
 			PreprocessorDefines += "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING"
@@ -227,7 +227,7 @@ Property
 	{
 		Compile
 		{
-	 		!!CompileDialect "C"
+			!!CompileDialect "C"
 
 			PreprocessorDefines += ["BSONCXX_STATIC", "MONGOCXX_STATIC", "BSON_STATIC", "MONGOC_STATIC"]
 			PreprocessorDefines += "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING"
