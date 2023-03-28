@@ -46,18 +46,23 @@ namespace NMib::NMongo
 	{
 		CUser *pUser = nullptr;
 
-		auto OnResume = g_OnResume / [&]
-			{
-				if (m_pThis->f_IsDestroyed())
-					DMibError("Shutting down");
+		auto OnResume = co_await fg_OnResume
+			(
+				[&]() -> CExceptionPointer
+				{
+					if (m_pThis->f_IsDestroyed())
+						return DMibErrorInstance("Shutting down");
 
-				pUser = m_Users.f_FindEqual(_UserKey);
-				if (!pUser)
-					DMibError("User no longer exists: {}"_f << _UserKey);
+					pUser = m_Users.f_FindEqual(_UserKey);
+					if (!pUser)
+						return DMibErrorInstance("User no longer exists: {}"_f << _UserKey);
 
-				if (!m_SecretsManagerSubscription.m_Actors.f_FindEqual(_SecretsManager))
-					DMibError("Secret manager no longer exists");
-			}
+					if (!m_SecretsManagerSubscription.m_Actors.f_FindEqual(_SecretsManager))
+						return DMibErrorInstance("Secret manager no longer exists");
+
+					return {};
+				}
+			)
 		;
 
 		CUserState UserState;
@@ -118,15 +123,20 @@ namespace NMib::NMongo
 	{
 		CUser *pUser = nullptr;
 
-		auto OnResume = g_OnResume / [&]
-			{
-				if (m_pThis->f_IsDestroyed())
-					DMibError("Shutting down");
+		auto OnResume = co_await fg_OnResume
+			(
+				[&]() -> CExceptionPointer
+				{
+					if (m_pThis->f_IsDestroyed())
+						return DMibErrorInstance("Shutting down");
 
-				pUser = m_Users.f_FindEqual(_UserKey);
-				if (!pUser)
-					DMibError("User no longer exists: {}"_f << _UserKey);
-			}
+					pUser = m_Users.f_FindEqual(_UserKey);
+					if (!pUser)
+						return DMibErrorInstance("User no longer exists: {}"_f << _UserKey);
+
+					return {};
+				}
+			)
 		;
 
 		TCActorResultVector<void> UpdateResults;
@@ -138,19 +148,21 @@ namespace NMib::NMongo
 		co_return {};
 	}
 
-	void CMongoCertificateDeployActor::CInternal::f_UserUpdate_CheckPreconditions(CUserKey const &_UserKey, CUser *&o_pUser, CUserState *&o_pUserState)
+	[[nodiscard]] CExceptionPointer CMongoCertificateDeployActor::CInternal::f_UserUpdate_CheckPreconditions(CUserKey const &_UserKey, CUser *&o_pUser, CUserState *&o_pUserState)
 	{
 		if (m_pThis->f_IsDestroyed())
-			DMibError("Shutting down");
+			return DMibErrorInstance("Shutting down");
 
 		o_pUser = m_Users.f_FindEqual(_UserKey);
 		if (!o_pUser)
-			DMibError("User no longer exists: {}"_f << _UserKey);
+			return DMibErrorInstance("User no longer exists: {}"_f << _UserKey);
 
 		if (!o_pUser->m_UserState)
-			DMibError("User no longer connected to secrets manager");
+			return DMibErrorInstance("User no longer connected to secrets manager");
 
 		o_pUserState = &*o_pUser->m_UserState;
+
+		return {};
 	}
 
 	CExceptionPointer CMongoCertificateDeployActor::CInternal::f_UserUpdate_CheckCertificate
@@ -188,11 +200,18 @@ namespace NMib::NMongo
 		CUserState *pUserState = nullptr;
 		CHostInfo *pHostInfo = nullptr;
 
-		auto OnResume = g_OnResume / [&]
-			{
-				f_UserUpdate_CheckPreconditions(_UserKey, pUser, pUserState);
-				pHostInfo = &pUserState->m_SecretsManagerHostInfo;
-			}
+		auto OnResume = co_await fg_OnResume
+			(
+				[&]() -> CExceptionPointer
+				{
+					if (auto pException = f_UserUpdate_CheckPreconditions(_UserKey, pUser, pUserState))
+						return pException;
+
+					pHostInfo = &pUserState->m_SecretsManagerHostInfo;
+
+					return {};
+				}
+			)
 		;
 
 		CSecretsManager::CSecretID SecretID;
@@ -317,10 +336,13 @@ namespace NMib::NMongo
 		CUser *pUser = nullptr;
 		CUserState *pUserState = nullptr;
 
-		auto OnResume = g_OnResume / [&]
-			{
-				f_UserUpdate_CheckPreconditions(_UserKey, pUser, pUserState);
-			}
+		auto OnResume = co_await fg_OnResume
+			(
+				[&]() -> CExceptionPointer
+				{
+					return f_UserUpdate_CheckPreconditions(_UserKey, pUser, pUserState);
+				}
+			)
 		;
 
 		f_UpdateUserStatus(*pUser, pUserState->m_SecretsManagerHostInfo, EStatusSeverity_Info, "Secrets manager connected, updating files");

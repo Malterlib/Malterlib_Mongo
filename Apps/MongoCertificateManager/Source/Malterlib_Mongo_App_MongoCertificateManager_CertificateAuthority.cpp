@@ -25,15 +25,20 @@ namespace NMib::NMongo::NMongoCertificateManager
 	{
 		CAuthority *pAuthority = nullptr;
 
-		auto OnResume = g_OnResume / [&]
-			{
-				if (mp_State.m_bStoppingApp || f_IsDestroyed())
-					DMibError("Startup aborted");
+		auto OnResume = co_await fg_OnResume
+			(
+				[&]() -> NException::CExceptionPointer
+				{
+					if (mp_State.m_bStoppingApp || f_IsDestroyed())
+						return DMibErrorInstance("Startup aborted");
 
-				pAuthority = mp_Authorities.f_FindEqual(_AuthorityName);
-				if (!pAuthority)
-					DMibError("No such authority: '{}'"_f << _AuthorityName);
-			}
+					pAuthority = mp_Authorities.f_FindEqual(_AuthorityName);
+					if (!pAuthority)
+						return DMibErrorInstance("No such authority: '{}'"_f << _AuthorityName);
+
+					return {};
+				}
+			)
 		;
 
 		// This algorithm might waste serials that never get used, but should allow it to resolve eventually

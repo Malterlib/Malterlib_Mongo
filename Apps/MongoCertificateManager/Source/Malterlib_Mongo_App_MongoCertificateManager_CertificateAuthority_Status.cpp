@@ -11,16 +11,21 @@ namespace NMib::NMongo::NMongoCertificateManager
 	{
 		CAuthority *pAuthority = nullptr;
 
-		auto OnResume = g_OnResume / [&]
-			{
-				if (mp_State.m_bStoppingApp || f_IsDestroyed())
-					DMibError("Startup aborted");
+		auto OnResume = co_await fg_OnResume
+			(
+				[&]() -> NException::CExceptionPointer
+				{
+					if (mp_State.m_bStoppingApp || f_IsDestroyed())
+						return DMibErrorInstance("Startup aborted");
 
-				pAuthority = mp_Authorities.f_FindEqual(_Authority);
+					pAuthority = mp_Authorities.f_FindEqual(_Authority);
 
-				if (!pAuthority)
-					DMibError("Certificate authority '{}' deleted"_f << _Authority);
-			}
+					if (!pAuthority)
+						return DMibErrorInstance("Certificate authority '{}' deleted"_f << _Authority);
+
+					return {};
+				}
+			)
 		;
 
 		if (!pAuthority->m_bSensorsRegistered)
@@ -81,13 +86,18 @@ namespace NMib::NMongo::NMongoCertificateManager
 	TCFuture<void> CMongoCertificateManagerActor::fp_Authority_RegisterSensors(CStr _Authority)
 	{
 		CAuthority *pAuthority = nullptr;
-		auto OnResume = g_OnResume / [&]
-			{
-				pAuthority = mp_Authorities.f_FindEqual(_Authority);
+		auto OnResume = co_await fg_OnResume
+			(
+				[&]() -> NException::CExceptionPointer
+				{
+					pAuthority = mp_Authorities.f_FindEqual(_Authority);
 
-				if (!pAuthority)
-					DMibError("Authority '{}' deleted"_f << _Authority);
-			}
+					if (!pAuthority)
+						return DMibErrorInstance("Authority '{}' deleted"_f << _Authority);
+
+					return {};
+				}
+			)
 		;
 
 		if (pAuthority->m_bSensorsRegistered)
@@ -124,13 +134,18 @@ namespace NMib::NMongo::NMongoCertificateManager
 	TCFuture<void> CMongoCertificateManagerActor::fp_Authority_UpdateStatusSensor(CStr _Authority, EStatusSeverity _Severity, CStr _Status)
 	{
 		CAuthority *pAuthority = nullptr;
-		auto OnResume = g_OnResume / [&]
-			{
-				pAuthority = mp_Authorities.f_FindEqual(_Authority);
+		auto OnResume = co_await fg_OnResume
+			(
+				[&]() -> NException::CExceptionPointer
+				{
+					pAuthority = mp_Authorities.f_FindEqual(_Authority);
 
-				if (!pAuthority)
-					DMibError("Authority '{}' deleted"_f << _Authority);
-			}
+					if (!pAuthority)
+						return DMibErrorInstance("Authority '{}' deleted"_f << _Authority);
+
+					return {};
+				}
+			)
 		;
 
 		if (!pAuthority->m_bSensorsRegistered)

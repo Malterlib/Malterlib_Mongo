@@ -61,14 +61,19 @@ namespace NMib::NMongo::NMongoCertificateManager
 		if (!CAuthority::fs_IsValidName(Name))
 			co_return Auditor.f_Exception("'{}' is not a valid certificate authority name"_f << Name);
 
-		auto OnResume = g_OnResume / [&]
-			{
-				if (mp_State.m_bStoppingApp || f_IsDestroyed())
-					DMibError("Startup aborted");
+		auto OnResume = co_await fg_OnResume
+			(
+				[&]() -> NException::CExceptionPointer
+				{
+					if (mp_State.m_bStoppingApp || f_IsDestroyed())
+						return DMibErrorInstance("Startup aborted");
 
-				if (mp_SecretsManagerSubscription.m_Actors.f_IsEmpty())
-					DMibError("No secret managers connected");
-			}
+					if (mp_SecretsManagerSubscription.m_Actors.f_IsEmpty())
+						return DMibErrorInstance("No secret managers connected");
+
+					return {};
+				}
+			)
 		;
 
 		CCertificateAndKey CaCertificate = co_await

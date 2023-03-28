@@ -168,19 +168,24 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		CAuthority *pAuthority = nullptr;
 
-		auto OnResume = g_OnResume / [&]
-			{
-				if (mp_State.m_bStoppingApp || f_IsDestroyed())
-					DMibError("Startup aborted");
+		auto OnResume = co_await fg_OnResume
+			(
+				[&]() -> NException::CExceptionPointer
+				{
+					if (mp_State.m_bStoppingApp || f_IsDestroyed())
+						return DMibErrorInstance("Startup aborted");
 
-				if (mp_SecretsManagerSubscription.m_Actors.f_IsEmpty())
-					DMibError("No secret managers connected");
+					if (mp_SecretsManagerSubscription.m_Actors.f_IsEmpty())
+						return DMibErrorInstance("No secret managers connected");
 
-				pAuthority = mp_Authorities.f_FindEqual(Authority);
+					pAuthority = mp_Authorities.f_FindEqual(Authority);
 
-				if (!pAuthority)
-					DMibError("No such authority: '{}'"_f << Authority);
-			}
+					if (!pAuthority)
+						return DMibErrorInstance("No such authority: '{}'"_f << Authority);
+
+					return {};
+				}
+			)
 		;
 
 		auto UserCertificate = co_await fp_GenerateUserCertificate(pAuthority->m_Certificate, EllipticCurveType, UserName, Type);

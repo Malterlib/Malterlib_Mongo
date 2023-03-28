@@ -18,11 +18,15 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 	TCFuture<void> CMongoCertificateManagerActor::fp_StartApp(NEncoding::CEJSON const &_Params)
 	{
-		auto OnResume = g_OnResume / [&]
-			{
-				if (mp_State.m_bStoppingApp || f_IsDestroyed())
-					DMibError("Startup aborted");
-			}
+		auto OnResume = co_await fg_OnResume
+			(
+				[&]() -> NException::CExceptionPointer
+				{
+					if (mp_State.m_bStoppingApp || f_IsDestroyed())
+						return DMibErrorInstance("Startup aborted");
+					return {};
+				}
+			)
 		;
 
 		mp_SecretsManagerSubscription = co_await mp_State.m_TrustManager->f_SubscribeTrustedActors<CSecretsManager>(CSecretsManager::EProtocolVersion_SupportMapSecrets);

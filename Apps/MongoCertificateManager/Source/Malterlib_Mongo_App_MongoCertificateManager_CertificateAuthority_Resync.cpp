@@ -30,16 +30,21 @@ namespace NMib::NMongo::NMongoCertificateManager
 		{
 			CAuthority *pAuthority = nullptr;
 
-			auto OnResume = g_OnResume / [&]
-				{
-					if (mp_State.m_bStoppingApp || f_IsDestroyed())
-						DMibError("Startup aborted");
+			auto OnResume = co_await fg_OnResume
+				(
+					[&]() -> NException::CExceptionPointer
+					{
+						if (mp_State.m_bStoppingApp || f_IsDestroyed())
+							return DMibErrorInstance("Startup aborted");
 
-					pAuthority = mp_Authorities.f_FindEqual(Name);
+						pAuthority = mp_Authorities.f_FindEqual(Name);
 
-					if (!pAuthority)
-						DMibError("Certificate authority '{}' deleted"_f << Name);
-				}
+						if (!pAuthority)
+							return DMibErrorInstance("Certificate authority '{}' deleted"_f << Name);
+
+						return {};
+					}
+				)
 			;
 
 			TCMap<TCWeakDistributedActor<CSecretsManager>, CStr> SecretManagerDescriptions;

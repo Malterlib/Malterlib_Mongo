@@ -43,19 +43,24 @@ namespace NMib::NMongo::NMongoCertificateManager
 			CUser *pUser = nullptr;
 			CAuthority *pAuthority = nullptr;
 
-			auto OnResume = g_OnResume / [&]
-				{
-					if (mp_State.m_bStoppingApp || f_IsDestroyed())
-						DMibError("Startup aborted");
+			auto OnResume = co_await fg_OnResume
+				(
+					[&]() -> NException::CExceptionPointer
+					{
+						if (mp_State.m_bStoppingApp || f_IsDestroyed())
+							return DMibErrorInstance("Startup aborted");
 
-					pUser = mp_Users.f_FindEqual(UserKey);
-					if (!pUser)
-						DMibError("User '{}' deleted"_f << UserKey);
+						pUser = mp_Users.f_FindEqual(UserKey);
+						if (!pUser)
+							return DMibErrorInstance("User '{}' deleted"_f << UserKey);
 
-					pAuthority = mp_Authorities.f_FindEqual(UserKey.m_Authority);
-					if (!pAuthority)
-						DMibError("Authority '{}' deleted"_f << UserKey.m_Authority);
-				}
+						pAuthority = mp_Authorities.f_FindEqual(UserKey.m_Authority);
+						if (!pAuthority)
+							return DMibErrorInstance("Authority '{}' deleted"_f << UserKey.m_Authority);
+
+						return {};
+					}
+				)
 			;
 
 			TCMap<TCWeakDistributedActor<CSecretsManager>, CStr> SecretManagerDescriptions;

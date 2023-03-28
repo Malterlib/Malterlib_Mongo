@@ -11,16 +11,21 @@ namespace NMib::NMongo::NMongoCertificateManager
 	{
 		CUser *pUser = nullptr;
 
-		auto OnResume = g_OnResume / [&]
-			{
-				if (mp_State.m_bStoppingApp || f_IsDestroyed())
-					DMibError("Startup aborted");
+		auto OnResume = co_await fg_OnResume
+			(
+				[&]() -> NException::CExceptionPointer
+				{
+					if (mp_State.m_bStoppingApp || f_IsDestroyed())
+						return DMibErrorInstance("Startup aborted");
 
-				pUser = mp_Users.f_FindEqual(_UserKey);
+					pUser = mp_Users.f_FindEqual(_UserKey);
 
-				if (!pUser)
-					DMibError("Certificate user '{}' deleted"_f << _UserKey);
-			}
+					if (!pUser)
+						return DMibErrorInstance("Certificate user '{}' deleted"_f << _UserKey);
+
+					return {};
+				}
+			)
 		;
 
 		if (!pUser->m_bSensorsRegistered)
@@ -81,13 +86,18 @@ namespace NMib::NMongo::NMongoCertificateManager
 	TCFuture<void> CMongoCertificateManagerActor::fp_User_RegisterSensors(CUserKey _UserKey)
 	{
 		CUser *pUser = nullptr;
-		auto OnResume = g_OnResume / [&]
-			{
-				pUser = mp_Users.f_FindEqual(_UserKey);
+		auto OnResume = co_await fg_OnResume
+			(
+				[&]() -> NException::CExceptionPointer
+				{
+					pUser = mp_Users.f_FindEqual(_UserKey);
 
-				if (!pUser)
-					DMibError("User '{}' deleted"_f << _UserKey);
-			}
+					if (!pUser)
+						return DMibErrorInstance("User '{}' deleted"_f << _UserKey);
+
+					return {};
+				}
+			)
 		;
 
 		if (pUser->m_bSensorsRegistered)
@@ -124,13 +134,18 @@ namespace NMib::NMongo::NMongoCertificateManager
 	TCFuture<void> CMongoCertificateManagerActor::fp_User_UpdateStatusSensor(CUserKey _UserKey, EStatusSeverity _Severity, CStr _Status)
 	{
 		CUser *pUser = nullptr;
-		auto OnResume = g_OnResume / [&]
-			{
-				pUser = mp_Users.f_FindEqual(_UserKey);
+		auto OnResume = co_await fg_OnResume
+			(
+				[&]() -> NException::CExceptionPointer
+				{
+					pUser = mp_Users.f_FindEqual(_UserKey);
 
-				if (!pUser)
-					DMibError("User '{}' deleted"_f << _UserKey);
-			}
+					if (!pUser)
+						return DMibErrorInstance("User '{}' deleted"_f << _UserKey);
+
+					return {};
+				}
+			)
 		;
 
 		if (!pUser->m_bSensorsRegistered)
