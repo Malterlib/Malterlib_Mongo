@@ -242,7 +242,7 @@ namespace NMib::NMongo
 				f_UpdateUserStatus(User, _ActorInfo.m_HostInfo, EStatusSeverity_Warning, "Lost secrets manager");
 		}
 
-		co_await UserUpdateResults.f_GetResults() | g_Unwrap;
+		co_await (co_await UserUpdateResults.f_GetResults() | g_Unwrap);
 
 		co_return {};
 	}

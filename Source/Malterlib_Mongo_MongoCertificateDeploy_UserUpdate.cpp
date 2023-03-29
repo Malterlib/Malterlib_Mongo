@@ -32,7 +32,7 @@ namespace NMib::NMongo
 		for (auto &UserKey : UserKeys)
 			fg_CallSafe(this, &CInternal::f_UserUpdate_ForAllSecretsManagers, UserKey) > Results.f_AddResult();
 
-		co_await Results.f_GetResults() | g_Unwrap;
+		co_await (co_await Results.f_GetResults() | g_Unwrap);
 
 		co_return {};
 	}
@@ -143,7 +143,7 @@ namespace NMib::NMongo
 		for (auto &SecretsManager : m_SecretsManagerSubscription.m_Actors)
 			fg_CallSafe(this, &CInternal::f_UserUpdate_ForSecretsManager, _UserKey, SecretsManager.m_Actor, SecretsManager.m_TrustInfo.m_HostInfo) > UpdateResults.f_AddResult();
 
-		co_await UpdateResults.f_GetResults() | g_Unwrap;
+		co_await (co_await UpdateResults.f_GetResults() | g_Unwrap);
 
 		co_return {};
 	}
@@ -352,7 +352,7 @@ namespace NMib::NMongo
 		for (auto &FilesSettings : pUser->m_Settings.m_FilesSettings)
 			fg_CallSafe(this, &CInternal::f_UserUpdate_UpdateFiles, _UserKey, FilesSettings) > UpdateFilesResults.f_AddResult();
 
-		co_await UpdateFilesResults.f_GetResults() | g_Unwrap;
+		co_await (co_await UpdateFilesResults.f_GetResults() | g_Unwrap);
 
 		f_UpdateUserStatus(*pUser, pUserState->m_SecretsManagerHostInfo, EStatusSeverity_Success, "All certificates deployed and up to date");
 

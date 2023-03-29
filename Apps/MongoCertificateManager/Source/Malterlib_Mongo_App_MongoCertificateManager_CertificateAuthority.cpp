@@ -85,7 +85,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 					if (!Result)
 					{
 						if (!Result.f_HasExceptionType<CExceptionSecretsManagerUnexpectedValue>())
-							fg_Move(Results) | g_Unwrap; // Rethrow all errors
+							co_await (fg_Move(Results) | g_Unwrap); // Rethrow all errors
 
 						bAllSuccessful = false;
 						break;
