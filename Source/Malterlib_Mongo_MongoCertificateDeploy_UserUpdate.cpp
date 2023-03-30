@@ -300,8 +300,9 @@ namespace NMib::NMongo
 						}
 					;
 
-					try
 					{
+						auto CaptureScope = co_await g_CaptureExceptions;
+
 						fUpdateFile(PrivateKey, _FileSettings.m_Key);
 						fUpdateFile(Certificate, _FileSettings.m_Certificate);
 						fUpdateFile(CertificateAuthority, _FileSettings.m_Authority);
@@ -314,10 +315,6 @@ namespace NMib::NMongo
 							else
 								CFile::fs_RenameFile(fg_Get<0>(ToCommit), fg_Get<1>(ToCommit));
 						}
-					}
-					catch (CException const &)
-					{
-						co_return NException::fg_CurrentException();
 					}
 
 					co_return bChanged;

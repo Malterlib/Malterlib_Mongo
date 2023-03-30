@@ -145,13 +145,9 @@ namespace NMib::NMongo::NMongoCertificateManager
 			co_return Auditor.f_Exception("'{}' is not a valid certificate authority name"_f << Authority);
 
 		EUserType Type = EUserType_User;
-		try
 		{
+			auto CaptureScope = co_await (g_CaptureExceptions % Auditor);
 			Type = fsp_UserTypeFromStr(TypeString);
-		}
-		catch (CException const &_Exception)
-		{
-			co_return Auditor.f_Exception(_Exception.f_GetErrorStr());
 		}
 
 		if (!CUser::fs_IsValidName(UserName, Type))
