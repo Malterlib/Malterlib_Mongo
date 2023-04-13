@@ -275,7 +275,11 @@ Property
 
 	Compile
 	{
-		!!CompileDialect "C"
+		&
+		{
+			!DocumentationEnabled true
+			CompileDialect "C"
+		}
 
 		SearchPath += ["../../External/mongo-cxx-driver/src"->MakeAbsolute(), MalterlibMongoIncludePath_bson...]
 		SearchPath += `@(GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:BSONCXX.Target:Lib_BSONCXX_bsoncxx_static.Import:*.Target:Lib_BSONCXX_bsoncxx_static"))/src`
