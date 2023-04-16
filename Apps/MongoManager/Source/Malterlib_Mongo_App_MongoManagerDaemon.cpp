@@ -19,7 +19,12 @@ namespace NMib::NMongo::NMongoManager
 	{
 	}
 
-	void CMongoManagerDaemonActor::fp_PopulateAppInterfaceRegisterInfo(CDistributedAppInterfaceServer::CRegisterInfo &o_RegisterInfo, NEncoding::CEJSON const &_Params)
+	void CMongoManagerDaemonActor::fp_PopulateAppInterfaceInfo
+		(
+			CDistributedAppInterfaceServer::CRegisterInfo &o_RegisterInfo
+			, CDistributedAppInterfaceServer::CConfigFiles &o_ConfigFiles
+			, NEncoding::CEJSON const &_Params
+		)
 	{
 		o_RegisterInfo.m_UpdateType = EDistributedAppUpdateType_OneAtATime;
 		
