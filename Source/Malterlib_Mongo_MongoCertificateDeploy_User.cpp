@@ -30,7 +30,7 @@ namespace NMib::NMongo
 			{
 				if (auto *pUser = pInternal->m_Users.f_FindEqual(UserKey))
 				{
-					co_await pUser->m_UserUpdateSequencer.f_Abort().f_Wrap();
+					co_await fg_Move(pUser->m_UserUpdateSequencer).f_Destroy().f_Wrap();
 					pInternal->m_Users.f_Remove(UserKey);
 				}
 				co_return {};

@@ -69,15 +69,15 @@ namespace NMib::NMongo
 		UserState.m_SecretsManager = _SecretsManager;
 		UserState.m_SecretsManagerHostInfo = _SecretsManagerHostInfo;
 
-		auto UpdateResult = co_await
+		auto UpdateResult = co_await pUser->m_UserUpdateSequencer.f_RunSequenced
 			(
-				pUser->m_UserUpdateSequencer /
+				g_ActorFunctorWeak /
 				[
 					this
 					, _UserKey
 					, UserState = fg_Move(UserState)
 				]
-				() mutable -> TCFuture<void>
+				(CActorSubscription &&_Subscription) mutable -> TCFuture<void>
 				{
 					auto *pUser = m_Users.f_FindEqual(_UserKey);
 
@@ -106,6 +106,8 @@ namespace NMib::NMongo
 							% ("Failed to update user '{}'"_f << User.f_GetKey())
 						)
 					;
+
+					(void)_Subscription;
 
 					co_return {};
 				}

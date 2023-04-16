@@ -7,7 +7,7 @@
 
 #include <Mib/Cloud/SecretsManager>
 #include <Mib/Concurrency/ActorSubscription>
-#include <Mib/Concurrency/ActorSequencer>
+#include <Mib/Concurrency/ActorSequencerActor>
 #include <Mib/Concurrency/LogError>
 
 namespace NMib::NMongo
@@ -60,7 +60,7 @@ namespace NMib::NMongo
 
 			CUserSettings m_Settings;
 			TCOptional<CUserState> m_UserState;
-			TCActorSequencer<void> m_UserUpdateSequencer;
+			CSequencer m_UserUpdateSequencer{"MongoCertificateDeployActor User UserUpdateSequencer {}"_f << f_GetKey()};
 			TCMap<CHostInfo, CUserStatus> m_Statuses;
 		};
 
