@@ -221,7 +221,7 @@ namespace NMib::NMongo
 
 			m_SecretsManagerStates.f_Remove(pSecretsManagerState);
 
-			co_await Subscription->f_Destroy().f_Wrap();
+			co_await Subscription->f_Destroy().f_Wrap() > fg_LogWarning("Mib/Mongo/MongoCertificateDeploy", "Failed to destroy secrets manager subscription");
 		}
 
 		TCActorResultVector<void> UserUpdateResults;

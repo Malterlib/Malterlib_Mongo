@@ -1,4 +1,6 @@
 
+#include <Mib/Concurrency/LogError>
+
 #include "Malterlib_Mongo_App_MongoManager_Server.h"
 #include "Malterlib_Mongo_App_MongoManager_BackupInstance.h"
 
@@ -254,27 +256,34 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<void> CMongoBackupInstanceActor::fp_Destroy()
 	{
-		auto CanDestroyFuture = mp_pCanDestroy->f_Future();
-		mp_pCanDestroy.f_Clear();
-		mp_MongoTailSubscription.f_Clear();
+		CLogError LogError("MongoManager/Backup");
+
+		{
+			auto CanDestroyFuture = fg_Exchange(mp_pCanDestroy, nullptr)->f_Future();
+			co_await fg_Move(CanDestroyFuture).f_Wrap() > LogError.f_Warning("Failed to destroy can destroy on instance");
+		}
+
+		if (mp_MongoTailSubscription)
+		 	co_await fg_Exchange(mp_MongoTailSubscription, nullptr)->f_Destroy().f_Wrap() > LogError.f_Warning("Failed to destroy mongo tail subscription");
 
 		if (!mp_bInitialBackupUploaded)
 			DLogWithCategory(MongoManager/Backup, Warning, "Aborting backup before the initial full backup has finished uploading");
 
-		TCActorResultVector<void> AllDestroyed;
+		{
+			TCActorResultVector<void> AllDestroyed;
 
-		if (mp_DumpProcessLaunch)
-			mp_DumpProcessLaunch.f_Destroy() > AllDestroyed.f_AddResult();
+			if (mp_DumpProcessLaunch)
+				mp_DumpProcessLaunch.f_Destroy() > AllDestroyed.f_AddResult();
 
-		if (mp_MongoClient)
-			mp_MongoClient.f_Destroy() > AllDestroyed.f_AddResult();
+			if (mp_MongoClient)
+				mp_MongoClient.f_Destroy() > AllDestroyed.f_AddResult();
 
-		co_await AllDestroyed.f_GetResults();
-		co_await self(&CMongoBackupInstanceActor::fp_DeleteBackup);
+			co_await AllDestroyed.f_GetUnwrappedResults().f_Wrap() > LogError.f_Warning("Failed to destroy mongo dump launch or client");
+		}
 
-		co_await mp_FileWriteActor.f_Destroy();
+		co_await self(&CMongoBackupInstanceActor::fp_DeleteBackup).f_Wrap() > LogError.f_Warning("Failed to delete backup");
 
-		co_await fg_Move(CanDestroyFuture);
+		co_await mp_FileWriteActor.f_Destroy().f_Wrap() > LogError.f_Warning("Failed to destroy file actor");
 
 		co_return {};
 	}

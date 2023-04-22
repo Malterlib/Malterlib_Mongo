@@ -132,16 +132,19 @@ namespace NMib::NMongo::NMongoManager
 	TCFuture<void> CMongoManagerActor::fp_Destroy()
 	{
 		DLog(Debug, "Destroy server");
+		CLogError LogError("MongoManager");
 
-		auto CanDestroyFuture = mp_pCanDestroyTracker->f_Future();
-		mp_pCanDestroyTracker.f_Clear();
+		{
+			auto CanDestroyFuture = fg_Exchange(mp_pCanDestroyTracker, nullptr)->f_Future();
+			co_await fg_Move(CanDestroyFuture).f_Wrap() > LogError.f_Warning("Failed to destroy can destroy");
+		}
 
 		{
 			TCActorResultVector<void> Destroys;
 			for (auto &ToolLaunch : mp_ToolLaunches)
 				ToolLaunch.m_ProcessLaunch.f_Destroy() > Destroys.f_AddResult();
 
-			co_await Destroys.f_GetResults();
+			co_await Destroys.f_GetUnwrappedResults().f_Wrap() > LogError.f_Warning("Failed to destroy tool launches");
 		}
 
 		{
@@ -159,21 +162,19 @@ namespace NMib::NMongo::NMongoManager
 				Actor.f_Destroy() > Destroys.f_AddResult();
 			}
 
-			co_await Destroys.f_GetResults();
+			co_await Destroys.f_GetUnwrappedResults().f_Wrap() > LogError.f_Warning("Failed to destroy backup manager");;
 		}
 
-		co_await fp_DestroyApp_Mongo();
+		co_await fp_DestroyApp_Mongo().f_Wrap() > LogError.f_Warning("Failed to mongo");;
 
 		if (mp_CertificateDeploySubscription_Admin)
-			co_await fg_Exchange(mp_CertificateDeploySubscription_Admin, nullptr)->f_Destroy().f_Wrap() > fg_LogError("", "Failed to destroy admin user certificate deploy subscription");
+			co_await fg_Exchange(mp_CertificateDeploySubscription_Admin, nullptr)->f_Destroy().f_Wrap() > LogError.f_Warning("Failed to destroy admin user certificate deploy subscription");
 
 		if (mp_CertificateDeploySubscription_Server)
-			co_await fg_Exchange(mp_CertificateDeploySubscription_Server, nullptr)->f_Destroy().f_Wrap() > fg_LogError("", "Failed to destroy server certificate deploy subscription");
+			co_await fg_Exchange(mp_CertificateDeploySubscription_Server, nullptr)->f_Destroy().f_Wrap() > LogError.f_Warning("Failed to destroy server certificate deploy subscription");
 
 		if (mp_CertificateDeployActor)
-			co_await fg_Move(mp_CertificateDeployActor).f_Destroy().f_Wrap() > fg_LogError("", "Failed to destroy certificate deploy actor");
-
-		co_await fg_Move(CanDestroyFuture);
+			co_await fg_Move(mp_CertificateDeployActor).f_Destroy().f_Wrap() > LogError.f_Warning("Failed to destroy certificate deploy actor");
 
 		DLog(Debug, "Destroy server done");
 

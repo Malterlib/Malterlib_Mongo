@@ -170,6 +170,8 @@ namespace NMib::NMongo
 	{
 		auto &Internal = *mp_pInternal;
 
+		CLogError LogError("Mib/Mongo/MongoCertificateDeploy");
+
 		TCActorResultVector<void> Results;
 
 		for (auto &State : Internal.m_SecretsManagerStates)
@@ -185,7 +187,7 @@ namespace NMib::NMongo
 		if (Internal.m_bOwnsFileActor && Internal.m_FileActor)
 			Internal.m_FileActor.f_Destroy() > Results.f_AddResult();
 
-		co_await Results.f_GetResults().f_Wrap();
+		co_await Results.f_GetUnwrappedResults().f_Wrap() > LogError.f_Warning("Failed to destroy certificater deploy actor");
 
 		co_return {};
 	}

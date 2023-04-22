@@ -30,7 +30,9 @@ namespace NMib::NMongo
 			{
 				if (auto *pUser = pInternal->m_Users.f_FindEqual(UserKey))
 				{
-					co_await fg_Move(pUser->m_UserUpdateSequencer).f_Destroy().f_Wrap();
+					co_await fg_Move(pUser->m_UserUpdateSequencer).f_Destroy().f_Wrap()
+						> fg_LogWarning("Mib/Mongo/MongoCertificateDeploy", "Failed to destroy user update sequencer")
+					;
 					pInternal->m_Users.f_Remove(UserKey);
 				}
 				co_return {};
