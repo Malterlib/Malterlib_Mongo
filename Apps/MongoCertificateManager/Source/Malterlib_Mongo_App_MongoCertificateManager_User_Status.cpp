@@ -44,17 +44,17 @@ namespace NMib::NMongo::NMongoCertificateManager
 			if (ExpireTime < Now)
 			{
 				Status.m_Severity = CDistributedAppSensorReporter::EStatusSeverity_Error;
-				Status.m_Description = "Error: Certificate expired {} days ago"_f << CTimeSpanConvert(Now - ExpireTime).f_GetDays();
+				Status.m_Description = "Error: Certificate expired {} ago"_f << fg_SecondsDurationToHumanReadable(CTimeSpanConvert(Now - ExpireTime).f_GetSecondsFloat());
 			}
 			else if (ExpireTime < MinExpireTime)
 			{
 				Status.m_Severity = CDistributedAppSensorReporter::EStatusSeverity_Warning;
-				Status.m_Description = "Warning: certificate will expire in {} days"_f << CTimeSpanConvert(ExpireTime - Now).f_GetDays();
+				Status.m_Description = "Warning: certificate will expire in {}"_f << fg_SecondsDurationToHumanReadable(CTimeSpanConvert(ExpireTime - Now).f_GetSecondsFloat());
 			}
 			else
 			{
 				Status.m_Severity = CDistributedAppSensorReporter::EStatusSeverity_Ok;
-				Status.m_Description = "Certificate will expire in {} days"_f << CTimeSpanConvert(ExpireTime - Now).f_GetDays();
+				Status.m_Description = "Certificate will expire in {}"_f << fg_SecondsDurationToHumanReadable(CTimeSpanConvert(ExpireTime - Now).f_GetSecondsFloat());
 			}
 		}
 		catch (CException const &_Exception)

@@ -44,17 +44,17 @@ namespace NMib::NMongo::NMongoCertificateManager
 			if (ExpireTime < Now)
 			{
 				Status.m_Severity = CDistributedAppSensorReporter::EStatusSeverity_Error;
-				Status.m_Description = "Error: Certificate expired {} days ago"_f << CTimeSpanConvert(Now - ExpireTime).f_GetDays();
+				Status.m_Description = "Error: Certificate expired {} ago"_f << fg_SecondsDurationToHumanReadable(CTimeSpanConvert(Now - ExpireTime).f_GetSecondsFloat());
 			}
 			else if (ExpireTime < MinExpireTime)
 			{
 				Status.m_Severity = CDistributedAppSensorReporter::EStatusSeverity_Warning;
-				Status.m_Description = "Warning: certificate will expire in {} days"_f << CTimeSpanConvert(ExpireTime - Now).f_GetDays();
+				Status.m_Description = "Warning: certificate will expire in {}"_f << fg_SecondsDurationToHumanReadable(CTimeSpanConvert(ExpireTime - Now).f_GetSecondsFloat());
 			}
 			else
 			{
 				Status.m_Severity = CDistributedAppSensorReporter::EStatusSeverity_Ok;
-				Status.m_Description = "Certificate will expire in {} days"_f << CTimeSpanConvert(ExpireTime - Now).f_GetDays();
+				Status.m_Description = "Certificate will expire in {}"_f << fg_SecondsDurationToHumanReadable(CTimeSpanConvert(ExpireTime - Now).f_GetSecondsFloat());
 			}
 		}
 		catch (CException const &_Exception)
@@ -113,7 +113,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			SensorInfo.m_Identifier = "org.malterlib.mongo.certificate-manager.authority.certificate-expire";
 			SensorInfo.m_IdentifierScope = _Authority;
 			SensorInfo.m_Name = "Mongo Authority Certificate Expire";
-			SensorInfo.m_ExpectedReportInterval = 24.0 * 60.0 * 60.0;
+			SensorInfo.m_ExpectedReportInterval = 24_hours;
 			SensorInfo.m_Type = NConcurrency::CDistributedAppSensorReporter::ESensorDataType_Status;
 			pAuthority->m_SensorReporter_Expire = co_await self(&CMongoCertificateManagerActor::fp_OpenSensorReporter, fg_Move(SensorInfo));
 		}
