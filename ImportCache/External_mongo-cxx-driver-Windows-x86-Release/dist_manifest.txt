@@ -545,6 +545,7 @@ examples/mongocxx/query.cpp
 examples/mongocxx/remove.cpp
 examples/mongocxx/server_side_field_level_encryption_enforcement.cpp
 examples/mongocxx/tailable_cursor.cpp
+examples/mongocxx/tutorial.cpp
 examples/mongocxx/update.cpp
 examples/mongocxx/view_or_value_variant.cpp
 examples/mongocxx/with_transaction.cpp
