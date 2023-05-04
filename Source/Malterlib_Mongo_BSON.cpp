@@ -153,7 +153,7 @@ namespace NMib::NMongo
 					else if (UserType.m_Type == "CodeWScope")
 					{
 						auto &Code = UserType.m_Value["Code"].f_String();
-						auto Scope = fg_ToBSON(NEncoding::CEJSON::fs_FromJSON(UserType.m_Value["Scope"]));
+						auto Scope = fg_ToBSON(NEncoding::CEJSON::fs_FromJson(UserType.m_Value["Scope"]));
 						_Builder << types::b_codewscope{fg_ToStringData(Code), Scope};
 					}
 					else if (UserType.m_Type == "Symbol")
@@ -183,7 +183,7 @@ namespace NMib::NMongo
 					else if (UserType.m_Type == "Undefined")
 						_Builder << types::b_undefined{};
 					else
-						fg_ToBSONValue(_Builder, Value.f_ToJSON());
+						fg_ToBSONValue(_Builder, Value.f_ToJson());
 				}
 				break;
 			case NEncoding::EEJSONType_Binary:
@@ -411,7 +411,7 @@ namespace NMib::NMongo
 					NEncoding::CEJSON Scope;
 					fg_FromBSONImp(Scope, SourceData.scope);
 					if (Scope.f_IsValid())
-						UserType.m_Value["Scope"] = Scope.f_ToJSON();
+						UserType.m_Value["Scope"] = Scope.f_ToJson();
 				}
 				return;
 			case type::k_timestamp:
