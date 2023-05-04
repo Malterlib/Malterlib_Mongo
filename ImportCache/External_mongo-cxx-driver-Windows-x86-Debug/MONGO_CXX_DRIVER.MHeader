@@ -23,6 +23,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `MToolCMake -E make_directory hugo`
 							AllowNonExisting true
 							Disabled false
@@ -60,6 +61,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `hugo`
 							AllowNonExisting true
 							Disabled false
@@ -101,6 +103,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `etc\\deploy-to-ghpages.pl --hugo git@@github.com:mongodb/mongo-cxx-driver`
 							AllowNonExisting true
 							Disabled false
@@ -142,6 +145,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `MToolCMake -E make_directory docs/api/current`
 							AllowNonExisting true
 							Disabled false
@@ -179,6 +183,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `doxygen @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/Doxyfile`->MakeAbsolute()->EscapeHost())`
 							AllowNonExisting true
 							Disabled false
@@ -220,6 +225,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `etc\\generate-all-apidocs.pl`
 							AllowNonExisting true
 							Disabled false
@@ -257,6 +263,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `etc\\deploy-to-ghpages.pl --doxygen git@@github.com:mongodb/mongo-cxx-driver`
 							AllowNonExisting true
 							Disabled false
@@ -298,6 +305,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `python @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/clang_format.py`->MakeAbsolute()->EscapeHost()) format`
 							AllowNonExisting true
 							Disabled false
@@ -335,6 +343,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `python @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/clang_format.py`->MakeAbsolute()->EscapeHost()) lint`
 							AllowNonExisting true
 							Disabled false
@@ -404,16 +413,17 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 				{
 					%File `@('.'->MakeAbsolute())/CMakeFiles/dist.rule`
 				}
-				%File `@('.'->MakeAbsolute())/mongo-cxx-driver-r3.7.2-20230425+git6b4121a1ee.tar.gz.rule`
+				%File `@('.'->MakeAbsolute())/mongo-cxx-driver-r3.7.2-20230504+git6b4121a1ee.tar.gz.rule`
 				{
 					Compile
 					{
-						Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D PACKAGE_PREFIX=mongo-cxx-driver-r3.7.2-20230425+git6b4121a1ee -D MONGOCXX_SOURCE_DIR=@('../../../../External/mongo-cxx-driver'->MakeAbsolute()) -D BUILD_SOURCE_DIR=@('.'->MakeAbsolute()) -D SHELL= -Ddist_generated="" -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDist.cmake`->MakeAbsolute()->EscapeHost())`
+						Type "Custom"
+						Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D PACKAGE_PREFIX=mongo-cxx-driver-r3.7.2-20230504+git6b4121a1ee -D MONGOCXX_SOURCE_DIR=@('../../../../External/mongo-cxx-driver'->MakeAbsolute()) -D BUILD_SOURCE_DIR=@('.'->MakeAbsolute()) -D SHELL= -Ddist_generated="" -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDist.cmake`->MakeAbsolute()->EscapeHost())`
 						AllowNonExisting true
 						Disabled false
 						Custom_WorkingDirectory `@('.'->MakeAbsolute())`->MakeAbsolute()
 						Custom_Outputs [
-							`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver/mongo-cxx-driver-r3.7.2-20230425+git6b4121a1ee.tar.gz`->MakeAbsolute()
+							`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver/mongo-cxx-driver-r3.7.2-20230504+git6b4121a1ee.tar.gz`->MakeAbsolute()
 						]
 						Custom_Inputs [
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/CMakeLists.txt`->MakeAbsolute(),
@@ -1440,7 +1450,8 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
-							Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D CMAKE_PREFIX_PATH= -D PACKAGE_PREFIX=mongo-cxx-driver-r3.7.2-20230425+git6b4121a1ee -D "CMAKE_CXX_FLAGS=/DWIN32 /D_WINDOWS /W3 /GR /EHsc" -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDistCheck.cmake`->MakeAbsolute()->EscapeHost())`
+							Type "Custom"
+							Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D CMAKE_PREFIX_PATH= -D PACKAGE_PREFIX=mongo-cxx-driver-r3.7.2-20230504+git6b4121a1ee -D "CMAKE_CXX_FLAGS=/DWIN32 /D_WINDOWS /W3 /GR /EHsc" -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDistCheck.cmake`->MakeAbsolute()->EscapeHost())`
 							AllowNonExisting true
 							Disabled false
 							Custom_WorkingDirectory `@('.'->MakeAbsolute())`->MakeAbsolute()
@@ -5965,6 +5976,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 						{
 							Compile
 							{
+								Type "Custom"
 								Custom_CommandLine `call @(`@('.'->MakeAbsolute())/generate_uninstall/uninstall.cmd`->MakeAbsolute()->EscapeHost())`
 								AllowNonExisting true
 								Disabled false

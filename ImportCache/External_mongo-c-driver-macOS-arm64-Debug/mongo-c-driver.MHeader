@@ -23,6 +23,7 @@ Property.CMakeOutputPath_mongo\-c\-driver: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `@(`@('../../../..'->MakeAbsolute())/Binaries/Malterlib/macOS/arm64/ctest`->MakeAbsolute()->EscapeHost()) -D Experimental`
 							AllowNonExisting true
 							Disabled false
@@ -60,6 +61,7 @@ Property.CMakeOutputPath_mongo\-c\-driver: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `@(`@('../../../..'->MakeAbsolute())/Binaries/Malterlib/macOS/arm64/ctest`->MakeAbsolute()->EscapeHost()) -D Nightly`
 							AllowNonExisting true
 							Disabled false
@@ -97,6 +99,7 @@ Property.CMakeOutputPath_mongo\-c\-driver: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `@(`@('../../../..'->MakeAbsolute())/Binaries/Malterlib/macOS/arm64/ctest`->MakeAbsolute()->EscapeHost()) -D Continuous`
 							AllowNonExisting true
 							Disabled false
@@ -134,6 +137,7 @@ Property.CMakeOutputPath_mongo\-c\-driver: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `MToolCMake -E echo The\\ dist\\ and\\ distcheck\\ targets\\ are\\ disabled.\\ Set\\ ENABLE_BSON=ON,\\ ENABLE_MAN_PAGES=ON,\\ ENABLE_HTML_DOCS=ON,\\ and\\ generate\\ VERSION_CURRENT\\ to\\ enable.`
 							AllowNonExisting true
 							Disabled false
@@ -171,6 +175,7 @@ Property.CMakeOutputPath_mongo\-c\-driver: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `MToolCMake -E echo The\\ dist\\ and\\ distcheck\\ targets\\ are\\ disabled.\\ Set\\ ENABLE_BSON=ON,\\ ENABLE_MAN_PAGES=ON,\\ ENABLE_HTML_DOCS=ON,\\ and\\ generate\\ VERSION_CURRENT\\ to\\ enable.`
 							AllowNonExisting true
 							Disabled false
@@ -1333,6 +1338,7 @@ Property.CMakeOutputPath_mongo\-c\-driver: string = `@('.'->MakeAbsolute())`->Ma
 						{
 							Compile
 							{
+								Type "Custom"
 								Custom_CommandLine `sh @(`@('.'->MakeAbsolute())/generate_uninstall/uninstall.sh`->MakeAbsolute()->EscapeHost())`
 								AllowNonExisting true
 								Disabled false
