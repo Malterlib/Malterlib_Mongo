@@ -92,7 +92,7 @@ namespace NMib::NMongo::NMongoManager
 				, fp32 _Timeout
 				, TCPromise<CStr> const &_Promise
 				, CClock const &_Clock
-				, CEJSON const &_Config
+				, CEJSONSorted const &_Config
 			)
 		;
 		TCFuture<CStr> fp_RunMongoScript
@@ -101,7 +101,7 @@ namespace NMib::NMongo::NMongoManager
 				, CStr const &_Script
 				, CStr const &_Database
 				, fp32 _Timeout
-				, CEJSON const &_Config
+				, CEJSONSorted const &_Config
 			)
 		;
 		TCFuture<void> fp_StartMongo();

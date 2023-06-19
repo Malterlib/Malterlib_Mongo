@@ -24,7 +24,7 @@ namespace NMib::NMongo
 		template <typename tf_CBuilder, typename tf_CJSON>
 		void fg_ToBSONMemberCommon(tf_CBuilder &&_Builder, NStr::CStr const &_Name, tf_CJSON const &_Value);
 		template <typename tf_CBuilder>
-		void fg_ToBSONMember(tf_CBuilder &&_Builder, NStr::CStr const &_Name, NEncoding::CEJSON const &_Value);
+		void fg_ToBSONMember(tf_CBuilder &&_Builder, NStr::CStr const &_Name, NEncoding::CEJSONOrdered const &_Value);
 		template <typename tf_CBuilder, typename tf_CJSON>
 		void fg_ToBSONMember(tf_CBuilder &&_Builder, NStr::CStr const &_Name, tf_CJSON const &_Value);
 		template <typename tf_CBuilder, typename tf_CJSON>
@@ -95,7 +95,7 @@ namespace NMib::NMongo
 		}
 
 		template <typename tf_CBuilder>
-		void fg_ToBSONValue(tf_CBuilder &&_Builder, NEncoding::CEJSON const &_Value)
+		void fg_ToBSONValue(tf_CBuilder &&_Builder, NEncoding::CEJSONOrdered const &_Value)
 		{
 			auto &Value = _Value;
 			switch (Value.f_EType())
@@ -153,7 +153,7 @@ namespace NMib::NMongo
 					else if (UserType.m_Type == "CodeWScope")
 					{
 						auto &Code = UserType.m_Value["Code"].f_String();
-						auto Scope = fg_ToBSON(NEncoding::CEJSON::fs_FromJson(UserType.m_Value["Scope"]));
+						auto Scope = fg_ToBSON(NEncoding::CEJSONOrdered::fs_FromJson(UserType.m_Value["Scope"]));
 						_Builder << types::b_codewscope{fg_ToStringData(Code), Scope};
 					}
 					else if (UserType.m_Type == "Symbol")
@@ -207,7 +207,7 @@ namespace NMib::NMongo
 		}
 
 		template <typename tf_CBuilder>
-		void fg_ToBSONMember(tf_CBuilder &&_Builder, NStr::CStr const &_Name, NEncoding::CEJSON const &_Value)
+		void fg_ToBSONMember(tf_CBuilder &&_Builder, NStr::CStr const &_Name, NEncoding::CEJSONOrdered const &_Value)
 		{
 			fg_ToBSONValue(_Builder << fg_ToStringData(_Name), _Value);
 		}
@@ -237,10 +237,10 @@ namespace NMib::NMongo
 			return NStr::CStr(_Data.data(), _Data.length());
 		}
 
-		void fg_FromBSONImp(NEncoding::CEJSON &_JSON, bsoncxx::document::view const &_BSON);
-		void fg_FromBSONImp(NEncoding::CEJSON &_JSON, bsoncxx::array::view const &_BSON);
+		void fg_FromBSONImp(NEncoding::CEJSONOrdered &_JSON, bsoncxx::document::view const &_BSON);
+		void fg_FromBSONImp(NEncoding::CEJSONOrdered &_JSON, bsoncxx::array::view const &_BSON);
 
-		void fg_FromBSONImp(NEncoding::CEJSON &_JSON, bsoncxx::document::element const &_Element)
+		void fg_FromBSONImp(NEncoding::CEJSONOrdered &_JSON, bsoncxx::document::element const &_Element)
 		{
 			switch (_Element.type())
 			{
@@ -408,7 +408,7 @@ namespace NMib::NMongo
 
 					UserType.m_Type = "CodeWScope";
 					UserType.m_Value["Code"] = fg_FromStringData(SourceData.code);
-					NEncoding::CEJSON Scope;
+					NEncoding::CEJSONOrdered Scope;
 					fg_FromBSONImp(Scope, SourceData.scope);
 					if (Scope.f_IsValid())
 						UserType.m_Value["Scope"] = Scope.f_ToJson();
@@ -458,7 +458,7 @@ namespace NMib::NMongo
 			DMibNeverGetHere; // Not supported
 		}
 
-		void fg_FromBSONImp(NEncoding::CEJSON &_JSON, bsoncxx::document::view const &_BSON)
+		void fg_FromBSONImp(NEncoding::CEJSONOrdered &_JSON, bsoncxx::document::view const &_BSON)
 		{
 			_JSON = NEncoding::EJSONType_Object;
 
@@ -469,7 +469,7 @@ namespace NMib::NMongo
 			}
 		}
 
-		void fg_FromBSONImp(NEncoding::CEJSON &_JSON, bsoncxx::array::view const &_BSON)
+		void fg_FromBSONImp(NEncoding::CEJSONOrdered &_JSON, bsoncxx::array::view const &_BSON)
 		{
 			_JSON = NEncoding::EJSONType_Array;
 
@@ -481,7 +481,7 @@ namespace NMib::NMongo
 		}
 	}
 
-	document::value fg_ToBSON(NEncoding::CEJSON const &_JSON)
+	document::value fg_ToBSON(NEncoding::CEJSONOrdered const &_JSON)
 	{
 		switch (_JSON.f_Type())
 		{
@@ -504,7 +504,7 @@ namespace NMib::NMongo
 		}
 	}
 
-	bsoncxx::array::value fg_ToBSONArray(NEncoding::CEJSON const &_JSON)
+	bsoncxx::array::value fg_ToBSONArray(NEncoding::CEJSONOrdered const &_JSON)
 	{
 		switch (_JSON.f_Type())
 		{
@@ -528,15 +528,15 @@ namespace NMib::NMongo
 	}
 
 
-	NEncoding::CEJSON fg_FromBSON(bsoncxx::document::view_or_value _BSON)
+	NEncoding::CEJSONOrdered fg_FromBSON(bsoncxx::document::view_or_value _BSON)
 	{
-		NEncoding::CEJSON Ret;
+		NEncoding::CEJSONOrdered Ret;
 		fg_FromBSONImp(Ret, _BSON);
 		return Ret;
 	}
-	NEncoding::CEJSON fg_FromBSON(bsoncxx::array::view_or_value _BSON)
+	NEncoding::CEJSONOrdered fg_FromBSON(bsoncxx::array::view_or_value _BSON)
 	{
-		NEncoding::CEJSON Ret;
+		NEncoding::CEJSONOrdered Ret;
 		fg_FromBSONImp(Ret, _BSON);
 		return Ret;
 	}

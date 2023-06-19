@@ -8,7 +8,7 @@
 
 namespace NMib::NMongo::NMongoCertificateManager
 {
-	TCFuture<uint32> CMongoCertificateManagerActor::fp_CommandLine_UserResync(CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoCertificateManagerActor::fp_CommandLine_UserResync(CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
 		auto Auditor = f_Auditor();
 

@@ -22,20 +22,20 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		auto AuthorityManagement = o_CommandLine.f_AddSection("Service Management", "Commands to manage MongoCertificateManager authorities");
 
-		auto SettingsOption_EllipticCurveType = "EllipticCurveType?"_=
+		auto SettingsOption_EllipticCurveType = "EllipticCurveType?"_o=
 			{
-				"Names"_= {"--elliptic-curve-type"}
-				, "Default"_= "secp521r1"
-				, "Type"_= COneOf{"secp256r1", "secp384r1", "secp521r1", "X25519"}
-				, "Description"_= "The type of elliptic curve to use for the EC certificate."
+				"Names"_o= {"--elliptic-curve-type"}
+				, "Default"_o= "secp521r1"
+				, "Type"_o= COneOf{"secp256r1", "secp384r1", "secp521r1", "X25519"}
+				, "Description"_o= "The type of elliptic curve to use for the EC certificate."
 			}
 		;
-		auto SettingsOption_Authority = "Authority?"_=
+		auto SettingsOption_Authority = "Authority?"_o=
 			{
-				"Names"_= {"--authority"}
-				, "Default"_= ""
-				, "Type"_= ""
-				, "Description"_= "The certificate authority to use"
+				"Names"_o= {"--authority"}
+				, "Default"_o= ""
+				, "Type"_o= ""
+				, "Description"_o= "The certificate authority to use"
 			}
 		;
 
@@ -57,20 +57,20 @@ namespace NMib::NMongo::NMongoCertificateManager
 		AuthorityManagement.f_RegisterCommand
 			(
 				{
-					"Names"_= {"--authority-create"}
-					, "Description"_= "Create a certificate authority\n"
-					, "Options"_=
+					"Names"_o= {"--authority-create"}
+					, "Description"_o= "Create a certificate authority\n"
+					, "Options"_o=
 					{
-						"Name"_=
+						"Name"_o=
 						{
-							"Names"_= {"--name"}
-							, "Type"_= ""
-							, "Description"_= "Name of the certificate authority"
+							"Names"_o= {"--name"}
+							, "Type"_o= ""
+							, "Description"_o= "Name of the certificate authority"
 						}
 						, SettingsOption_EllipticCurveType
 					}
 				}
-				, [this](CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+				, [this](CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 				{
 					return g_Future <<= self(&CMongoCertificateManagerActor::fp_CommandLine_AuthorityCreate, _Params, _pCommandLine);
 				}
@@ -79,21 +79,21 @@ namespace NMib::NMongo::NMongoCertificateManager
 		AuthorityManagement.f_RegisterCommand
 			(
 				{
-					"Names"_= {"--authority-list"}
-					, "Description"_= "List certificate authorities."
-					, "Options"_=
+					"Names"_o= {"--authority-list"}
+					, "Description"_o= "List certificate authorities."
+					, "Options"_o=
 					{
-						"Verbose?"_=
+						"Verbose?"_o=
 						{
-							"Names"_= {"--verbose", "-v"}
-							, "Default"_= false
-							, "Description"_= "Display more extensive information about the ca."
+							"Names"_o= {"--verbose", "-v"}
+							, "Default"_o= false
+							, "Description"_o= "Display more extensive information about the ca."
 						}
 						, SettingsOption_Authority
 						, CTableRenderHelper::fs_OutputTypeOption()
 					}
 				}
-				, [this](CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+				, [this](CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 				{
 					return g_Future <<= self(&CMongoCertificateManagerActor::fp_CommandLine_AuthorityList, _Params, _pCommandLine);
 				}
@@ -102,14 +102,14 @@ namespace NMib::NMongo::NMongoCertificateManager
 		AuthorityManagement.f_RegisterCommand
 			(
 				{
-					"Names"_= {"--authority-resync"}
-					, "Description"_= "Update certificate authorities on out of date secret managers."
-					, "Options"_=
+					"Names"_o= {"--authority-resync"}
+					, "Description"_o= "Update certificate authorities on out of date secret managers."
+					, "Options"_o=
 					{
 						SettingsOption_Authority
 					}
 				}
-				, [this](CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+				, [this](CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 				{
 					return g_Future <<= self(&CMongoCertificateManagerActor::fp_CommandLine_AuthorityResync, _Params, _pCommandLine);
 				}
@@ -118,35 +118,35 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		auto UserManagement = o_CommandLine.f_AddSection("User Management", "Commands to manage MongoCertificateManager users");
 
-		auto SettingsOption_User = "User?"_=
+		auto SettingsOption_User = "User?"_o=
 			{
-				"Names"_= {"--user"}
-				, "Default"_= ""
-				, "Type"_= ""
-				, "Description"_= "Name of the user"
+				"Names"_o= {"--user"}
+				, "Default"_o= ""
+				, "Type"_o= ""
+				, "Description"_o= "Name of the user"
 			}
 		;
 
 		UserManagement.f_RegisterCommand
 			(
 				{
-					"Names"_= {"--user-create"}
-					, "Description"_= "Create a user\n"
-					, "Options"_=
+					"Names"_o= {"--user-create"}
+					, "Description"_o= "Create a user\n"
+					, "Options"_o=
 					{
 						fStripOptional(fStripDefault(SettingsOption_Authority))
 						, fStripOptional(fStripDefault(SettingsOption_User))
-						, "Type?"_=
+						, "Type?"_o=
 						{
-							"Names"_= {"--type"}
-							, "Default"_= "user"
-							, "Type"_= COneOf{"user", "server"}
-							, "Description"_= "The type of user to create."
+							"Names"_o= {"--type"}
+							, "Default"_o= "user"
+							, "Type"_o= COneOf{"user", "server"}
+							, "Description"_o= "The type of user to create."
 						}
 						, SettingsOption_EllipticCurveType
 					}
 				}
-				, [this](CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+				, [this](CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 				{
 					return g_Future <<= self(&CMongoCertificateManagerActor::fp_CommandLine_UserCreate, _Params, _pCommandLine);
 				}
@@ -155,22 +155,22 @@ namespace NMib::NMongo::NMongoCertificateManager
 		UserManagement.f_RegisterCommand
 			(
 				{
-					"Names"_= {"--user-list"}
-					, "Description"_= "List certificate authorities."
-					, "Options"_=
+					"Names"_o= {"--user-list"}
+					, "Description"_o= "List certificate authorities."
+					, "Options"_o=
 					{
-						"Verbose?"_=
+						"Verbose?"_o=
 						{
-							"Names"_= {"--verbose", "-v"}
-							, "Default"_= false
-							, "Description"_= "Display more extensive information about the ca."
+							"Names"_o= {"--verbose", "-v"}
+							, "Default"_o= false
+							, "Description"_o= "Display more extensive information about the ca."
 						}
 						, SettingsOption_Authority
 						, SettingsOption_User
 						, CTableRenderHelper::fs_OutputTypeOption()
 					}
 				}
-				, [this](CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+				, [this](CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 				{
 					return g_Future <<= self(&CMongoCertificateManagerActor::fp_CommandLine_UserList, _Params, _pCommandLine);
 				}
@@ -179,15 +179,15 @@ namespace NMib::NMongo::NMongoCertificateManager
 		UserManagement.f_RegisterCommand
 			(
 				{
-					"Names"_= {"--user-resync"}
-					, "Description"_= "Update users on out of date secret managers."
-					, "Options"_=
+					"Names"_o= {"--user-resync"}
+					, "Description"_o= "Update users on out of date secret managers."
+					, "Options"_o=
 					{
 						SettingsOption_Authority
 						, SettingsOption_User
 					}
 				}
-				, [this](CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+				, [this](CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 				{
 					return g_Future <<= self(&CMongoCertificateManagerActor::fp_CommandLine_UserResync, _Params, _pCommandLine);
 				}
@@ -196,21 +196,21 @@ namespace NMib::NMongo::NMongoCertificateManager
 		UserManagement.f_RegisterCommand
 			(
 				{
-					"Names"_= {"--user-reissue-certificate"}
-					, "Description"_= "Reissue certificates that are about to expire."
-					, "Options"_=
+					"Names"_o= {"--user-reissue-certificate"}
+					, "Description"_o= "Reissue certificates that are about to expire."
+					, "Options"_o=
 					{
-						"Days?"_=
+						"Days?"_o=
 						{
-							"Names"_= {"--days", "-v"}
-							, "Default"_= 365
-							, "Description"_= "Reissue certificates that are about to expire within these number of days."
+							"Names"_o= {"--days", "-v"}
+							, "Default"_o= 365
+							, "Description"_o= "Reissue certificates that are about to expire within these number of days."
 						}
 						, SettingsOption_Authority
 						, SettingsOption_User
 					}
 				}
-				, [this](CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+				, [this](CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 				{
 					return g_Future <<= self(&CMongoCertificateManagerActor::fp_CommandLine_UserReissue, _Params, _pCommandLine);
 				}

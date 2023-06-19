@@ -8,7 +8,7 @@
 
 namespace NMib::NMongo::NMongoCertificateManager
 {
-	TCFuture<uint32> CMongoCertificateManagerActor::fp_CommandLine_AuthorityList(CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoCertificateManagerActor::fp_CommandLine_AuthorityList(CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
 		bool bVerbose = _Params["Verbose"].f_Boolean();
 		CStr AuthorityName = _Params["Authority"].f_String();

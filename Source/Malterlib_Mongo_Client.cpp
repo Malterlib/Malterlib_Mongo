@@ -306,7 +306,7 @@ namespace NMib::NMongo
 			(
 				CMongoClientActor::EQueryOption _Options
 				, auto const &_Fields
-				, NStorage::TCUniquePointer<NEncoding::CEJSON> const &_pOrder
+				, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> const &_pOrder
 			)
 		{
 			mongocxx::options::find Options;
@@ -352,7 +352,7 @@ namespace NMib::NMongo
 	NConcurrency::TCFuture<NConcurrency::CActorSubscription> CMongoClientActor::f_TailQuery
 		(
 			CTailQueryParams &&_Params
-			, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSON &&_Result)> &&_fOnResult
+			, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSONOrdered &&_Result)> &&_fOnResult
 		)
 	{
 		NConcurrency::TCPromise<NConcurrency::CActorSubscription> Result;
@@ -365,10 +365,10 @@ namespace NMib::NMongo
 		if (!Error.f_IsEmpty())
 			return Result <<= DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
-		NStorage::TCUniquePointer<NEncoding::CEJSON> pOrder = fg_Construct();
+		NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> pOrder = fg_Construct();
 		(*pOrder)["$natural"] = -1;
 
-		NStorage::TCUniquePointer<NEncoding::CEJSON> pFields = fg_Construct();
+		NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> pFields = fg_Construct();
 		(*pFields)[_Params.m_OrderBy] = 1;
 
 		auto StartQuery = _Params.m_Query;
@@ -391,7 +391,7 @@ namespace NMib::NMongo
 				, this
 				, Result
 			]
-			(NConcurrency::TCAsyncResult<NContainer::TCVector<NEncoding::CEJSON>> &&_Result) mutable
+			(NConcurrency::TCAsyncResult<NContainer::TCVector<NEncoding::CEJSONOrdered>> &&_Result) mutable
 			{
 				auto &Internal = *mp_pInternal;
 
@@ -401,7 +401,7 @@ namespace NMib::NMongo
 					return;
 				}
 
-				NEncoding::CEJSON GetOnwardsFromValue;
+				NEncoding::CEJSONOrdered GetOnwardsFromValue;
 
 				if (!_Result->f_IsEmpty() && _Result->f_GetFirst().f_IsValid())
 					GetOnwardsFromValue = fg_Move(_Result->f_GetFirst()[_Params.m_OrderBy]);
@@ -411,7 +411,7 @@ namespace NMib::NMongo
 					return;
 				}
 
-				NStorage::TCSharedPointer<NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSON &&_Data)>> pOnDataCallback
+				NStorage::TCSharedPointer<NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSONOrdered &&_Data)>> pOnDataCallback
 					= fg_Construct(fg_Move(_fOnResult))
 				;
 
@@ -447,7 +447,7 @@ namespace NMib::NMongo
 						{
 							auto &Internal = *mp_pInternal;
 
-							NEncoding::CEJSON Order;
+							NEncoding::CEJSONOrdered Order;
 
 #ifndef DPlatformFamily_Windows
 							auto SignalSubscription = NSys::fg_System_RegisterForThreadSignal
@@ -518,7 +518,7 @@ namespace NMib::NMongo
 									if (_Exception.what())
 										pError = _Exception.what();
 
-									NEncoding::CEJSON Error;
+									NEncoding::CEJSONOrdered Error;
 									Error["error"] = pError;
 
 									(*pOnDataCallback)(fg_Move(Error)) > NConcurrency::fg_DiscardResult();
@@ -536,18 +536,18 @@ namespace NMib::NMongo
 		return Result.f_MoveFuture();
 	}
 
-	NConcurrency::TCFuture<NContainer::TCVector<NEncoding::CEJSON>> CMongoClientActor::f_Query
+	NConcurrency::TCFuture<NContainer::TCVector<NEncoding::CEJSONOrdered>> CMongoClientActor::f_Query
 		(
 			NStr::CStr const &_Collection
-			, NEncoding::CEJSON const &_Query
+			, NEncoding::CEJSONOrdered const &_Query
 			, uint32 _nToReturn
 			, uint32 _nToSkip
-			, NStorage::TCUniquePointer<NEncoding::CEJSON> const &_pFields
-			, NStorage::TCUniquePointer<NEncoding::CEJSON> const &_pOrder
+			, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> const &_pFields
+			, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> const &_pOrder
 			, EQueryOption _Options
 		)
 	{
-		NConcurrency::TCPromise<NContainer::TCVector<NEncoding::CEJSON>> Promise;
+		NConcurrency::TCPromise<NContainer::TCVector<NEncoding::CEJSONOrdered>> Promise;
 
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
@@ -570,7 +570,7 @@ namespace NMib::NMongo
 
 			auto Cursor = Collection.find(fg_ToBSON(_Query), QueryOptions);
 
-			NContainer::TCVector<NEncoding::CEJSON> ToReturn;
+			NContainer::TCVector<NEncoding::CEJSONOrdered> ToReturn;
 			for (auto &&Document : Cursor)
 			   ToReturn.f_Insert(fg_FromBSON(Document));
 
@@ -589,7 +589,7 @@ namespace NMib::NMongo
 	NConcurrency::TCFuture<uint64> CMongoClientActor::f_Count
 		(
 			NStr::CStr const &_Collection
-			, NEncoding::CEJSON const &_Query
+			, NEncoding::CEJSONOrdered const &_Query
 			, uint32 _nToReturn
 			, uint32 _nToSkip
 		)
@@ -628,7 +628,7 @@ namespace NMib::NMongo
 		}
 	}
 
-	NConcurrency::TCFuture<void> CMongoClientActor::f_Insert(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Document, EInsertOption _Options)
+	NConcurrency::TCFuture<void> CMongoClientActor::f_Insert(NStr::CStr const &_Collection, NEncoding::CEJSONOrdered const &_Document, EInsertOption _Options)
 	{
 		NConcurrency::TCPromise<void> Result;
 		auto &Internal = *mp_pInternal;
@@ -661,7 +661,7 @@ namespace NMib::NMongo
 		}
 	}
 
-	NConcurrency::TCFuture<void> CMongoClientActor::f_BatchInsert(NStr::CStr const &_Collection, NContainer::TCVector<NEncoding::CEJSON> const &_Documents, EInsertOption _Options)
+	NConcurrency::TCFuture<void> CMongoClientActor::f_BatchInsert(NStr::CStr const &_Collection, NContainer::TCVector<NEncoding::CEJSONOrdered> const &_Documents, EInsertOption _Options)
 	{
 		NConcurrency::TCPromise<void> Promise;
 
@@ -705,8 +705,8 @@ namespace NMib::NMongo
 	auto CMongoClientActor::f_Update
 		(
 			NStr::CStr const &_Collection
-			, NEncoding::CEJSON const &_Query
-			, NEncoding::CEJSON const &_Update
+			, NEncoding::CEJSONOrdered const &_Query
+			, NEncoding::CEJSONOrdered const &_Update
 			, EUpdateOption _Options
 		)
 		-> NConcurrency::TCFuture<CUpdateResult>
@@ -751,7 +751,7 @@ namespace NMib::NMongo
 		}
 	}
 
-	NConcurrency::TCFuture<void> CMongoClientActor::f_Remove(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, ERemoveOption _Options)
+	NConcurrency::TCFuture<void> CMongoClientActor::f_Remove(NStr::CStr const &_Collection, NEncoding::CEJSONOrdered const &_Query, ERemoveOption _Options)
 	{
 		NConcurrency::TCPromise<void> Result;
 		auto &Internal = *mp_pInternal;

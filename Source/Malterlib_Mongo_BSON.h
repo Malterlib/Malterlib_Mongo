@@ -9,10 +9,10 @@
 
 namespace NMib::NMongo
 {
-	bsoncxx::document::value fg_ToBSON(NEncoding::CEJSON const &_JSON);
-	bsoncxx::array::value fg_ToBSONArray(NEncoding::CEJSON const &_JSON);
-	NEncoding::CEJSON fg_FromBSON(bsoncxx::document::view_or_value _BSON);
-	NEncoding::CEJSON fg_FromBSON(bsoncxx::array::view_or_value _BSON);
+	bsoncxx::document::value fg_ToBSON(NEncoding::CEJSONOrdered const &_JSON);
+	bsoncxx::array::value fg_ToBSONArray(NEncoding::CEJSONOrdered const &_JSON);
+	NEncoding::CEJSONOrdered fg_FromBSON(bsoncxx::document::view_or_value _BSON);
+	NEncoding::CEJSONOrdered fg_FromBSON(bsoncxx::array::view_or_value _BSON);
 }
 
 #ifndef DMibPNoShortCuts

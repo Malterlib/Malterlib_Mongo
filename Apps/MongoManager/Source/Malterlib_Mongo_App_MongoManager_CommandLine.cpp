@@ -23,11 +23,11 @@ namespace NMib::NMongo::NMongoManager
 		o_CommandLine.f_RegisterGlobalOptions
 			(
 				{
-					"VerboseMongoScripts?"_=
+					"VerboseMongoScripts?"_o=
 					{
-						"Names"_= {"--verbose-mongo-scripts"}
-						, "Type"_= false
-						, "Description"_= "Log verbose info from mongo scripts\n"
+						"Names"_o= {"--verbose-mongo-scripts"}
+						, "Type"_o= false
+						, "Description"_o= "Log verbose info from mongo scripts\n"
 							"Defaults to false. Can also be specied in config file VerboseMongoScripts. Command line option overrides setting in config file."
 					}
 				}
@@ -39,8 +39,8 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterDirectCommand
 			(
 				{
-					"Names"_= {"--list-restore-range"}
-					, "Description"_= 
+					"Names"_o= {"--list-restore-range"}
+					, "Description"_o=
 					fg_Format
 					(
 						"Lists the time range available for restore for the oplog.\n"
@@ -48,7 +48,7 @@ namespace NMib::NMongo::NMongoManager
 						, CFile::fs_GetProgramDirectory() + "/Oplog.bson" 
 					)
 				}
-				, [this](NEncoding::CEJSON const &_Params, CDistributedAppCommandLineClient &_CommandLineClient) -> uint32
+				, [this](NEncoding::CEJSONSorted const &_Params, CDistributedAppCommandLineClient &_CommandLineClient) -> uint32
 				{
 					return fp_CommandLine_ListRestoreRange(_Params);
 				}
@@ -57,8 +57,8 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterCommand
 			(
 				{
-					"Names"_= {"--restore"}
-					, "Description"_=
+					"Names"_o= {"--restore"}
+					, "Description"_o=
 					fg_Format
 					(
 						"Restores the database from backup.\n"
@@ -68,17 +68,17 @@ namespace NMib::NMongo::NMongoManager
 						, CFile::fs_GetProgramDirectory() + "/MongoDump"
 						, CFile::fs_GetProgramDirectory() + "/Oplog.bson"
 					)
-					, "Parameters"_=
+					, "Parameters"_o=
 					{
-						"RestoreTime?"_= 
+						"RestoreTime?"_o=
 						{
-							"Type"_= COneOfType(CTime(), "")	
-							, "Default"_= CTime()
-							, "Description"_= "Specify the time to playback the oplog to."
+							"Type"_o= COneOfType(CTime(), "")
+							, "Default"_o= CTime()
+							, "Description"_o= "Specify the time to playback the oplog to."
 						}
 					}
 				}
-				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
+				, [this](NEncoding::CEJSONSorted const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
 				{
 					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_Restore, _Parameters, _pCommandLine);
 				}
@@ -88,19 +88,19 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterCommand
 			(
 				{
-					"Names"_= {"--setup-permissions"}
-					, "Description"_= "Sets up permissions for a empty database by adding the admin user.\n"
-					, "Options"_=
+					"Names"_o= {"--setup-permissions"}
+					, "Description"_o= "Sets up permissions for a empty database by adding the admin user.\n"
+					, "Options"_o=
 					{
-						"MongoPort?"_=
+						"MongoPort?"_o=
 						{
-							"Names"_= {"--port"}
-							, "Type"_= 0
-							, "Description"_= "Specify the port to run the mongo server on. Will overwrite MongoManagerConfig.json with stripped comments."
+							"Names"_o= {"--port"}
+							, "Type"_o= 0
+							, "Description"_o= "Specify the port to run the mongo server on. Will overwrite MongoManagerConfig.json with stripped comments."
 						}
 					}
 				}
-				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
+				, [this](NEncoding::CEJSONSorted const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
 				{
 					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_SetupPermissions, _Parameters, _pCommandLine);
 				}
@@ -110,8 +110,8 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterCommand
 			(
 				{
-					"Names"_= {"--update-replication-config"}
-					, "Description"_=
+					"Names"_o= {"--update-replication-config"}
+					, "Description"_o=
 					fg_Format
 					(
 						"Updates replication config.\n"
@@ -119,7 +119,7 @@ namespace NMib::NMongo::NMongoManager
 						"Should not be run when the daemon is started. Should not be run in a distributed replica.\n"
 					)
 				}
-				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
+				, [this](NEncoding::CEJSONSorted const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
 				{
 					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_UpdateReplicationConfig, _Parameters, _pCommandLine);
 				}
@@ -129,11 +129,11 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterCommand
 			(
 				{
-					"Names"_= {"--run-backup"}
-					, "Description"_= "Run a backup without running from an AppManager.\n"
-					, "Output"_= "Backup ID.\n"
+					"Names"_o= {"--run-backup"}
+					, "Description"_o= "Run a backup without running from an AppManager.\n"
+					, "Output"_o= "Backup ID.\n"
 				}
-				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
+				, [this](NEncoding::CEJSONSorted const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
 				{
 					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_RunBackup, _Parameters, _pCommandLine);
 				}
@@ -143,18 +143,18 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterCommand
 			(
 				{
-					"Names"_= {"--cancel-backups"}
-					, "Description"_= "Run a backup without running from an AppManager.\n"
-					, "Parameters"_=
+					"Names"_o= {"--cancel-backups"}
+					, "Description"_o= "Run a backup without running from an AppManager.\n"
+					, "Parameters"_o=
 					{
-						"BackupIDs...?"_=
+						"BackupIDs...?"_o=
 						{
-							"Type"_= {1}
-							, "Description"_= "The backup IDs to cancel. Specify none to cancel all backups"
+							"Type"_o= {1}
+							, "Description"_o= "The backup IDs to cancel. Specify none to cancel all backups"
 						}
 					}
 				}
-				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
+				, [this](NEncoding::CEJSONSorted const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
 				{
 					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_CancelBackups, _Parameters, _pCommandLine);
 				}
@@ -165,70 +165,70 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterCommand
 			(
 				{
-					"Names"_= {"--join-replica-set"}
-					, "Description"_= "Joins mongo replica.\n"
-					, "Options"_=
+					"Names"_o= {"--join-replica-set"}
+					, "Description"_o= "Joins mongo replica.\n"
+					, "Options"_o=
 					{
-						"MongoPort?"_= 
+						"MongoPort?"_o=
 						{
-							"Names"_= {"--port"}
-							, "Type"_= 0	
-							, "Description"_= "Specify the port to run the mongo server on. Will overwrite MongoManagerConfig.json with stripped comments."
+							"Names"_o= {"--port"}
+							, "Type"_o= 0
+							, "Description"_o= "Specify the port to run the mongo server on. Will overwrite MongoManagerConfig.json with stripped comments."
 						}
-						, "MongoReplicaName?"_= 
+						, "MongoReplicaName?"_o=
 						{
-							"Names"_= {"--replica-name"}
-							, "Type"_= ""	
-							, "Description"_= "Specify the name of the replica to join. Will overwrite MongoManagerConfig.json with stripped comments."
+							"Names"_o= {"--replica-name"}
+							, "Type"_o= ""
+							, "Description"_o= "Specify the name of the replica to join. Will overwrite MongoManagerConfig.json with stripped comments."
 						}
-						, "CanVote?"_= 
+						, "CanVote?"_o=
 						{
-							"Names"_= {"--can-vote"}
-							, "Type"_= true	
-							, "Description"_= "Specify whether this mongo instance should have a vote in the election process."
+							"Names"_o= {"--can-vote"}
+							, "Type"_o= true
+							, "Description"_o= "Specify whether this mongo instance should have a vote in the election process."
 						}
-						, "Priority?"_= 
+						, "Priority?"_o=
 						{
-							"Names"_= {"--priority"}
-							, "Type"_= 1.0	
-							, "Description"_= "Specify the priority this mongo should have in the election process."
+							"Names"_o= {"--priority"}
+							, "Type"_o= 1.0
+							, "Description"_o= "Specify the priority this mongo should have in the election process."
 						}
-						, "ArbiterOnly?"_= 
+						, "ArbiterOnly?"_o=
 						{
-							"Names"_= {"--arbiter-only"}
-							, "Type"_= false	
-							, "Description"_= "Specify that the member should be a arbiter only."
+							"Names"_o= {"--arbiter-only"}
+							, "Type"_o= false
+							, "Description"_o= "Specify that the member should be a arbiter only."
 						}
-						, "BuildIndexes?"_= 
+						, "BuildIndexes?"_o=
 						{
-							"Names"_= {"--build-indexes"}
-							, "Type"_= true	
-							, "Description"_= "Specify that the member should not build indexes. Useful for backup only hosts."
+							"Names"_o= {"--build-indexes"}
+							, "Type"_o= true
+							, "Description"_o= "Specify that the member should not build indexes. Useful for backup only hosts."
 						}
-						, "Hidden?"_= 
+						, "Hidden?"_o=
 						{
-							"Names"_= {"--hidden"}
-							, "Type"_= false	
-							, "Description"_= "Hide this member so clients does not use it for queries."
+							"Names"_o= {"--hidden"}
+							, "Type"_o= false
+							, "Description"_o= "Hide this member so clients does not use it for queries."
 						}
-						, "ExtraTags?"_= 
+						, "ExtraTags?"_o=
 						{
-							"Names"_= {"--extra-tags"}
-							, "Type"_= {"*"_= ""}	
-							, "Description"_= fg_Format("Specify extra tags to add to this member. The hostname '{}' will always be included as a tag.", NProcess::NPlatform::fg_Process_GetHostName())
+							"Names"_o= {"--extra-tags"}
+							, "Type"_o= {"*"_o= ""}
+							, "Description"_o= fg_Format("Specify extra tags to add to this member. The hostname '{}' will always be included as a tag.", NProcess::NPlatform::fg_Process_GetHostName())
 						}
 					}
-					, "Parameters"_=
+					, "Parameters"_o=
 					{
-						"ReplicaMember"_= 
+						"ReplicaMember"_o=
 						{
-							"Type"_= ""	
-							, "Description"_= "Specify a member of the replica to join.\n"
+							"Type"_o= ""
+							, "Description"_o= "Specify a member of the replica to join.\n"
 								"If you specify yourself here a new replica set will be created."
 						}
 					}
 				}
-				, [this](NEncoding::CEJSON const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
+				, [this](NEncoding::CEJSONSorted const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
 				{
 					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_JoinReplica, _Parameters, _pCommandLine);
 				}
@@ -237,7 +237,7 @@ namespace NMib::NMongo::NMongoManager
 		;
 	}
 
-	uint32 CMongoManagerDaemonActor::fp_CommandLine_ListRestoreRange(NEncoding::CEJSON const &_Params)
+	uint32 CMongoManagerDaemonActor::fp_CommandLine_ListRestoreRange(NEncoding::CEJSONSorted const &_Params)
 	{
 		CStr RestoreOplog = CFile::fs_GetProgramDirectory() + "/Oplog.bson";
 		
@@ -292,7 +292,7 @@ namespace NMib::NMongo::NMongoManager
 		return 0;
 	}
 	
-	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_Restore(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_Restore(NEncoding::CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();
 
@@ -312,7 +312,7 @@ namespace NMib::NMongo::NMongoManager
 	
 	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_UpdateReplicationConfig
 		(
-			NEncoding::CEJSON const &_Params
+			NEncoding::CEJSONSorted const &_Params
 			, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine
 		)
 	{
@@ -325,7 +325,7 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 	
-	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_SetupPermissions(NEncoding::CEJSON const &_Param, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_SetupPermissions(NEncoding::CEJSONSorted const &_Param, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();
 
@@ -385,7 +385,7 @@ namespace NMib::NMongo::NMongoManager
 		uint32 m_BackupID = -1;
 	};
 	
-	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_RunBackup(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_RunBackup(NEncoding::CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();
 
@@ -424,7 +424,7 @@ namespace NMib::NMongo::NMongoManager
 		co_return 0;
 	}
 
-	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_CancelBackups(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_CancelBackups(NEncoding::CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();
 
@@ -486,7 +486,7 @@ namespace NMib::NMongo::NMongoManager
 		co_return ExitStatus;
 	}
 	
-	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_JoinReplica(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_JoinReplica(NEncoding::CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();
 

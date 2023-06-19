@@ -94,42 +94,42 @@ namespace NMib::NMongo
 		struct CTailQueryParams
 		{
 			NStr::CStr m_Collection;
-			NEncoding::CEJSON m_Query;
+			NEncoding::CEJSONOrdered m_Query;
 			NStr::CStr m_OrderBy;
-			NStorage::TCOptional<NEncoding::CEJSON> m_Fields;
-			NStorage::TCOptional<NEncoding::CEJSON> m_StartQuery;
+			NStorage::TCOptional<NEncoding::CEJSONOrdered> m_Fields;
+			NStorage::TCOptional<NEncoding::CEJSONOrdered> m_StartQuery;
 			EQueryOption m_Options = EQueryOption_None;
 		};
 
-		NConcurrency::TCFuture<NContainer::TCVector<NEncoding::CEJSON>> f_Query
+		NConcurrency::TCFuture<NContainer::TCVector<NEncoding::CEJSONOrdered>> f_Query
 			(
 				NStr::CStr const &_Collection
-				, NEncoding::CEJSON const &_Query
+				, NEncoding::CEJSONOrdered const &_Query
 				, uint32 _nToReturn
 				, uint32 _nToSkip
-				, NStorage::TCUniquePointer<NEncoding::CEJSON> const &_pFields
-				, NStorage::TCUniquePointer<NEncoding::CEJSON> const &_pOrder
+				, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> const &_pFields
+				, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> const &_pOrder
 				, EQueryOption _Options
 			)
 		;
 		NConcurrency::TCFuture<NConcurrency::CActorSubscription> f_TailQuery
 			(
 				CTailQueryParams &&_Params
-				, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSON &&_Result)> &&_fOnResult
+				, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSONOrdered &&_Result)> &&_fOnResult
 			)
 		;
 		NConcurrency::TCFuture<uint64> f_Count
 			(
 				 NStr::CStr const &_Collection
-				, NEncoding::CEJSON const &_Query
+				, NEncoding::CEJSONOrdered const &_Query
 				, uint32 _nToReturn
 				, uint32 _nToSkip
 			)
 		;
-		NConcurrency::TCFuture<void> f_BatchInsert(NStr::CStr const &_Collection, NContainer::TCVector<NEncoding::CEJSON> const &_Documents, EInsertOption _Options);
-		NConcurrency::TCFuture<void> f_Insert(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Document, EInsertOption _Options);
-		NConcurrency::TCFuture<CUpdateResult> f_Update(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, NEncoding::CEJSON const &_Update, EUpdateOption _Options);
-		NConcurrency::TCFuture<void> f_Remove(NStr::CStr const &_Collection, NEncoding::CEJSON const &_Query, ERemoveOption _Options);
+		NConcurrency::TCFuture<void> f_BatchInsert(NStr::CStr const &_Collection, NContainer::TCVector<NEncoding::CEJSONOrdered> const &_Documents, EInsertOption _Options);
+		NConcurrency::TCFuture<void> f_Insert(NStr::CStr const &_Collection, NEncoding::CEJSONOrdered const &_Document, EInsertOption _Options);
+		NConcurrency::TCFuture<CUpdateResult> f_Update(NStr::CStr const &_Collection, NEncoding::CEJSONOrdered const &_Query, NEncoding::CEJSONOrdered const &_Update, EUpdateOption _Options);
+		NConcurrency::TCFuture<void> f_Remove(NStr::CStr const &_Collection, NEncoding::CEJSONOrdered const &_Query, ERemoveOption _Options);
 
 	private:
 		NConcurrency::TCFuture<void> fp_Destroy() override;

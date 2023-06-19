@@ -184,7 +184,7 @@ namespace NMib::NMongo::NMongoManager
 			, fp32 _Timeout
 			, TCPromise<CStr> const &_Promise
 			, CClock const &_Clock
-			, CEJSON const &_Config
+			, CEJSONSorted const &_Config
 		)
 	{
 		CStr MongoPath = fp_GetDataPath("mongo");
@@ -194,7 +194,7 @@ namespace NMib::NMongo::NMongoManager
 		TCVector<CStr> Params = _MongoConnectionSettings.f_GetToolParams(true);
 		auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
 
-		CEJSON Config = _Config;
+		CEJSONSorted Config = _Config;
 		Config["replicaName"] = mp_MongoReplicaName;
 		Config["mongoSelf"] = fg_Format("{}:{}", MongoHost.m_Host, MongoHost.m_Port);
 		Config["verbose"] = mp_bVerboseMongoScripts;
@@ -277,7 +277,7 @@ namespace NMib::NMongo::NMongoManager
 			, CStr const &_Script
 			, CStr const &_Database
 			, fp32 _Timeout
-			, CEJSON const &_Config
+			, CEJSONSorted const &_Config
 		)
 	{
 		TCPromise<CStr> Promise;
@@ -632,8 +632,8 @@ namespace NMib::NMongo::NMongoManager
 		CStr Self = mp_MongoConnectionSettings.f_GetConnectionString();
 		CStr SelfTag = Self.f_ReplaceChar('.', '_').f_ReplaceChar(':', '_');
 
-		CEJSON Config = {"selfTag"_= SelfTag};
-		CEJSON &ReplicationConfig = Config["replicationConfig"] =
+		CEJSONSorted Config = {"selfTag"_= SelfTag};
+		CEJSONSorted &ReplicationConfig = Config["replicationConfig"] =
 			{
 				"host"_= Self
 				, "arbiterOnly"_= _Options.m_ArbiterOnly.f_Get(false)
@@ -651,7 +651,7 @@ namespace NMib::NMongo::NMongoManager
 
 		if (_Options.m_ExtraTags)
 		{
-			CEJSON &Tags = ReplicationConfig["tags"];
+			CEJSONSorted &Tags = ReplicationConfig["tags"];
 			for (auto iTag = _Options.m_ExtraTags->f_GetIterator(); iTag; ++iTag)
 				Tags[iTag.f_GetKey()] = *iTag;
 		}

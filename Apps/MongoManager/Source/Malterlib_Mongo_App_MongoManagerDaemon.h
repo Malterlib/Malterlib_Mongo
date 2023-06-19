@@ -24,14 +24,14 @@ namespace NMib::NMongo::NMongoManager
 			CActorSubscription m_Subscription;
 		};
 		
-		TCFuture<void> fp_StartApp(NEncoding::CEJSON const &_Params) override;
+		TCFuture<void> fp_StartApp(NEncoding::CEJSONSorted const &_Params) override;
 		TCFuture<void> fp_StopApp() override;
 		TCFuture<void> fp_PreStop() override;
 		void fp_PopulateAppInterfaceInfo
 			(
 				CDistributedAppInterfaceServer::CRegisterInfo &o_RegisterInfo
 				, CDistributedAppInterfaceServer::CConfigFiles &o_ConfigFiles
-				, NEncoding::CEJSON const &_Params
+				, NEncoding::CEJSONSorted const &_Params
 			) override
 		;
 		TCFuture<CActorSubscription> fp_StartBackup
@@ -43,13 +43,13 @@ namespace NMib::NMongo::NMongoManager
 		;
 		
 		void fp_BuildCommandLine(CDistributedAppCommandLineSpecification &o_CommandLine) override; 
-		uint32 fp_CommandLine_ListRestoreRange(NEncoding::CEJSON const &_Params);
-		TCFuture<uint32> fp_CommandLine_Restore(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCFuture<uint32> fp_CommandLine_UpdateReplicationConfig(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCFuture<uint32> fp_CommandLine_SetupPermissions(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCFuture<uint32> fp_CommandLine_JoinReplica(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCFuture<uint32> fp_CommandLine_RunBackup(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCFuture<uint32> fp_CommandLine_CancelBackups(NEncoding::CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
+		uint32 fp_CommandLine_ListRestoreRange(NEncoding::CEJSONSorted const &_Params);
+		TCFuture<uint32> fp_CommandLine_Restore(NEncoding::CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
+		TCFuture<uint32> fp_CommandLine_UpdateReplicationConfig(NEncoding::CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
+		TCFuture<uint32> fp_CommandLine_SetupPermissions(NEncoding::CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
+		TCFuture<uint32> fp_CommandLine_JoinReplica(NEncoding::CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
+		TCFuture<uint32> fp_CommandLine_RunBackup(NEncoding::CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
+		TCFuture<uint32> fp_CommandLine_CancelBackups(NEncoding::CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
 		
 		TCActor<CMongoManagerActor> mp_pManager;
 		TCMap<uint32, CLocalBackup> mp_LocalBackups;

@@ -82,57 +82,57 @@ namespace
 					<< builder::stream::finalize
 				;
 				
-				CEJSON const ExpectedEJSON =
+				CEJSONOrdered const ExpectedEJSON =
 					{
-						"k_double"_= 5.6
-						, "k_utf8"_= "Value"
-						, "k_document"_=
+						"k_double"_o= 5.6
+						, "k_utf8"_o= "Value"
+						, "k_document"_o=
 						{
-							"k_double"_= 5.7
-							, "k_utf8"_= "Value1"
-							, "k_document"_=
+							"k_double"_o= 5.7
+							, "k_utf8"_o= "Value1"
+							, "k_document"_o=
 							{
-								"k_double"_= 5.8
-								, "k_utf8"_= "Value2"
+								"k_double"_o= 5.8
+								, "k_utf8"_o= "Value2"
 							}
 						}
-						, "k_array"_=
+						, "k_array"_o=
 						{
 							{
-								"k_double"_= 5.6
-								, "k_utf8"_= "Value"
+								"k_double"_o= 5.6
+								, "k_utf8"_o= "Value"
 							}
 							, "String"
 							, CTimeConvert::fs_CreateTime(2001, 02, 03)
 						}
-						, "k_array_empty"_= _[_]
-						, "k_bool"_= true
-						, "k_date"_= CTimeConvert::fs_CreateTime(2001, 02, 03)
-						, "k_null"_= nullptr
-						, "k_int32"_= CEJSONUserType{"int32", int32(556)}
-						, "k_int64"_= int64(constant_int64(66554466556665))
-						, "k_binary"_= TestBinary
-						, "k_binary k_function"_= CEJSONUserType{"BinData", {"Data"__= fg_Base64Encode(TestBinary), "Type"__= "Function"}}
-						, "k_binary k_binary_deprecated"_= CEJSONUserType{"BinData", {"Data"__= fg_Base64Encode(TestBinary), "Type"__= "ByteArrayDeprecated"}}
-						, "k_binary k_uuid_deprecated"_= CEJSONUserType{"BinData", {"Data"__= fg_Base64Encode(TestBinary), "Type"__= "bdtUUID"}}
-						, "k_binary k_uuid"_= CEJSONUserType{"BinData", {"Data"__= fg_Base64Encode(TestBinary), "Type"__= "newUUID"}}
-						, "k_binary k_md5"_= CEJSONUserType{"BinData", {"Data"__= fg_Base64Encode(TestBinary), "Type"__= "MD5Type"}}
-						, "k_binary k_user"_= CEJSONUserType{"BinData", {"Data"__= fg_Base64Encode(TestBinary), "Type"__= "bdtCustom"}}
-						, "k_undefined"_= CEJSONUserType{"Undefined", 1}
-						, "k_oid"_= CEJSONUserType{"jstOID", TestOID.c_str()}
-						, "k_regex"_= CEJSONUserType{"RegEx", {"Regex"__= "RegEx", "RegexFlags"__= "ls"}}
-						, "k_dbpointer"_= CEJSONUserType{"DBRef", {"NS"__= "Collection", "ObjectID"__= TestOID.c_str()}}
-						, "k_code"_= CEJSONUserType{"Code", "TestCode"}
-						, "k_symbol"_= CEJSONUserType{"Symbol", "TestSymbol"}
-						, "k_codewscope"_= CEJSONUserType{"CodeWScope", {"Code"__= "TestCode", "Scope"__= {"Test1"__= "Test2"}}}
-						, "k_timestamp"_= CEJSONUserType{"Timestamp", {"Seconds"__= 555, "Increment"__= 666}}
-						, "k_decimal128"_= CEJSONUserType{"Decimal128", {"High"__= constant_uint64(55555555555), "Low"__= constant_uint64(66666666666)}}
-						, "k_minkey"_= CEJSONUserType{"MinKey", 1}
-						, "k_maxkey"_= CEJSONUserType{"MaxKey", 1}
+						, "k_array_empty"_o= _[_]
+						, "k_bool"_o= true
+						, "k_date"_o= CTimeConvert::fs_CreateTime(2001, 02, 03)
+						, "k_null"_o= nullptr
+						, "k_int32"_o= CEJSONUserTypeOrdered{"int32", int32(556)}
+						, "k_int64"_o= int64(constant_int64(66554466556665))
+						, "k_binary"_o= TestBinary
+						, "k_binary k_function"_o= CEJSONUserTypeOrdered{"BinData", {"Data"__o= fg_Base64Encode(TestBinary), "Type"__o= "Function"}}
+						, "k_binary k_binary_deprecated"_o= CEJSONUserTypeOrdered{"BinData", {"Data"__o= fg_Base64Encode(TestBinary), "Type"__o= "ByteArrayDeprecated"}}
+						, "k_binary k_uuid_deprecated"_o= CEJSONUserTypeOrdered{"BinData", {"Data"__o= fg_Base64Encode(TestBinary), "Type"__o= "bdtUUID"}}
+						, "k_binary k_uuid"_o= CEJSONUserTypeOrdered{"BinData", {"Data"__o= fg_Base64Encode(TestBinary), "Type"__o= "newUUID"}}
+						, "k_binary k_md5"_o= CEJSONUserTypeOrdered{"BinData", {"Data"__o= fg_Base64Encode(TestBinary), "Type"__o= "MD5Type"}}
+						, "k_binary k_user"_o= CEJSONUserTypeOrdered{"BinData", {"Data"__o= fg_Base64Encode(TestBinary), "Type"__o= "bdtCustom"}}
+						, "k_undefined"_o= CEJSONUserTypeOrdered{"Undefined", 1}
+						, "k_oid"_o= CEJSONUserTypeOrdered{"jstOID", TestOID.c_str()}
+						, "k_regex"_o= CEJSONUserTypeOrdered{"RegEx", {"Regex"__o= "RegEx", "RegexFlags"__o= "ls"}}
+						, "k_dbpointer"_o= CEJSONUserTypeOrdered{"DBRef", {"NS"__o= "Collection", "ObjectID"__o= TestOID.c_str()}}
+						, "k_code"_o= CEJSONUserTypeOrdered{"Code", "TestCode"}
+						, "k_symbol"_o= CEJSONUserTypeOrdered{"Symbol", "TestSymbol"}
+						, "k_codewscope"_o= CEJSONUserTypeOrdered{"CodeWScope", {"Code"__o= "TestCode", "Scope"__o= {"Test1"__o= "Test2"}}}
+						, "k_timestamp"_o= CEJSONUserTypeOrdered{"Timestamp", {"Seconds"__o= 555, "Increment"__o= 666}}
+						, "k_decimal128"_o= CEJSONUserTypeOrdered{"Decimal128", {"High"__o= constant_uint64(55555555555), "Low"__o= constant_uint64(66666666666)}}
+						, "k_minkey"_o= CEJSONUserTypeOrdered{"MinKey", 1}
+						, "k_maxkey"_o= CEJSONUserTypeOrdered{"MaxKey", 1}
 					}
 				;
 
-				CEJSON const ExpectedEJSONArray =
+				CEJSONOrdered const ExpectedEJSONArray =
 					{
 						"String"
 						, ExpectedEJSON

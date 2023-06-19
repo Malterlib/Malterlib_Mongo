@@ -53,7 +53,7 @@ namespace NMib::NMongo::NMongoManager
 
 		TCSharedPointer<CFile> pBackupFile = _pBackupFile;
 
-		CEJSON Query;
+		CEJSONOrdered Query;
 		Query["fromMigrate"]["$exists"] = false;
 
 		CMongoClientActor::CTailQueryParams TailQueryParams
@@ -70,7 +70,7 @@ namespace NMib::NMongo::NMongoManager
 			(
 				&CMongoClientActor::f_TailQuery
 				, fg_Move(TailQueryParams)
-				, g_ActorFunctorWeak / [this, pBackupFile = fg_Move(pBackupFile)](NEncoding::CEJSON &&_Result) -> TCFuture<void>
+				, g_ActorFunctorWeak / [this, pBackupFile = fg_Move(pBackupFile)](NEncoding::CEJSONOrdered &&_Result) -> TCFuture<void>
 				{
 					if (!mp_pCanDestroy)
 						co_return {}; // Destroyed

@@ -102,7 +102,7 @@ namespace NMib::NMongo::NMongoManager
 				, "MongoWaitForPrimary"
 				, "local"
 				, 5.0*60.0
-				, CEJSON{"expectReplica"_= mp_Mode != EMode_JoinReplicaSet}
+				, CEJSONSorted{"expectReplica"_= mp_Mode != EMode_JoinReplicaSet}
 			)
 		;
 

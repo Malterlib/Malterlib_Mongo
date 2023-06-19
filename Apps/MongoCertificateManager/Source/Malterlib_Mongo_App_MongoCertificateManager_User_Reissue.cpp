@@ -8,7 +8,7 @@
 
 namespace NMib::NMongo::NMongoCertificateManager
 {
-	TCFuture<uint32> CMongoCertificateManagerActor::fp_CommandLine_UserReissue(CEJSON const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoCertificateManagerActor::fp_CommandLine_UserReissue(CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
 	{
 		CStr UserName = _Params["User"].f_String();
 		CStr AuthorityName = _Params["Authority"].f_String();

@@ -16,7 +16,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 	CMongoCertificateManagerActor::~CMongoCertificateManagerActor() = default;
 
-	TCFuture<void> CMongoCertificateManagerActor::fp_StartApp(NEncoding::CEJSON const &_Params)
+	TCFuture<void> CMongoCertificateManagerActor::fp_StartApp(NEncoding::CEJSONSorted const &_Params)
 	{
 		auto OnResume = co_await fg_OnResume
 			(
