@@ -45,7 +45,7 @@ Property
 	Import.CMake_FullRebuildVersion `@(Import.CMake_FullRebuildVersion).1`
 
 	Import.CMake_Variables =+ [
-		"BUILD_VERSION=1.15.1"
+		"BUILD_VERSION=1.24.3"
 		, "CMAKE_BUILD_WITH_INSTALL_RPATH=ON"
 		, "ENABLE_APPLE_FRAMEWORK=OFF"
 		, "MONGOC_ENABLE_EXECUTABLES=OFF"
@@ -61,6 +61,9 @@ Property
 		, "DISABLE_PACKAGES=ON"
 		, "ENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF"
 		, "ENABLE_SNAPPY=OFF"
+		, "ENABLE_SHM_COUNTERS=OFF"
+		, "ENABLE_ZLIB=SYSTEM"
+		, `ZLIB_LIBRARY=@(Malterlib_DummmyLibrary)`
 	]
 
 	Compile
@@ -262,6 +265,7 @@ Property
 						IdentityFileName "change_stream.cpp"
 						IdentityFileName "client_session.cpp"
 						IdentityFileName "client_encryption.cpp"
+						IdentityFileName "rewrap_many_datakey.cpp"
 					}
 				}
 			}
