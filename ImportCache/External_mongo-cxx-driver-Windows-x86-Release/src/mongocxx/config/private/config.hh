@@ -13,3 +13,5 @@
 // limitations under the License.
 
 #define MONGOCXX_ENABLE_SSL
+#define MONGOCXX_COMPILER_ID "MSVC"
+#define MONGOCXX_COMPILER_VERSION "19.37.32822.0"

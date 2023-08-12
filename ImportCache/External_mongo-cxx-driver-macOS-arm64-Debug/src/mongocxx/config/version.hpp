@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#define MONGOCXX_VERSION_STRING "3.7.2-pre"
+#define MONGOCXX_VERSION_STRING "3.8.1-pre"
 #define MONGOCXX_VERSION_MAJOR 3
-#define MONGOCXX_VERSION_MINOR 7
-#define MONGOCXX_VERSION_PATCH 2
+#define MONGOCXX_VERSION_MINOR 8
+#define MONGOCXX_VERSION_PATCH 1
 #define MONGOCXX_VERSION_EXTRA -pre

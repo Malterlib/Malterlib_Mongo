@@ -306,7 +306,15 @@ Property.CMakeOutputPath_MONGOCXX: string = `@('../..'->MakeAbsolute())`->MakeAb
 				{
 					Compile.Type "C++"
 				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/range.cpp`
+				{
+					Compile.Type "C++"
+				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/replace.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/rewrap_many_datakey.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -388,6 +396,10 @@ Property.CMakeOutputPath_MONGOCXX: string = `@('../..'->MakeAbsolute())`->MakeAb
 					Compile.Type "C++"
 				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/replace_one.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/rewrap_many_datakey.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -723,7 +735,15 @@ Property.CMakeOutputPath_MONGOCXX: string = `@('../..'->MakeAbsolute())`->MakeAb
 				{
 					Compile.Type "C++"
 				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/range.cpp`
+				{
+					Compile.Type "C++"
+				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/replace.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/rewrap_many_datakey.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -805,6 +825,10 @@ Property.CMakeOutputPath_MONGOCXX: string = `@('../..'->MakeAbsolute())`->MakeAb
 					Compile.Type "C++"
 				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/replace_one.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/rewrap_many_datakey.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -1104,6 +1128,10 @@ Property.CMakeOutputPath_MONGOCXX: string = `@('../..'->MakeAbsolute())`->MakeAb
 				}
 				%Group "spec"
 				{
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/initial_dns_seedlist_discovery.cpp`
+					{
+						Compile.Type "C++"
+					}
 					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
 					{
 						Compile.Type "C++"
@@ -1122,6 +1150,10 @@ Property.CMakeOutputPath_MONGOCXX: string = `@('../..'->MakeAbsolute())`->MakeAb
 						{
 							Compile.Type "C++"
 						}
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/uri_options.cpp`
+					{
+						Compile.Type "C++"
 					}
 				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/transactions.cpp`

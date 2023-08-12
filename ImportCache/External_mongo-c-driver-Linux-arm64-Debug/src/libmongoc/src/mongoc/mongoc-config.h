@@ -38,7 +38,7 @@
  * used to compile mongoc */
 #define MONGOC_USER_SET_CFLAGS ""
 
-#define MONGOC_USER_SET_LDFLAGS "-fuse-ld=lld -stdlib=libc++ -L"../../../../../../../../Binaries/MalterlibLLVM/Linux/arm64/lib/aarch64-unknown-linux-gnu""
+#define MONGOC_USER_SET_LDFLAGS "-fuse-ld=lld -stdlib=libc++ -Wno-unused-command-line-argument -L"../../../../../../../../Binaries/MalterlibLLVM/Linux/arm64/lib/aarch64-unknown-linux-gnu""
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
 #define MONGOC_CC "../../../../../../../../Binaries/MalterlibLLVM/macOS/arm64/bin/clang"
@@ -335,7 +335,7 @@
  * Set if performance counters are available and not disabled.
  *
  */
-#define MONGOC_ENABLE_SHM_COUNTERS 1
+#define MONGOC_ENABLE_SHM_COUNTERS 0
 
 #if MONGOC_ENABLE_SHM_COUNTERS != 1
 #  undef MONGOC_ENABLE_SHM_COUNTERS

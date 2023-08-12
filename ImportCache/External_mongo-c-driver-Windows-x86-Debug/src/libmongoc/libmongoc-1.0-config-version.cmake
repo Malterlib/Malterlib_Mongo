@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set (PACKAGE_VERSION 1.15.1)
+set (PACKAGE_VERSION 1.24.3)
 
 if ("${PACKAGE_FIND_VERSION_MAJOR}" EQUAL "1")
-   if ("${PACKAGE_FIND_VERSION_MINOR}" EQUAL "15")
+   if ("${PACKAGE_FIND_VERSION_MINOR}" EQUAL "24")
       set (PACKAGE_VERSION_EXACT TRUE)
-   elseif ("${PACKAGE_FIND_VERSION_MINOR}" LESS "15")
+   elseif ("${PACKAGE_FIND_VERSION_MINOR}" LESS "24")
       set (PACKAGE_VERSION_COMPATIBLE TRUE)
    else ()
       set (PACKAGE_VERSION_UNSUITABLE TRUE)

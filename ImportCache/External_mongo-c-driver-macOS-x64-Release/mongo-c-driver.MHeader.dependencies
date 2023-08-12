@@ -1,3 +1,4 @@
+_eval.tmp.cmake
 src/libmongoc/accept_test1.c
 ../../../../External/mongo-c-driver/CMakeLists.txt
 ../../../../External/mongo-c-driver/build/CMakeLists.txt
@@ -11,8 +12,10 @@ src/libmongoc/accept_test1.c
 ../../../../External/mongo-c-driver/build/cmake/MaintainerFlags.cmake
 ../../../../External/mongo-c-driver/build/cmake/MongoC-Warnings.cmake
 ../../../../External/mongo-c-driver/build/cmake/MongoCPackage.cmake
+../../../../External/mongo-c-driver/build/cmake/MongoSettings.cmake
 ../../../../External/mongo-c-driver/build/cmake/ParseVersion.cmake
 ../../../../External/mongo-c-driver/build/cmake/Sanitizers.cmake
+../../../../External/mongo-c-driver/build/cmake/TestFixtures.cmake
 ../../../../External/mongo-c-driver/build/cmake/make_dist/CMakeLists.txt
 ../../../../External/mongo-c-driver/build/cmake/make_dist/MakeDistFiles.cmake
 ../../../../External/mongo-c-driver/build/sphinx/CMakeLists.txt
@@ -55,4 +58,4 @@ src/libmongoc/accept_test1.c
 ../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-config.h.in
 ../../../../External/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-version.h.in
 ../../../../External/mongo-c-driver/src/tools/CMakeLists.txt
-../../../../External/mongo-c-driver/src/zlib-1.2.12/zconf.h.in
+../../../../External/mongo-c-driver/src/zlib-1.2.13/zconf.h.in

@@ -15,9 +15,9 @@
 message(WARNING "This CMake target is deprecated.  Use 'mongo::bson_shared' instead.  Consult the example projects for further details.")
 
 set (BSON_MAJOR_VERSION 1)
-set (BSON_MINOR_VERSION 15)
-set (BSON_MICRO_VERSION 1)
-set (BSON_VERSION 1.15.1)
+set (BSON_MINOR_VERSION 24)
+set (BSON_MICRO_VERSION 3)
+set (BSON_VERSION 1.24.3)
 
 
 ####### Expanded from @PACKAGE_INIT@ by configure_package_config_file() #######

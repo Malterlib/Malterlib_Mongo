@@ -13,3 +13,5 @@
 // limitations under the License.
 
 #define MONGOCXX_ENABLE_SSL
+#define MONGOCXX_COMPILER_ID "Clang"
+#define MONGOCXX_COMPILER_VERSION "16.0.5"

@@ -15,17 +15,17 @@
 message(WARNING "This CMake target is deprecated.  Use 'mongo::mongocxx_static' instead.  Consult the example projects for further details.")
 
 set(LIBMONGOCXX_STATIC_VERSION_MAJOR 3)
-set(LIBMONGOCXX_STATIC_VERSION_MINOR 7)
-set(LIBMONGOCXX_STATIC_VERSION_PATCH 2)
-set(LIBMONGOCXX_STATIC_PACKAGE_VERSION 3.7.2-pre)
+set(LIBMONGOCXX_STATIC_VERSION_MINOR 8)
+set(LIBMONGOCXX_STATIC_VERSION_PATCH 1)
+set(LIBMONGOCXX_STATIC_PACKAGE_VERSION 3.8.1-pre)
 
-find_package(libbsoncxx-static 3.7.2 REQUIRED)
+find_package(libbsoncxx-static 3.8.1 REQUIRED)
 
 # We need to pull in the libmongoc-static-* library to read the MONGOC_STATIC_LIBRARIES variable.
 # We can ignore the other variables exported by that package (e.g. MONGOC_STATIC_INCLUDE_DIRS,
 # MONGOC_STATIC_DEFINITIONS), since mongocxx hides the existence of libmongoc from the user through
 # abstraction.  mongocxx users generally should not need to include libmongoc headers directly.
-find_package(libmongoc-static-1.0 1.22.1 REQUIRED)
+find_package(libmongoc-static-1.0 1.24.0 REQUIRED)
 
 
 ####### Expanded from @PACKAGE_INIT@ by configure_package_config_file() #######
