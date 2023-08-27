@@ -63,6 +63,7 @@ Property
 		, "ENABLE_SNAPPY=OFF"
 		, "ENABLE_SHM_COUNTERS=OFF"
 		, "ENABLE_ZLIB=SYSTEM"
+		, `ZLIB_INCLUDE_DIR=@("../../External/zlib"->MakeAbsolute())`
 		, `ZLIB_LIBRARY=@(Malterlib_DummmyLibrary)`
 	]
 
