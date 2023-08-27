@@ -125,6 +125,7 @@ Import.CMake_Variables: [
 	ENABLE_SNAPPY=OFF,
 	ENABLE_SHM_COUNTERS=OFF,
 	ENABLE_ZLIB=SYSTEM,
+	ZLIB_INCLUDE_DIR=/External/zlib,
 	ZLIB_LIBRARY=/Binaries/MalterlibSDK/Linux/x86/Linux.sdk/lib/libc.so
 ]
 

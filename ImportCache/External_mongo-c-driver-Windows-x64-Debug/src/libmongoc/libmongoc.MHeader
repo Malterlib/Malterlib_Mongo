@@ -54,7 +54,7 @@ Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeA
 	{
 		!!Compile.Type "C"
 		SearchPath += [
-			"C:/Strawberry/c/include"->MakeAbsolute(),
+			`@('../../../../../..'->MakeAbsolute())/External/zlib`->MakeAbsolute(),
 			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src/libmongoc/src`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),

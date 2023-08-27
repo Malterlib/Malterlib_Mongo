@@ -128,6 +128,7 @@ Import.CMake_Variables: [
 	ENABLE_SNAPPY=OFF,
 	ENABLE_SHM_COUNTERS=OFF,
 	ENABLE_ZLIB=SYSTEM,
+	ZLIB_INCLUDE_DIR=/External/zlib,
 	ZLIB_LIBRARY=/private/var/db/xcode_select_link/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd
 ]
 
