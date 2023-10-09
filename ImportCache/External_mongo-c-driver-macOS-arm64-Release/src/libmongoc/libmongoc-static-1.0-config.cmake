@@ -66,7 +66,7 @@ set (MONGOC_STATIC_LIBRARIES ${MONGOC_STATIC_LIBRARY} ${ZLIB_STATIC_LIBRARY} ${B
 # "-framework CoreFoundation -framework Security". Split into a CMake array
 # like "-framework CoreFoundation;-framework Security".
 set (IS_FRAMEWORK_VAR 0)
-foreach (LIB  /private/var/db/xcode_select_link/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd  /private/var/db/xcode_select_link/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd
+foreach (LIB  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd
     resolv   
 )
    if (LIB STREQUAL "-framework")

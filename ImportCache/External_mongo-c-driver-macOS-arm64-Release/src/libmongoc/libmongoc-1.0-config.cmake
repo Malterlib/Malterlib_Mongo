@@ -62,7 +62,7 @@ set (MONGOC_LIBRARIES ${MONGOC_LIBRARY} ${BSON_LIBRARIES})
 # like "-framework CoreFoundation;-framework Security".
 set (IS_FRAMEWORK_VAR 0)
 foreach (LIB
-    /private/var/db/xcode_select_link/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd  resolv
+    /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd  resolv
       
 )
    if (LIB STREQUAL "-framework")

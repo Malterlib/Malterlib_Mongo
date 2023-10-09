@@ -103,13 +103,13 @@ Import.CMake_Variables: [
 	CMAKE_RANLIB=llvm-ranlib,
 	CMAKE_AR=llvm-ar,
 	,
-	CMAKE_OSX_SYSROOT=/private/var/db/xcode_select_link/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk,
+	CMAKE_OSX_SYSROOT=Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk,
 	CMAKE_OSX_ARCHITECTURES=x86_64,
 	,
 	OPENSSL_ROOT_DIR=/External/boringssl,
-	OPENSSL_LIBRARIES=/private/var/db/xcode_select_link/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd,
-	OPENSSL_CRYPTO_LIBRARY=/private/var/db/xcode_select_link/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd,
-	OPENSSL_SSL_LIBRARY=/private/var/db/xcode_select_link/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd,
+	OPENSSL_LIBRARIES=Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd,
+	OPENSSL_CRYPTO_LIBRARY=Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd,
+	OPENSSL_SSL_LIBRARY=Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd,
 	BUILD_VERSION=1.24.3,
 	CMAKE_BUILD_WITH_INSTALL_RPATH=ON,
 	ENABLE_APPLE_FRAMEWORK=OFF,
@@ -129,7 +129,7 @@ Import.CMake_Variables: [
 	ENABLE_SHM_COUNTERS=OFF,
 	ENABLE_ZLIB=SYSTEM,
 	ZLIB_INCLUDE_DIR=/External/zlib,
-	ZLIB_LIBRARY=/private/var/db/xcode_select_link/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd
+	ZLIB_LIBRARY=Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd
 ]
 
 Import.CMake_IncludeInHash: [

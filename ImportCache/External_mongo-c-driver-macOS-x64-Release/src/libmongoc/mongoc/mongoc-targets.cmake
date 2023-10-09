@@ -7,7 +7,7 @@ if(CMAKE_VERSION VERSION_LESS "2.8.3")
    message(FATAL_ERROR "CMake >= 2.8.3 required")
 endif()
 cmake_policy(PUSH)
-cmake_policy(VERSION 2.8.3...3.24)
+cmake_policy(VERSION 2.8.3...3.25)
 #----------------------------------------------------------------
 # Generated CMake target import file.
 #----------------------------------------------------------------
@@ -53,7 +53,7 @@ set_target_properties(mongo::mongoc_static PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "MONGOC_STATIC;BSON_STATIC"
   INTERFACE_COMPILE_OPTIONS "-fPIC"
   INTERFACE_INCLUDE_DIRECTORIES "../../../src/libmongoc/src;../../../src/libmongoc/src/mongoc;../../../../../../../External/mongo-c-driver/src/libmongoc/src;../../../../../../../External/mongo-c-driver/src/libmongoc/src/mongoc;../../../../../../../External/mongo-c-driver/src/libmongoc/../../src/common;../../../src/libmongoc/../../src;../../../src/libmongoc/../../src/common"
-  INTERFACE_LINK_LIBRARIES "/private/var/db/xcode_select_link/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd;resolv;/private/var/db/xcode_select_link/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd;mongo::bson_static"
+  INTERFACE_LINK_LIBRARIES "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd;resolv;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd;mongo::bson_static"
 )
 
 # Import target "mongo::mongoc_static" for configuration "Release"

@@ -23,6 +23,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `MToolCMake -E make_directory hugo`
 							AllowNonExisting true
 							Disabled false
@@ -60,6 +61,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `hugo`
 							AllowNonExisting true
 							Disabled false
@@ -101,6 +103,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `etc/deploy-to-ghpages.pl --hugo git@@github.com:mongodb/mongo-cxx-driver`
 							AllowNonExisting true
 							Disabled false
@@ -142,6 +145,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `MToolCMake -E make_directory docs/api/current`
 							AllowNonExisting true
 							Disabled false
@@ -179,6 +183,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `doxygen @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/Doxyfile`->MakeAbsolute()->EscapeHost())`
 							AllowNonExisting true
 							Disabled false
@@ -220,6 +225,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `etc/generate-all-apidocs.pl`
 							AllowNonExisting true
 							Disabled false
@@ -257,6 +263,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `etc/deploy-to-ghpages.pl --doxygen git@@github.com:mongodb/mongo-cxx-driver`
 							AllowNonExisting true
 							Disabled false
@@ -298,6 +305,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `python @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/clang_format.py`->MakeAbsolute()->EscapeHost()) format`
 							AllowNonExisting true
 							Disabled false
@@ -335,6 +343,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
+							Type "Custom"
 							Custom_CommandLine `python @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/clang_format.py`->MakeAbsolute()->EscapeHost()) lint`
 							AllowNonExisting true
 							Disabled false
@@ -404,16 +413,17 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 				{
 					%File `@('.'->MakeAbsolute())/CMakeFiles/dist.rule`
 				}
-				%File `@('.'->MakeAbsolute())/mongo-cxx-driver-r3.7.1-20220613+gitcef2bee28a.tar.gz.rule`
+				%File `@('.'->MakeAbsolute())/mongo-cxx-driver-r3.8.1-20231009+gita9d2c9ab14.tar.gz.rule`
 				{
 					Compile
 					{
-						Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D PACKAGE_PREFIX=mongo-cxx-driver-r3.7.1-20220613+gitcef2bee28a -D MONGOCXX_SOURCE_DIR=@('../../../../External/mongo-cxx-driver'->MakeAbsolute()) -D BUILD_SOURCE_DIR=@('.'->MakeAbsolute()) -D SHELL= -Ddist_generated="" -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDist.cmake`->MakeAbsolute()->EscapeHost())`
+						Type "Custom"
+						Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D PACKAGE_PREFIX=mongo-cxx-driver-r3.8.1-20231009+gita9d2c9ab14 -D MONGOCXX_SOURCE_DIR=@('../../../../External/mongo-cxx-driver'->MakeAbsolute()) -D BUILD_SOURCE_DIR=@('.'->MakeAbsolute()) -D SHELL= -Ddist_generated="" -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDist.cmake`->MakeAbsolute()->EscapeHost())`
 						AllowNonExisting true
 						Disabled false
 						Custom_WorkingDirectory `@('.'->MakeAbsolute())`->MakeAbsolute()
 						Custom_Outputs [
-							`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver/mongo-cxx-driver-r3.7.1-20220613+gitcef2bee28a.tar.gz`->MakeAbsolute()
+							`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver/mongo-cxx-driver-r3.8.1-20231009+gita9d2c9ab14.tar.gz`->MakeAbsolute()
 						]
 						Custom_Inputs [
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/CMakeLists.txt`->MakeAbsolute(),
@@ -552,52 +562,144 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/docs/themes/mongodb/static/lib/highlight/styles/idea.css`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/docs/themes/mongodb/theme.toml`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/CMakeLists.txt`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/change_stream/change-streams-errors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/change_stream/change-streams-resume-errorLabels.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/change_stream/change-streams-resume-whitelist.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/change_stream/change-streams.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/aggregate.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/azureKMS.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/badSchema.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/basic.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/bulk.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/bypassAutoEncryption.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/bypassedCommand.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/change-streams/unified/change-streams-errors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/change-streams/unified/change-streams-pre_and_post_images.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/change-streams/unified/change-streams-resume-allowlist.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/change-streams/unified/change-streams-resume-errorLabels.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/change-streams/unified/change-streams.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus-encrypted.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus-key-aws.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus-key-azure.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus-key-gcp.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus-key-kmip.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus-key-local.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus-schema.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/corpus/corpus.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/count.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/countDocuments.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/delete.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/distinct.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/explain.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/explicit-encryption/encryptedFields.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/explicit-encryption/key1-document.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/explicit-encryption/range-encryptedFields-Date.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/explicit-encryption/range-encryptedFields-DecimalNoPrecision.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/explicit-encryption/range-encryptedFields-DecimalPrecision.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/explicit-encryption/range-encryptedFields-DoubleNoPrecision.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/explicit-encryption/range-encryptedFields-DoublePrecision.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/explicit-encryption/range-encryptedFields-Int.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/explicit-encryption/range-encryptedFields-Long.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/external/external-key.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/external/external-schema.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/find.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/findOneAndDelete.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/findOneAndReplace.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/findOneAndUpdate.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/gcpKMS.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/getMore.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/insert.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/keyAltName.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/aggregate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/awsTemporary.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/azureKMS.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/badQueries.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/badSchema.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/basic.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/bulk.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/bypassAutoEncryption.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/bypassedCommand.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/count.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/countDocuments.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/delete.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/distinct.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/explain.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/find.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/findOneAndDelete.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/findOneAndReplace.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/findOneAndUpdate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-BypassQueryAnalysis.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Compact.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-CreateCollection-OldServer.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-CreateCollection.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-DecryptExistingData.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Delete.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-EncryptedFields-vs-EncryptedFieldsMap.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-EncryptedFields-vs-jsonSchema.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-EncryptedFieldsMap-defaults.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-FindOneAndUpdate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-InsertFind-Indexed.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-InsertFind-Unindexed.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-MissingKey.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-NoEncryption.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Date-Aggregate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Date-Correctness.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Date-Delete.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Date-FindOneAndUpdate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Date-InsertFind.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Date-Update.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Decimal-Aggregate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Decimal-Correctness.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Decimal-Delete.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Decimal-FindOneAndUpdate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Decimal-InsertFind.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Decimal-Update.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-DecimalPrecision-Aggregate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-DecimalPrecision-Correctness.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-DecimalPrecision-Delete.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-DecimalPrecision-FindOneAndUpdate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-DecimalPrecision-InsertFind.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-DecimalPrecision-Update.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Double-Aggregate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Double-Correctness.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Double-Delete.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Double-FindOneAndUpdate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Double-InsertFind.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Double-Update.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-DoublePrecision-Aggregate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-DoublePrecision-Correctness.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-DoublePrecision-Delete.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-DoublePrecision-FindOneAndUpdate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-DoublePrecision-InsertFind.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-DoublePrecision-Update.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Int-Aggregate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Int-Correctness.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Int-Delete.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Int-FindOneAndUpdate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Int-InsertFind.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Int-Update.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Long-Aggregate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Long-Correctness.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Long-Delete.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Long-FindOneAndUpdate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Long-InsertFind.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-Long-Update.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Range-WrongType.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-Update.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/fle2v2-validatorAndPartialFieldExpression.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/gcpKMS.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/getMore.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/insert.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/keyAltName.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/kmipKMS.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/localKMS.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/localSchema.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/malformedCiphertext.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/maxWireVersion.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/missingKey.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/noSchema.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/replaceOne.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/types.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/unsupportedCommand.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/updateMany.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/updateOne.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/limits/limits-doc.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/limits/limits-key.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/limits/limits-schema.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/localKMS.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/localSchema.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/malformedCiphertext.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/maxWireVersion.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/missingKey.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/replaceOne.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/types.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unsupportedCommand.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/updateMany.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/updateOne.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/addKeyAltName.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/createDataKey-kms_providers-invalid.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/createDataKey.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/deleteKey.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/getKey.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/getKeyByAltName.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/getKeys.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/kmsProviders-explicit_kms_credentials.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/kmsProviders-mixed_kms_credential_fields.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/kmsProviders-placeholder_kms_credentials.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/kmsProviders-unconfigured_kms.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/removeKeyAltName.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/rewrapManyDataKey-decrypt_failure.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/rewrapManyDataKey-encrypt_failure.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/rewrapManyDataKey.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/collection-management/unified/clustered-indexes.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/collection-management/unified/createCollection-pre_and_post_images.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/collection-management/unified/modifyCollection-pre_and_post_images.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/collection-management/unified/timeseries-collection.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/command-monitoring/bulkWrite.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/command-monitoring/command.json`->MakeAbsolute(),
@@ -644,62 +746,107 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v1/write/updateOne-arrayFilters.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v1/write/updateOne-collation.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v1/write/updateOne.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/aggregate-merge.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/aggregate-out-readConcern.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/bulkWrite-arrayFilters.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/bulkWrite-delete-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/bulkWrite-delete-hint-serverError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/bulkWrite-delete-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/bulkWrite-update-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/bulkWrite-update-hint-serverError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/bulkWrite-update-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/db-aggregate.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/deleteMany-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/deleteMany-hint-serverError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/deleteMany-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/deleteOne-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/deleteOne-hint-serverError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/deleteOne-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/find-allowdiskuse.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/findOneAndDelete-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/findOneAndDelete-hint-serverError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/findOneAndDelete-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/findOneAndReplace-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/findOneAndReplace-hint-serverError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/findOneAndReplace-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/findOneAndUpdate-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/findOneAndUpdate-hint-serverError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/findOneAndUpdate-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/replaceOne-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-bulkWrite-delete-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-bulkWrite-delete-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-bulkWrite-update-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-bulkWrite-update-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-deleteMany-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-deleteMany-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-deleteOne-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-deleteOne-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-findOneAndDelete-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-findOneAndDelete-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-findOneAndReplace-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-findOneAndReplace-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-findOneAndUpdate-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-findOneAndUpdate-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-replaceOne-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-replaceOne-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-updateMany-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-updateMany-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-updateOne-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/unacknowledged-updateOne-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/updateMany-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/updateMany-hint-serverError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/updateMany-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/updateOne-hint-clientError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/updateOne-hint-serverError.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/updateOne-hint.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/v2/updateWithPipelines.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/aggregate-allowdiskuse.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/aggregate-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/aggregate-merge.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/aggregate-out-readConcern.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/aggregate-write-readPreference.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/aggregate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-arrayFilters-clientError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-arrayFilters.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-comment.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-delete-hint-clientError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-delete-hint-serverError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-delete-hint.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-deleteMany-hint-unacknowledged.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-deleteMany-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-deleteOne-hint-unacknowledged.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-deleteOne-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-insertOne-dots_and_dollars.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-replaceOne-dots_and_dollars.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-replaceOne-hint-unacknowledged.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-replaceOne-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-update-hint-clientError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-update-hint-serverError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-update-hint.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-update-validation.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-updateMany-dots_and_dollars.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-updateMany-hint-unacknowledged.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-updateMany-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-updateOne-dots_and_dollars.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-updateOne-hint-unacknowledged.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/bulkWrite-updateOne-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/countDocuments-comment.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/db-aggregate-write-readPreference.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/db-aggregate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/deleteMany-comment.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/deleteMany-hint-clientError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/deleteMany-hint-serverError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/deleteMany-hint-unacknowledged.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/deleteMany-hint.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/deleteMany-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/deleteOne-comment.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/deleteOne-hint-clientError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/deleteOne-hint-serverError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/deleteOne-hint-unacknowledged.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/deleteOne-hint.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/deleteOne-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/distinct-comment.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/estimatedDocumentCount-comment.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/estimatedDocumentCount.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/find-allowdiskuse-clientError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/find-allowdiskuse-serverError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/find-allowdiskuse.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/find-comment.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/find-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/find.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndDelete-comment.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndDelete-hint-clientError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndDelete-hint-serverError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndDelete-hint-unacknowledged.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndDelete-hint.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndDelete-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndReplace-comment.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndReplace-dots_and_dollars.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndReplace-hint-clientError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndReplace-hint-serverError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndReplace-hint-unacknowledged.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndReplace-hint.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndReplace-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndUpdate-comment.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndUpdate-dots_and_dollars.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndUpdate-hint-clientError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndUpdate-hint-serverError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndUpdate-hint-unacknowledged.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndUpdate-hint.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/findOneAndUpdate-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/insertMany-comment.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/insertMany-dots_and_dollars.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/insertOne-comment.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/insertOne-dots_and_dollars.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/replaceOne-comment.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/replaceOne-dots_and_dollars.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/replaceOne-hint-unacknowledged.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/replaceOne-hint.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/replaceOne-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/replaceOne-validation.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateMany-comment.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateMany-dots_and_dollars.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateMany-hint-clientError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateMany-hint-serverError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateMany-hint-unacknowledged.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateMany-hint.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateMany-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateMany-validation.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateOne-comment.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateOne-dots_and_dollars.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateOne-hint-clientError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateOne-hint-serverError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateOne-hint-unacknowledged.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateOne-hint.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateOne-let.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateOne-validation.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/unified/updateWithPipelines.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/gridfs/delete.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/gridfs/download.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/gridfs/download_by_name.json`->MakeAbsolute(),
@@ -708,6 +855,25 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/gridfs/gridfs-downloadByName-serverErrors.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/gridfs/gridfs-downloadByName.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/gridfs/upload.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/load-balanced/srvMaxHosts-conflicts_with_loadBalanced-true-txt.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/load-balanced/srvMaxHosts-conflicts_with_loadBalanced-true.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/load-balanced/srvMaxHosts-zero-txt.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/load-balanced/srvMaxHosts-zero.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/replica-set/srvMaxHosts-conflicts_with_replicaSet-txt.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/replica-set/srvMaxHosts-conflicts_with_replicaSet.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/replica-set/srvMaxHosts-equal_to_srv_records.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/replica-set/srvMaxHosts-greater_than_srv_records.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/replica-set/srvMaxHosts-invalid_integer.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/replica-set/srvMaxHosts-invalid_type.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/replica-set/srvMaxHosts-less_than_srv_records.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/replica-set/srvMaxHosts-zero-txt.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/replica-set/srvMaxHosts-zero.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/sharded/srvMaxHosts-equal_to_srv_records.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/sharded/srvMaxHosts-greater_than_srv_records.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/sharded/srvMaxHosts-invalid_integer.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/sharded/srvMaxHosts-invalid_type.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/sharded/srvMaxHosts-less_than_srv_records.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/initial_dns_seedlist_discovery/sharded/srvMaxHosts-zero.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/mongohouse/aggregate.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/mongohouse/estimatedDocumentCount.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/mongohouse/find.json`->MakeAbsolute(),
@@ -719,50 +885,55 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/read-write-concern/operation/default-write-concern-3.2.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/read-write-concern/operation/default-write-concern-3.4.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/read-write-concern/operation/default-write-concern-4.2.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/aggregate-merge.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/aggregate-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/aggregate.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/changeStreams-client.watch-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/changeStreams-client.watch.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/changeStreams-db.coll.watch-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/changeStreams-db.coll.watch.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/changeStreams-db.watch-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/changeStreams-db.watch.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/count-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/count.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/countDocuments-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/countDocuments.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/distinct-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/distinct.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/estimatedDocumentCount-4.9.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/estimatedDocumentCount-pre4.9.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/estimatedDocumentCount-serverErrors-4.9.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/estimatedDocumentCount-serverErrors-pre4.9.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/find-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/find.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/findOne-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/findOne.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/gridfs-download-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/gridfs-download.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/gridfs-downloadByName-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/gridfs-downloadByName.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listCollectionNames-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listCollectionNames.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listCollectionObjects-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listCollectionObjects.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listCollections-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listCollections.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listDatabaseNames-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listDatabaseNames.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listDatabaseObjects-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listDatabaseObjects.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listDatabases-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listDatabases.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listIndexNames-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listIndexNames.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listIndexes-serverErrors.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/listIndexes.json`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/mapReduce.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/aggregate-merge.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/aggregate-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/aggregate.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/changeStreams-client.watch-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/changeStreams-client.watch.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/changeStreams-db.coll.watch-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/changeStreams-db.coll.watch.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/changeStreams-db.watch-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/changeStreams-db.watch.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/count-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/count.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/countDocuments-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/countDocuments.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/distinct-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/distinct.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/estimatedDocumentCount-4.9.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/estimatedDocumentCount-serverErrors-4.9.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/estimatedDocumentCount-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/estimatedDocumentCount.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/find-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/find.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/findOne-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/findOne.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/gridfs-download-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/gridfs-download.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/gridfs-downloadByName-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/gridfs-downloadByName.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listCollectionNames-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listCollectionNames.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listCollectionObjects-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listCollectionObjects.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listCollections-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listCollections.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listDatabaseNames-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listDatabaseNames.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listDatabaseObjects-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listDatabaseObjects.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listDatabases-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listDatabases.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listIndexNames-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listIndexNames.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listIndexes-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/listIndexes.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/mapReduce.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/unified/handshakeError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-writes/unified/bulkWrite-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-writes/unified/handshakeError.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-writes/unified/insertOne-serverErrors.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/sessions/unified/implicit-sessions-default-causal-consistency.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/sessions/unified/snapshot-sessions-not-supported-client-error.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/sessions/unified/snapshot-sessions-not-supported-server-error.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/sessions/unified/snapshot-sessions-unsupported-ops.json`->MakeAbsolute(),
@@ -798,6 +969,13 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/transactions/transaction-options.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/transactions/update.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/transactions/write-concern.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/valid-pass/assertNumberConnectionsCheckedOut.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/valid-pass/entity-client-cmap-events.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/valid-pass/entity-client-storeEventsAsEntities.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/valid-pass/entity-find-cursor.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/valid-pass/expectedEventsForClient-eventType.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/valid-pass/expectedEventsForClient-ignoreExtraEvents.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/valid-pass/ignoreResultAndError.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/valid-pass/observeSensitiveCommands.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/valid-pass/poc-change-streams.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/valid-pass/poc-command-monitoring.json`->MakeAbsolute(),
@@ -810,6 +988,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/valid-pass/poc-transactions-mongos-pin-auto.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/valid-pass/poc-transactions.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/valid-pass/redacted-commands.json`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/uri-options/srv-options.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/versioned-api/crud-api-version-1-strict.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/versioned-api/crud-api-version-1.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/versioned-api/runcommand-helper-no-api-version-declared.json`->MakeAbsolute(),
@@ -826,8 +1005,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/with_transaction/commit.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/with_transaction/transaction-options.json`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/CMakeLists.txt`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/change_stream/test_files.txt`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/test_files.txt`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/change-streams/unified/test_files.txt`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/legacy/test_files.txt`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/client_side_encryption/unified/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/collection-management/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/command-monitoring/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/crud/legacy/test_files.txt`->MakeAbsolute(),
@@ -835,7 +1015,9 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/gridfs/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/mongohouse/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/read-write-concern/operation/test_files.txt`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/test_files.txt`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/legacy/test_files.txt`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-reads/unified/test_files.txt`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/retryable-writes/unified/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/sessions/unified/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/transactions/test_files.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/data/unified-format/test_files.txt`->MakeAbsolute(),
@@ -856,13 +1038,6 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/generate-uninstall.sh`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/microbenchmark-test-data.sh`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/run-clang-tidy.sh`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/update-change-stream-spec-tests.sh`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/update-command-monitoring-spec-tests.sh`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/update-crud-spec-tests.sh`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/update-encryption-spec-tests.sh`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/update-gridfs-spec-tests.sh`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/update-retryable-reads-spec-tests.sh`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/update-transactions-spec-tests.sh`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/CMakeLists.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/requirements.txt`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/etc/memcheck.suppressions`->MakeAbsolute(),
@@ -906,6 +1081,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/examples/mongocxx/remove.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/examples/mongocxx/server_side_field_level_encryption_enforcement.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/examples/mongocxx/tailable_cursor.cpp`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/examples/mongocxx/tutorial.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/examples/mongocxx/update.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/examples/mongocxx/view_or_value_variant.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/examples/mongocxx/with_transaction.cpp`->MakeAbsolute(),
@@ -1000,6 +1176,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/string/view_or_value.hpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test_util/catch.hh`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test_util/export_for_testing.hh`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test_util/to_string.hh`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/types.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/types.hpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/types/value.hpp`->MakeAbsolute(),
@@ -1190,8 +1367,12 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/private/server_api.hh`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/private/ssl.hh`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/private/transaction.hh`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/range.cpp`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/range.hpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/replace.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/replace.hpp`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/rewrap_many_datakey.cpp`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/rewrap_many_datakey.hpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/server_api.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/server_api.hpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/ssl.hpp`->MakeAbsolute(),
@@ -1245,6 +1426,8 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/insert_one.hpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/replace_one.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/replace_one.hpp`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/rewrap_many_datakey.cpp`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/rewrap_many_datakey.hpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/update.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/update.hpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/stdx.hpp`->MakeAbsolute(),
@@ -1324,11 +1507,11 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/result/replace_one.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/result/update.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/sdam-monitoring.cpp`->MakeAbsolute(),
-							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/change_stream.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/client_side_encryption.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/command_monitoring.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/crud.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/gridfs.cpp`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/initial_dns_seedlist_discovery.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/mongohouse.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.hh`->MakeAbsolute(),
@@ -1346,6 +1529,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/runner.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/util.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/util.hh`->MakeAbsolute(),
+							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/uri_options.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/transactions.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/uri.cpp`->MakeAbsolute(),
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/validation_criteria.cpp`->MakeAbsolute(),
@@ -1382,7 +1566,8 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					{
 						Compile
 						{
-							Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D CMAKE_PREFIX_PATH= -D PACKAGE_PREFIX=mongo-cxx-driver-r3.7.1-20220613+gitcef2bee28a -D CMAKE_CXX_FLAGS=-stdlib=libc++ -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDistCheck.cmake`->MakeAbsolute()->EscapeHost())`
+							Type "Custom"
+							Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D CMAKE_PREFIX_PATH= -D PACKAGE_PREFIX=mongo-cxx-driver-r3.8.1-20231009+gita9d2c9ab14 -D CMAKE_CXX_FLAGS=-stdlib=libc++ -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDistCheck.cmake`->MakeAbsolute()->EscapeHost())`
 							AllowNonExisting true
 							Disabled false
 							Custom_WorkingDirectory `@('.'->MakeAbsolute())`->MakeAbsolute()
@@ -2046,7 +2231,15 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 				{
 					Compile.Type "C++"
 				}
+				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/range.cpp`
+				{
+					Compile.Type "C++"
+				}
 				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/replace.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/rewrap_many_datakey.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -2128,6 +2321,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					Compile.Type "C++"
 				}
 				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/replace_one.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/rewrap_many_datakey.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -2463,7 +2660,15 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 				{
 					Compile.Type "C++"
 				}
+				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/range.cpp`
+				{
+					Compile.Type "C++"
+				}
 				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/replace.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/options/rewrap_many_datakey.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -2545,6 +2750,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 					Compile.Type "C++"
 				}
 				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/replace_one.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/result/rewrap_many_datakey.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -2844,6 +3053,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 				}
 				%Group "spec"
 				{
+					%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/initial_dns_seedlist_discovery.cpp`
+					{
+						Compile.Type "C++"
+					}
 					%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
 					{
 						Compile.Type "C++"
@@ -2862,6 +3075,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 						{
 							Compile.Type "C++"
 						}
+					}
+					%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/uri_options.cpp`
+					{
+						Compile.Type "C++"
 					}
 				}
 				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/transactions.cpp`
@@ -3048,93 +3265,6 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 				%Group "spec"
 				{
 					%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/crud.cpp`
-					{
-						Compile.Type "C++"
-					}
-					%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/operation.cpp`
-					{
-						Compile.Type "C++"
-					}
-					%Group "unified_tests"
-					{
-						%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/entity.cpp`
-						{
-							Compile.Type "C++"
-						}
-						%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/unified_tests/assert.cpp`
-						{
-							Compile.Type "C++"
-						}
-					}
-					%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/monitoring.cpp`
-					{
-						Compile.Type "C++"
-					}
-					%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/util.cpp`
-					{
-						Compile.Type "C++"
-					}
-				}
-			}
-		}
-		%Group "third_party"
-		{
-			%Group "catch"
-			{
-				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/main.cpp`
-				{
-					Compile.Type "C++"
-				}
-			}
-		}
-	}
-	%Dependency "Lib_BSONCXX_bsoncxx_testing"
-	%Dependency "Lib_MONGOCXX_mongocxx_mocked"
-}
-%Target "Com_MONGOCXX_test_change_stream_specs"
-{
-	Compile
-	{
-		!!Compile.Type "C++"
-		SearchPath += [
-			`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
-			"/include"->MakeAbsolute(),
-			`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
-			`@('.'->MakeAbsolute())/src`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
-		]
-		PreprocessorDefines += [
-			"BSONCXX_TESTING",
-			"MONGOCXX_STATIC",
-			"MONGOCXX_TESTING",
-			"MONGO_CXX_DRIVER_COMPILING"
-		]
-	}
-	Property.MalterlibTargetNameType "Normal"
-	Compile.AllowNonExisting true
-	Target.Group "External/MONGOCXX"
-	{
-		!!Target.Group undefined
-	}
-	Target.Type "ConsoleExecutable"
-	Target.BaseName "MONGOCXX_test_change_stream_specs"
-	Target.BaseFileName "test_change_stream_specs"
-	%Group "src"
-	{
-		%Group "mongocxx"
-		{
-			%Group "test_util"
-			{
-				%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test_util/client_helpers.cpp`
-				{
-					Compile.Type "C++"
-				}
-			}
-			%Group "test"
-			{
-				%Group "spec"
-				{
-					%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/test/spec/change_stream.cpp`
 					{
 						Compile.Type "C++"
 					}
@@ -4129,6 +4259,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 	{
 		Dependency.Link false
 	}
+	%Dependency "Com_MONGO_CXX_DRIVER_tutorial"
+	{
+		Dependency.Link false
+	}
 	%Dependency "Com_MONGO_CXX_DRIVER_update"
 	{
 		Dependency.Link false
@@ -4287,6 +4421,10 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 		Dependency.Link false
 	}
 	%Dependency "Com_MONGO_CXX_DRIVER_tailable_cursor"
+	{
+		Dependency.Link false
+	}
+	%Dependency "Com_MONGO_CXX_DRIVER_tutorial"
 	{
 		Dependency.Link false
 	}
@@ -5659,6 +5797,46 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 	%Dependency "Lib_BSONCXX_bsoncxx_static"
 	%Dependency "Lib_MONGOCXX_mongocxx_static"
 }
+%Target "Com_MONGO_CXX_DRIVER_tutorial"
+{
+	Compile
+	{
+		!!Compile.Type "C++"
+		SearchPath += [
+			`@('.'->MakeAbsolute())/install/include/bsoncxx/v_noabi`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
+			`@('.'->MakeAbsolute())/install/include/mongocxx/v_noabi`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
+			`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/examples/mongocxx`->MakeAbsolute(),
+			"/include"->MakeAbsolute(),
+			`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@('.'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_STATIC",
+			"MONGOCXX_STATIC"
+		]
+	}
+	Property.MalterlibTargetNameType "Normal"
+	Compile.AllowNonExisting true
+	Target.Group "External/MONGO_CXX_DRIVER"
+	{
+		!!Target.Group undefined
+	}
+	Target.Type "ConsoleExecutable"
+	Target.BaseName "MONGO_CXX_DRIVER_tutorial"
+	Target.BaseFileName "tutorial"
+	%Group "examples"
+	{
+		%File `@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/examples/mongocxx/tutorial.cpp`
+		{
+			Compile.Type "C++"
+		}
+	}
+	%Dependency "Lib_BSONCXX_bsoncxx_static"
+	%Dependency "Lib_MONGOCXX_mongocxx_static"
+}
 %Target "Com_MONGO_CXX_DRIVER_update"
 {
 	Compile
@@ -5950,6 +6128,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 						{
 							Compile
 							{
+								Type "Custom"
 								Custom_CommandLine `sh @(`@('.'->MakeAbsolute())/generate_uninstall/uninstall.sh`->MakeAbsolute()->EscapeHost())`
 								AllowNonExisting true
 								Disabled false

@@ -15,11 +15,11 @@
 message(WARNING "This CMake target is deprecated.  Use 'mongo::mongoc_static' instead.  Consult the example projects for further details.")
 
 set (MONGOC_STATIC_MAJOR_VERSION 1)
-set (MONGOC_STATIC_MINOR_VERSION 15)
-set (MONGOC_STATIC_MICRO_VERSION 1)
-set (MONGOC_STATIC_VERSION 1.15.1)
+set (MONGOC_STATIC_MINOR_VERSION 24)
+set (MONGOC_STATIC_MICRO_VERSION 3)
+set (MONGOC_STATIC_VERSION 1.24.3)
 
-find_package (libbson-static-1.0 "1.15" REQUIRED)
+find_package (libbson-static-1.0 "1.24" REQUIRED)
 
 
 ####### Expanded from @PACKAGE_INIT@ by configure_package_config_file() #######
@@ -66,7 +66,7 @@ set (MONGOC_STATIC_LIBRARIES ${MONGOC_STATIC_LIBRARY} ${ZLIB_STATIC_LIBRARY} ${B
 # "-framework CoreFoundation -framework Security". Split into a CMake array
 # like "-framework CoreFoundation;-framework Security".
 set (IS_FRAMEWORK_VAR 0)
-foreach (LIB  /dev/null  /private/var/db/xcode_select_link/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libz.tbd
+foreach (LIB  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libSystem.B.tbd
     resolv   
 )
    if (LIB STREQUAL "-framework")

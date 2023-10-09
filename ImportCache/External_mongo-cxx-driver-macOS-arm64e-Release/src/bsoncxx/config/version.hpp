@@ -13,6 +13,6 @@
 // limitations under the License.
 
 #define BSONCXX_VERSION_MAJOR 3
-#define BSONCXX_VERSION_MINOR 7
+#define BSONCXX_VERSION_MINOR 8
 #define BSONCXX_VERSION_PATCH 1
 #define BSONCXX_VERSION_EXTRA -pre

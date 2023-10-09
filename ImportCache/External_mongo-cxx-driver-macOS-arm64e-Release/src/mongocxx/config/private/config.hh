@@ -13,3 +13,5 @@
 // limitations under the License.
 
 #define MONGOCXX_ENABLE_SSL
+#define MONGOCXX_COMPILER_ID "AppleClang"
+#define MONGOCXX_COMPILER_VERSION "15.0.0.15000100"

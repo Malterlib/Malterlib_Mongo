@@ -64,7 +64,7 @@ UpdateType: git
 
 # Compiler info
 Compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchainc++
-CompilerVersion: 14.0.0.14000017
+CompilerVersion: 15.0.0.15000100
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 
@@ -81,7 +81,7 @@ MemoryCheckCommandOptions:
 MemoryCheckSuppressionFile: 
 
 # Coverage
-CoverageCommand: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchaingcov
+CoverageCommand: gcov
 CoverageExtraFlags: -l
 
 # Testing options
