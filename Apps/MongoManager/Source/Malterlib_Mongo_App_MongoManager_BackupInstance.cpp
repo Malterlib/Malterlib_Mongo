@@ -151,7 +151,7 @@ namespace NMib::NMongo::NMongoManager
 			}
 		;
 
-		self(&CMongoBackupInstanceActor::fp_DumpDatabase) > [=](TCAsyncResult<void> &&_Result) mutable
+		self(&CMongoBackupInstanceActor::fp_DumpDatabase) > [=, this](TCAsyncResult<void> &&_Result) mutable
 			{
 				if (_Result)
 				{

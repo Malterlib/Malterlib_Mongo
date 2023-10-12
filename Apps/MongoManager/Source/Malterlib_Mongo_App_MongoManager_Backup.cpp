@@ -34,7 +34,7 @@ namespace NMib::NMongo::NMongoManager
 
 			DLogWithCategory(MongoManager/Backup, Info, "Starting initial full backup");
 
-			fp_CleanupOldBackups() > Promise / [=, ManifestFinished = fg_Move(_ManifestFinished)]() mutable
+			fp_CleanupOldBackups() > Promise / [=, this, ManifestFinished = fg_Move(_ManifestFinished)]() mutable
 				{
 					mp_Backup = fg_ConstructActor<CMongoBackupInstanceActor>(mp_MongoConnectionSettings, mp_MongoExecutable, mp_BackupInterface.f_GetActor());
 					mp_Backup(&CMongoBackupInstanceActor::f_StartBackup, fg_Move(ManifestFinished), _BackupRoot) > Promise;

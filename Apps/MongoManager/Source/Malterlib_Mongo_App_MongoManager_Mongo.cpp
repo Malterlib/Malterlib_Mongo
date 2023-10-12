@@ -232,7 +232,7 @@ namespace NMib::NMongo::NMongoManager
 				, fp_GetUserPassword(mp_MongoUser.m_Name)
 #endif
 			)
-			> [=](TCAsyncResult<CStr> &&_StdOut)
+			> [=, this](TCAsyncResult<CStr> &&_StdOut)
 			{
 				if (!_StdOut)
 				{
@@ -248,7 +248,7 @@ namespace NMib::NMongo::NMongoManager
 								fg_OneshotTimer
 									(
 										1.0
-										, [=]
+										, [=, this]
 										{
 											fp_RunMongoScriptInternal(_MongoConnectionSettings, _Script, _LogCategory, _Database, _Timeout, _Promise, _Clock, _Config);
 										}
