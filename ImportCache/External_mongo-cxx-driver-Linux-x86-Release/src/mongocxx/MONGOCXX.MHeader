@@ -425,6 +425,7 @@ Property.CMakeOutputPath_MONGOCXX: string = `@('../..'->MakeAbsolute())`->MakeAb
 	%Dependency "Lib_BSONCXX_bsoncxx_static"
 	{
 		Dependency.Indirect true
+		Dependency.IndirectOrdered true
 	}
 }
 %Target "Lib_MONGOCXX_mongocxx_mocked"
@@ -854,6 +855,7 @@ Property.CMakeOutputPath_MONGOCXX: string = `@('../..'->MakeAbsolute())`->MakeAb
 	%Dependency "Lib_BSONCXX_bsoncxx_testing"
 	{
 		Dependency.Indirect true
+		Dependency.IndirectOrdered true
 	}
 }
 %Target "Com_MONGOCXX_test_driver"

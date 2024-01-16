@@ -528,6 +528,7 @@ Property.CMakeOutputPath_mongo\-c\-driver: string = `@('.'->MakeAbsolute())`->Ma
 	%Dependency "Lib_libbson_bson_static"
 	{
 		Dependency.Indirect true
+		Dependency.IndirectOrdered true
 	}
 }
 %Target "Lib_libmongoc_mongoc_static"
@@ -1316,6 +1317,7 @@ Property.CMakeOutputPath_mongo\-c\-driver: string = `@('.'->MakeAbsolute())`->Ma
 	%Dependency "Lib_libbson_bson_static"
 	{
 		Dependency.Indirect true
+		Dependency.IndirectOrdered true
 	}
 }
 %Target "Lib_mongo-c-driver_mongoc-cxx-check"
@@ -1369,10 +1371,12 @@ Property.CMakeOutputPath_mongo\-c\-driver: string = `@('.'->MakeAbsolute())`->Ma
 	%Dependency "Lib_libbson_bson_static"
 	{
 		Dependency.Indirect true
+		Dependency.IndirectOrdered true
 	}
 	%Dependency "Lib_libmongoc_mongoc_static"
 	{
 		Dependency.Indirect true
+		Dependency.IndirectOrdered true
 	}
 }
 %Target "Tool_mongo-c-driver_uninstall"

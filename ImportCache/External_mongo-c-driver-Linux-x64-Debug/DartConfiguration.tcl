@@ -11,7 +11,7 @@ BuildDirectory: .
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: eolofsson0523
+Site: erikmbp09
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Linux-clang++
@@ -64,7 +64,7 @@ UpdateType: git
 
 # Compiler info
 Compiler: ../../../../Binaries/MalterlibLLVM/macOS/arm64/bin/clang++
-CompilerVersion: 16.0.5
+CompilerVersion: 17.0.2
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 

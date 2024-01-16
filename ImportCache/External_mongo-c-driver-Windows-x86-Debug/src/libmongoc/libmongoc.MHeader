@@ -46,6 +46,7 @@ Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeA
 	%Dependency "Lib_libbson_bson_static"
 	{
 		Dependency.Indirect true
+		Dependency.IndirectOrdered true
 	}
 }
 %Target "Lib_libmongoc_mongoc_static"
@@ -834,5 +835,6 @@ Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeA
 	%Dependency "Lib_libbson_bson_static"
 	{
 		Dependency.Indirect true
+		Dependency.IndirectOrdered true
 	}
 }
