@@ -62,6 +62,8 @@ namespace NMib::NMongo::NMongoManager
 			mp_bEnableSSL = false;
 		else if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("EnableSSL", EJSONType_Boolean))
 			mp_bEnableSSL = pValue->f_Boolean();
+		
+		co_await fp_OpenSensors();
 
 		CStr MongoDirectory = fp_GetDataPath("mongo");
 
@@ -109,6 +111,8 @@ namespace NMib::NMongo::NMongoManager
 		if (mp_Mode == EMode_Normal)
 			CMongoManagerActor::fp_StartMongoBackup();
 
+		co_await fp_ScheduleReplicaStatusChecks();
+
 		co_return {};
 	}
 
@@ -116,6 +120,15 @@ namespace NMib::NMongo::NMongoManager
 	{
 		DLog(Debug, "Pre-stop server");
 		mp_bStopped = true;
+
+		if (mp_ReplicaStatusTimer)
+			co_await fg_Exchange(mp_ReplicaStatusTimer, nullptr)->f_Destroy();
+
+		if (mp_ReplicaStatusReporter);
+			co_await fg_Move(mp_ReplicaStatusReporter->m_fReportReadings).f_Destroy();
+
+		if (mp_ReplicaStatusMongoClient)
+			co_await fg_Move(mp_ReplicaStatusMongoClient).f_Destroy();
 
 		TCActorResultVector<void> Destroys;
 		for (auto &ToolLaunch : mp_ToolLaunches)
@@ -132,6 +145,16 @@ namespace NMib::NMongo::NMongoManager
 	TCFuture<void> CMongoManagerActor::fp_Destroy()
 	{
 		DLog(Debug, "Destroy server");
+
+		if (mp_ReplicaStatusTimer)
+			co_await fg_Exchange(mp_ReplicaStatusTimer, nullptr)->f_Destroy();
+
+		if (mp_ReplicaStatusReporter);
+			co_await fg_Move(mp_ReplicaStatusReporter->m_fReportReadings).f_Destroy();
+
+		if (mp_ReplicaStatusMongoClient)
+			co_await fg_Move(mp_ReplicaStatusMongoClient).f_Destroy();
+
 		CLogError LogError("MongoManager");
 
 		{

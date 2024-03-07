@@ -148,6 +148,13 @@ namespace NMib::NMongo::NMongoManager
 		TCFuture<CVersion> fp_CheckVersion(CStr const &_Tool, CStr const &_Argument, CStr const &_ParseString, CVersion const &_NeededVersion);
 		TCFuture<void> fp_CleanupOldProcesses();
 
+		TCFuture<void> fp_OpenSensors();
+		TCFuture<void> fp_ScheduleReplicaStatusChecks();
+		void fp_SetStatus(CDistributedAppSensorReporter::EStatusSeverity _Severity, CStr const &_Description);
+		TCFuture<void> fp_UpdateReplicaStatus();
+		TCFuture<void> fp_UpdateReplicaStatusPerform();
+		CFutureCoroutineContext::COnResumeScopeAwaiter fp_CheckSensorDependencies() const;
+
 		EMode mp_Mode;
 
 		TCActor<CSeparateThreadActor> mp_pFileActor;
@@ -185,5 +192,10 @@ namespace NMib::NMongo::NMongoManager
 		CActorSubscription mp_CertificateDeploySubscription_Admin;
 		CActorSubscription mp_CertificateDeploySubscription_Server;
 		bool mp_bCertificateDeployActorStarted = false;
+
+		TCOptional<CDistributedAppSensorReporter::CSensorReporter> mp_ReplicaStatusReporter;
+		TCActor<CMongoClientActor> mp_ReplicaStatusMongoClient;
+		CActorSubscription mp_ReplicaStatusTimer;
+		CDistributedAppSensorReporter::EStatusSeverity mp_ReplicaStatusLastSeverity = CDistributedAppSensorReporter::EStatusSeverity_Ok;
 	};
 }
