@@ -231,12 +231,24 @@ namespace NMib::NMongo
 			}
 		}
 
+		decltype(auto) f_GetDatabase(NStr::CStr _Database) const
+		{
+			NStr::CStr Database = _Database;
+
+			if (!Database)
+				Database = m_DefaultDatabase;
+
+			decltype(auto) DatabaseReturn = (*m_pConnection)[Database.f_GetStr()];
+
+			return DatabaseReturn;
+		}
+		
 		decltype(auto) f_GetCollection(NStr::CStr _Collection) const
 		{
 			NStr::CStr Database;
 			NStr::CStr Collection;
 
-			if	(_Collection.f_FindChar('.') >= 0)
+			if (_Collection.f_FindChar('.') >= 0)
 			{
 				Database = NStr::fg_GetStrSep(_Collection, ".");
 				Collection = _Collection;
@@ -583,6 +595,41 @@ namespace NMib::NMongo
 				pError = _Exception.what();
 
 			return Promise <<= DMibErrorInstance(NStr::fg_Format("Mongo query failed: {}", pError));
+		}
+	}
+
+	NConcurrency::TCFuture<NEncoding::CEJSONOrdered> CMongoClientActor::f_RunCommand
+		(
+			NStr::CStr const &_Database
+			, NEncoding::CEJSONOrdered const &_Command
+		)
+	{
+		NConcurrency::TCPromise<NEncoding::CEJSONOrdered> Promise;
+
+		auto &Internal = *mp_pInternal;
+		if (Internal.m_pTailThread)
+			return Promise <<= DMibErrorInstance("Tailing query already running");
+		NStr::CStr Error = Internal.f_MakeSureConnected();
+		if (!Error.f_IsEmpty())
+			return Promise <<= DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+
+		try
+		{
+			auto Database = Internal.f_GetDatabase(_Database);
+
+			auto ResultDocument = Database.run_command(fg_ToBSON(_Command));
+
+			NEncoding::CEJSONOrdered ToReturn = fg_FromBSON(fg_Move(ResultDocument));
+
+			return Promise <<= fg_Move(ToReturn);
+		}
+		catch (std::exception const &_Exception)
+		{
+			const ch8 *pError = "Unknown mongo error";
+			if (_Exception.what())
+				pError = _Exception.what();
+
+			return Promise <<= DMibErrorInstance(NStr::fg_Format("Mongo run command failed: {}", pError));
 		}
 	}
 

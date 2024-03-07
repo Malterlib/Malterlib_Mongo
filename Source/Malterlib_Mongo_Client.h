@@ -112,6 +112,12 @@ namespace NMib::NMongo
 				, EQueryOption _Options
 			)
 		;
+		NConcurrency::TCFuture<NEncoding::CEJSONOrdered> f_RunCommand
+			(
+				NStr::CStr const &_Database
+				, NEncoding::CEJSONOrdered const &_Command
+			)
+		;
 		NConcurrency::TCFuture<NConcurrency::CActorSubscription> f_TailQuery
 			(
 				CTailQueryParams &&_Params
