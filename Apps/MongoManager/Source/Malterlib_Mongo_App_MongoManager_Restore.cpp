@@ -3,75 +3,67 @@
 
 namespace NMib::NMongo::NMongoManager
 {
-	TCFuture<void> CMongoManagerActor::f_RestoreMongo(CTime const &_RestoreTime)
+	TCFuture<void> CMongoManagerActor::f_RestoreMongo(CTime _RestoreTime)
 	{
-		TCPromise<void> Promise;
 		CStr DumpDirectory = CFile::fs_GetProgramDirectory() + "/MongoDump";
-		
-		fg_Dispatch
-			(
-				mp_pFileActor
-				, [DumpDirectory]
-				{
-					CStr OplogFile = CFile::fs_GetProgramDirectory() + "/Oplog.bson";
 
-					if (!CFile::fs_FileExists(DumpDirectory, EFileAttrib_Directory))
-						DMibError(fg_Format("Dump directory '{}' does not exist", DumpDirectory));
-					
-					if (CFile::fs_FileExists(OplogFile))
-						CFile::fs_CopyFile(OplogFile, DumpDirectory + "/oplog.bson");
-					
-				}
-			)
-			> Promise / [Promise, this, _RestoreTime, DumpDirectory]
-			{
-				auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
-
-				auto Params = fg_CreateVector<CStr>
-					(
-						"--host"
-						, MongoHost.m_Host
-						, "--port"
-						, CStr::fs_ToStr(MongoHost.m_Port)
-						, "--oplogReplay"
-					)
-				;
-				
-				if (_RestoreTime.f_IsValid())
-				{
-					Params.f_Insert("--oplogLimit");
-					Params.f_Insert(fg_Format("{}:0", CTimeConvert(_RestoreTime).f_UnixSeconds()));
-				}
-				
-				Params.f_Insert(DumpDirectory);
-			
-				self
-					(
-						&CMongoManagerActor::fp_LaunchTool
-						, fp_GetMongoExecutable("mongorestore")
-						, CFile::fs_GetProgramDirectory()
-						, Params
-						, CStr("Restore")
-						, ELogVerbosity_All
-						, false
-						, CStr()
-						, CStr()
-						, CStr()
-#ifdef DPlatformFamily_Windows
-						, CStrSecure()
-#endif
-					)
-					> [Promise](TCAsyncResult<CStr> &&_StdOut)
+		{
+			auto BlockingActorCheckout = fg_BlockingActor();
+			co_await
+				(
+					g_Dispatch(BlockingActorCheckout) / [DumpDirectory]
 					{
-						if (!_StdOut)
-							Promise.f_SetException(_StdOut);
-						else
-							Promise.f_SetResult();
-					}
-				;
-			}
-		;		
+						CStr OplogFile = CFile::fs_GetProgramDirectory() + "/Oplog.bson";
 
-		return Promise.f_MoveFuture();
+						if (!CFile::fs_FileExists(DumpDirectory, EFileAttrib_Directory))
+							DMibError(fg_Format("Dump directory '{}' does not exist", DumpDirectory));
+
+						if (CFile::fs_FileExists(OplogFile))
+							CFile::fs_CopyFile(OplogFile, DumpDirectory + "/oplog.bson");
+
+					}
+				)
+			;
+		}
+
+		auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
+
+		auto Params = fg_CreateVector<CStr>
+			(
+				"--host"
+				, MongoHost.m_Host
+				, "--port"
+				, CStr::fs_ToStr(MongoHost.m_Port)
+				, "--oplogReplay"
+			)
+		;
+
+		if (_RestoreTime.f_IsValid())
+		{
+			Params.f_Insert("--oplogLimit");
+			Params.f_Insert(fg_Format("{}:0", CTimeConvert(_RestoreTime).f_UnixSeconds()));
+		}
+
+		Params.f_Insert(DumpDirectory);
+
+		co_await self
+			(
+				&CMongoManagerActor::fp_LaunchTool
+				, fp_GetMongoExecutable("mongorestore")
+				, CFile::fs_GetProgramDirectory()
+				, Params
+				, CStr("Restore")
+				, ELogVerbosity_All
+				, false
+				, CStr()
+				, CStr()
+				, CStr()
+#ifdef DPlatformFamily_Windows
+				, CStrSecure()
+#endif
+			)
+		;
+
+		co_return {};
 	}
 }

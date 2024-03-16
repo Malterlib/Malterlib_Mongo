@@ -29,18 +29,19 @@ namespace NMib::NMongo::NMongoManager
 		TCFuture<TCSharedPointer<CFile>> fp_OpenBackupFiles();
 		TCFuture<void> fp_DumpDatabase();
 		TCFuture<void> fp_TailOplog(TCSharedPointer<CFile> const &_pBackupFile);
-		void fp_SavePendingOplogData(TCSharedPointer<CFile> const &_pBackupFile);
+		TCFuture<void> fp_SavePendingOplogData(TCSharedPointer<CFile> const &_pBackupFile);
 		TCFuture<void> fp_DeleteBackup();
-		void fp_MarkBackupFinished();
+		TCFuture<void> fp_MarkBackupFinished();
 		
 	private:
 
 		TCDistributedActor<CDistributedAppInterfaceBackup> mp_BackupInterface;
 		TCActor<CMongoClientActor> mp_MongoClient;
 		TCActor<CProcessLaunchActor> mp_DumpProcessLaunch;
-		TCActor<CSeparateThreadActor> mp_FileWriteActor;
 		CActorSubscription mp_MongoTailSubscription;
 		CMongoConnectionSettings mp_MongoConnectionSettings;
+		CSequencer mp_WriteSequencer{"BackupInstance"};
+		CSequencer mp_OplogWriteSequencer{"BackupInstance"};
 
 		NCloud::CBackupManager::CBackupKey mp_BackupKey;
 		

@@ -71,8 +71,6 @@ namespace NMib::NMongo::NMongoManager
 		mp_MongoConnectionSettings.m_ClientCertificatePath = MongoDirectory + "/certificates/admin.pem";
 		mp_MongoConnectionSettings.m_bEnableSSL = mp_bEnableSSL;
 
-		mp_pFileActor = fg_ConstructActor<CSeparateThreadActor>(fg_Construct("File actor"));
-
 		DLog(Info, "Extracting ExeFS");
 
 		co_await (self(&CMongoManagerActor::fp_CleanupOldProcesses) % "Failed to clean up old processes");
@@ -259,9 +257,10 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<void> CMongoManagerActor::fp_ExtractExeFS() const
 	{
+		auto BlockingActorCheckout = fg_BlockingActor();
 		co_await
 			(
-				g_Dispatch(mp_pFileActor) /
+				g_Dispatch(BlockingActorCheckout) /
 				[
 					UserName = mp_MongoUser.m_UserName
 					, MongoVersion = mp_MongoVersion

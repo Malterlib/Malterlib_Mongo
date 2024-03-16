@@ -54,8 +54,6 @@ namespace NMib::NMongo::NMongoManager
 	private:
 		TCFuture<void> fp_Destroy() override
 		{
-			co_await mp_FileWriteActor.f_Destroy();
-			
 			if (mp_Backup)
 				co_await mp_Backup.f_Destroy();
 
@@ -69,17 +67,15 @@ namespace NMib::NMongo::NMongoManager
 		
 		TCFuture<void> fp_CleanupOldBackups()
 		{
-			if (!mp_FileWriteActor)
-				mp_FileWriteActor = fg_ConstructActor<CSeparateThreadActor>(fg_Construct("Global file write actor"));
-			
 			auto pCanDestroy = mp_pCanDestroy;
 			DLogWithCategory(MongoManager/Backup, Info, "Scheduling remove of old backups");
 
+			auto BlockingActorCheckout = fg_BlockingActor();
 			co_await
 				(
-					g_Dispatch(mp_FileWriteActor) / []
+					g_Dispatch(BlockingActorCheckout) / []
 					{
-						return TCFuture<void>::fs_RunProtected<CExceptionFile>() / [&]()
+						return TCFuture<void>::fs_RunProtected<CExceptionFile>() / []()
 							{
 								CFile::CFindFilesOptions Options{fg_Format("{}/Backup/*", CFile::fs_GetProgramDirectory()), false};
 								Options.m_AttribMask = EFileAttrib_Directory;
@@ -129,7 +125,6 @@ namespace NMib::NMongo::NMongoManager
 		CMongoConnectionSettings mp_MongoConnectionSettings;
 		CStr mp_MongoExecutable;
 		
-		TCActor<CSeparateThreadActor> mp_FileWriteActor;
 		TCActor<CMongoBackupInstanceActor> mp_Backup;
 		TCSharedPointer<CCanDestroyTracker> mp_pCanDestroy;
 		

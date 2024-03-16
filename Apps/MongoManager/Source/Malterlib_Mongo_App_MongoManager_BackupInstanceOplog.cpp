@@ -2,24 +2,26 @@
 #include "Malterlib_Mongo_App_MongoManager_Server.h"
 #include "Malterlib_Mongo_App_MongoManager_BackupInstance.h"
 
+#include <Mib/Concurrency/LogError>
 #include <Mib/Mongo/BSON>
  
 namespace NMib::NMongo::NMongoManager
 {
-	void CMongoBackupInstanceActor::fp_SavePendingOplogData(TCSharedPointer<CFile> const &_pBackupFile)
+	TCFuture<void> CMongoBackupInstanceActor::fp_SavePendingOplogData(TCSharedPointer<CFile> const &_pBackupFile)
 	{
 		if (!mp_pCanDestroy)
-			return; // Destroyed
+			co_return {}; // Destroyed
+
+		auto pCanDestroy = mp_pCanDestroy;
+
+		auto SequnceSubscription = co_await mp_OplogWriteSequencer.f_Sequence();
 
 		mp_PendingSaveScheduled = false;
-		
-		TCSharedPointer<CFile> pBackupFile = _pBackupFile;
-		auto pCanDestroy = mp_pCanDestroy;
-		
-		fg_Dispatch
+
+		auto BlockingActorCheckout = fg_BlockingActor();
+		co_await
 			(
-				mp_FileWriteActor
-				, [pCanDestroy, pBackupFile, Pending = fg_Move(mp_PendingOplogData)]() -> uint64
+				g_Dispatch(BlockingActorCheckout) / [pBackupFile = _pBackupFile, Pending = fg_Move(mp_PendingOplogData)]() -> uint64
 				{
 					CByteVector Data;
 					for (auto &JSONData : Pending)
@@ -36,15 +38,9 @@ namespace NMib::NMongo::NMongoManager
 					return pBackupFile->f_GetPosition();
 				}
 			)
-			> [](TCAsyncResult<uint64> &&_Result)
-			{
-				if (!_Result)
-				{
-					DLogWithCategory(Backup, Error, "Error writing oplog to file: {}", _Result.f_GetExceptionStr());
-					return;
-				}
-			}
 		;
+
+		co_return {};
 	}
 	
 	TCFuture<void> CMongoBackupInstanceActor::fp_TailOplog(TCSharedPointer<CFile> const &_pBackupFile)
@@ -89,11 +85,7 @@ namespace NMib::NMongo::NMongoManager
 					if (!mp_PendingSaveScheduled)
 					{
 						mp_PendingSaveScheduled = true;
-						fg_ThisActor(this)(&CMongoBackupInstanceActor::fp_SavePendingOplogData, pBackupFile)
-							> [pCanDestroy](TCAsyncResult<void> &&_Result)
-							{
-							}
-						;
+						fg_ThisActor(this)(&CMongoBackupInstanceActor::fp_SavePendingOplogData, pBackupFile) > fg_LogError("MongoBackupInstance", "Error writing oplog to file");
 					}
 
 					co_return {};

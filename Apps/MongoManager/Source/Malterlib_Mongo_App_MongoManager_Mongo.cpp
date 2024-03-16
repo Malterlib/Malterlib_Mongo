@@ -20,7 +20,7 @@ namespace NMib::NMongo::NMongoManager
 			CStr m_AdminDN;
 		};
 
-		mp_CertificateDeployActor = fg_Construct(mp_AppState.m_DistributionManager, mp_AppState.m_TrustManager, mp_pFileActor);
+		mp_CertificateDeployActor = fg_Construct(mp_AppState.m_DistributionManager, mp_AppState.m_TrustManager);
 
 		CStr CertificateAuthority = mp_AppState.m_ConfigDatabase.m_Data.f_GetMemberValue("CertificateAuthority", "MongoCA").f_String();
 		auto MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
@@ -102,12 +102,12 @@ namespace NMib::NMongo::NMongoManager
 		co_await mp_CertificateDeployActor(&CMongoCertificateDeployActor::f_Start);
 		mp_bCertificateDeployActorStarted = true;
 
-		auto Info = co_await
-			(
-				fg_Dispatch
+		CMongoInfo Info;
+		{
+			auto BlockingActorCheckout = fg_BlockingActor();
+			Info = co_await
 				(
-					mp_pFileActor
-					,
+					g_Dispatch(BlockingActorCheckout) /
 					[
 						MongoDirectory
 						, MongoUser = mp_MongoUser
@@ -145,10 +145,10 @@ namespace NMib::NMongo::NMongoManager
 #endif
 						return MongoInfo;
 					}
+					% "Failed to set up mongod"
 				)
-				% "Failed to set up mongod"
-			)
-		;
+			;
+		}
 
 		mp_MongoUser = Info.m_User;
 
@@ -642,7 +642,7 @@ namespace NMib::NMongo::NMongoManager
 				, "priority"_= _Options.m_Priority.f_Get(1.0)
 				, "tags"_=
 				{
-					_[SelfTag] = "1"
+					_(SelfTag) = "1"
 				}
 				, "secondaryDelaySecs"_= 0
 				, "votes"_= _Options.m_CanVote.f_Get(true) ? 1 : 0

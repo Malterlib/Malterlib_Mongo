@@ -26,8 +26,6 @@ namespace NMib::NMongo::NMongoManager
 
 		mp_BackupDirectory = fg_Format("{}/Backup/{tst.} - {}", CFile::fs_GetProgramDirectory(), mp_BackupTime, mp_BackupID);
 
-		mp_FileWriteActor = fg_ConstructActor<CSeparateThreadActor>(fg_Construct("File write actor"));
-
 		mp_BackupInterface.f_CallActor(&CDistributedAppInterfaceBackup::f_SubscribeBackupStopped)
 			(
 				g_ActorFunctor / [this, AllowDestroy = g_AllowWrongThreadDestroy]() -> TCFuture<void>
@@ -68,9 +66,12 @@ namespace NMib::NMongo::NMongoManager
 
 		auto pCanDestroy = mp_pCanDestroy;
 
+		auto SequenceSubscription = co_await mp_WriteSequencer.f_Sequence();
+
+		auto BlockingActorCheckout = fg_BlockingActor();
 		auto pResult = co_await
 			(
-				g_Dispatch(mp_FileWriteActor) / [BackupDirectory = mp_BackupDirectory, OplogPath = mp_BackupDirectory + "/DynamicOplog.bson"]
+				g_Dispatch(BlockingActorCheckout) / [BackupDirectory = mp_BackupDirectory, OplogPath = mp_BackupDirectory + "/DynamicOplog.bson"]
 				{
 					return TCFuture<TCSharedPointer<CFile>>::fs_RunProtected<CExceptionFile>() / [&]()
 						{
@@ -94,7 +95,7 @@ namespace NMib::NMongo::NMongoManager
 		co_return fg_Move(pResult);
 	}
 
-	void CMongoBackupInstanceActor::fp_MarkBackupFinished()
+	TCFuture<void> CMongoBackupInstanceActor::fp_MarkBackupFinished()
 	{
 		auto pCanDestroy = mp_pCanDestroy;
 
@@ -106,16 +107,20 @@ namespace NMib::NMongo::NMongoManager
 			)
 		;
 
-		g_Dispatch(mp_FileWriteActor) / [FinishedPath = mp_BackupDirectory + "/InitialFinished"]
-			{
-				CFile::fs_Touch(FinishedPath);
-			}
-			> [pCanDestroy](TCAsyncResult<void> &&_Result) mutable
-			{
-				if (!_Result)
-					DLogWithCategory(MongoManager/Backup, Error, "Failed to mark backup as finished: {}", _Result.f_GetExceptionStr());
-			}
+		auto SequenceSubscription = co_await mp_WriteSequencer.f_Sequence();
+
+		auto BlockingActorCheckout = fg_BlockingActor();
+		co_await
+			(
+				g_Dispatch(BlockingActorCheckout) / [FinishedPath = mp_BackupDirectory + "/InitialFinished"]
+				{
+					CFile::fs_Touch(FinishedPath);
+				}
+			)
+			.f_Wrap() > fg_LogError("MongoManager/Backup", "Failed to mark backup as finished");
 		;
+
+		co_return {};
 	}
 
 	TCFuture<void> CMongoBackupInstanceActor::f_StartBackup(CActorSubscription &&_ManifestFinished, CStr const &_BackupRoot)
@@ -184,7 +189,7 @@ namespace NMib::NMongo::NMongoManager
 							g_ActorFunctor / [this, AllowDestroy = g_AllowWrongThreadDestroy]() -> TCFuture<void>
 							{
 								mp_bInitialBackupUploaded = true;
-								fp_MarkBackupFinished();
+								co_await fp_MarkBackupFinished();
 								co_return {};
 							}
 						)
@@ -233,9 +238,12 @@ namespace NMib::NMongo::NMongoManager
 
 		auto pCanDestroy = mp_pCanDestroy;
 
+		auto SequenceSubscription = co_await mp_WriteSequencer.f_Sequence();
+
+		auto BlockingActorCheckout = fg_BlockingActor();
 		co_await
 			(
-				g_Dispatch(mp_FileWriteActor) / [Result, BackupDirectory = mp_BackupDirectory, bInitialDumpFinished = mp_bInitialDumpFinished]
+				g_Dispatch(BlockingActorCheckout) / [Result, BackupDirectory = mp_BackupDirectory, bInitialDumpFinished = mp_bInitialDumpFinished]
 				{
 					return TCFuture<void>::fs_RunProtected<CExceptionFile>() / [&]()
 						{
@@ -283,7 +291,8 @@ namespace NMib::NMongo::NMongoManager
 
 		co_await self(&CMongoBackupInstanceActor::fp_DeleteBackup).f_Wrap() > LogError.f_Warning("Failed to delete backup");
 
-		co_await mp_FileWriteActor.f_Destroy().f_Wrap() > LogError.f_Warning("Failed to destroy file actor");
+		co_await fg_Move(mp_WriteSequencer).f_Destroy().f_Wrap() > LogError.f_Warning("Failed to destroy write sequencer");
+		co_await fg_Move(mp_OplogWriteSequencer).f_Destroy().f_Wrap() > LogError.f_Warning("Failed to destroy oplog sequencer");
 
 		co_return {};
 	}

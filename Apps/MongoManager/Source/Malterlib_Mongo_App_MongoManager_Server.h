@@ -49,7 +49,7 @@ namespace NMib::NMongo::NMongoManager
 
 		CMongoManagerActor(CDistributedAppState &_AppState);
 		~CMongoManagerActor();
-		TCFuture<void> f_RestoreMongo(CTime const &_RestoreTime);
+		TCFuture<void> f_RestoreMongo(CTime _RestoreTime);
 		TCFuture<void> f_Startup(EMode _Mode, CStr const &_OverrideReplicaName, uint16 _OverridePort, TCOptional<bool> const &_VerboseMongoScrips);
 		TCFuture<void> f_UpdateReplicationConfig();
 		TCFuture<void> f_SetupPermissions();
@@ -157,7 +157,6 @@ namespace NMib::NMongo::NMongoManager
 
 		EMode mp_Mode;
 
-		TCActor<CSeparateThreadActor> mp_pFileActor;
 		TCActor<CResolveActor> mp_ResolveActor;
 		NMib::NNetwork::CNetAddress mp_MongoLocalAddress;
 

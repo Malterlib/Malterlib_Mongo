@@ -256,73 +256,78 @@ namespace NMib::NMongo
 		if (auto pException = f_UserUpdate_CheckCertificate(*pCertificateAuthority, SecretID, "Certificate authority"))
 			co_return pException;
 
-		auto bUpdated = co_await
-			(
-				g_Dispatch(m_FileActor) / [_FileSettings, PrivateKey = *pPrivateKey, Certificate = *pCertificate, CertificateAuthority = *pCertificateAuthority]() -> TCFuture<bool>
-				{
-					TCVector<TCTuple<CStr, CStr>> ToCommit;
-					bool bChanged = false;
-					auto fUpdateFile = [&](CStrSecure const &_Data, CCertificateFileSettings const &_FileSettings)
-						{
-							if (!_FileSettings.m_Path)
-								return;
-							
-							CSecureByteVector FileData;
-							FileData.f_Insert((uint8 const *)_Data.f_GetStr(), _Data.f_GetLen());
-							CStr WriteFileName;
-							if (!CFile::fs_FileExists(_FileSettings.m_Path) || !CFile::fs_FileIsSame(FileData, _FileSettings.m_Path))
-							{
-								CFile::fs_CreateDirectory(CFile::fs_GetPath(_FileSettings.m_Path));
-								WriteFileName = _FileSettings.m_Path + ".tempupdate";
-								CFile::fs_WriteFileSecure(WriteFileName, FileData);
-								ToCommit.f_Insert({WriteFileName, _FileSettings.m_Path});
-								bChanged = true;
-							}
-							else
-								WriteFileName = _FileSettings.m_Path;
-
-							auto Attribs = CFile::fs_GetAttributes(WriteFileName);
-							if ((Attribs & EFileAttrib_AllUnixPermissions) != (_FileSettings.m_Attributes & EFileAttrib_AllUnixPermissions))
-							{
-								CFile::fs_SetAttributes(WriteFileName, (_FileSettings.m_Attributes & EFileAttrib_AllUnixPermissions) | EFileAttrib_UnixAttributesValid);
-								bChanged = true;
-							}
-
-							if (_FileSettings.m_Group && CFile::fs_GetGroup(WriteFileName) != _FileSettings.m_Group)
-							{
-								CFile::fs_SetGroup(WriteFileName, _FileSettings.m_Group);
-								bChanged = true;
-							}
-
-							if (_FileSettings.m_User && CFile::fs_GetOwner(WriteFileName) != _FileSettings.m_User)
-							{
-								CFile::fs_SetOwner(WriteFileName, _FileSettings.m_User);
-								bChanged = true;
-							}
-						}
-					;
-
+		bool bUpdated;
+		{
+			auto BlockingActorCheckout = fg_BlockingActor();
+			bUpdated = co_await
+				(
+					g_Dispatch(BlockingActorCheckout) / [_FileSettings, PrivateKey = *pPrivateKey, Certificate = *pCertificate, CertificateAuthority = *pCertificateAuthority]
+					() -> TCFuture<bool>
 					{
-						auto CaptureScope = co_await g_CaptureExceptions;
+						TCVector<TCTuple<CStr, CStr>> ToCommit;
+						bool bChanged = false;
+						auto fUpdateFile = [&](CStrSecure const &_Data, CCertificateFileSettings const &_FileSettings)
+							{
+								if (!_FileSettings.m_Path)
+									return;
 
-						fUpdateFile(PrivateKey, _FileSettings.m_Key);
-						fUpdateFile(Certificate, _FileSettings.m_Certificate);
-						fUpdateFile(CertificateAuthority, _FileSettings.m_Authority);
-						fUpdateFile(PrivateKey + Certificate, _FileSettings.m_KeyCertificate);
+								CSecureByteVector FileData;
+								FileData.f_Insert((uint8 const *)_Data.f_GetStr(), _Data.f_GetLen());
+								CStr WriteFileName;
+								if (!CFile::fs_FileExists(_FileSettings.m_Path) || !CFile::fs_FileIsSame(FileData, _FileSettings.m_Path))
+								{
+									CFile::fs_CreateDirectory(CFile::fs_GetPath(_FileSettings.m_Path));
+									WriteFileName = _FileSettings.m_Path + ".tempupdate";
+									CFile::fs_WriteFileSecure(WriteFileName, FileData);
+									ToCommit.f_Insert({WriteFileName, _FileSettings.m_Path});
+									bChanged = true;
+								}
+								else
+									WriteFileName = _FileSettings.m_Path;
 
-						for (auto &ToCommit : ToCommit)
+								auto Attribs = CFile::fs_GetAttributes(WriteFileName);
+								if ((Attribs & EFileAttrib_AllUnixPermissions) != (_FileSettings.m_Attributes & EFileAttrib_AllUnixPermissions))
+								{
+									CFile::fs_SetAttributes(WriteFileName, (_FileSettings.m_Attributes & EFileAttrib_AllUnixPermissions) | EFileAttrib_UnixAttributesValid);
+									bChanged = true;
+								}
+
+								if (_FileSettings.m_Group && CFile::fs_GetGroup(WriteFileName) != _FileSettings.m_Group)
+								{
+									CFile::fs_SetGroup(WriteFileName, _FileSettings.m_Group);
+									bChanged = true;
+								}
+
+								if (_FileSettings.m_User && CFile::fs_GetOwner(WriteFileName) != _FileSettings.m_User)
+								{
+									CFile::fs_SetOwner(WriteFileName, _FileSettings.m_User);
+									bChanged = true;
+								}
+							}
+						;
+
 						{
-							if (CFile::fs_FileExists(fg_Get<1>(ToCommit)))
-								CFile::fs_AtomicReplaceFile(fg_Get<0>(ToCommit), fg_Get<1>(ToCommit));
-							else
-								CFile::fs_RenameFile(fg_Get<0>(ToCommit), fg_Get<1>(ToCommit));
-						}
-					}
+							auto CaptureScope = co_await g_CaptureExceptions;
 
-					co_return bChanged;
-				}
-			)
-		;
+							fUpdateFile(PrivateKey, _FileSettings.m_Key);
+							fUpdateFile(Certificate, _FileSettings.m_Certificate);
+							fUpdateFile(CertificateAuthority, _FileSettings.m_Authority);
+							fUpdateFile(PrivateKey + Certificate, _FileSettings.m_KeyCertificate);
+
+							for (auto &ToCommit : ToCommit)
+							{
+								if (CFile::fs_FileExists(fg_Get<1>(ToCommit)))
+									CFile::fs_AtomicReplaceFile(fg_Get<0>(ToCommit), fg_Get<1>(ToCommit));
+								else
+									CFile::fs_RenameFile(fg_Get<0>(ToCommit), fg_Get<1>(ToCommit));
+							}
+						}
+
+						co_return bChanged;
+					}
+				)
+			;
+		}
 
 		if (bUpdated && pUser->m_Settings.m_fOnCertificateUpdated)
 			co_await pUser->m_Settings.m_fOnCertificateUpdated();

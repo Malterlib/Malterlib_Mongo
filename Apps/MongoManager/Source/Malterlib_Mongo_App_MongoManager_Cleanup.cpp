@@ -34,9 +34,10 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<void> CMongoManagerActor::fp_CleanupOldProcesses()
 	{
+		auto BlockingActorCheckout = fg_BlockingActor();
 		co_await
 			(
-				g_Dispatch(mp_pFileActor) / []
+				g_Dispatch(BlockingActorCheckout) / []
 				{
 					fg_CleanupOldProcesses();
 				}
