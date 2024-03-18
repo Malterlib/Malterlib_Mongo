@@ -315,12 +315,7 @@ namespace NMib::NMongo
 							fUpdateFile(PrivateKey + Certificate, _FileSettings.m_KeyCertificate);
 
 							for (auto &ToCommit : ToCommit)
-							{
-								if (CFile::fs_FileExists(fg_Get<1>(ToCommit)))
-									CFile::fs_AtomicReplaceFile(fg_Get<0>(ToCommit), fg_Get<1>(ToCommit));
-								else
-									CFile::fs_RenameFile(fg_Get<0>(ToCommit), fg_Get<1>(ToCommit));
-							}
+								CFile::fs_AtomicReplaceFile(fg_Get<0>(ToCommit), fg_Get<1>(ToCommit));
 						}
 
 						co_return bChanged;
