@@ -179,6 +179,14 @@ namespace NMib::NMongo
 
 		co_await Results.f_GetUnwrappedResults().f_Wrap() > LogError.f_Warning("Failed to destroy certificater deploy actor");
 
+		{
+			TCActorResultVector<void> Results;
+			for (auto &User : Internal.m_Users)
+				fg_Move(User.m_UserUpdateSequencer).f_Destroy() > Results.f_AddResult();
+
+			co_await Results.f_GetUnwrappedResults().f_Wrap() > fg_LogWarning("Mib/Mongo/MongoCertificateDeploy", "Failed to destroy sequencers");
+		}
+
 		co_return {};
 	}
 

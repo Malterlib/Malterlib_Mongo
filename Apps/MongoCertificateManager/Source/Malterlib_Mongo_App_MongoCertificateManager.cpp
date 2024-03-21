@@ -80,6 +80,15 @@ namespace NMib::NMongo::NMongoCertificateManager
 		co_return {};
 	}
 
+	TCFuture<void> CMongoCertificateManagerActor::fp_Destroy()
+	{
+		co_await fg_Move(mp_InitSensorReporterSequencer).f_Destroy().f_Wrap() > fg_LogError("Mib/Mongo/MongoCertificateManager", "Failed to destroy sequencer");
+
+		co_await CDistributedAppActor::fp_Destroy();
+
+		co_return {};
+	}
+
 	TCFuture<void> CMongoCertificateManagerActor::fp_StopApp()
 	{
 		TCActorResultVector<void> Destroys;
