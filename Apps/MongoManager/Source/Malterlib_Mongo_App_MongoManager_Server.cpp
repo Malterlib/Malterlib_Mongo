@@ -122,7 +122,7 @@ namespace NMib::NMongo::NMongoManager
 		if (mp_ReplicaStatusTimer)
 			co_await fg_Exchange(mp_ReplicaStatusTimer, nullptr)->f_Destroy();
 
-		if (mp_ReplicaStatusReporter);
+		if (mp_ReplicaStatusReporter)
 			co_await fg_Move(mp_ReplicaStatusReporter->m_fReportReadings).f_Destroy();
 
 		if (mp_ReplicaStatusMongoClient)
@@ -147,7 +147,7 @@ namespace NMib::NMongo::NMongoManager
 		if (mp_ReplicaStatusTimer)
 			co_await fg_Exchange(mp_ReplicaStatusTimer, nullptr)->f_Destroy();
 
-		if (mp_ReplicaStatusReporter);
+		if (mp_ReplicaStatusReporter)
 			co_await fg_Move(mp_ReplicaStatusReporter->m_fReportReadings).f_Destroy();
 
 		if (mp_ReplicaStatusMongoClient)
