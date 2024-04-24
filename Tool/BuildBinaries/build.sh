@@ -18,6 +18,12 @@ if [[ "$MongoBuildClean" == "" ]]; then
 	MongoBuildClean=false
 fi
 
+HomebrewPrefix=`brew --prefix || echo ""`
+
+if [[ "$HomebrewPrefix" != "" ]]; then
+	rm -f "$HomebrewPrefix/include/openssl"
+fi
+
 if [[ "$OutputDir" == "" ]]; then
 	echo "No output dir specified"
 	exit 1
@@ -35,6 +41,7 @@ ProcessorArch=$(uname -m)
 
 if [[ "$MalterlibPlatform" == "macOS" ]] ; then
 	NumCPUs=`getconf _NPROCESSORS_ONLN`
+	ExtraLDFlags="-lc++"
 	StripCommand="strip -u -r"
 	CurlBuildCFlags="-mmacosx-version-min=10.14"
 elif [[ "$MalterlibPlatform" == "Linux" ]] ; then
@@ -70,6 +77,8 @@ function AbsolutePath()
 
 MalterlibRoot=`AbsolutePath "../../../.."`
 OpenSSLBuildDir="$IntermediateDir/boringssl"
+CurlBuildDir="$IntermediateDir/curl"
+PythonEnvDir="$IntermediateDir/penv"
 
 OutputBinDir=""
 
@@ -112,7 +121,7 @@ Name: OpenSSL
 Version: 0.0
 Description: Secure Sockets Layer and cryptography libraries and tools
 Requires:
-Libs: -L\${libdir} -ldecrepit -lssl -lcrypto -ldl $ExtraLDFlags
+Libs: -L\${libdir} -ldl $ExtraLDFlags
 Cflags: -I\${includedir}
 EOF
 
@@ -123,15 +132,15 @@ function BuildCurl()
 {
 	SetupOpensslPkgConfig
 
+	mkdir -p "$CurlBuildDir"
+	pushd "$CurlBuildDir" > /dev/null
+
 	export MACOSX_DEPLOYMENT_TARGET=10.14
 	export PKG_CONFIG_PATH="$TempPkgConfigDir:$PKG_CONFIG_PATH"
 
-	pushd "$MalterlibRoot/External/curl" > /dev/null
-	autoreconf -fi
-	CFLAGS="$CurlBuildCFlags" ./configure --disable-shared --with-ssl --without-brotli --without-nghttp2 --without-libidn2 --without-zstd --prefix "$IntermediateDir/curl_bin"
-	make clean
-	make -j$NumCPUs
-	make install
+	cmake -GNinja "$MalterlibRoot/External/curl" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="$ExtraBoringSSLFlags" -DCMAKE_C_FLAGS="$ExtraBoringSSLFlags" "-DCMAKE_INSTALL_PREFIX=$IntermediateDir/curl_bin" -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DBUILD_STATIC_CURL=ON -DUSE_LIBIDN2=OFF -DCURL_ZSTD=OFF -DCURL_USE_LIBSSH2=OFF -DCURL_USE_LIBPSL=OFF -DCURL_USE_LIBSSH=OFF "-DOPENSSL_ROOT_DIR=$MalterlibRoot/External/boringssl" "-DOPENSSL_LIBRARIES=$OpenSSLBuildDir/bin/libssl.a;$OpenSSLBuildDir/bin/libcrypto.a;$OpenSSLBuildDir/bin/libdecrepit.a" "-DOPENSSL_SSL_LIBRARY=$OpenSSLBuildDir/bin/libssl.a" "-DOPENSSL_DECREPIT_LIBRARY=$OpenSSLBuildDir/bin/libdecrepit.a" "-DOPENSSL_CRYPTO_LIBRARY=$OpenSSLBuildDir/bin/libcrypto.a"
+	ninja
+	ninja install
 
 	popd > /dev/null
 }
@@ -144,7 +153,19 @@ function BuildMongo()
 		rm -rf build
 	fi
 
-	python3 -m pip install -r etc/pip/compile-requirements.txt
+	PythonExe=`which python3.11 || echo ""`
+	if [[ "$PythonExe" == "" ]]; then
+		PythonExe="python3"
+	fi
+
+	echo PythonExe="$PythonExe"
+
+	mkdir -p "$PythonEnvDir"
+
+	"$PythonExe" -m venv "$PythonEnvDir"
+	source "$PythonEnvDir/bin/activate"
+
+	"$PythonExe" -m pip install -r etc/pip/compile-requirements.txt
 
 	ToBuild="install-mongod install-mongo"
 
@@ -155,7 +176,7 @@ function BuildMongo()
 		CurlFrameworks="$CurlFrameworks SystemConfiguration"
 	fi
 
-	python3 buildscripts/scons.py LIBPATH="$IntermediateDir/curl_bin/lib $OpenSSLBuildDir/bin" \
+	"$PythonExe" buildscripts/scons.py LIBPATH="$IntermediateDir/curl_bin/lib $OpenSSLBuildDir/bin" \
 		CPPPATH="$IntermediateDir/curl_bin/include" \
 		FRAMEWORKS="$CurlFrameworks" \
 		LIBS="$CurlLibs" \
