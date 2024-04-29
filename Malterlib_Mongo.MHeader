@@ -410,7 +410,11 @@ Property
 	MalterlibTestExtraGroups_Malterlib_Mongo: [string] = ["{Test}/{Malterlib_Mongo}"]
 }
 
-Property.Malterlib_Mongo_App_Targets: [type(CEntity)] = []
+Property
+{
+	Malterlib_Mongo_App_Targets: [type(CEntity)] = []
+	Malterlib_All_App_Targets =+ Malterlib_Mongo_App_Targets
+}
 
 %Workspace "Apps_Malterlib_Mongo"
 {
