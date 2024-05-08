@@ -98,7 +98,11 @@ Property
 		Warnings "Minimal"
 		Warnings_UnusedFunction false
 		{
-			!!GeneratorFamily "Xcode"
+			!!Compiler "Clang"
+		}
+		Warnings_DeprecatedDeclarations false
+		{
+			!!Compiler "Clang"
 		}
 	}
 
@@ -140,11 +144,7 @@ Property
 			!DocumentationEnabled true
 			Dependency.Indirect true
 		}
-		%Dependency "Lib_BoringSSL_decrepit"
-		{
-			!DocumentationEnabled true
-			Dependency.Indirect true
-		}
+		Target.ExtraGroups =+ "{Malterlib}/{Lib_Malterlib_Cryptography}/{DependOnBoringSSL}"
 	}
 }
 
@@ -185,11 +185,11 @@ Property
 		PrefixHeader undefined
 		Warnings_DeprecatedDeclarations false
 		{
-			!!GeneratorFamily "Xcode"
+			!!Compiler "Clang"
 		}
 		Warnings_AlignMismatch false
 		{
-			!!GeneratorFamily "Xcode"
+			!!Compiler "Clang"
 		}
 	}
 	Property.IdentityFileName: string = this.Identity->GetFile()
@@ -307,6 +307,7 @@ Property
 	{
 		DependencyInjectionGroups =+ "{Malterlib}/{Lib_Malterlib_Mongo}/{TargetInjection}"
 		ExtraGroups =+ "{Malterlib}/{Lib_Malterlib_Mongo}/{TargetInjection}"
+		ExtraGroups =+ "{Malterlib}/{Lib_Malterlib_Cryptography}/{DependOnBoringSSL}"
 	}
 
 	%Group "Mongo"
@@ -345,18 +346,14 @@ Property
 		!DocumentationEnabled true
 		Dependency.Indirect true
 	}
-	%Dependency "Lib_BoringSSL_decrepit"
-	{
-		!DocumentationEnabled true
-
-		Dependency.Indirect true
-	}
 	%Dependency "Lib_Malterlib_Concurrency"
 	{
 		!DocumentationEnabled true
 
 		Dependency.Indirect true
 	}
+
+
 	%Dependency "resolv"
 	{
 		&
