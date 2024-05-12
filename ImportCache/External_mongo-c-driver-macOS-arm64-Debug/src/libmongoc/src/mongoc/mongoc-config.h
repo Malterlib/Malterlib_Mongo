@@ -38,7 +38,7 @@
  * used to compile mongoc */
 #define MONGOC_USER_SET_CFLAGS ""
 
-#define MONGOC_USER_SET_LDFLAGS "-stdlib=libc++ -Wno-unused-command-line-argument"
+#define MONGOC_USER_SET_LDFLAGS "-stdlib=libc++ -Wno-unused-command-line-argument -fuse-ld=lld"
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
 #define MONGOC_CC "../../../../../../../../Binaries/MalterlibLLVM/macOS/arm64/bin/clang"

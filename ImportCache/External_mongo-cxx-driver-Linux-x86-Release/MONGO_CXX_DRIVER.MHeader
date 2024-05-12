@@ -413,17 +413,17 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 				{
 					%File `@('.'->MakeAbsolute())/CMakeFiles/dist.rule`
 				}
-				%File `@('.'->MakeAbsolute())/mongo-cxx-driver-r3.8.1-20240219+gita9d2c9ab14.tar.gz.rule`
+				%File `@('.'->MakeAbsolute())/mongo-cxx-driver-r3.8.1-20240512+gita9d2c9ab14.tar.gz.rule`
 				{
 					Compile
 					{
 						Type "Custom"
-						Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D PACKAGE_PREFIX=mongo-cxx-driver-r3.8.1-20240219+gita9d2c9ab14 -D MONGOCXX_SOURCE_DIR=@('../../../../External/mongo-cxx-driver'->MakeAbsolute()) -D BUILD_SOURCE_DIR=@('.'->MakeAbsolute()) -D SHELL= -Ddist_generated="" -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDist.cmake`->MakeAbsolute()->EscapeHost())`
+						Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D PACKAGE_PREFIX=mongo-cxx-driver-r3.8.1-20240512+gita9d2c9ab14 -D MONGOCXX_SOURCE_DIR=@('../../../../External/mongo-cxx-driver'->MakeAbsolute()) -D BUILD_SOURCE_DIR=@('.'->MakeAbsolute()) -D SHELL= -Ddist_generated="" -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDist.cmake`->MakeAbsolute()->EscapeHost())`
 						AllowNonExisting true
 						Disabled false
 						Custom_WorkingDirectory `@('.'->MakeAbsolute())`->MakeAbsolute()
 						Custom_Outputs [
-							`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver/mongo-cxx-driver-r3.8.1-20240219+gita9d2c9ab14.tar.gz`->MakeAbsolute()
+							`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver/mongo-cxx-driver-r3.8.1-20240512+gita9d2c9ab14.tar.gz`->MakeAbsolute()
 						]
 						Custom_Inputs [
 							`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/CMakeLists.txt`->MakeAbsolute(),
@@ -1567,7 +1567,7 @@ Property.CMakeOutputPath_MONGO_CXX_DRIVER: string = `@('.'->MakeAbsolute())`->Ma
 						Compile
 						{
 							Type "Custom"
-							Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D CMAKE_PREFIX_PATH= -D PACKAGE_PREFIX=mongo-cxx-driver-r3.8.1-20240219+gita9d2c9ab14 -D CMAKE_CXX_FLAGS=-stdlib=libc++ -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDistCheck.cmake`->MakeAbsolute()->EscapeHost())`
+							Custom_CommandLine `MToolCMake -D CMAKE_MODULE_PATH=@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist -D CMAKE_PREFIX_PATH= -D PACKAGE_PREFIX=mongo-cxx-driver-r3.8.1-20240512+gita9d2c9ab14 -D CMAKE_CXX_FLAGS=-stdlib=libc++ -P @(`@('../../../../External/mongo-cxx-driver'->MakeAbsolute())/cmake/make_dist/MakeDistCheck.cmake`->MakeAbsolute()->EscapeHost())`
 							AllowNonExisting true
 							Disabled false
 							Custom_WorkingDirectory `@('.'->MakeAbsolute())`->MakeAbsolute()
