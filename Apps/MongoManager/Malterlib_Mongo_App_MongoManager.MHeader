@@ -64,11 +64,20 @@ Property
 	%Dependency "Lib_Malterlib"
 }
 
-Property.Malterlib_Mongo_App_Targets += "Malterlib_Mongo_MongoManager"
+Property
 {
-	|
+	Malterlib_App_Enable_MongoManager: bool = true
+
+	Malterlib_Mongo_App_Targets += "Malterlib_Mongo_MongoManager"
 	{
-		!MongoBinariesPath undefined
-		MalterlibMongoEnableMongoManagerWithDefultMongoDB true
+		&
+		{
+			Malterlib_App_Enable_MongoManager true
+			|
+			{
+				!MongoBinariesPath undefined
+				MalterlibMongoEnableMongoManagerWithDefultMongoDB true
+			}
+		}
 	}
 }

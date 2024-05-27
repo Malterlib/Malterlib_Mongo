@@ -66,4 +66,12 @@
 	%Dependency "Lib_Malterlib_Mongo_MongoCertificateManager"
 }
 
-Property.Malterlib_Mongo_App_Targets =+ "Malterlib_Mongo_MongoCertificateManager"
+Property
+{
+	Malterlib_App_Enable_MongoCertificateManager: bool = true
+
+	Malterlib_Mongo_App_Targets =+ "Malterlib_Mongo_MongoCertificateManager"
+	{
+		!!Malterlib_App_Enable_MongoCertificateManager true
+	}
+}
