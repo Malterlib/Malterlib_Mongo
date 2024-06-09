@@ -104,6 +104,10 @@ Property
 		{
 			!!Compiler "Clang"
 		}
+		Warnings_Format false
+		{
+			!!Compiler "Clang"
+		}
 	}
 
 	%Target "Lib_libbson_bson_static"
