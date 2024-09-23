@@ -64,7 +64,7 @@ UpdateType: git
 
 # Compiler info
 Compiler: ../../../../Binaries/MalterlibLLVM/macOS/arm64/bin/clang++
-CompilerVersion: 18.1.6
+CompilerVersion: 19.1.0
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 

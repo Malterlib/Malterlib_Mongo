@@ -5,8 +5,13 @@ Property.CMakeOutputPath_BSONCXX: string = `@('../..'->MakeAbsolute())`->MakeAbs
 	{
 		!!Compile.Type "C++"
 		SearchPath += [
-			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
-			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/include/bsoncxx/v_noabi`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/include`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src/bsoncxx/lib`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
@@ -29,75 +34,75 @@ Property.CMakeOutputPath_BSONCXX: string = `@('../..'->MakeAbsolute())`->MakeAbs
 		{
 			%Group "array"
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/array/element.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/array/element.cpp`
 				{
 					Compile.Type "C++"
 				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/array/value.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/array/value.cpp`
 				{
 					Compile.Type "C++"
 				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/array/view.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/array/view.cpp`
 				{
 					Compile.Type "C++"
 				}
 			}
 			%Group "builder"
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/builder/core.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/builder/core.cpp`
 				{
 					Compile.Type "C++"
 				}
 			}
-			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/decimal128.cpp`
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/decimal128.cpp`
 			{
 				Compile.Type "C++"
 			}
 			%Group "document"
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/document/element.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/document/element.cpp`
 				{
 					Compile.Type "C++"
 				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/document/value.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/document/value.cpp`
 				{
 					Compile.Type "C++"
 				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/document/view.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/document/view.cpp`
 				{
 					Compile.Type "C++"
 				}
 			}
 			%Group "exception"
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/exception/error_code.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/exception/error_code.cpp`
 				{
 					Compile.Type "C++"
 				}
 			}
-			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/json.cpp`
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/json.cpp`
 			{
 				Compile.Type "C++"
 			}
-			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/oid.cpp`
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/oid.cpp`
 			{
 				Compile.Type "C++"
 			}
 			%Group "private"
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/private/itoa.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/private/itoa.cpp`
 				{
 					Compile.Type "C++"
 				}
 			}
 			%Group "string"
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/string/view_or_value.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/string/view_or_value.cpp`
 				{
 					Compile.Type "C++"
 				}
 			}
-			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/types.cpp`
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/types.cpp`
 			{
 				Compile.Type "C++"
 			}
@@ -105,17 +110,17 @@ Property.CMakeOutputPath_BSONCXX: string = `@('../..'->MakeAbsolute())`->MakeAbs
 			{
 				%Group "bson_value"
 				{
-					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/types/bson_value/value.cpp`
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/types/bson_value/value.cpp`
 					{
 						Compile.Type "C++"
 					}
-					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/types/bson_value/view.cpp`
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/types/bson_value/view.cpp`
 					{
 						Compile.Type "C++"
 					}
 				}
 			}
-			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/validate.cpp`
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/validate.cpp`
 			{
 				Compile.Type "C++"
 			}
@@ -128,11 +133,17 @@ Property.CMakeOutputPath_BSONCXX: string = `@('../..'->MakeAbsolute())`->MakeAbs
 	{
 		!!Compile.Type "C++"
 		SearchPath += [
-			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
-			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/include/bsoncxx/v_noabi`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/include`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src/bsoncxx/lib`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
+			"BSONCXX_STATIC",
 			"BSONCXX_TESTING",
 			"MONGO_CXX_DRIVER_COMPILING"
 		]
@@ -152,75 +163,75 @@ Property.CMakeOutputPath_BSONCXX: string = `@('../..'->MakeAbsolute())`->MakeAbs
 		{
 			%Group "array"
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/array/element.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/array/element.cpp`
 				{
 					Compile.Type "C++"
 				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/array/value.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/array/value.cpp`
 				{
 					Compile.Type "C++"
 				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/array/view.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/array/view.cpp`
 				{
 					Compile.Type "C++"
 				}
 			}
 			%Group "builder"
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/builder/core.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/builder/core.cpp`
 				{
 					Compile.Type "C++"
 				}
 			}
-			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/decimal128.cpp`
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/decimal128.cpp`
 			{
 				Compile.Type "C++"
 			}
 			%Group "document"
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/document/element.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/document/element.cpp`
 				{
 					Compile.Type "C++"
 				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/document/value.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/document/value.cpp`
 				{
 					Compile.Type "C++"
 				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/document/view.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/document/view.cpp`
 				{
 					Compile.Type "C++"
 				}
 			}
 			%Group "exception"
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/exception/error_code.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/exception/error_code.cpp`
 				{
 					Compile.Type "C++"
 				}
 			}
-			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/json.cpp`
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/json.cpp`
 			{
 				Compile.Type "C++"
 			}
-			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/oid.cpp`
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/oid.cpp`
 			{
 				Compile.Type "C++"
 			}
 			%Group "private"
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/private/itoa.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/private/itoa.cpp`
 				{
 					Compile.Type "C++"
 				}
 			}
 			%Group "string"
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/string/view_or_value.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/string/view_or_value.cpp`
 				{
 					Compile.Type "C++"
 				}
 			}
-			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/types.cpp`
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/types.cpp`
 			{
 				Compile.Type "C++"
 			}
@@ -228,17 +239,17 @@ Property.CMakeOutputPath_BSONCXX: string = `@('../..'->MakeAbsolute())`->MakeAbs
 			{
 				%Group "bson_value"
 				{
-					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/types/bson_value/value.cpp`
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/types/bson_value/value.cpp`
 					{
 						Compile.Type "C++"
 					}
-					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/types/bson_value/view.cpp`
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/types/bson_value/view.cpp`
 					{
 						Compile.Type "C++"
 					}
 				}
 			}
-			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/validate.cpp`
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/validate.cpp`
 			{
 				Compile.Type "C++"
 			}
@@ -251,12 +262,18 @@ Property.CMakeOutputPath_BSONCXX: string = `@('../..'->MakeAbsolute())`->MakeAbs
 	{
 		!!Compile.Type "C++"
 		SearchPath += [
-			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/include`->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
-			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/include/bsoncxx/v_noabi`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/include`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src/bsoncxx/lib`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
+			"BSONCXX_STATIC",
 			"BSONCXX_TESTING",
 			"MONGO_CXX_DRIVER_COMPILING"
 		]
@@ -272,70 +289,118 @@ Property.CMakeOutputPath_BSONCXX: string = `@('../..'->MakeAbsolute())`->MakeAbs
 	Target.BaseFileName "test_bson"
 	%Group "src"
 	{
-		%Group "third_party"
+		%Group "test"
 		{
-			%Group "catch"
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/array.cpp`
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/main.cpp`
-				{
-					Compile.Type "C++"
-				}
+				Compile.Type "C++"
 			}
-		}
-		%Group "bsoncxx"
-		{
-			%Group "test"
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_b_date.cpp`
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/array.cpp`
-				{
-					Compile.Type "C++"
-				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_b_date.cpp`
-				{
-					Compile.Type "C++"
-				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_builder.cpp`
-				{
-					Compile.Type "C++"
-				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_get_values.cpp`
-				{
-					Compile.Type "C++"
-				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_serialization.cpp`
-				{
-					Compile.Type "C++"
-				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_types.cpp`
-				{
-					Compile.Type "C++"
-				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_util_itoa.cpp`
-				{
-					Compile.Type "C++"
-				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_validate.cpp`
-				{
-					Compile.Type "C++"
-				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_value.cpp`
-				{
-					Compile.Type "C++"
-				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/json.cpp`
-				{
-					Compile.Type "C++"
-				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/oid.cpp`
-				{
-					Compile.Type "C++"
-				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/view_or_value.cpp`
-				{
-					Compile.Type "C++"
-				}
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_builder.cpp`
+			{
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_get_values.cpp`
+			{
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_serialization.cpp`
+			{
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_types.cpp`
+			{
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_util_itoa.cpp`
+			{
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_validate.cpp`
+			{
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/bson_value.cpp`
+			{
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/json.cpp`
+			{
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/oid.cpp`
+			{
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/optional.test.cpp`
+			{
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/view_or_value.cpp`
+			{
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/make_unique.test.cpp`
+			{
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/string_view.test.cpp`
+			{
+				Compile.Type "C++"
+			}
+			%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/test/type_traits.test.cpp`
+			{
+				Compile.Type "C++"
 			}
 		}
 	}
+	%Dependency "Lib_BSONCXX_bsoncxx_test_properties_with_main"
 	%Dependency "Lib_BSONCXX_bsoncxx_testing"
+}
+%Target "Lib_BSONCXX_bsoncxx_test_properties_with_main"
+{
+	Compile
+	{
+		!!Compile.Type "C++"
+		SearchPath += [
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/include/bsoncxx/v_noabi`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/include`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src/bsoncxx/lib`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
+		]
+		PreprocessorDefines += [
+			"BSONCXX_STATIC",
+			"BSONCXX_TESTING",
+			"MONGO_CXX_DRIVER_COMPILING"
+		]
+	}
+	Property.MalterlibTargetNameType "Normal"
+	Compile.AllowNonExisting true
+	Target.Group "External/BSONCXX"
+	{
+		!!Target.Group undefined
+	}
+	Target.Type "StaticLibrary"
+	Target.BaseName "BSONCXX_bsoncxx_test_properties_with_main"
+	Target.BaseFileName "bsoncxx_test_properties_with_main"
+	%Group "src"
+	{
+		%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/third_party/catch/main.cpp`
+		{
+			Compile.Type "C++"
+		}
+	}
+	%Dependency "Lib_BSONCXX_bsoncxx_testing"
+	{
+		Dependency.Indirect true
+		Dependency.IndirectOrdered true
+	}
 }

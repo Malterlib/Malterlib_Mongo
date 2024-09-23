@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 MongoDB Inc.
+ * Copyright 2009-present MongoDB, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@
  * o The bitfield in mongoc-handshake-private.h
  * o _mongoc_handshake_get_config_hex_string() in mongoc-handshake.c
  * o examples/parse_handshake_cfg.py
- * o test_handshake_config_string in test-mongoc-handshake.c
+ * o test_handshake_platform_config in test-mongoc-handshake.c
  */
 
 /* MONGOC_USER_SET_CFLAGS is set from config based on what compiler flags were
@@ -41,7 +41,7 @@
 #define MONGOC_USER_SET_LDFLAGS "/machine:x64"
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
-#define MONGOC_CC "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.40.33807/bin/Hostx64/x64/cl.exe"
+#define MONGOC_CC "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe"
 
 /*
  * MONGOC_ENABLE_SSL_SECURE_CHANNEL is set from configure to determine if we are
@@ -64,6 +64,15 @@
 #  undef MONGOC_ENABLE_CRYPTO_CNG
 #endif
 
+/*
+ * MONGOC_HAVE_BCRYPT_PBKDF2 is set from configure to determine if 
+ * our Bcrypt Windows library supports PBKDF2 
+ */
+#define MONGOC_HAVE_BCRYPT_PBKDF2 0
+
+#if MONGOC_HAVE_BCRYPT_PBKDF2 != 1
+#  undef MONGOC_HAVE_BCRYPT_PBKDF2
+#endif
 
 /*
  * MONGOC_ENABLE_SSL_SECURE_TRANSPORT is set from configure to determine if we are
@@ -226,6 +235,10 @@
 #  undef MONGOC_HAVE_SOCKLEN
 #endif
 
+/**
+ * @brief Defined to 0/1 for whether we were configured with ENABLE_SRV
+ */
+#define MONGOC_ENABLE_SRV 1
 
 /*
  * MONGOC_HAVE_DNSAPI is set from configure to determine if we should use the
@@ -368,26 +381,6 @@
  */
 #define MONGOC_TRACE 0
 
-enum {
-   /**
-    * @brief Compile-time constant determining whether the mongoc library was
-    * compiled with tracing enabled.
-    *
-    * Can be controlled with the 'ENABLE_TRACING" configure-time boolean option
-    */
-   MONGOC_TRACE_ENABLED = MONGOC_TRACE
-};
-
-/*
- * Set if we have ICU support.
- */
-#define MONGOC_ENABLE_ICU 0
-
-#if MONGOC_ENABLE_ICU != 1
-#  undef MONGOC_ENABLE_ICU
-#endif
-
-
 /*
  * Set if we have Client Side Encryption support.
  */
@@ -417,6 +410,23 @@ enum {
 #if MONGOC_ENABLE_MONGODB_AWS_AUTH != 1
 #  undef MONGOC_ENABLE_MONGODB_AWS_AUTH
 #endif
+
+enum {
+   /**
+    * @brief Compile-time constant determining whether the mongoc library was
+    * compiled with tracing enabled.
+    *
+    * Can be controlled with the “ENABLE_TRACING” configure-time boolean option
+    */
+   MONGOC_TRACE_ENABLED = MONGOC_TRACE,
+   /**
+    * @brief Compile-time constant indicating whether the mongoc library was
+    * compiled with SRV server discovery support.
+    *
+    * Can be controled with the “ENABLE_SRV” configure-time boolean option.
+    */
+   MONGOC_SRV_ENABLED = MONGOC_ENABLE_SRV,
+};
 
 /* clang-format on */
 

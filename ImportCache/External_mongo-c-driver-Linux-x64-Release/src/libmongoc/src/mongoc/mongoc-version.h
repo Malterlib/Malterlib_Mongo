@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 MongoDB, Inc.
+ * Copyright 2009-present MongoDB, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,11 @@
  */
 
 
-#if !defined (MONGOC_INSIDE) && !defined (MONGOC_COMPILATION)
+#if !defined(MONGOC_INSIDE) && !defined(MONGOC_COMPILATION)
 #error "Only <mongoc/mongoc.h> can be included directly."
 #endif
 
+// clang-format off
 
 #ifndef MONGOC_VERSION_H
 #define MONGOC_VERSION_H
@@ -37,7 +38,7 @@
  *
  * MONGOC minor version component (e.g. 2 if %MONGOC_VERSION is 1.2.3)
  */
-#define MONGOC_MINOR_VERSION (24)
+#define MONGOC_MINOR_VERSION (28)
 
 
 /**
@@ -45,7 +46,7 @@
  *
  * MONGOC micro version component (e.g. 3 if %MONGOC_VERSION is 1.2.3)
  */
-#define MONGOC_MICRO_VERSION (3)
+#define MONGOC_MICRO_VERSION (0)
 
 
 /**
@@ -61,7 +62,7 @@
  *
  * MONGOC version.
  */
-#define MONGOC_VERSION (1.24.3)
+#define MONGOC_VERSION (1.28.0)
 
 
 /**
@@ -70,7 +71,7 @@
  * MONGOC version, encoded as a string, useful for printing and
  * concatenation.
  */
-#define MONGOC_VERSION_S "1.24.3"
+#define MONGOC_VERSION_S "1.28.0"
 
 
 /**

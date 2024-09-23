@@ -1,21 +1,49 @@
 Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeAbsolute()
+%Target "Lib_libmongoc_utf8proc_obj"
+{
+	Compile
+	{
+		!!Compile.Type "C"
+		SearchPath += []
+		PreprocessorDefines += [
+			"HAVE_STDARG_H",
+			"HAVE_UNISTD_H",
+			"UTF8PROC_STATIC",
+			"_BSD_SOURCE",
+			"_DARWIN_C_SOURCE",
+			"_DEFAULT_SOURCE",
+			"_XOPEN_SOURCE=700"
+		]
+	}
+	Property.MalterlibTargetNameType "Normal"
+	Compile.AllowNonExisting true
+	Target.Group "External/libmongoc"
+	{
+		!!Target.Group undefined
+	}
+	Target.Type "StaticLibrary"
+	Target.BaseName "libmongoc_utf8proc_obj"
+	Target.BaseFileName "utf8proc_obj"
+	Target.ObjectLibrary true
+	%Group "src"
+	{
+		%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/utf8proc-2.8.0/utf8proc.c`
+		{
+			Compile.Type "C"
+		}
+	}
+}
 %Target "Lib_libmongoc_mcd_rpc"
 {
 	Compile
 	{
 		!!Compile.Type "C"
 		SearchPath += [
-			`@('../../../../../..'->MakeAbsolute())/External/boringssl/include`->MakeAbsolute(),
 			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libbson/src`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src/libbson/src`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
-			`@('../..'->MakeAbsolute())/src/libbson/src/bson`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
-			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libbson/src`->MakeAbsolute(),
-			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libbson/src/bson`->MakeAbsolute(),
 			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/common`->MakeAbsolute(),
-			`@('../..'->MakeAbsolute())/src`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src/common`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute()
 		]
@@ -57,8 +85,9 @@ Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeA
 	{
 		!!Compile.Type "C"
 		SearchPath += [
-			`@('../../../../../..'->MakeAbsolute())/External/boringssl/include`->MakeAbsolute(),
 			`@('../../../../../..'->MakeAbsolute())/External/zlib`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/utf8proc-2.8.0`->MakeAbsolute(),
+			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/uthash`->MakeAbsolute(),
 			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src/libmongoc/src`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
@@ -71,12 +100,9 @@ Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeA
 			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src/common`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
-			`@('../..'->MakeAbsolute())/src/libbson/src`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
-			`@('../..'->MakeAbsolute())/src/libbson/src/bson`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute(),
 			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libbson/src`->MakeAbsolute(),
-			`@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libbson/src/bson`->MakeAbsolute()
+			`@('../..'->MakeAbsolute())/src/libbson/src`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-c-driver`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
 			"BSON_STATIC",
@@ -84,10 +110,12 @@ Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeA
 			"HAVE_UNISTD_H",
 			"KMS_MESSAGE_ENABLE_CRYPTO",
 			"KMS_MESSAGE_ENABLE_CRYPTO_LIBCRYPTO",
+			"KMS_MESSAGE_LITTLE_ENDIAN",
 			"KMS_MSG_STATIC",
 			"MCOMMON_NAME_PREFIX=_mongoc_mcommon",
 			"MONGOC_COMPILATION",
 			"MONGOC_STATIC",
+			"UTF8PROC_STATIC",
 			"_BSD_SOURCE",
 			"_DARWIN_C_SOURCE",
 			"_DEFAULT_SOURCE",
@@ -112,6 +140,10 @@ Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeA
 				%Group "mongoc"
 				{
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mcd-azure.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mcd-nsinfo.c`
 					{
 						Compile.Type "C"
 					}
@@ -232,6 +264,10 @@ Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeA
 						Compile.Type "C"
 					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-error.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-deprioritized-servers.c`
 					{
 						Compile.Type "C"
 					}
@@ -491,6 +527,46 @@ Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeA
 					{
 						Compile.Type "C"
 					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-stream-tls-libressl.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-libressl.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-crypto-cng.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-rand-cng.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-stream-tls-secure-channel.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-secure-channel.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-crypto-common-crypto.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-rand-common-crypto.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-stream-tls-secure-transport.c`
+					{
+						Compile.Type "C"
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-secure-transport.c`
+					{
+						Compile.Type "C"
+					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-stream-tls-openssl.c`
 					{
 						Compile.Type "C"
@@ -507,6 +583,10 @@ Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeA
 					{
 						Compile.Type "C"
 					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-bulkwrite.c`
+					{
+						Compile.Type "C"
+					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc.h`
 					{
 						Compile.Disabled true
@@ -516,6 +596,10 @@ Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeA
 						Compile.Disabled true
 					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-bulk-operation.h`
+					{
+						Compile.Disabled true
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-bulkwrite.h`
 					{
 						Compile.Disabled true
 					}
@@ -640,6 +724,10 @@ Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeA
 						Compile.Disabled true
 					}
 					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-client-session.h`
+					{
+						Compile.Disabled true
+					}
+					%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/libmongoc/src/mongoc/mongoc-sleep.h`
 					{
 						Compile.Disabled true
 					}
@@ -768,6 +856,10 @@ Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeA
 				{
 					Compile.Type "C"
 				}
+				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_kmip_response_parser.c`
+				{
+					Compile.Type "C"
+				}
 				%File `@('../../../../../../External/mongo-c-driver'->MakeAbsolute())/src/kms-message/src/kms_kv_list.c`
 				{
 					Compile.Type "C"
@@ -837,6 +929,11 @@ Property.CMakeOutputPath_libmongoc: string = `@('../..'->MakeAbsolute())`->MakeA
 		}
 	}
 	%Dependency "Lib_libbson_bson_static"
+	{
+		Dependency.Indirect true
+		Dependency.IndirectOrdered true
+	}
+	%Dependency "Lib_libmongoc_utf8proc_obj"
 	{
 		Dependency.Indirect true
 		Dependency.IndirectOrdered true
