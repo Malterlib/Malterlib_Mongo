@@ -30,7 +30,7 @@ Property
 	MalterlibMongoIncludePath_bson: [string] = [
 		"../../External/mongo-c-driver/src/libbson/src"->MakeAbsolute()
 		, "../../External/mongo-c-driver/src/libbson/src/bson"->MakeAbsolute()
-		, `@(GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:libbson.Target:Lib_libbson_bson_static.Import:*.Target:Lib_libbson_bson_static"))/src/libbson/src/bson`
+		, `@(GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:libbson.Target:Lib_libbson_bson_static.Import:*.Target:Lib_libbson_bson_static"))/src/libbson/src`
 	]
 
 	MalterlibMongoIncludePath_mongoc: [string] = [
@@ -45,10 +45,15 @@ Property
 	Import.CMake_FullRebuildVersion `@(Import.CMake_FullRebuildVersion).1`
 
 	Import.CMake_Variables =+ [
-		"BUILD_VERSION=1.24.3"
+		"BUILD_VERSION=1.28.0"
 		, "CMAKE_BUILD_WITH_INSTALL_RPATH=ON"
 		, "ENABLE_APPLE_FRAMEWORK=OFF"
 		, "MONGOC_ENABLE_EXECUTABLES=OFF"
+		, "ENABLE_SHARED=OFF"
+		, "ENABLE_MAN_PAGES=OFF"
+		, "ENABLE_HTML_DOCS=OFF"
+		, "ENABLE_STATIC_LIBBSON_INSTALL=OFF"
+		, "ENABLE_SHARED_LIBBSON_INSTALL=OFF"
 		, "ENABLE_BSON=ON"
 		, "ENABLE_STATIC=ON"
 		, "MONGOC_ENABLE_STATIC=ON"
@@ -216,7 +221,7 @@ Property
 			!!GeneratorFamily "VisualStudio"
 
 			FullEval true
-			ObjectFileName "RawMSBuild:$(IntDir)/%(Directory)%(FileName).obj"
+			ObjectFileName "RawMSBuild:$(IntDir)/$([MSBuild]::StableStringHash(%(Directory), \"Sha256\").Substring(0, 8))/%(FileName).obj"
 			{
 				&
 				{
@@ -249,7 +254,7 @@ Property
 		{
 			!!GeneratorFamily "VisualStudio"
 			FullEval true
-			ObjectFileName "RawMSBuild:$(IntDir)/%(Directory)%(FileName).obj"
+			ObjectFileName "RawMSBuild:$(IntDir)/$([MSBuild]::StableStringHash(%(Directory), \"Sha256\").Substring(0, 8))/%(FileName).obj"
 			{
 				&
 				{
@@ -290,8 +295,14 @@ Property
 			CompileDialect "C"
 		}
 
-		SearchPath += ["../../External/mongo-cxx-driver/src"->MakeAbsolute(), MalterlibMongoIncludePath_bson...]
-		SearchPath += `@(GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:BSONCXX.Target:Lib_BSONCXX_bsoncxx_static.Import:*.Target:Lib_BSONCXX_bsoncxx_static"))/src`
+		SearchPath += [
+			"../../External/mongo-cxx-driver/src/bsoncxx/include/bsoncxx/v_noabi"->MakeAbsolute()
+			, "../../External/mongo-cxx-driver/src/mongocxx/include/mongocxx/v_noabi"->MakeAbsolute()
+			, "../../External/mongo-cxx-driver/src"->MakeAbsolute()
+			, MalterlibMongoIncludePath_bson...
+		]
+		SearchPath += GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:BSONCXX.Target:Lib_BSONCXX_bsoncxx_static.Import:*.Target:Lib_BSONCXX_bsoncxx_static") / "src/bsoncxx/lib/bsoncxx/v_noabi"
+		SearchPath += GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:MONGOCXX.Target:Lib_MONGOCXX_mongocxx_static.Import:*.Target:Lib_MONGOCXX_mongocxx_static") / "src/mongocxx/lib/mongocxx/v_noabi"
 		SearchPath += [MalterlibMongoIncludePath_mongoc..., MalterlibMongoIncludePath_bson...]
 		PreprocessorDefines += ["BSONCXX_STATIC", "MONGOCXX_STATIC", "BSON_STATIC", "MONGOC_STATIC"]
 		PreprocessorDefines += "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING"

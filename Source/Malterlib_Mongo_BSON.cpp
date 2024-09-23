@@ -137,6 +137,8 @@ namespace NMib::NMongo
 							Subtype = binary_sub_type::k_encrypted;
 						else if (Type == "Column")
 							Subtype = binary_sub_type::k_column;
+						else if (Type == "Sensitive")
+							Subtype = binary_sub_type::k_sensitive;
 						else
 							DMibError(NStr::fg_Format("Unknown BinData type: {}", Type));
 
@@ -331,6 +333,9 @@ namespace NMib::NMongo
 						break;
 					case binary_sub_type::k_column:
 						Type = "Column";
+						break;
+					case binary_sub_type::k_sensitive:
+						Type = "Sensitive";
 						break;
 					case binary_sub_type::k_binary:
 						DMibNeverGetHere;
