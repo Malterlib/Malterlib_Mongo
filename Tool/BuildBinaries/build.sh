@@ -138,7 +138,31 @@ function BuildCurl()
 	export MACOSX_DEPLOYMENT_TARGET=10.14
 	export PKG_CONFIG_PATH="$TempPkgConfigDir:$PKG_CONFIG_PATH"
 
-	cmake -GNinja "$MalterlibRoot/External/curl" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="$ExtraBoringSSLFlags" -DCMAKE_C_FLAGS="$ExtraBoringSSLFlags" "-DCMAKE_INSTALL_PREFIX=$IntermediateDir/curl_bin" -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DBUILD_STATIC_CURL=ON -DUSE_LIBIDN2=OFF -DCURL_ZSTD=OFF -DCURL_USE_LIBSSH2=OFF -DCURL_USE_LIBPSL=OFF -DCURL_USE_LIBSSH=OFF "-DOPENSSL_ROOT_DIR=$MalterlibRoot/External/boringssl" "-DOPENSSL_LIBRARIES=$OpenSSLBuildDir/bin/libssl.a;$OpenSSLBuildDir/bin/libcrypto.a;$OpenSSLBuildDir/bin/libdecrepit.a" "-DOPENSSL_SSL_LIBRARY=$OpenSSLBuildDir/bin/libssl.a" "-DOPENSSL_DECREPIT_LIBRARY=$OpenSSLBuildDir/bin/libdecrepit.a" "-DOPENSSL_CRYPTO_LIBRARY=$OpenSSLBuildDir/bin/libcrypto.a"
+	cmake -GNinja "$MalterlibRoot/External/curl" \
+		-DUSE_NGHTTP2=OFF \
+		-DUSE_LIBIDN2=OFF \
+		-DCURL_ZSTD=OFF \
+		-DCURL_DEFAULT_SSL_BACKEND=openssl \
+		-DCURL_USE_LIBSSH2=OFF \
+		-DCURL_USE_LIBPSL=OFF \
+		-DCURL_USE_LIBSSH=OFF \
+		-DCURL_USE_OPENSSL=ON \
+		-DBUILD_LIBCURL_DOCS=OFF \
+		-DBUILD_MISC_DOCS=OFF \
+		-DENABLE_CURL_MANUAL=OFF \
+		-DBUILD_STATIC_LIBS=ON \
+		-DBUILD_STATIC_CURL=ON \
+		-DBUILD_SHARED_LIBS=OFF \
+		-DBUILD_CURL_EXE=OFF \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_CXX_FLAGS="$ExtraBoringSSLFlags" \
+		-DCMAKE_C_FLAGS="$ExtraBoringSSLFlags" \
+		"-DCMAKE_INSTALL_PREFIX=$IntermediateDir/curl_bin" \
+		"-DOPENSSL_ROOT_DIR=$MalterlibRoot/External/boringssl" \
+		"-DOPENSSL_LIBRARIES=$OpenSSLBuildDir/bin/libssl.a;$OpenSSLBuildDir/bin/libcrypto.a;$OpenSSLBuildDir/bin/libdecrepit.a" \
+		"-DOPENSSL_SSL_LIBRARY=$OpenSSLBuildDir/bin/libssl.a" \
+		"-DOPENSSL_DECREPIT_LIBRARY=$OpenSSLBuildDir/bin/libdecrepit.a" \
+		"-DOPENSSL_CRYPTO_LIBRARY=$OpenSSLBuildDir/bin/libcrypto.a"
 	ninja
 	ninja install
 
