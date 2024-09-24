@@ -350,7 +350,7 @@ namespace NMib::NMongo::NMongoManager
 		}
 		~CDummyBackupInterface() = default;
 
-		NConcurrency::TCFuture<void> f_AppendManifest(NFile::CDirectoryManifestConfig const &_Config) override
+		NConcurrency::TCFuture<void> f_AppendManifest(CManifestConfig const &_Config) override
 		{
 			CStr AppendData;
 			AppendData += "\tRoot: {}\n"_f << _Config.m_Root;

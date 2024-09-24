@@ -145,7 +145,7 @@ namespace NMib::NMongo::NMongoManager
 		CStr OplogPath = mp_BackupDirectory + "/DynamicOplog.bson";
 		CStr RelativeOplogPath = CFile::fs_MakePathRelative(OplogPath, _BackupRoot);
 
-		CDirectoryManifestConfig ManifestConfig;
+		CDistributedAppInterfaceBackup::CManifestConfig ManifestConfig;
 		ManifestConfig.m_IncludeWildcards.f_Clear();
 		ManifestConfig.m_IncludeWildcards[RelativeOplogPath] = "Dump";
 
@@ -165,7 +165,7 @@ namespace NMib::NMongo::NMongoManager
 					CStr DumpPath = mp_BackupDirectory + "/Dump/^*";
 					CStr RelativeDumpPath = CFile::fs_MakePathRelative(DumpPath, _BackupRoot);
 
-					CDirectoryManifestConfig ManifestConfig;
+					CDistributedAppInterfaceBackup::CManifestConfig ManifestConfig;
 					ManifestConfig.m_IncludeWildcards.f_Clear();
 					ManifestConfig.m_IncludeWildcards[RelativeDumpPath] = "Dump";
 

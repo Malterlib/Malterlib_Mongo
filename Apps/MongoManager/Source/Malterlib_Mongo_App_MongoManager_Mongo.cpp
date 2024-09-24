@@ -408,7 +408,7 @@ namespace NMib::NMongo::NMongoManager
 		{
 			// If not running SSL we just disable external access
 			Arguments.f_Insert("--bind_ip");
-			Arguments.f_Insert(mp_MongoLocalAddress.f_GetString());
+			Arguments.f_Insert(mp_MongoLocalAddress.f_GetString(ENetAddressStringFlag::ENetAddressStringFlag_None));
 		}
 		
 #ifdef DPlatformFamily_macOS
