@@ -10,7 +10,7 @@ if (!scriptConfig.expectReplica) {
 findSelf = function() {
 	for (var i = 0, n = status.members.length; i < n; i++) {
 		var member = status.members[i];
-		if (member.self && member.name == scriptConfig.mongoSelf)
+		if (member.name == scriptConfig.mongoSelf)
 			return true;
 	}
 	
