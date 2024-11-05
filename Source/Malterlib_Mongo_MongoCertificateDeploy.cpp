@@ -123,15 +123,15 @@ namespace NMib::NMongo
 
 		co_await Internal.m_SecretsManagerSubscription.f_OnActor
 			(
-				g_ActorFunctor / [pInternal = &Internal](TCDistributedActor<CSecretsManager> const &_SecretsManager, CTrustedActorInfo const &_ActorInfo) -> TCFuture<void>
+				g_ActorFunctor / [pInternal = &Internal](TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _ActorInfo) -> TCFuture<void>
 				{
-					co_await fg_CallSafe(*pInternal, &CInternal::f_SecretsManagerAddedWithRetry, _SecretsManager, _ActorInfo);
+					co_await pInternal->f_SecretsManagerAddedWithRetry(_SecretsManager, _ActorInfo);
 
 					co_return {};
 				}
-				, g_ActorFunctor / [pInternal = &Internal](TCWeakDistributedActor<CActor> const &_SecretsManager, CTrustedActorInfo &&_ActorInfo) -> TCFuture<void>
+				, g_ActorFunctor / [pInternal = &Internal](TCWeakDistributedActor<CActor> _SecretsManager, CTrustedActorInfo _ActorInfo) -> TCFuture<void>
 				{
-					co_await fg_CallSafe(pInternal, &CInternal::f_SecretsManagerRemoved, _SecretsManager, _ActorInfo);
+					co_await pInternal->f_SecretsManagerRemoved(_SecretsManager, _ActorInfo);
 
 					co_return {};
 				}
@@ -146,7 +146,7 @@ namespace NMib::NMongo
 				CTimeSpanConvert::fs_CreateHourSpan(1).f_GetSeconds()
 				, [this]() -> TCFuture<void>
 				{
-					auto Result = co_await fg_CallSafe(&*mp_pInternal, &CInternal::f_UserUpdate_AllUsersForAllSecretsManagers).f_Wrap();
+					auto Result = co_await mp_pInternal->f_UserUpdate_AllUsersForAllSecretsManagers().f_Wrap();
 					if (!Result)
 						DMibLogWithCategory(Mib/Mongo/MongoCertificateDeploy, Error, "Update all users had some failures: {}", Result.f_GetExceptionStr());
 
@@ -164,27 +164,27 @@ namespace NMib::NMongo
 
 		CLogError LogError("Mib/Mongo/MongoCertificateDeploy");
 
-		TCActorResultVector<void> Results;
+		TCFutureVector<void> Results;
 
 		for (auto &State : Internal.m_SecretsManagerStates)
 		{
 			if (State.m_ChangesSubscription)
-				fg_Exchange(State.m_ChangesSubscription, nullptr)->f_Destroy() > Results.f_AddResult();
+				fg_Exchange(State.m_ChangesSubscription, nullptr)->f_Destroy() > Results;
 		}
 
 		if (Internal.m_TimerSubscription)
-			Internal.m_TimerSubscription->f_Destroy() > Results.f_AddResult();
+			Internal.m_TimerSubscription->f_Destroy() > Results;
 
-		Internal.m_SecretsManagerSubscription.f_Destroy() > Results.f_AddResult();
+		Internal.m_SecretsManagerSubscription.f_Destroy() > Results;
 
-		co_await Results.f_GetUnwrappedResults().f_Wrap() > LogError.f_Warning("Failed to destroy certificater deploy actor");
+		co_await fg_AllDone(Results).f_Wrap() > LogError.f_Warning("Failed to destroy certificater deploy actor");
 
 		{
-			TCActorResultVector<void> Results;
+			TCFutureVector<void> Results;
 			for (auto &User : Internal.m_Users)
-				fg_Move(User.m_UserUpdateSequencer).f_Destroy() > Results.f_AddResult();
+				fg_Move(User.m_UserUpdateSequencer).f_Destroy() > Results;
 
-			co_await Results.f_GetUnwrappedResults().f_Wrap() > fg_LogWarning("Mib/Mongo/MongoCertificateDeploy", "Failed to destroy sequencers");
+			co_await fg_AllDone(Results).f_Wrap() > fg_LogWarning("Mib/Mongo/MongoCertificateDeploy", "Failed to destroy sequencers");
 		}
 
 		co_return {};

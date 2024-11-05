@@ -8,7 +8,7 @@
 
 namespace NMib::NMongo::NMongoCertificateManager
 {
-	TCFuture<uint32> CMongoCertificateManagerActor::fp_CommandLine_UserResync(CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoCertificateManagerActor::fp_CommandLine_UserResync(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		auto Auditor = f_Auditor();
 
@@ -71,7 +71,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 				SecretManagerDescriptions[WeakSecretsManager] = "{}"_f << SecretManager.m_TrustInfo.m_HostInfo;
 			}
 
-			TCActorResultMap<TCWeakDistributedActor<CSecretsManager>, CSecretsManager::CSetSecretPropertiesResult> StoreResultsAsync;
+			TCFutureMap<TCWeakDistributedActor<CSecretsManager>, CSecretsManager::CSetSecretPropertiesResult> StoreResultsAsync;
 
 			fp_User_StoreSecrets
 				(
@@ -90,7 +90,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			{
 				bool bUpdated = false;
 				{
-					auto StoreResults = co_await StoreResultsAsync.f_GetResults();
+					auto StoreResults = co_await fg_AllDoneWrapped(StoreResultsAsync);
 
 					for (auto &StoreResult : StoreResults)
 					{

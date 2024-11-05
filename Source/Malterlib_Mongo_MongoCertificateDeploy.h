@@ -83,12 +83,12 @@ namespace NMib::NMongo
 			EUserType m_Type = EUserType_User;
 			NContainer::TCVector<CCertificateFilesSettings> m_FilesSettings;
 
-			NConcurrency::TCActorFunctor<NConcurrency::TCFuture<void> (NConcurrency::CHostInfo &&_HostInfo, CUserStatus &&_Status)> m_fOnStatusChange;
+			NConcurrency::TCActorFunctor<NConcurrency::TCFuture<void> (NConcurrency::CHostInfo _HostInfo, CUserStatus _Status)> m_fOnStatusChange;
 			NConcurrency::TCActorFunctor<NConcurrency::TCFuture<void> ()> m_fOnCertificateUpdated;
 		};
 
 		NConcurrency::TCFuture<void> f_Start();
-		NConcurrency::TCFuture<NConcurrency::CActorSubscription> f_AddUser(CUserSettings &&_UserSettings);
+		NConcurrency::TCFuture<NConcurrency::CActorSubscription> f_AddUser(CUserSettings _UserSettings);
 
 	private:
 		NConcurrency::TCFuture<void> fp_Destroy() override;

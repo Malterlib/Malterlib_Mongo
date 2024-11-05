@@ -46,10 +46,9 @@ namespace NMib::NMongo::NMongoManager
 
 		Params.f_Insert(DumpDirectory);
 
-		co_await self
+		co_await fp_LaunchTool
 			(
-				&CMongoManagerActor::fp_LaunchTool
-				, fp_GetMongoExecutable("mongorestore")
+				fp_GetMongoExecutable("mongorestore")
 				, CFile::fs_GetProgramDirectory()
 				, Params
 				, CStr("Restore")

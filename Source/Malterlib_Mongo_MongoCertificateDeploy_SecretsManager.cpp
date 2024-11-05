@@ -5,9 +5,9 @@
 
 namespace NMib::NMongo
 {
-	TCFuture<void> CMongoCertificateDeployActor::CInternal::f_SecretsManagerAddedWithRetry(TCDistributedActor<CSecretsManager> const &_SecretsManager, CTrustedActorInfo const &_Info)
+	TCFuture<void> CMongoCertificateDeployActor::CInternal::f_SecretsManagerAddedWithRetry(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info)
 	{
-		auto Result = co_await fg_CallSafe(this, &CInternal::f_SecretsManagerAdded, _SecretsManager, _Info).f_Wrap();
+		auto Result = co_await f_SecretsManagerAdded(_SecretsManager, _Info).f_Wrap();
 
 		if (Result)
 		{
@@ -40,16 +40,18 @@ namespace NMib::NMongo
 
 		if (m_RetryingSecretsManagers(_SecretsManager).f_WasCreated())
 		{
-			fg_Timeout(10.0) > [=, this]
+			fg_Timeout(10.0) > [=, this]() -> TCFuture<void>
 				{
 					m_RetryingSecretsManagers.f_Remove(_SecretsManager);
 
 					if (!m_SecretsManagerSubscription.m_Actors.f_FindEqual(_SecretsManager))
-						return;
+						co_return {};
 
-					fg_CallSafe(this, &CInternal::f_SecretsManagerAddedWithRetry, _SecretsManager, _Info)
+					f_SecretsManagerAddedWithRetry(_SecretsManager, _Info)
 						> fg_LogError("Mib/Mongo/MongoCertificateDeploy", "Failed to handle secret manager added (retry)")
 					;
+
+					co_return {};
 				}
 			;
 		}
@@ -57,9 +59,9 @@ namespace NMib::NMongo
 		co_return {};
 	}
 
-	TCFuture<void> CMongoCertificateDeployActor::CInternal::f_SecretsManagerAdded(TCDistributedActor<CSecretsManager> const &_SecretsManager, CTrustedActorInfo const &_Info)
+	TCFuture<void> CMongoCertificateDeployActor::CInternal::f_SecretsManagerAdded(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info)
 	{
-		TCActorResultMap<CStr, void> UpdateResults;
+		TCFutureMap<CStr, void> UpdateResults;
 
 		auto OnResume = co_await fg_OnResume
 			(
@@ -78,7 +80,7 @@ namespace NMib::NMongo
 
 		CSecretsManager::CSubscribeToChanges SubscribeToChanges;
 		SubscribeToChanges.m_SemanticID = "org.malterlib.mongo.user#*";
-		SubscribeToChanges.m_fOnChanges = g_ActorFunctor / [this, _SecretsManager, _Info](CSecretsManager::CSecretChanges &&_Changes) mutable -> TCFuture<void>
+		SubscribeToChanges.m_fOnChanges = g_ActorFunctor / [this, _SecretsManager, _Info](CSecretsManager::CSecretChanges _Changes) mutable -> TCFuture<void>
 			{
 				if (m_pThis->f_IsDestroyed())
 					co_return {};
@@ -192,7 +194,7 @@ namespace NMib::NMongo
 
 				for (auto &UserKey : UsersToUpdate)
 				{
-					co_await fg_CallSafe(this, &CInternal::f_UserUpdate_ForSecretsManager, UserKey, _SecretsManager, _Info.m_HostInfo).f_Wrap()
+					co_await f_UserUpdate_ForSecretsManager(UserKey, _SecretsManager, _Info.m_HostInfo).f_Wrap()
 						> fg_LogError("Mib/Mongo/MongoCertificateDeploy", "Update user '{}' for secrets manager '{}' failed"_f << UserKey << _Info.m_HostInfo)
 					;
 				}
@@ -208,7 +210,7 @@ namespace NMib::NMongo
 		co_return {};
 	}
 
-	TCFuture<void> CMongoCertificateDeployActor::CInternal::f_SecretsManagerRemoved(TCWeakDistributedActor<CActor> const &_SecretsManager, CTrustedActorInfo const &_ActorInfo)
+	TCFuture<void> CMongoCertificateDeployActor::CInternal::f_SecretsManagerRemoved(TCWeakDistributedActor<CActor> _SecretsManager, CTrustedActorInfo _ActorInfo)
 	{
 		m_LastSecretsManagerError.f_Remove(_SecretsManager);
 		m_RetryingSecretsManagers.f_Remove(_SecretsManager);
@@ -224,7 +226,7 @@ namespace NMib::NMongo
 			co_await Subscription->f_Destroy().f_Wrap() > fg_LogWarning("Mib/Mongo/MongoCertificateDeploy", "Failed to destroy secrets manager subscription");
 		}
 
-		TCActorResultVector<void> UserUpdateResults;
+		TCFutureVector<void> UserUpdateResults;
 		for (auto &User : m_Users)
 		{
 			if (!User.m_UserState)
@@ -236,13 +238,13 @@ namespace NMib::NMongo
 
 				f_UpdateUserStatus(User, _ActorInfo.m_HostInfo, EStatusSeverity_Warning, "Lost active secrets manager, waiting");
 
-				fg_CallSafe(this, &CInternal::f_UserUpdate_ForAllSecretsManagers, User.f_GetKey()) > UserUpdateResults.f_AddResult();
+				f_UserUpdate_ForAllSecretsManagers(User.f_GetKey()) > UserUpdateResults;
 			}
 			else
 				f_UpdateUserStatus(User, _ActorInfo.m_HostInfo, EStatusSeverity_Warning, "Lost secrets manager");
 		}
 
-		co_await (co_await UserUpdateResults.f_GetResults() | g_Unwrap);
+		co_await fg_AllDone(UserUpdateResults);
 
 		co_return {};
 	}

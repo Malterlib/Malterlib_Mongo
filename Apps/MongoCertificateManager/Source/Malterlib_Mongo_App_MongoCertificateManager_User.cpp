@@ -207,22 +207,22 @@ namespace NMib::NMongo::NMongoCertificateManager
 		co_return {};
 	}
 
-	TCFuture<void> CMongoCertificateManagerActor::fp_User_SecretsManagerAdded(TCDistributedActor<CSecretsManager> const &_SecretsManager, CTrustedActorInfo const &_Info)
+	TCFuture<void> CMongoCertificateManagerActor::fp_User_SecretsManagerAdded(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info)
 	{
 		CSecretsManager::CSubscribeToChanges SubscribeOptions;
 		SubscribeOptions.m_SemanticID = CStr(mc_pUserSemanticPrefix) + "*";
 		SubscribeOptions.m_TagsExclusive["Private"];
-		SubscribeOptions.m_fOnChanges = g_ActorFunctor / [_SecretsManager, this](CSecretsManager::CSecretChanges &&_Changes) -> TCFuture<void>
+		SubscribeOptions.m_fOnChanges = g_ActorFunctor / [_SecretsManager, this](CSecretsManager::CSecretChanges _Changes) -> TCFuture<void>
 			{
-				TCActorResultVector<void> AddSecretResults;
+				TCFutureVector<void> AddSecretResults;
 				for (auto &Changed : _Changes.m_Changed)
 				{
 					auto &SecretID = _Changes.m_Changed.fs_GetKey(Changed);
 
-					fp_User_Add(_SecretsManager, SecretID) > AddSecretResults.f_AddResult();
+					fp_User_Add(_SecretsManager, SecretID) > AddSecretResults;
 				}
 
-				for (auto &Result : co_await AddSecretResults.f_GetResults())
+				for (auto &Result : co_await fg_AllDoneWrapped(AddSecretResults))
 				{
 					if (!Result)
 						DMibLog(Error, "Failed to add user '{}'", Result.f_GetExceptionStr());

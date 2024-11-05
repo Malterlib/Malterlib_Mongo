@@ -50,7 +50,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			int32 OldSerial = pAuthority->m_Serial;
 			int32 NewSerial = OldSerial + 1;
 
-			TCActorResultVector<void> AsyncResults;
+			TCFutureVector<void> AsyncResults;
 
 			if (pAuthority->m_SecretsManagers.f_IsEmpty())
 				co_return DMibErrorInstance("No secret managers available to store new serial on");
@@ -74,11 +74,11 @@ namespace NMib::NMongo::NMongoCertificateManager
 				SetMetaData.m_ExpectedValue = OldSerial;
 				SetMetaData.m_ModifiedTime = ModifiedTime;
 
-				SecretManager.f_CallActor(&CSecretsManager::f_SetMetadata)(fg_Move(SetMetaData)) > AsyncResults.f_AddResult();
+				SecretManager.f_CallActor(&CSecretsManager::f_SetMetadata)(fg_Move(SetMetaData)) > AsyncResults;
 			}
 
 			{
-				auto Results = co_await AsyncResults.f_GetResults();
+				auto Results = co_await fg_AllDoneWrapped(AsyncResults);
 				bool bAllSuccessful = true;
 				for (auto &Result : Results)
 				{
@@ -244,23 +244,23 @@ namespace NMib::NMongo::NMongoCertificateManager
 		co_return {};
 	}
 
-	TCFuture<void> CMongoCertificateManagerActor::fp_Authority_SecretsManagerAdded(TCDistributedActor<CSecretsManager> const &_SecretsManager, CTrustedActorInfo const &_Info)
+	TCFuture<void> CMongoCertificateManagerActor::fp_Authority_SecretsManagerAdded(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info)
 	{
 
 		CSecretsManager::CSubscribeToChanges SubscribeOptions;
 		SubscribeOptions.m_SemanticID = CStr(mc_pAuthoritySemanticPrefix) + "*";
 		SubscribeOptions.m_TagsExclusive["Private"];
-		SubscribeOptions.m_fOnChanges = g_ActorFunctor / [_SecretsManager, this](CSecretsManager::CSecretChanges &&_Changes) -> TCFuture<void>
+		SubscribeOptions.m_fOnChanges = g_ActorFunctor / [_SecretsManager, this](CSecretsManager::CSecretChanges _Changes) -> TCFuture<void>
 			{
-				TCActorResultVector<void> AddSecretResults;
+				TCFutureVector<void> AddSecretResults;
 				for (auto &Changed : _Changes.m_Changed)
 				{
 					auto &SecretID = _Changes.m_Changed.fs_GetKey(Changed);
 
-					fp_Authority_Add(_SecretsManager, SecretID) > AddSecretResults.f_AddResult();
+					fp_Authority_Add(_SecretsManager, SecretID) > AddSecretResults;
 				}
 
-				for (auto &Result : co_await AddSecretResults.f_GetResults())
+				for (auto &Result : co_await fg_AllDoneWrapped(AddSecretResults))
 				{
 					if (!Result)
 						DMibLog(Error, "Failed to add authority '{}'", Result.f_GetExceptionStr());

@@ -70,9 +70,9 @@ namespace NMib::NMongo::NMongoCertificateManager
 						, SettingsOption_EllipticCurveType
 					}
 				}
-				, [this](CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
 				{
-					return g_Future <<= self(&CMongoCertificateManagerActor::fp_CommandLine_AuthorityCreate, _Params, _pCommandLine);
+					return fp_CommandLine_AuthorityCreate(fg_Move(_Params), fg_Move(_pCommandLine));
 				}
 			)
 		;
@@ -93,9 +93,9 @@ namespace NMib::NMongo::NMongoCertificateManager
 						, CTableRenderHelper::fs_OutputTypeOption()
 					}
 				}
-				, [this](CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
 				{
-					return g_Future <<= self(&CMongoCertificateManagerActor::fp_CommandLine_AuthorityList, _Params, _pCommandLine);
+					return fp_CommandLine_AuthorityList(fg_Move(_Params), fg_Move(_pCommandLine));
 				}
 			)
 		;
@@ -109,9 +109,9 @@ namespace NMib::NMongo::NMongoCertificateManager
 						SettingsOption_Authority
 					}
 				}
-				, [this](CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
 				{
-					return g_Future <<= self(&CMongoCertificateManagerActor::fp_CommandLine_AuthorityResync, _Params, _pCommandLine);
+					return fp_CommandLine_AuthorityResync(fg_Move(_Params), fg_Move(_pCommandLine));
 				}
 			)
 		;
@@ -146,9 +146,9 @@ namespace NMib::NMongo::NMongoCertificateManager
 						, SettingsOption_EllipticCurveType
 					}
 				}
-				, [this](CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
 				{
-					return g_Future <<= self(&CMongoCertificateManagerActor::fp_CommandLine_UserCreate, _Params, _pCommandLine);
+					return fp_CommandLine_UserCreate(fg_Move(_Params), fg_Move(_pCommandLine));
 				}
 			)
 		;
@@ -170,9 +170,9 @@ namespace NMib::NMongo::NMongoCertificateManager
 						, CTableRenderHelper::fs_OutputTypeOption()
 					}
 				}
-				, [this](CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
 				{
-					return g_Future <<= self(&CMongoCertificateManagerActor::fp_CommandLine_UserList, _Params, _pCommandLine);
+					return fp_CommandLine_UserList(fg_Move(_Params), fg_Move(_pCommandLine));
 				}
 			)
 		;
@@ -187,9 +187,9 @@ namespace NMib::NMongo::NMongoCertificateManager
 						, SettingsOption_User
 					}
 				}
-				, [this](CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
 				{
-					return g_Future <<= self(&CMongoCertificateManagerActor::fp_CommandLine_UserResync, _Params, _pCommandLine);
+					return fp_CommandLine_UserResync(fg_Move(_Params), fg_Move(_pCommandLine));
 				}
 			)
 		;
@@ -210,9 +210,9 @@ namespace NMib::NMongo::NMongoCertificateManager
 						, SettingsOption_User
 					}
 				}
-				, [this](CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
 				{
-					return g_Future <<= self(&CMongoCertificateManagerActor::fp_CommandLine_UserReissue, _Params, _pCommandLine);
+					return fp_CommandLine_UserReissue(fg_Move(_Params), fg_Move(_pCommandLine));
 				}
 			)
 		;

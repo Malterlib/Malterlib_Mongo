@@ -115,7 +115,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			SensorInfo.m_Name = "Mongo Authority Certificate Expire";
 			SensorInfo.m_ExpectedReportInterval = 24_hours;
 			SensorInfo.m_Type = NConcurrency::CDistributedAppSensorReporter::ESensorDataType_Status;
-			pAuthority->m_SensorReporter_Expire = co_await self(&CMongoCertificateManagerActor::fp_OpenSensorReporter, fg_Move(SensorInfo));
+			pAuthority->m_SensorReporter_Expire = co_await fp_OpenSensorReporter(fg_Move(SensorInfo));
 		}
 		{
 			CDistributedAppSensorReporter::CSensorInfo SensorInfo;
@@ -123,7 +123,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			SensorInfo.m_IdentifierScope = _Authority;
 			SensorInfo.m_Name = "Mongo Authority Status";
 			SensorInfo.m_Type = NConcurrency::CDistributedAppSensorReporter::ESensorDataType_Status;
-			pAuthority->m_SensorReporter_Status = co_await self(&CMongoCertificateManagerActor::fp_OpenSensorReporter, fg_Move(SensorInfo));
+			pAuthority->m_SensorReporter_Status = co_await fp_OpenSensorReporter(fg_Move(SensorInfo));
 		}
 
 		pAuthority->m_bSensorsRegistered = true;

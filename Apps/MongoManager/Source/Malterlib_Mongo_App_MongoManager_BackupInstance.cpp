@@ -71,22 +71,21 @@ namespace NMib::NMongo::NMongoManager
 		auto BlockingActorCheckout = fg_BlockingActor();
 		auto pResult = co_await
 			(
-				g_Dispatch(BlockingActorCheckout) / [BackupDirectory = mp_BackupDirectory, OplogPath = mp_BackupDirectory + "/DynamicOplog.bson"]
+				g_Dispatch(BlockingActorCheckout) / [BackupDirectory = mp_BackupDirectory, OplogPath = mp_BackupDirectory + "/DynamicOplog.bson"]() -> TCFuture<TCSharedPointer<CFile>>
 				{
-					return TCFuture<TCSharedPointer<CFile>>::fs_RunProtected<CExceptionFile>() / [&]()
-						{
-							CFile::fs_CreateDirectory(BackupDirectory + "/Dump");
+					auto CaptureScope = co_await g_CaptureExceptions.f_Specific<CExceptionFile>();
 
-							CStr LatestSymlink = fg_Format("{}/Backup/Latest", CFile::fs_GetProgramDirectory());
-							if (CFile::fs_FileExists(LatestSymlink))
-								CFile::fs_DeleteFile(LatestSymlink);
-							CFile::fs_CreateSymbolicLink(CFile::fs_GetFile(BackupDirectory), LatestSymlink, EFileAttrib_Directory, ESymbolicLinkFlag_Relative);
+					CFile::fs_CreateDirectory(BackupDirectory + "/Dump");
 
-							TCSharedPointer<CFile> pOplogFile = fg_Construct();
-							pOplogFile->f_Open(OplogPath, EFileOpen_Write | EFileOpen_NoLocalCache | EFileOpen_ShareRead);
-							return fg_Move(pOplogFile);
-						}
-					;
+					CStr LatestSymlink = fg_Format("{}/Backup/Latest", CFile::fs_GetProgramDirectory());
+					if (CFile::fs_FileExists(LatestSymlink))
+						CFile::fs_DeleteFile(LatestSymlink);
+					CFile::fs_CreateSymbolicLink(CFile::fs_GetFile(BackupDirectory), LatestSymlink, EFileAttrib_Directory, ESymbolicLinkFlag_Relative);
+
+					TCSharedPointer<CFile> pOplogFile = fg_Construct();
+					pOplogFile->f_Open(OplogPath, EFileOpen_Write | EFileOpen_NoLocalCache | EFileOpen_ShareRead);
+
+					co_return fg_Move(pOplogFile);
 				}
 				% "Failed to open backup files"
 			)
@@ -123,7 +122,7 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 
-	TCFuture<void> CMongoBackupInstanceActor::f_StartBackup(CActorSubscription &&_ManifestFinished, CStr const &_BackupRoot)
+	TCFuture<void> CMongoBackupInstanceActor::f_StartBackup(CActorSubscription _ManifestFinished, CStr _BackupRoot)
 	{
 		if (f_IsDestroyed())
 			co_return DErrorInstance("Destroyed");
@@ -132,12 +131,12 @@ namespace NMib::NMongo::NMongoManager
 
 		TCSharedPointer<CActorSubscription> pManifestFinished = fg_Construct(fg_Move(_ManifestFinished));
 
-		auto pOplogFile = co_await self(&CMongoBackupInstanceActor::fp_OpenBackupFiles);
+		auto pOplogFile = co_await fp_OpenBackupFiles();
 		
 		if (f_IsDestroyed())
 			co_return DErrorInstance("Destroyed");
 
-		co_await self(&CMongoBackupInstanceActor::fp_TailOplog, pOplogFile);
+		co_await fp_TailOplog(pOplogFile);
 
 		if (f_IsDestroyed())
 			co_return DErrorInstance("Destroyed");
@@ -156,7 +155,7 @@ namespace NMib::NMongo::NMongoManager
 			}
 		;
 
-		self(&CMongoBackupInstanceActor::fp_DumpDatabase) > [=, this](TCAsyncResult<void> &&_Result) mutable
+		fp_DumpDatabase() > [=, this](TCAsyncResult<void> &&_Result) mutable
 			{
 				if (_Result)
 				{
@@ -234,8 +233,6 @@ namespace NMib::NMongo::NMongoManager
 			co_return {}; // If we haven't uploaded this backup yet, keep it around and let the main backup actor clean it out after a week
 		}
 
-		TCPromise<void> Result;
-
 		auto pCanDestroy = mp_pCanDestroy;
 
 		auto SequenceSubscription = co_await mp_WriteSequencer.f_Sequence();
@@ -243,17 +240,17 @@ namespace NMib::NMongo::NMongoManager
 		auto BlockingActorCheckout = fg_BlockingActor();
 		co_await
 			(
-				g_Dispatch(BlockingActorCheckout) / [Result, BackupDirectory = mp_BackupDirectory, bInitialDumpFinished = mp_bInitialDumpFinished]
+				g_Dispatch(BlockingActorCheckout) / [BackupDirectory = mp_BackupDirectory, bInitialDumpFinished = mp_bInitialDumpFinished]() -> TCFuture<void>
 				{
-					return TCFuture<void>::fs_RunProtected<CExceptionFile>() / [&]()
-						{
-							CFile::fs_DeleteDirectoryRecursive(BackupDirectory, true);
-							if (bInitialDumpFinished)
-								DLogWithCategory(MongoManager/Backup, Info, "Deleted backup which has fully transferred to remote server: {}", BackupDirectory);
-							else
-								DLogWithCategory(MongoManager/Backup, Info, "Deleted backup which has not yet finished the full dump: {}", BackupDirectory);
-						}
-					;
+					auto CaptureScope = co_await g_CaptureExceptions.f_Specific<CExceptionFile>();
+
+					CFile::fs_DeleteDirectoryRecursive(BackupDirectory, true);
+					if (bInitialDumpFinished)
+						DLogWithCategory(MongoManager/Backup, Info, "Deleted backup which has fully transferred to remote server: {}", BackupDirectory);
+					else
+						DLogWithCategory(MongoManager/Backup, Info, "Deleted backup which has not yet finished the full dump: {}", BackupDirectory);
+
+					co_return {};
 				}
 				% "Failed to delete the backup"
 			)
@@ -278,18 +275,18 @@ namespace NMib::NMongo::NMongoManager
 			DLogWithCategory(MongoManager/Backup, Warning, "Aborting backup before the initial full backup has finished uploading");
 
 		{
-			TCActorResultVector<void> AllDestroyed;
+			TCFutureVector<void> AllDestroyed;
 
 			if (mp_DumpProcessLaunch)
-				mp_DumpProcessLaunch.f_Destroy() > AllDestroyed.f_AddResult();
+				fg_Move(mp_DumpProcessLaunch).f_Destroy() > AllDestroyed;
 
 			if (mp_MongoClient)
-				mp_MongoClient.f_Destroy() > AllDestroyed.f_AddResult();
+				fg_Move(mp_MongoClient).f_Destroy() > AllDestroyed;
 
-			co_await AllDestroyed.f_GetUnwrappedResults().f_Wrap() > LogError.f_Warning("Failed to destroy mongo dump launch or client");
+			co_await fg_AllDone(AllDestroyed).f_Wrap() > LogError.f_Warning("Failed to destroy mongo dump launch or client");
 		}
 
-		co_await self(&CMongoBackupInstanceActor::fp_DeleteBackup).f_Wrap() > LogError.f_Warning("Failed to delete backup");
+		co_await fp_DeleteBackup().f_Wrap() > LogError.f_Warning("Failed to delete backup");
 
 		co_await fg_Move(mp_WriteSequencer).f_Destroy().f_Wrap() > LogError.f_Warning("Failed to destroy write sequencer");
 		co_await fg_Move(mp_OplogWriteSequencer).f_Destroy().f_Wrap() > LogError.f_Warning("Failed to destroy oplog sequencer");

@@ -78,9 +78,9 @@ namespace NMib::NMongo::NMongoManager
 						}
 					}
 				}
-				, [this](NEncoding::CEJSONSorted const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
+				, [this](NEncoding::CEJSONSorted _Parameters, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine) -> TCFuture<uint32>
 				{
-					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_Restore, _Parameters, _pCommandLine);
+					co_return co_await fp_CommandLine_Restore(fg_Move(_Parameters), fg_Move(_pCommandLine));
 				}
 				, EDistributedAppCommandFlag_RunLocalApp
 			)
@@ -100,9 +100,9 @@ namespace NMib::NMongo::NMongoManager
 						}
 					}
 				}
-				, [this](NEncoding::CEJSONSorted const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
+				, [this](NEncoding::CEJSONSorted _Parameters, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine) -> TCFuture<uint32>
 				{
-					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_SetupPermissions, _Parameters, _pCommandLine);
+					co_return co_await fp_CommandLine_SetupPermissions(fg_Move(_Parameters), fg_Move(_pCommandLine));
 				}
 				, EDistributedAppCommandFlag_RunLocalApp
 			)
@@ -119,9 +119,9 @@ namespace NMib::NMongo::NMongoManager
 						"Should not be run when the daemon is started. Should not be run in a distributed replica.\n"
 					)
 				}
-				, [this](NEncoding::CEJSONSorted const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
+				, [this](NEncoding::CEJSONSorted _Parameters, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine) -> TCFuture<uint32>
 				{
-					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_UpdateReplicationConfig, _Parameters, _pCommandLine);
+					co_return co_await fp_CommandLine_UpdateReplicationConfig(fg_Move(_Parameters), fg_Move(_pCommandLine));
 				}
 				, EDistributedAppCommandFlag_RunLocalApp
 			)
@@ -133,9 +133,9 @@ namespace NMib::NMongo::NMongoManager
 					, "Description"_o= "Run a backup without running from an AppManager.\n"
 					, "Output"_o= "Backup ID.\n"
 				}
-				, [this](NEncoding::CEJSONSorted const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
+				, [this](NEncoding::CEJSONSorted _Parameters, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine) -> TCFuture<uint32>
 				{
-					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_RunBackup, _Parameters, _pCommandLine);
+					co_return co_await fp_CommandLine_RunBackup(fg_Move(_Parameters), fg_Move(_pCommandLine));
 				}
 				, EDistributedAppCommandFlag_None
 			)
@@ -154,9 +154,9 @@ namespace NMib::NMongo::NMongoManager
 						}
 					}
 				}
-				, [this](NEncoding::CEJSONSorted const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
+				, [this](NEncoding::CEJSONSorted _Parameters, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine) -> TCFuture<uint32>
 				{
-					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_CancelBackups, _Parameters, _pCommandLine);
+					co_return co_await fp_CommandLine_CancelBackups(fg_Move(_Parameters), fg_Move(_pCommandLine));
 				}
 				, EDistributedAppCommandFlag_None
 			)
@@ -228,9 +228,9 @@ namespace NMib::NMongo::NMongoManager
 						}
 					}
 				}
-				, [this](NEncoding::CEJSONSorted const &_Parameters, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine) -> TCFuture<uint32>
+				, [this](NEncoding::CEJSONSorted _Parameters, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine) -> TCFuture<uint32>
 				{
-					return g_Future <<= self(&CMongoManagerDaemonActor::fp_CommandLine_JoinReplica, _Parameters, _pCommandLine);
+					co_return co_await fp_CommandLine_JoinReplica(fg_Move(_Parameters), fg_Move(_pCommandLine));
 				}
 				, EDistributedAppCommandFlag_RunLocalApp
 			)
@@ -292,7 +292,7 @@ namespace NMib::NMongo::NMongoManager
 		return 0;
 	}
 	
-	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_Restore(NEncoding::CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_Restore(NEncoding::CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();
 
@@ -312,8 +312,8 @@ namespace NMib::NMongo::NMongoManager
 	
 	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_UpdateReplicationConfig
 		(
-			NEncoding::CEJSONSorted const &_Params
-			, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine
+			NEncoding::CEJSONSorted const _Params
+			, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine
 		)
 	{
 		co_await fp_WaitForAppStartup();
@@ -325,7 +325,7 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 	
-	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_SetupPermissions(NEncoding::CEJSONSorted const &_Param, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_SetupPermissions(NEncoding::CEJSONSorted const _Param, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();
 
@@ -350,7 +350,7 @@ namespace NMib::NMongo::NMongoManager
 		}
 		~CDummyBackupInterface() = default;
 
-		NConcurrency::TCFuture<void> f_AppendManifest(CManifestConfig const &_Config) override
+		NConcurrency::TCFuture<void> f_AppendManifest(CManifestConfig _Config) override
 		{
 			CStr AppendData;
 			AppendData += "\tRoot: {}\n"_f << _Config.m_Root;
@@ -365,17 +365,17 @@ namespace NMib::NMongo::NMongoManager
 		
 		NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeInitialFinished
 			(
-				NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> &&_fOnInitialFinished
+				NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> _fOnInitialFinished
 			) override
 		{
 			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Subscribe initial finished", m_BackupID);
-			_fOnInitialFinished() > fg_DiscardResult();
+			_fOnInitialFinished().f_DiscardResult();
 			co_return {};
 		}
 		
 		NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeBackupStopped
 			(
-				NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> &&_fOnStopped
+				NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> _fOnStopped
 			) override
 		{
 			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Subscribe backup stopped", m_BackupID);
@@ -385,7 +385,7 @@ namespace NMib::NMongo::NMongoManager
 		uint32 m_BackupID = -1;
 	};
 	
-	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_RunBackup(NEncoding::CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_RunBackup(NEncoding::CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();
 
@@ -401,10 +401,9 @@ namespace NMib::NMongo::NMongoManager
 			}
 		;
 
-		auto Subscription = co_await self
+		auto Subscription = co_await fp_StartBackup
 			(
-				&CMongoManagerDaemonActor::fp_StartBackup
-				, LocalBackup.m_BackupInterface->f_ShareInterface<CDistributedAppInterfaceBackup>().f_GetActor()
+				LocalBackup.m_BackupInterface->f_ShareInterface<CDistributedAppInterfaceBackup>().f_GetActor()
 				, nullptr
 				, CFile::fs_GetProgramDirectory()
 			)
@@ -424,7 +423,7 @@ namespace NMib::NMongo::NMongoManager
 		co_return 0;
 	}
 
-	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_CancelBackups(NEncoding::CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_CancelBackups(NEncoding::CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();
 
@@ -440,7 +439,7 @@ namespace NMib::NMongo::NMongoManager
 		
 		TCSet<uint32> MissingBackupIDs;
 		
-		TCActorResultMap<uint32, void> DestroyResults;
+		TCFutureMap<uint32, void> DestroyResults;
 		
 		for (auto &ID : BackupIDs)
 		{
@@ -455,12 +454,12 @@ namespace NMib::NMongo::NMongoManager
 			auto &LocalBackup = *pLocalBackup;
 			
 			if (LocalBackup.m_Subscription)
-				LocalBackup.m_Subscription->f_Destroy() > DestroyResults.f_AddResult(ID);
+				LocalBackup.m_Subscription->f_Destroy() > DestroyResults[ID];
 			
 			mp_LocalBackups.f_Remove(pLocalBackup);
 		}
 		
-		auto Results = co_await DestroyResults.f_GetResults();
+		auto Results = co_await fg_AllDoneWrapped(DestroyResults);
 
 		uint32 ExitStatus = 0;
 
@@ -486,7 +485,7 @@ namespace NMib::NMongo::NMongoManager
 		co_return ExitStatus;
 	}
 	
-	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_JoinReplica(NEncoding::CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_JoinReplica(NEncoding::CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();
 

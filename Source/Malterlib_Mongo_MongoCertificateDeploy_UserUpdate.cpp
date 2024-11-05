@@ -27,21 +27,21 @@ namespace NMib::NMongo
 
 		DMibLogWithCategory(Mib/Mongo/MongoCertificateDeploy, Info, "Updating out of date users: {vs}", UserKeys);
 
-		TCActorResultVector<void> Results;
+		TCFutureVector<void> Results;
 
 		for (auto &UserKey : UserKeys)
-			fg_CallSafe(this, &CInternal::f_UserUpdate_ForAllSecretsManagers, UserKey) > Results.f_AddResult();
+			f_UserUpdate_ForAllSecretsManagers(UserKey) > Results;
 
-		co_await (co_await Results.f_GetResults() | g_Unwrap);
+		co_await fg_AllDone(Results);
 
 		co_return {};
 	}
 
 	TCFuture<void> CMongoCertificateDeployActor::CInternal::f_UserUpdate_ForSecretsManager
 		(
-			CUserKey const &_UserKey
-			, TCDistributedActor<CSecretsManager> const &_SecretsManager
-			, CHostInfo const &_SecretsManagerHostInfo
+			CUserKey _UserKey
+			, TCDistributedActor<CSecretsManager> _SecretsManager
+			, CHostInfo _SecretsManagerHostInfo
 		)
 	{
 		CUser *pUser = nullptr;
@@ -77,7 +77,7 @@ namespace NMib::NMongo
 					, _UserKey
 					, UserState = fg_Move(UserState)
 				]
-				(CActorSubscription &&_Subscription) mutable -> TCFuture<void>
+				(CActorSubscription _Subscription) mutable -> TCFuture<void>
 				{
 					auto *pUser = m_Users.f_FindEqual(_UserKey);
 
@@ -102,7 +102,7 @@ namespace NMib::NMongo
 
 					co_await
 						(
-							fg_CallSafe(this, &CInternal::f_UserUpdate, User.f_GetKey())
+							f_UserUpdate(User.f_GetKey())
 							% ("Failed to update user '{}'"_f << User.f_GetKey())
 						)
 					;
@@ -121,7 +121,7 @@ namespace NMib::NMongo
 		co_return {};
 	}
 
-	TCFuture<void> CMongoCertificateDeployActor::CInternal::f_UserUpdate_ForAllSecretsManagers(CUserKey const &_UserKey)
+	TCFuture<void> CMongoCertificateDeployActor::CInternal::f_UserUpdate_ForAllSecretsManagers(CUserKey _UserKey)
 	{
 		CUser *pUser = nullptr;
 
@@ -141,11 +141,11 @@ namespace NMib::NMongo
 			)
 		;
 
-		TCActorResultVector<void> UpdateResults;
+		TCFutureVector<void> UpdateResults;
 		for (auto &SecretsManager : m_SecretsManagerSubscription.m_Actors)
-			fg_CallSafe(this, &CInternal::f_UserUpdate_ForSecretsManager, _UserKey, SecretsManager.m_Actor, SecretsManager.m_TrustInfo.m_HostInfo) > UpdateResults.f_AddResult();
+			f_UserUpdate_ForSecretsManager(_UserKey, SecretsManager.m_Actor, SecretsManager.m_TrustInfo.m_HostInfo) > UpdateResults;
 
-		co_await (co_await UpdateResults.f_GetResults() | g_Unwrap);
+		co_await fg_AllDone(UpdateResults);
 
 		co_return {};
 	}
@@ -196,7 +196,7 @@ namespace NMib::NMongo
 		return nullptr;
 	}
 
-	TCFuture<void> CMongoCertificateDeployActor::CInternal::f_UserUpdate_UpdateFiles(CUserKey const &_UserKey, CCertificateFilesSettings const &_FileSettings)
+	TCFuture<void> CMongoCertificateDeployActor::CInternal::f_UserUpdate_UpdateFiles(CUserKey _UserKey, CCertificateFilesSettings _FileSettings)
 	{
 		CUser *pUser = nullptr;
 		CUserState *pUserState = nullptr;
@@ -330,7 +330,7 @@ namespace NMib::NMongo
 		co_return {};
 	}
 
-	TCFuture<void> CMongoCertificateDeployActor::CInternal::f_UserUpdate(CUserKey const &_UserKey)
+	TCFuture<void> CMongoCertificateDeployActor::CInternal::f_UserUpdate(CUserKey _UserKey)
 	{
 		CUser *pUser = nullptr;
 		CUserState *pUserState = nullptr;
@@ -346,12 +346,12 @@ namespace NMib::NMongo
 
 		f_UpdateUserStatus(*pUser, pUserState->m_SecretsManagerHostInfo, EStatusSeverity_Info, "Secrets manager connected, updating files");
 
-		TCActorResultVector<void> UpdateFilesResults;
+		TCFutureVector<void> UpdateFilesResults;
 
 		for (auto &FilesSettings : pUser->m_Settings.m_FilesSettings)
-			fg_CallSafe(this, &CInternal::f_UserUpdate_UpdateFiles, _UserKey, FilesSettings) > UpdateFilesResults.f_AddResult();
+			f_UserUpdate_UpdateFiles(_UserKey, FilesSettings) > UpdateFilesResults;
 
-		co_await (co_await UpdateFilesResults.f_GetResults() | g_Unwrap);
+		co_await fg_AllDone(UpdateFilesResults);
 
 		f_UpdateUserStatus(*pUser, pUserState->m_SecretsManagerHostInfo, EStatusSeverity_Success, "All certificates deployed and up to date");
 

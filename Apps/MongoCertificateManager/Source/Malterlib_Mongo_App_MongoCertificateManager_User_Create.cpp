@@ -38,7 +38,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			, CTime const &_Created
 			, CTime const &_Modified
 			, CCertificateAndKey const &_Certificate
-			, TCActorResultMap<TCWeakDistributedActor<CSecretsManager>, CSecretsManager::CSetSecretPropertiesResult> &o_StoreResultsAsync
+			, TCFutureMap<TCWeakDistributedActor<CSecretsManager>, CSecretsManager::CSetSecretPropertiesResult> &o_StoreResultsAsync
 		)
 	{
 		TCMap<CStrSecure, CStrSecure> Secrets;
@@ -63,7 +63,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		{
 			auto WeakSecretsManager = SecretManager.m_Actor.f_Weak();
 			SecretManager.m_Actor.f_CallActor(&CSecretsManager::f_SetSecretProperties)(SecretID, fg_TempCopy(Properties))
-				> o_StoreResultsAsync.f_AddResult(WeakSecretsManager);
+				> o_StoreResultsAsync[WeakSecretsManager];
 			;
 		}
 	}
@@ -131,7 +131,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		;
 	}
 
-	TCFuture<uint32> CMongoCertificateManagerActor::fp_CommandLine_UserCreate(CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine)
+	TCFuture<uint32> CMongoCertificateManagerActor::fp_CommandLine_UserCreate(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		auto Auditor = f_Auditor();
 
@@ -204,7 +204,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			co_return Auditor.f_Exception("User '{}' already exists"_f << UserName);
 
 		{
-			TCActorResultMap<TCWeakDistributedActor<CSecretsManager>, CSecretsManager::CSetSecretPropertiesResult> StoreResultsAsync;
+			TCFutureMap<TCWeakDistributedActor<CSecretsManager>, CSecretsManager::CSetSecretPropertiesResult> StoreResultsAsync;
 			fp_User_StoreSecrets
 				(
 					AllSecretManagers
@@ -219,7 +219,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 				)
 			;
 
-			auto StoreResults = co_await StoreResultsAsync.f_GetResults();
+			auto StoreResults = co_await fg_AllDoneWrapped(StoreResultsAsync);
 			for (auto &StoreResult : StoreResults)
 			{
 				auto &WeakSecretsManager = StoreResults.fs_GetKey(StoreResult);

@@ -104,27 +104,27 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		TCFuture<void> fp_Destroy() override;
 
-		TCFuture<void> fp_StartApp(NEncoding::CEJSONSorted const &_Params) override;
+		TCFuture<void> fp_StartApp(NEncoding::CEJSONSorted const _Params) override;
 		TCFuture<void> fp_StopApp() override;
 		TCFuture<void> fp_RegisterSensors();
 
-		TCFuture<uint32> fp_CommandLine_AuthorityCreate(CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCFuture<uint32> fp_CommandLine_AuthorityList(CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCFuture<uint32> fp_CommandLine_AuthorityResync(CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
+		TCFuture<uint32> fp_CommandLine_AuthorityCreate(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
+		TCFuture<uint32> fp_CommandLine_AuthorityList(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
+		TCFuture<uint32> fp_CommandLine_AuthorityResync(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
 
-		TCFuture<uint32> fp_CommandLine_UserCreate(CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCFuture<uint32> fp_CommandLine_UserList(CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCFuture<uint32> fp_CommandLine_UserResync(CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
-		TCFuture<uint32> fp_CommandLine_UserReissue(CEJSONSorted const &_Params, NStorage::TCSharedPointer<CCommandLineControl> const &_pCommandLine);
+		TCFuture<uint32> fp_CommandLine_UserCreate(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
+		TCFuture<uint32> fp_CommandLine_UserList(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
+		TCFuture<uint32> fp_CommandLine_UserResync(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
+		TCFuture<uint32> fp_CommandLine_UserReissue(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
 
 		static EPublicKeyType fsp_EllipticCurveTypeFromStr(CStr const &_String);
 		static CStr fsp_EllipticCurveTypeToStr(EPublicKeyType _Type);
 		static CPublicKeySetting fsp_EllipticCurveTypeToKeySettings(EPublicKeyType _Type);
 
-		TCFuture<void> fp_SecretsManagerAddedWithRetry(TCDistributedActor<CSecretsManager> const &_SecretsManager, CTrustedActorInfo const &_Info);
+		TCFuture<void> fp_SecretsManagerAddedWithRetry(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info);
 
-		TCFuture<void> fp_SecretsManagerAdded(TCDistributedActor<CSecretsManager> const &_SecretsManager, CTrustedActorInfo const &_Info);
-		TCFuture<void> fp_SecretsManagerRemoved(TCWeakDistributedActor<CActor> const &_SecretsManager, CTrustedActorInfo const &_ActorInfo);
+		TCFuture<void> fp_SecretsManagerAdded(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info);
+		TCFuture<void> fp_SecretsManagerRemoved(TCWeakDistributedActor<CActor> _SecretsManager, CTrustedActorInfo _ActorInfo);
 
 		TCFuture<CCertificateAndKey> fp_GenerateUserCertificate(CCertificateAndKey _Certificate, EPublicKeyType _EllipticCurveType, CStr _UserName, EUserType _UserType);
 
@@ -134,7 +134,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		TCFuture<void> fp_Authority_UpdateStatusSensor(CStr _Authority, EStatusSeverity _Severity, CStr _Status);
 		void fp_Authority_UpdateStatus(CAuthority &o_Authority, EStatusSeverity _Severity, CStr const &_Status);
 		TCFuture<void> fp_Authority_Add(TCDistributedActor<CSecretsManager> _SecretsManager, CSecretsManager::CSecretID _SecretID);
-		TCFuture<void> fp_Authority_SecretsManagerAdded(TCDistributedActor<CSecretsManager> const &_SecretsManager, CTrustedActorInfo const &_Info);
+		TCFuture<void> fp_Authority_SecretsManagerAdded(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info);
 		void fp_Authority_StoreSecrets
 			(
 				TCVector<TCTrustedActor<CSecretsManager>> const &_SecretManagers
@@ -144,7 +144,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 				, CTime const &_Created
 				, CTime const &_Modified
 				, CCertificateAndKey const &_Certificate
-				, TCActorResultMap<TCWeakDistributedActor<CSecretsManager>, CSecretsManager::CSetSecretPropertiesResult> &o_StoreResultsAsync
+				, TCFutureMap<TCWeakDistributedActor<CSecretsManager>, CSecretsManager::CSetSecretPropertiesResult> &o_StoreResultsAsync
 			)
 		;
 		TCFuture<int32> fp_Authority_GetNewSerial(CStr _AuthorityName);
@@ -158,7 +158,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		TCFuture<void> fp_User_UpdateStatusSensor(CUserKey _UserKey, EStatusSeverity _Severity, CStr _Status);
 		void fp_User_UpdateStatus(CUser &o_User, EStatusSeverity _Severity, CStr const &_Status);
 		TCFuture<void> fp_User_Add(TCDistributedActor<CSecretsManager> _SecretsManager, CSecretsManager::CSecretID _SecretID);
-		TCFuture<void> fp_User_SecretsManagerAdded(TCDistributedActor<CSecretsManager> const &_SecretsManager, CTrustedActorInfo const &_Info);
+		TCFuture<void> fp_User_SecretsManagerAdded(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info);
 		void fp_User_StoreSecrets
 			(
 				TCVector<TCTrustedActor<CSecretsManager>> const &_SecretManagers
@@ -169,7 +169,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 				, CTime const &_Created
 				, CTime const &_Modified
 				, CCertificateAndKey const &_Certificate
-				, TCActorResultMap<TCWeakDistributedActor<CSecretsManager>, CSecretsManager::CSetSecretPropertiesResult> &o_StoreResultsAsync
+				, TCFutureMap<TCWeakDistributedActor<CSecretsManager>, CSecretsManager::CSetSecretPropertiesResult> &o_StoreResultsAsync
 			)
 		;
 

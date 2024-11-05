@@ -103,39 +103,39 @@ namespace NMib::NMongo
 
 		NConcurrency::TCFuture<NContainer::TCVector<NEncoding::CEJSONOrdered>> f_Query
 			(
-				NStr::CStr const &_Collection
-				, NEncoding::CEJSONOrdered const &_Query
+				NStr::CStr _Collection
+				, NEncoding::CEJSONOrdered _Query
 				, uint32 _nToReturn
 				, uint32 _nToSkip
-				, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> const &_pFields
-				, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> const &_pOrder
+				, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> _pFields
+				, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> _pOrder
 				, EQueryOption _Options
 			)
 		;
 		NConcurrency::TCFuture<NEncoding::CEJSONOrdered> f_RunCommand
 			(
-				NStr::CStr const &_Database
-				, NEncoding::CEJSONOrdered const &_Command
+				NStr::CStr _Database
+				, NEncoding::CEJSONOrdered _Command
 			)
 		;
 		NConcurrency::TCFuture<NConcurrency::CActorSubscription> f_TailQuery
 			(
-				CTailQueryParams &&_Params
-				, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSONOrdered &&_Result)> &&_fOnResult
+				CTailQueryParams _Params
+				, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSONOrdered _Result)> _fOnResult
 			)
 		;
 		NConcurrency::TCFuture<uint64> f_Count
 			(
-				 NStr::CStr const &_Collection
-				, NEncoding::CEJSONOrdered const &_Query
+				 NStr::CStr _Collection
+				, NEncoding::CEJSONOrdered _Query
 				, uint32 _nToReturn
 				, uint32 _nToSkip
 			)
 		;
-		NConcurrency::TCFuture<void> f_BatchInsert(NStr::CStr const &_Collection, NContainer::TCVector<NEncoding::CEJSONOrdered> const &_Documents, EInsertOption _Options);
-		NConcurrency::TCFuture<void> f_Insert(NStr::CStr const &_Collection, NEncoding::CEJSONOrdered const &_Document, EInsertOption _Options);
-		NConcurrency::TCFuture<CUpdateResult> f_Update(NStr::CStr const &_Collection, NEncoding::CEJSONOrdered const &_Query, NEncoding::CEJSONOrdered const &_Update, EUpdateOption _Options);
-		NConcurrency::TCFuture<void> f_Remove(NStr::CStr const &_Collection, NEncoding::CEJSONOrdered const &_Query, ERemoveOption _Options);
+		NConcurrency::TCFuture<void> f_BatchInsert(NStr::CStr _Collection, NContainer::TCVector<NEncoding::CEJSONOrdered> _Documents, EInsertOption _Options);
+		NConcurrency::TCFuture<void> f_Insert(NStr::CStr _Collection, NEncoding::CEJSONOrdered _Document, EInsertOption _Options);
+		NConcurrency::TCFuture<CUpdateResult> f_Update(NStr::CStr _Collection, NEncoding::CEJSONOrdered _Query, NEncoding::CEJSONOrdered _Update, EUpdateOption _Options);
+		NConcurrency::TCFuture<void> f_Remove(NStr::CStr _Collection, NEncoding::CEJSONOrdered _Query, ERemoveOption _Options);
 
 	private:
 		NConcurrency::TCFuture<void> fp_Destroy() override;

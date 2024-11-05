@@ -9,7 +9,6 @@ namespace NMib::NMongo::NMongoManager
 {
 	TCFuture<void> CMongoManagerActor::fp_SetupPrerequisites_Mongo()
 	{
-		TCPromise<void> Promise;
 		CStr MongoDirectory = fp_GetDataPath("mongo");
 		struct CMongoInfo
 		{
@@ -42,7 +41,7 @@ namespace NMib::NMongo::NMongoManager
 				)
 			;
 
-			UserSettings.m_fOnStatusChange = g_ActorFunctor / [](CHostInfo &&_HostInfo, CMongoCertificateDeployActor::CUserStatus &&_Status) -> TCFuture<void>
+			UserSettings.m_fOnStatusChange = g_ActorFunctor / [](CHostInfo _HostInfo, CMongoCertificateDeployActor::CUserStatus _Status) -> TCFuture<void>
 				{
 					if (_Status.m_Severity == CMongoCertificateDeployActor::EStatusSeverity_Error)
 						DMibLogWithCategory(Certificate, Error, "Server certificate: {}", _Status.m_Description);
@@ -83,7 +82,7 @@ namespace NMib::NMongo::NMongoManager
 				)
 			;
 
-			UserSettings.m_fOnStatusChange = g_ActorFunctor / [](CHostInfo &&_HostInfo, CMongoCertificateDeployActor::CUserStatus &&_Status) -> TCFuture<void>
+			UserSettings.m_fOnStatusChange = g_ActorFunctor / [](CHostInfo _HostInfo, CMongoCertificateDeployActor::CUserStatus _Status) -> TCFuture<void>
 				{
 					if (_Status.m_Severity == CMongoCertificateDeployActor::EStatusSeverity_Error)
 						DMibLogWithCategory(Certificate, Error, "Admin certificate: {}", _Status.m_Description);
@@ -159,8 +158,7 @@ namespace NMib::NMongo::NMongoManager
 		if (!Info.m_Password.f_IsEmpty())
 		{
 			mp_AppState.m_StateDatabase.m_Data["Users"][mp_MongoUser.m_Name]["Password"] = _Info.m_Password;
-			mp_AppState.f_SaveStateDatabase() > Promise;
-			return;
+			co_await mp_AppState.f_SaveStateDatabase();
 		}
 #endif
 		co_return {};
@@ -189,8 +187,6 @@ namespace NMib::NMongo::NMongoManager
 	{
 		CStr MongoPath = fp_GetDataPath("mongo");
 	
-		TCPromise<void> Promise;
-		
 		TCVector<CStr> Params = _MongoConnectionSettings.f_GetToolParams(true);
 		auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
 
@@ -216,10 +212,9 @@ namespace NMib::NMongo::NMongoManager
 		;
 
 		DLog(Info, "Running mongo script '{}'", _LogCategory);
-		self
+		fp_LaunchTool
 			(
-				&CMongoManagerActor::fp_LaunchTool
-				, fp_GetMongoExecutable("mongo")
+				fp_GetMongoExecutable("mongo")
 				, CStr()
 				, fg_Move(Params)
 				, _LogCategory
@@ -248,9 +243,11 @@ namespace NMib::NMongo::NMongoManager
 								fg_OneshotTimer
 									(
 										1.0
-										, [=, this]
+										, [=, this]() -> TCFuture<void>
 										{
 											fp_RunMongoScriptInternal(_MongoConnectionSettings, _Script, _LogCategory, _Database, _Timeout, _Promise, _Clock, _Config);
+
+											co_return {};
 										}
 										, self 
 									)
@@ -273,24 +270,24 @@ namespace NMib::NMongo::NMongoManager
 	
 	TCFuture<CStr> CMongoManagerActor::fp_RunMongoScript
 		(
-			CMongoConnectionSettings const &_MongoConnectionSettings
-			, CStr const &_Script
-			, CStr const &_Database
+			CMongoConnectionSettings _MongoConnectionSettings
+			, CStr _Script
+			, CStr _Database
 			, fp32 _Timeout
-			, CEJSONSorted const &_Config
+			, CEJSONSorted _Config
 		)
 	{
-		TCPromise<CStr> Promise;
-
 		auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
 
 		CStr ProgramDirectory = CFile::fs_GetProgramDirectory();
 		
 		if (MongoHost.m_Host.f_IsEmpty())
-			return Promise <<= DErrorInstance(fg_Format("Failed to launch mongo for running {}: Hostname is empty", _Script));
-		
+			co_return DErrorInstance(fg_Format("Failed to launch mongo for running {}: Hostname is empty", _Script));
+
 		CClock Clock{true};
 		
+		TCPromiseFuturePair<CStr> Promise;
+
 		fp_RunMongoScriptInternal
 			(	
 				_MongoConnectionSettings
@@ -298,12 +295,12 @@ namespace NMib::NMongo::NMongoManager
 				, _Script
 				, _Database
 				, _Timeout
-				, Promise
+				, Promise.m_Promise
 				, Clock
 				, _Config
 			)
 		;
-		return Promise.f_MoveFuture();
+		co_return co_await fg_Move(Promise.m_Future);
 	}
 
 	TCFuture<void> CMongoManagerActor::fp_DetermineHostname()
@@ -333,11 +330,9 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<void> CMongoManagerActor::fp_StartMongo()
 	{
-		TCPromise<void> Promise;
-
 		if (mp_pMongoLaunch)
-			return Promise <<= g_Void; // Launch already in progress
-		
+			co_return {}; // Launch already in progress
+
 		CStr MongoPath = fp_GetDataPath("mongo");
 		CStr LogPath = MongoPath + "/log/mongo.log";
 		CStr DatabasePath = MongoPath + "/db";
@@ -453,12 +448,14 @@ namespace NMib::NMongo::NMongoManager
 		auto LaunchExecutable = fp_GetMongoExecutable("mongod");
 #endif
 
+		TCPromiseFuturePair<void> Promise;
+
 		CProcessLaunchActor::CLaunch Launch = CProcessLaunchParams::fs_LaunchExecutable
 			(
 				LaunchExecutable
 				, LaunchArguments
 				, MongoPath
-				, [this, Promise](CProcessLaunchStateChangeVariant const &_Change, fp64 _TimeSinceStart)
+				, [this, Promise = fg_Move(Promise.m_Promise)](CProcessLaunchStateChangeVariant const &_Change, fp64 _TimeSinceStart)
 				{
 					switch (_Change.f_GetTypeID())
 					{
@@ -469,10 +466,12 @@ namespace NMib::NMongo::NMongoManager
 								fg_OneshotTimer
 									(
 										1.0 // Mongo is unreliable and doesn't listen to signals until after a while
-										, [this]()
+										, [this]() -> TCFuture<void>
 										{
 											if (mp_pMongoLaunch)
-												mp_pMongoLaunch(&CProcessLaunchActor::f_StopProcess) > fg_DiscardResult();
+												mp_pMongoLaunch(&CProcessLaunchActor::f_StopProcess).f_DiscardResult();
+
+											co_return {};
 										}
 									)
 								;
@@ -487,10 +486,12 @@ namespace NMib::NMongo::NMongoManager
 							if (!mp_pCanDestroyTracker.f_IsEmpty() && !mp_bStopped)
 							{
 								DLogWithCategory(mongod, Info, "Scheduling relaunch of mongod in 10 seconds");
-								fg_Timeout(10.0) > [this]
+								fg_Timeout(10.0) > [this]() -> TCFuture<void>
 									{
 										if (!mp_pCanDestroyTracker.f_IsEmpty() && !mp_bStopped)
-											self(&CMongoManagerActor::fp_StartMongo) > fg_DiscardResult();
+											fp_StartMongo().f_DiscardResult();
+
+										co_return {};
 									}
 								;
 							}
@@ -545,43 +546,31 @@ namespace NMib::NMongo::NMongoManager
 		
 		mp_pMongoLaunch = fg_ConstructActor<CProcessLaunchActor>();
 		
-		mp_pMongoLaunch(&CProcessLaunchActor::f_Launch, fg_Move(Launch), fg_ThisActor(this)) > [this, Promise](TCAsyncResult<CActorSubscription> &&_Subscription)
-			{
-				if (!_Subscription)
-				{
-					Promise.f_SetException(fg_Move(_Subscription));
-					mp_pMongoLaunch.f_Clear();
-					return;
-				}
-				mp_MongoLaunchSubscription = fg_Move(*_Subscription);
-			}
-		;
-		
-		return Promise.f_MoveFuture();
+		auto Subscription = co_await mp_pMongoLaunch(&CProcessLaunchActor::f_Launch, fg_Move(Launch), fg_ThisActor(this)).f_Wrap();
+		if (!Subscription)
+		{
+			mp_pMongoLaunch.f_Clear();
+			co_return fg_Move(Subscription).f_GetException();
+		}
+		mp_MongoLaunchSubscription = fg_Move(*Subscription);
+
+		co_await fg_Move(Promise.m_Future);
+
+		co_return {};
 	}
 	
 	TCFuture<void> CMongoManagerActor::f_UpdateReplicationConfig()
 	{
-		TCPromise<void> Promise; 
-		fp_RunMongoScript(mp_MongoConnectionSettings, "MongoUpdateReplicationConfig", "local", 60.0, {}) 
-			> Promise / [Promise]
-			{
-				Promise.f_SetResult();
-			}
-		;
-		return Promise.f_MoveFuture();
+		co_await fp_RunMongoScript(mp_MongoConnectionSettings, "MongoUpdateReplicationConfig", "local", 60.0, {});
+
+		co_return {};
 	}
 
 	TCFuture<void> CMongoManagerActor::f_SetupPermissions()
 	{
-		TCPromise<void> Promise; 
-		fp_RunMongoScript(mp_MongoConnectionSettings, "MongoSetupPermissions", "local", 60.0, {"mongoAdminDN"_= mp_MongoConnectionSettings.m_UserName})
-			> Promise / [Promise]
-			{
-				Promise.f_SetResult();
-			}
-		;
-		return Promise.f_MoveFuture();
+		co_await fp_RunMongoScript(mp_MongoConnectionSettings, "MongoSetupPermissions", "local", 60.0, {"mongoAdminDN"_= mp_MongoConnectionSettings.m_UserName});
+
+		co_return {};
 	}
 
 	static CStr fg_FilterScriptOutput(CStr const &_Output)
@@ -597,7 +586,7 @@ namespace NMib::NMongo::NMongoManager
 		return CStr::fs_Join(Return, "\n");
 	}
 
-	TCFuture<void> CMongoManagerActor::f_JoinReplica(CJoinReplicaOptions const &_Options)
+	TCFuture<void> CMongoManagerActor::f_JoinReplica(CJoinReplicaOptions _Options)
 	{
 		bool bConfigChanged = false;
 		
@@ -622,12 +611,12 @@ namespace NMib::NMongo::NMongoManager
 			}
 		}
 		
-		TCActorResultVector<void> Results;
+		TCFutureVector<void> Results;
 		
 		if (bConfigChanged)
-			mp_AppState.m_ConfigDatabase.f_Save() > Results.f_AddResult();
+			mp_AppState.m_ConfigDatabase.f_Save() > Results;
 		
-		co_await Results.f_GetResults();
+		co_await fg_AllDoneWrapped(Results);
 
 		CStr Self = mp_MongoConnectionSettings.f_GetConnectionString();
 		CStr SelfTag = Self.f_ReplaceChar('.', '_').f_ReplaceChar(':', '_');

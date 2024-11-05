@@ -16,7 +16,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 	CMongoCertificateManagerActor::~CMongoCertificateManagerActor() = default;
 
-	TCFuture<void> CMongoCertificateManagerActor::fp_StartApp(NEncoding::CEJSONSorted const &_Params)
+	TCFuture<void> CMongoCertificateManagerActor::fp_StartApp(NEncoding::CEJSONSorted const _Params)
 	{
 		auto OnResume = co_await fg_OnResume
 			(
@@ -34,15 +34,15 @@ namespace NMib::NMongo::NMongoCertificateManager
 		{
 			auto Result = co_await mp_SecretsManagerSubscription.f_OnActor
 				(
-					g_ActorFunctor / [this](TCDistributedActor<CSecretsManager> const &_SecretsManager, CTrustedActorInfo const &_ActorInfo) -> TCFuture<void>
+					g_ActorFunctor / [this](TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _ActorInfo) -> TCFuture<void>
 					{
-						co_await self(&CMongoCertificateManagerActor::fp_SecretsManagerAddedWithRetry, _SecretsManager, _ActorInfo);
+						co_await fp_SecretsManagerAddedWithRetry(_SecretsManager, _ActorInfo);
 
 						co_return {};
 					}
-					, g_ActorFunctor / [this](TCWeakDistributedActor<CActor> const &_SecretsManager, CTrustedActorInfo &&_ActorInfo) -> TCFuture<void>
+					, g_ActorFunctor / [this](TCWeakDistributedActor<CActor> _SecretsManager, CTrustedActorInfo _ActorInfo) -> TCFuture<void>
 					{
-						self(&CMongoCertificateManagerActor::fp_SecretsManagerRemoved, _SecretsManager, _ActorInfo)
+						fp_SecretsManagerRemoved(_SecretsManager, _ActorInfo)
 							> fg_LogError("Mib/Mongo/MongoCertificateManager", "Failed to handle secrets manager removed")
 						;
 
@@ -62,12 +62,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 				24.0 * 60.0 * 60.0 // 24 h
 				, [this]() -> TCFuture<void>
 				{
-					co_await
-						(
-							self(&CMongoCertificateManagerActor::fp_Authority_UpdateSensors)
-							+ self(&CMongoCertificateManagerActor::fp_User_UpdateSensors)
-						)
-					;
+					co_await (fp_Authority_UpdateSensors() + fp_User_UpdateSensors());
 
 					co_return {};
 				}
@@ -91,10 +86,10 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 	TCFuture<void> CMongoCertificateManagerActor::fp_StopApp()
 	{
-		TCActorResultVector<void> Destroys;
-		mp_SecretsManagerSubscription.f_Destroy() > Destroys.f_AddResult();
+		TCFutureVector<void> Destroys;
+		mp_SecretsManagerSubscription.f_Destroy() > Destroys;
 
-		co_await Destroys.f_GetResults();
+		co_await fg_AllDoneWrapped(Destroys);
 
 		co_return {};
 	}

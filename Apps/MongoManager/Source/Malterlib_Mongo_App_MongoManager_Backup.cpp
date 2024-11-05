@@ -28,34 +28,30 @@ namespace NMib::NMongo::NMongoManager
 		{
 		}
 		
-		TCFuture<void> f_StartBackup(CActorSubscription &&_ManifestFinished, CStr const &_BackupRoot) override
+		TCFuture<void> f_StartBackup(CActorSubscription _ManifestFinished, CStr _BackupRoot) override
 		{
-			TCPromise<void> Promise;
-
 			DLogWithCategory(MongoManager/Backup, Info, "Starting initial full backup");
 
-			fp_CleanupOldBackups() > Promise / [=, this, ManifestFinished = fg_Move(_ManifestFinished)]() mutable
-				{
-					mp_Backup = fg_ConstructActor<CMongoBackupInstanceActor>(mp_MongoConnectionSettings, mp_MongoExecutable, mp_BackupInterface.f_GetActor());
-					mp_Backup(&CMongoBackupInstanceActor::f_StartBackup, fg_Move(ManifestFinished), _BackupRoot) > Promise;
-				}
-			;
-			
-			return Promise.f_MoveFuture();
+			co_await fp_CleanupOldBackups();
+
+			mp_Backup = fg_ConstructActor<CMongoBackupInstanceActor>(mp_MongoConnectionSettings, mp_MongoExecutable, mp_BackupInterface.f_GetActor());
+			co_await mp_Backup(&CMongoBackupInstanceActor::f_StartBackup, fg_Move(_ManifestFinished), _BackupRoot);
+
+			co_return {};
 		}
 		
 		void f_MongoStopped() override
 		{
 			if (!mp_Backup)
 				return;
-			mp_Backup(&CMongoBackupInstanceActor::f_MongoStopped) > fg_DiscardResult();
+			mp_Backup(&CMongoBackupInstanceActor::f_MongoStopped).f_DiscardResult();
 		}
 		
 	private:
 		TCFuture<void> fp_Destroy() override
 		{
 			if (mp_Backup)
-				co_await mp_Backup.f_Destroy();
+				co_await fg_Move(mp_Backup).f_Destroy();
 
 			auto Future = mp_pCanDestroy->f_Future();
 			mp_pCanDestroy.f_Clear();
@@ -73,46 +69,46 @@ namespace NMib::NMongo::NMongoManager
 			auto BlockingActorCheckout = fg_BlockingActor();
 			co_await
 				(
-					g_Dispatch(BlockingActorCheckout) / []
+					g_Dispatch(BlockingActorCheckout) / []() -> TCFuture<void>
 					{
-						return TCFuture<void>::fs_RunProtected<CExceptionFile>() / []()
+						auto CaptureScope = co_await g_CaptureExceptions.f_Specific<CExceptionFile>();
+
+						CFile::CFindFilesOptions Options{fg_Format("{}/Backup/*", CFile::fs_GetProgramDirectory()), false};
+						Options.m_AttribMask = EFileAttrib_Directory;
+						auto FoundFiles = CFile::fs_FindFiles(Options);
+						CTime RemoveOlderThan = CTime::fs_NowUTC() - CTimeSpanConvert::fs_CreateWeekSpan(1);
+						DLogWithCategory(MongoManager/Backup, Info, "Found {} old backups", FoundFiles.f_GetLen());
+						for (auto &File : FoundFiles)
+						{
+							if (File.m_Attribs & EFileAttrib_Link)
+								continue;
+
+							CStr FileName = CFile::fs_GetFile(File.m_Path);
+							aint nParsed = 0;
+							uint64 Year;
+							uint32 Month;
+							uint32 Day;
+							(CStr::CParse("{}-{}-{} ") >> Year >> Month >> Day).f_Parse(FileName, nParsed);
+
+							if (nParsed != 3)
+								continue; // Skip stray files
+
+							CTime BackupTime = CTimeConvert::fs_CreateTime(Year, Month, Day);
+							if (BackupTime < RemoveOlderThan)
 							{
-								CFile::CFindFilesOptions Options{fg_Format("{}/Backup/*", CFile::fs_GetProgramDirectory()), false};
-								Options.m_AttribMask = EFileAttrib_Directory;
-								auto FoundFiles = CFile::fs_FindFiles(Options);
-								CTime RemoveOlderThan = CTime::fs_NowUTC() - CTimeSpanConvert::fs_CreateWeekSpan(1);
-								DLogWithCategory(MongoManager/Backup, Info, "Found {} old backups", FoundFiles.f_GetLen());
-								for (auto &File : FoundFiles)
+								try
 								{
-									if (File.m_Attribs & EFileAttrib_Link)
-										continue;
-
-									CStr FileName = CFile::fs_GetFile(File.m_Path);
-									aint nParsed = 0;
-									uint64 Year;
-									uint32 Month;
-									uint32 Day;
-									(CStr::CParse("{}-{}-{} ") >> Year >> Month >> Day).f_Parse(FileName, nParsed);
-
-									if (nParsed != 3)
-										continue; // Skip stray files
-
-									CTime BackupTime = CTimeConvert::fs_CreateTime(Year, Month, Day);
-									if (BackupTime < RemoveOlderThan)
-									{
-										try
-										{
-											CFile::fs_DeleteDirectoryRecursive(File.m_Path);
-											DLogWithCategory(MongoManager/Backup, Info, "Removed backup: {}", File.m_Path);
-										}
-										catch (CExceptionFile const &_Exception)
-										{
-											DLogWithCategory(MongoManager/Backup, Error, "Failed to remove backup: {}:{\n}{}", File.m_Path, _Exception);
-										}
-									}
+									CFile::fs_DeleteDirectoryRecursive(File.m_Path);
+									DLogWithCategory(MongoManager/Backup, Info, "Removed backup: {}", File.m_Path);
+								}
+								catch (CExceptionFile const &_Exception)
+								{
+									DLogWithCategory(MongoManager/Backup, Error, "Failed to remove backup: {}:{\n}{}", File.m_Path, _Exception);
 								}
 							}
-						;
+						}
+
+						co_return {};
 					}
 					% "Failed to clean up old backups"
 				)
@@ -143,9 +139,9 @@ namespace NMib::NMongo::NMongoManager
 	
 	TCFuture<CActorSubscription> CMongoManagerActor::f_StartBackup
 		(
-			TCDistributedActorInterface<CDistributedAppInterfaceBackup> &&_BackupInterface
-			, CActorSubscription &&_ManifestFinished
-			, CStr const &_BackupRoot
+			TCDistributedActorInterface<CDistributedAppInterfaceBackup> _BackupInterface
+			, CActorSubscription _ManifestFinished
+			, CStr _BackupRoot
 		)
 	{
 		if (f_IsDestroyed())

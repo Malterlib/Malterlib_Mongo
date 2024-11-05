@@ -5,7 +5,7 @@
 
 namespace NMib::NMongo
 {
-	TCFuture<CActorSubscription> CMongoCertificateDeployActor::f_AddUser(CUserSettings &&_UserSettings)
+	TCFuture<CActorSubscription> CMongoCertificateDeployActor::f_AddUser(CUserSettings _UserSettings)
 	{
 		auto &Internal = *mp_pInternal;
 
@@ -22,7 +22,7 @@ namespace NMib::NMongo
 
 		User.m_Settings = fg_Move(_UserSettings);
 
-		fg_CallSafe(&Internal, &CInternal::f_UserUpdate_ForAllSecretsManagers, UserKey)
+		Internal.f_UserUpdate_ForAllSecretsManagers(UserKey)
 			> fg_LogError("Mib/Mongo/MongoCertificateDeploy", "Update User '{}' for all secrets managers had some failures"_f << UserKey)
 		;
 

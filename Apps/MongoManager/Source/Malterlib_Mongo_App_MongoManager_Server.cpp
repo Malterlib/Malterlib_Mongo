@@ -34,7 +34,7 @@ namespace NMib::NMongo::NMongoManager
 	{
 	}
 
-	TCFuture<void> CMongoManagerActor::f_Startup(EMode _Mode, CStr const &_OverrideReplicaName, uint16 _Port, TCOptional<bool> const &_VerboseMongoScrips)
+	TCFuture<void> CMongoManagerActor::f_Startup(EMode _Mode, CStr _OverrideReplicaName, uint16 _Port, TCOptional<bool> _VerboseMongoScrips)
 	{
 		mp_Mode = _Mode;
 
@@ -73,16 +73,16 @@ namespace NMib::NMongo::NMongoManager
 
 		DLog(Info, "Extracting ExeFS");
 
-		co_await (self(&CMongoManagerActor::fp_CleanupOldProcesses) % "Failed to clean up old processes");
-		co_await (self(&CMongoManagerActor::fp_ExtractExeFS) % "Failed to extract ExeFS");
+		co_await (fp_CleanupOldProcesses() % "Failed to clean up old processes");
+		co_await (fp_ExtractExeFS() % "Failed to extract ExeFS");
 
 		DLog(Info, "Done extracting ExeFS");
 
 		auto [Version, Dummy1, Dummy2] = co_await
 			(
-				self(&CMongoManagerActor::fp_CheckVersion, fp_GetMongoExecutable("mongod"), "--version", "db version v{}.{}.{}\n", mp_Version_MongoDB)
-				+ self(&CMongoManagerActor::fp_SetupPrerequisites_Mongo)
-				+ self(&CMongoManagerActor::fp_DetermineHostname)
+				fp_CheckVersion(fp_GetMongoExecutable("mongod"), "--version", "db version v{}.{}.{}\n", mp_Version_MongoDB)
+				+ fp_SetupPrerequisites_Mongo()
+				+ fp_DetermineHostname()
 			)
 		;
 
@@ -90,15 +90,14 @@ namespace NMib::NMongo::NMongoManager
 
 		mp_Version_MongoDB = Version;
 
-		co_await self(&CMongoManagerActor::fp_StartMongo);
+		co_await fp_StartMongo();
 
 		if (mp_Mode == EMode_UpdateReplicationConfig || mp_Mode == EMode_SetupPermissions)
 			co_return {};
 
-		co_await self
+		co_await fp_RunMongoScript
 			(
-				&CMongoManagerActor::fp_RunMongoScript
-				, mp_MongoConnectionSettings
+				mp_MongoConnectionSettings
 				, "MongoWaitForPrimary"
 				, "local"
 				, 5.0*60.0
@@ -128,11 +127,12 @@ namespace NMib::NMongo::NMongoManager
 		if (mp_ReplicaStatusMongoClient)
 			co_await fg_Move(mp_ReplicaStatusMongoClient).f_Destroy();
 
-		TCActorResultVector<void> Destroys;
+		TCFutureVector<void> Destroys;
 		for (auto &ToolLaunch : mp_ToolLaunches)
-			ToolLaunch.m_ProcessLaunch.f_Destroy() > Destroys.f_AddResult();
+			fg_Move(ToolLaunch.m_ProcessLaunch).f_Destroy() > Destroys;
+		mp_ToolLaunches.f_Clear();
 
-		co_await Destroys.f_GetResults();
+		co_await fg_AllDoneWrapped(Destroys);
 		co_await fp_DestroyApp_Mongo();
 
 		DLog(Debug, "Pre-stop server done");
@@ -161,15 +161,16 @@ namespace NMib::NMongo::NMongoManager
 		}
 
 		{
-			TCActorResultVector<void> Destroys;
+			TCFutureVector<void> Destroys;
 			for (auto &ToolLaunch : mp_ToolLaunches)
-				ToolLaunch.m_ProcessLaunch.f_Destroy() > Destroys.f_AddResult();
+				fg_Move(ToolLaunch.m_ProcessLaunch).f_Destroy() > Destroys;
+			mp_ToolLaunches.f_Clear();
 
-			co_await Destroys.f_GetUnwrappedResults().f_Wrap() > LogError.f_Warning("Failed to destroy tool launches");
+			co_await fg_AllDone(Destroys).f_Wrap() > LogError.f_Warning("Failed to destroy tool launches");
 		}
 
 		{
-			TCActorResultVector<void> Destroys;
+			TCFutureVector<void> Destroys;
 
 			for (auto &Pending : mp_PendingBackupStart)
 				Pending.f_SetException(DMibErrorInstance("Aborted"));
@@ -180,10 +181,11 @@ namespace NMib::NMongo::NMongoManager
 			{
 				if (!Actor)
 					continue;
-				Actor.f_Destroy() > Destroys.f_AddResult();
+				fg_Move(Actor).f_Destroy() > Destroys;
 			}
+			mp_MongoBackupManagerActors.f_Clear();
 
-			co_await Destroys.f_GetUnwrappedResults().f_Wrap() > LogError.f_Warning("Failed to destroy backup manager");;
+			co_await fg_AllDone(Destroys).f_Wrap() > LogError.f_Warning("Failed to destroy backup manager");;
 		}
 
 		co_await fp_DestroyApp_Mongo().f_Wrap() > LogError.f_Warning("Failed to mongo");;
@@ -300,37 +302,25 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 
-	TCFuture<CVersion> CMongoManagerActor::fp_CheckVersion(CStr const &_Tool, CStr const &_Argument, CStr const &_ParseString, CVersion const &_NeededVersion)
+	TCFuture<CVersion> CMongoManagerActor::fp_CheckVersion(CStr _Tool, CStr _Argument, CStr _ParseString, CVersion _NeededVersion)
 	{
-		TCPromise<CVersion> Promise;
-		self(&CMongoManagerActor::fp_RunToolForVersionCheck, _Tool, fg_CreateVector<CStr>(_Argument)) > Promise % "Failed to check version" / [=](CStr &&_Data)
-			{
-				if (_Data.f_IsEmpty())
-				{
-					Promise.f_SetException(DErrorInstance(fg_Format("Failed get version with: {} {}", _Tool, _Argument)));
-					return;
-				}
+		auto Data = co_await (fp_RunToolForVersionCheck(_Tool, fg_CreateVector<CStr>(_Argument)) % "Failed to check version");
 
-				CVersion Version;
-				aint nParsed = 0;
-				(CStr::CParse(_ParseString) >> Version.m_Major >> Version.m_Minor >> Version.m_Revision).f_Parse(_Data, nParsed);
+		if (Data.f_IsEmpty())
+			co_return DErrorInstance(fg_Format("Failed get version with: {} {}", _Tool, _Argument));
 
-				if (nParsed != 3)
-				{
-					Promise.f_SetException(DErrorInstance(fg_Format("Failed to extract {} version from: {}", _Tool, _Data)));
-					return;
-				}
+		CVersion Version;
+		aint nParsed = 0;
+		(CStr::CParse(_ParseString) >> Version.m_Major >> Version.m_Minor >> Version.m_Revision).f_Parse(Data, nParsed);
 
-				if (Version < _NeededVersion)
-				{
-					Promise.f_SetException(DErrorInstance(fg_Format("{} version {} is less than the required version of {}", _Tool, Version, _NeededVersion)));
-					return;
-				}
-				DLog(Info, "{} version {} found", _Tool, Version);
-				Promise.f_SetResult(Version);
-			}
-		;
-		return Promise.f_MoveFuture();
+		if (nParsed != 3)
+			co_return DErrorInstance(fg_Format("Failed to extract {} version from: {}", _Tool, Data));
+
+		if (Version < _NeededVersion)
+			co_return DErrorInstance(fg_Format("{} version {} is less than the required version of {}", _Tool, Version, _NeededVersion));
+
+		DLog(Info, "{} version {} found", _Tool, Version);
+		co_return fg_Move(Version);
 	}
 
 	TCFuture<void> CMongoManagerActor::fp_DestroyApp_Mongo()
@@ -338,21 +328,21 @@ namespace NMib::NMongo::NMongoManager
 		if (!mp_pMongoLaunch)
 			co_return {};
 
-		TCActorResultVector<void> Results;
+		TCFutureVector<void> Results;
 		for (auto &Backup : mp_MongoBackupManagerActors)
 		{
 			if (!Backup)
 				continue;
 
-			Backup(&CBackupManagerActorInterface::f_MongoStopped) > Results.f_AddResult();
+			Backup(&CBackupManagerActorInterface::f_MongoStopped) > Results;
 		}
 
-		co_await Results.f_GetResults();
+		co_await fg_AllDoneWrapped(Results);
 
 		if (!mp_pMongoLaunch)
 			co_return{};
 
-		co_await mp_pMongoLaunch.f_Destroy();
+		co_await fg_Move(mp_pMongoLaunch).f_Destroy();
 
 		co_return {};
 	}

@@ -47,7 +47,7 @@ namespace NMib::NMongo::NMongoManager
 		o_RegisterInfo.m_Resources_MaxMapCount = 128000;
 	}
 	
-	TCFuture<void> CMongoManagerDaemonActor::fp_StartApp(NEncoding::CEJSONSorted const &_Params)
+	TCFuture<void> CMongoManagerDaemonActor::fp_StartApp(NEncoding::CEJSONSorted const _Params)
 	{
 		mp_pManager = fg_ConstructActor<CMongoManagerActor>(fg_Construct(self), mp_State);
 		CMongoManagerActor::EMode Mode = CMongoManagerActor::EMode_Normal;
@@ -104,9 +104,9 @@ namespace NMib::NMongo::NMongoManager
 	
 	TCFuture<CActorSubscription> CMongoManagerDaemonActor::fp_StartBackup
 		(
-			TCDistributedActorInterface<CDistributedAppInterfaceBackup> &&_BackupInterface
-			, CActorSubscription &&_ManifestFinished
-			, CStr const &_BackupRoot
+			TCDistributedActorInterface<CDistributedAppInterfaceBackup> _BackupInterface
+			, CActorSubscription _ManifestFinished
+			, CStr _BackupRoot
 		)
 	{
 		if (!mp_pManager)

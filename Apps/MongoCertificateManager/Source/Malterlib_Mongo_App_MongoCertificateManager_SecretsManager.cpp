@@ -10,19 +10,19 @@ namespace NMib::NMongo::NMongoCertificateManager
 {
 	TCFuture<void> CMongoCertificateManagerActor::fp_SecretsManagerAdded
 		(
-			TCDistributedActor<CSecretsManager> const &_SecretsManager
-			, CTrustedActorInfo const &_Info
+			TCDistributedActor<CSecretsManager> _SecretsManager
+			, CTrustedActorInfo _Info
 		)
 	{
-		co_await self(&CMongoCertificateManagerActor::fp_Authority_SecretsManagerAdded, _SecretsManager, _Info);
-		co_await self(&CMongoCertificateManagerActor::fp_User_SecretsManagerAdded, _SecretsManager, _Info);
+		co_await fp_Authority_SecretsManagerAdded(_SecretsManager, _Info);
+		co_await fp_User_SecretsManagerAdded(_SecretsManager, _Info);
 
 		co_return {};
 	}
 
-	TCFuture<void> CMongoCertificateManagerActor::fp_SecretsManagerAddedWithRetry(TCDistributedActor<CSecretsManager> const &_SecretsManager, CTrustedActorInfo const &_Info)
+	TCFuture<void> CMongoCertificateManagerActor::fp_SecretsManagerAddedWithRetry(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info)
 	{
-		auto Result = co_await self(&CMongoCertificateManagerActor::fp_SecretsManagerAdded, _SecretsManager, _Info).f_Wrap();
+		auto Result = co_await fp_SecretsManagerAdded(_SecretsManager, _Info).f_Wrap();
 
 		if (Result)
 		{
@@ -46,14 +46,16 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		if (mp_RetryingSecretsManagers(_SecretsManager).f_WasCreated())
 		{
-			fg_Timeout(10.0) > [=, this]
+			fg_Timeout(10.0) > [=, this]() -> TCFuture<void>
 				{
 					mp_RetryingSecretsManagers.f_Remove(_SecretsManager);
 
 					if (!mp_SecretsManagerSubscription.m_Actors.f_FindEqual(_SecretsManager))
-						return;
+						co_return {};
 
-					self(&CMongoCertificateManagerActor::fp_SecretsManagerAddedWithRetry, _SecretsManager, _Info) > fg_LogError("SecretsManager", "Failed to handle secrets manager added");
+					co_await fp_SecretsManagerAddedWithRetry(_SecretsManager, _Info).f_Wrap() > fg_LogError("SecretsManager", "Failed to handle secrets manager added");
+
+					co_return {};
 				}
 			;
 		}
@@ -61,7 +63,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		co_return {};
 	}
 
-	TCFuture<void> CMongoCertificateManagerActor::fp_SecretsManagerRemoved(TCWeakDistributedActor<CActor> const &_SecretsManager, CTrustedActorInfo const &_ActorInfo)
+	TCFuture<void> CMongoCertificateManagerActor::fp_SecretsManagerRemoved(TCWeakDistributedActor<CActor> _SecretsManager, CTrustedActorInfo _ActorInfo)
 	{
 		for (auto &Authority : mp_Authorities)
 		{
@@ -81,13 +83,13 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		if (auto *pSubscription = mp_UserSubscriptions.f_FindEqual(_SecretsManager))
 		{
-			(**pSubscription).f_Destroy() > fg_DiscardResult();
+			(**pSubscription).f_Destroy().f_DiscardResult();
 			mp_UserSubscriptions.f_Remove(_SecretsManager);
 		}
 		
 		if (auto *pSubscription = mp_AuthoritySubscriptions.f_FindEqual(_SecretsManager))
 		{
-			(**pSubscription).f_Destroy() > fg_DiscardResult();
+			(**pSubscription).f_Destroy().f_DiscardResult();
 			mp_AuthoritySubscriptions.f_Remove(_SecretsManager);
 		}
 

@@ -7,7 +7,7 @@
  
 namespace NMib::NMongo::NMongoManager
 {
-	TCFuture<void> CMongoBackupInstanceActor::fp_SavePendingOplogData(TCSharedPointer<CFile> const &_pBackupFile)
+	TCFuture<void> CMongoBackupInstanceActor::fp_SavePendingOplogData(TCSharedPointer<CFile> _pBackupFile)
 	{
 		if (!mp_pCanDestroy)
 			co_return {}; // Destroyed
@@ -43,10 +43,8 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 	
-	TCFuture<void> CMongoBackupInstanceActor::fp_TailOplog(TCSharedPointer<CFile> const &_pBackupFile)
+	TCFuture<void> CMongoBackupInstanceActor::fp_TailOplog(TCSharedPointer<CFile> _pBackupFile)
 	{
-		TCPromise<void> Promise;
-
 		TCSharedPointer<CFile> pBackupFile = _pBackupFile;
 
 		CEJSONOrdered Query;
@@ -62,11 +60,11 @@ namespace NMib::NMongo::NMongoManager
 		;
 	
 		// Start by subscribing to the op log
-		mp_MongoClient
+		mp_MongoTailSubscription = co_await mp_MongoClient
 			(
 				&CMongoClientActor::f_TailQuery
 				, fg_Move(TailQueryParams)
-				, g_ActorFunctorWeak / [this, pBackupFile = fg_Move(pBackupFile)](NEncoding::CEJSONOrdered &&_Result) -> TCFuture<void>
+				, g_ActorFunctorWeak / [this, pBackupFile = fg_Move(pBackupFile)](NEncoding::CEJSONOrdered _Result) -> TCFuture<void>
 				{
 					if (!mp_pCanDestroy)
 						co_return {}; // Destroyed
@@ -91,14 +89,8 @@ namespace NMib::NMongo::NMongoManager
 					co_return {};
 				}
 			)
-			> Promise / [this, Promise](CActorSubscription &&_Subscription) mutable
-			{
-				mp_MongoTailSubscription = fg_Move(_Subscription);
-				
-				Promise.f_SetResult();
-			}
 		;
-		
-		return Promise.f_MoveFuture();
+
+		co_return {};
 	}
 }

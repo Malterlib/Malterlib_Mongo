@@ -277,7 +277,7 @@ namespace NMib::NMongo
 		: mp_pInternal(fg_Construct(_ConnectionSettings, _DefaultDatabase))
 	{
 		*g_MongoClientInit;
-		fg_ThisActor(this)(&CMongoClientActor::fp_ConnectToServer) > NConcurrency::fg_DiscardResult();
+		fg_ThisActor(this)(&CMongoClientActor::fp_ConnectToServer).f_DiscardResult();
 	}
 
 	CMongoClientActor::~CMongoClientActor()
@@ -292,8 +292,6 @@ namespace NMib::NMongo
 
 	NConcurrency::TCFuture<void> CMongoClientActor::fp_Destroy()
 	{
-		NConcurrency::TCPromise<void> Promise;
-
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
 		{
@@ -308,8 +306,7 @@ namespace NMib::NMongo
 			Internal.m_pConnection.f_Clear();
 		}
 
-		Promise.f_SetResult();
-		return Promise.f_MoveFuture();
+		co_return {};
 	}
 
 	namespace
@@ -363,19 +360,17 @@ namespace NMib::NMongo
 
 	NConcurrency::TCFuture<NConcurrency::CActorSubscription> CMongoClientActor::f_TailQuery
 		(
-			CTailQueryParams &&_Params
-			, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSONOrdered &&_Result)> &&_fOnResult
+			CTailQueryParams _Params
+			, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSONOrdered _Result)> _fOnResult
 		)
 	{
-		NConcurrency::TCPromise<NConcurrency::CActorSubscription> Result;
-
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
-			return Result <<= DMibErrorInstance("Tailing query already running");
+			co_return DMibErrorInstance("Tailing query already running");
 
 		NStr::CStr Error = Internal.f_MakeSureConnected();
 		if (!Error.f_IsEmpty())
-			return Result <<= DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
 		NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> pOrder = fg_Construct();
 		(*pOrder)["$natural"] = -1;
@@ -387,7 +382,7 @@ namespace NMib::NMongo
 		if (_Params.m_StartQuery)
 		{
 			if (_Params.m_StartQuery->f_Type() != NEncoding::EJSONType_Object)
-				return Result <<= DMibErrorInstance("Expected m_StartQuery to be an object");
+				co_return DMibErrorInstance("Expected m_StartQuery to be an object");
 
 			for (auto &Entry : _Params.m_StartQuery->f_Object())
 				StartQuery[Entry.f_Name()] = Entry.f_Value();
@@ -395,178 +390,158 @@ namespace NMib::NMongo
 
 		auto Collection = _Params.m_Collection;
 
-		fg_ThisActor(this)(&CMongoClientActor::f_Query, Collection, StartQuery, 1, 0, fg_Move(pFields), fg_Move(pOrder), EQueryOption_None)
-			>
-			[
-				_fOnResult = fg_Move(_fOnResult)
-				, _Params = fg_Move(_Params)
-				, this
-				, Result
-			]
-			(NConcurrency::TCAsyncResult<NContainer::TCVector<NEncoding::CEJSONOrdered>> &&_Result) mutable
+		auto QueryResult = co_await fg_ThisActor(this)(&CMongoClientActor::f_Query, Collection, StartQuery, 1, 0, fg_Move(pFields), fg_Move(pOrder), EQueryOption_None);
+
+		NEncoding::CEJSONOrdered GetOnwardsFromValue;
+
+		if (!QueryResult.f_IsEmpty() && QueryResult.f_GetFirst().f_IsValid())
+			GetOnwardsFromValue = fg_Move(QueryResult.f_GetFirst()[_Params.m_OrderBy]);
+		else if (_Params.m_StartQuery)
+			co_return DMibErrorInstance("Start query didn't return any document");
+
+		NStorage::TCSharedPointer<NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSONOrdered _Data)>> pOnDataCallback
+			= fg_Construct(fg_Move(_fOnResult))
+		;
+
+		auto Subscription = NConcurrency::g_ActorSubscription / [this]
 			{
 				auto &Internal = *mp_pInternal;
-
-				if (!_Result)
+				if (Internal.m_pTailThread)
 				{
-					Result.f_SetException(fg_Move(_Result));
-					return;
-				}
-
-				NEncoding::CEJSONOrdered GetOnwardsFromValue;
-
-				if (!_Result->f_IsEmpty() && _Result->f_GetFirst().f_IsValid())
-					GetOnwardsFromValue = fg_Move(_Result->f_GetFirst()[_Params.m_OrderBy]);
-				else if (_Params.m_StartQuery)
-				{
-					Result.f_SetException(DMibErrorInstance("Start query didn't return any document"));
-					return;
-				}
-
-				NStorage::TCSharedPointer<NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSONOrdered &&_Data)>> pOnDataCallback
-					= fg_Construct(fg_Move(_fOnResult))
-				;
-
-				auto Subscription = NConcurrency::g_ActorSubscription / [this]
-					{
-						auto &Internal = *mp_pInternal;
-						if (Internal.m_pTailThread)
-						{
-							Internal.m_pTailThread->f_Stop(false);
+					Internal.m_pTailThread->f_Stop(false);
 #ifndef DPlatformFamily_Windows
-							pthread_kill((pthread_t)Internal.m_pTailThread->f_GetThreadID(), SIGUSR2);
+					pthread_kill((pthread_t)Internal.m_pTailThread->f_GetThreadID(), SIGUSR2);
 #else
-							Internal.m_pConnection->abort();
+					Internal.m_pConnection->abort();
 #endif
-							Internal.m_pTailThread->f_Stop(true);
-							Internal.m_pTailThread.f_Clear();
-							Internal.m_pConnection.f_Clear();
-						}
-					}
-				;
-
-				Internal.m_pTailThread = NThread::CThreadObject::fs_StartThread
-					(
-						[
-							this
-							, _Params = fg_Move(_Params)
-							, pOnDataCallback = fg_Move(pOnDataCallback)
-							, Subscription = fg_Move(Subscription)
-							, Result
-							, GetOnwardsFromValue
-						]
-						(NThread::CThreadObject *_pThread) mutable -> aint
-						{
-							auto &Internal = *mp_pInternal;
-
-							NEncoding::CEJSONOrdered Order;
-
-#ifndef DPlatformFamily_Windows
-							auto SignalSubscription = NSys::fg_System_RegisterForThreadSignal
-								(
-									SIGUSR2
-									, [&]
-									{
-										if (Internal.m_pConnection)
-											Internal.m_pConnection->abort();
-									}
-								)
-							;
-#endif
-							auto UserQuery = _Params.m_Query;
-
-							Order["$natural"] = 1;
-
-							CMongoClientActor::EQueryOption Options = _Params.m_Options
-								| CMongoClientActor::EQueryOption_AwaitData
-								| CMongoClientActor::EQueryOption_CursorTailable
-								| CMongoClientActor::EQueryOption_NoCursorTimeout
-							;
-
-							if (GetOnwardsFromValue.f_IsValid())
-							{
-								UserQuery[_Params.m_OrderBy]["$gt"] = GetOnwardsFromValue;
-								if (_Params.m_Collection == "local.oplog.rs" && _Params.m_OrderBy == "ts")
-									Options |= CMongoClientActor::EQueryOption_OplogReplay;
-							}
-
-							auto QueryOptions = fg_QueryOptions(Options, _Params.m_Fields, nullptr);
-							QueryOptions.sort(fg_ToBSON(Order));
-
-							bool bDoneRegistration = false;
-
-							while (_pThread->f_GetState() != NThread::EThreadState_EventWantQuit)
-							{
-								try
-								{
-									auto Collection = Internal.f_GetCollection(_Params.m_Collection);
-
-									auto Cursor = Collection.find(fg_ToBSON(UserQuery), QueryOptions);
-
-									if (!bDoneRegistration)
-									{
-										bDoneRegistration = true;
-										Result.f_SetResult(fg_Move(Subscription));
-									}
-
-									while (_pThread->f_GetState() != NThread::EThreadState_EventWantQuit)
-									{
-										for (auto &&Document : Cursor)
-										{
-											auto Data = fg_FromBSON(Document);
-											if (auto pValue = Data.f_Object().f_GetMember(_Params.m_OrderBy))
-												UserQuery[_Params.m_OrderBy]["$gt"] = *pValue;
-
-											(*pOnDataCallback)(fg_Move(Data)) > NConcurrency::fg_DiscardResult();
-										}
-									}
-								}
-								catch (std::exception const &_Exception)
-								{
-									if (_pThread->f_GetState() == NThread::EThreadState_EventWantQuit)
-										return 0;
-
-									const ch8 *pError = "Unknown mongo error";
-									if (_Exception.what())
-										pError = _Exception.what();
-
-									NEncoding::CEJSONOrdered Error;
-									Error["error"] = pError;
-
-									(*pOnDataCallback)(fg_Move(Error)) > NConcurrency::fg_DiscardResult();
-								}
-							}
-
-							return 0;
-						}
-						, "Mongo client tailing thread"
-					)
-				;
+					Internal.m_pTailThread->f_Stop(true);
+					Internal.m_pTailThread.f_Clear();
+					Internal.m_pConnection.f_Clear();
+				}
 			}
 		;
 
-		return Result.f_MoveFuture();
+		NConcurrency::TCPromiseFuturePair<NConcurrency::CActorSubscription> Result;
+
+		Internal.m_pTailThread = NThread::CThreadObject::fs_StartThread
+			(
+				[
+					this
+					, _Params = fg_Move(_Params)
+					, pOnDataCallback = fg_Move(pOnDataCallback)
+					, Subscription = fg_Move(Subscription)
+					, Result = fg_Move(Result.m_Promise)
+					, GetOnwardsFromValue
+				]
+				(NThread::CThreadObject *_pThread) mutable -> aint
+				{
+					auto &Internal = *mp_pInternal;
+
+					NEncoding::CEJSONOrdered Order;
+
+#ifndef DPlatformFamily_Windows
+					auto SignalSubscription = NSys::fg_System_RegisterForThreadSignal
+						(
+							SIGUSR2
+							, [&]
+							{
+								if (Internal.m_pConnection)
+									Internal.m_pConnection->abort();
+							}
+						)
+					;
+#endif
+					auto UserQuery = _Params.m_Query;
+
+					Order["$natural"] = 1;
+
+					CMongoClientActor::EQueryOption Options = _Params.m_Options
+						| CMongoClientActor::EQueryOption_AwaitData
+						| CMongoClientActor::EQueryOption_CursorTailable
+						| CMongoClientActor::EQueryOption_NoCursorTimeout
+					;
+
+					if (GetOnwardsFromValue.f_IsValid())
+					{
+						UserQuery[_Params.m_OrderBy]["$gt"] = GetOnwardsFromValue;
+						if (_Params.m_Collection == "local.oplog.rs" && _Params.m_OrderBy == "ts")
+							Options |= CMongoClientActor::EQueryOption_OplogReplay;
+					}
+
+					auto QueryOptions = fg_QueryOptions(Options, _Params.m_Fields, nullptr);
+					QueryOptions.sort(fg_ToBSON(Order));
+
+					bool bDoneRegistration = false;
+
+					while (_pThread->f_GetState() != NThread::EThreadState_EventWantQuit)
+					{
+						try
+						{
+							auto Collection = Internal.f_GetCollection(_Params.m_Collection);
+
+							auto Cursor = Collection.find(fg_ToBSON(UserQuery), QueryOptions);
+
+							if (!bDoneRegistration)
+							{
+								bDoneRegistration = true;
+								Result.f_SetResult(fg_Move(Subscription));
+							}
+
+							while (_pThread->f_GetState() != NThread::EThreadState_EventWantQuit)
+							{
+								for (auto &&Document : Cursor)
+								{
+									auto Data = fg_FromBSON(Document);
+									if (auto pValue = Data.f_Object().f_GetMember(_Params.m_OrderBy))
+										UserQuery[_Params.m_OrderBy]["$gt"] = *pValue;
+
+									(*pOnDataCallback)(fg_Move(Data)).f_DiscardResult();
+								}
+							}
+						}
+						catch (std::exception const &_Exception)
+						{
+							if (_pThread->f_GetState() == NThread::EThreadState_EventWantQuit)
+								return 0;
+
+							const ch8 *pError = "Unknown mongo error";
+							if (_Exception.what())
+								pError = _Exception.what();
+
+							NEncoding::CEJSONOrdered Error;
+							Error["error"] = pError;
+
+							(*pOnDataCallback)(fg_Move(Error)).f_DiscardResult();
+						}
+					}
+
+					return 0;
+				}
+				, "Mongo client tailing thread"
+			)
+		;
+
+		co_return co_await fg_Move(Result.m_Future);
 	}
 
 	NConcurrency::TCFuture<NContainer::TCVector<NEncoding::CEJSONOrdered>> CMongoClientActor::f_Query
 		(
-			NStr::CStr const &_Collection
-			, NEncoding::CEJSONOrdered const &_Query
+			NStr::CStr _Collection
+			, NEncoding::CEJSONOrdered _Query
 			, uint32 _nToReturn
 			, uint32 _nToSkip
-			, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> const &_pFields
-			, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> const &_pOrder
+			, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> _pFields
+			, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> _pOrder
 			, EQueryOption _Options
 		)
 	{
-		NConcurrency::TCPromise<NContainer::TCVector<NEncoding::CEJSONOrdered>> Promise;
-
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
-			return Promise <<= DMibErrorInstance("Tailing query already running");
+			co_return DMibErrorInstance("Tailing query already running");
+
 		NStr::CStr Error = Internal.f_MakeSureConnected();
 		if (!Error.f_IsEmpty())
-			return Promise <<= DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
 		auto QueryOptions = fg_QueryOptions(_Options, _pFields, _pOrder);
 
@@ -586,7 +561,7 @@ namespace NMib::NMongo
 			for (auto &&Document : Cursor)
 			   ToReturn.f_Insert(fg_FromBSON(Document));
 
-			return Promise <<= fg_Move(ToReturn);
+			co_return fg_Move(ToReturn);
 		}
 		catch (std::exception const &_Exception)
 		{
@@ -594,24 +569,23 @@ namespace NMib::NMongo
 			if (_Exception.what())
 				pError = _Exception.what();
 
-			return Promise <<= DMibErrorInstance(NStr::fg_Format("Mongo query failed: {}", pError));
+			co_return DMibErrorInstance(NStr::fg_Format("Mongo query failed: {}", pError));
 		}
 	}
 
 	NConcurrency::TCFuture<NEncoding::CEJSONOrdered> CMongoClientActor::f_RunCommand
 		(
-			NStr::CStr const &_Database
-			, NEncoding::CEJSONOrdered const &_Command
+			NStr::CStr _Database
+			, NEncoding::CEJSONOrdered _Command
 		)
 	{
-		NConcurrency::TCPromise<NEncoding::CEJSONOrdered> Promise;
-
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
-			return Promise <<= DMibErrorInstance("Tailing query already running");
+			co_return DMibErrorInstance("Tailing query already running");
+
 		NStr::CStr Error = Internal.f_MakeSureConnected();
 		if (!Error.f_IsEmpty())
-			return Promise <<= DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
 		try
 		{
@@ -621,7 +595,7 @@ namespace NMib::NMongo
 
 			NEncoding::CEJSONOrdered ToReturn = fg_FromBSON(fg_Move(ResultDocument));
 
-			return Promise <<= fg_Move(ToReturn);
+			co_return fg_Move(ToReturn);
 		}
 		catch (std::exception const &_Exception)
 		{
@@ -629,26 +603,25 @@ namespace NMib::NMongo
 			if (_Exception.what())
 				pError = _Exception.what();
 
-			return Promise <<= DMibErrorInstance(NStr::fg_Format("Mongo run command failed: {}", pError));
+			co_return DMibErrorInstance(NStr::fg_Format("Mongo run command failed: {}", pError));
 		}
 	}
 
 	NConcurrency::TCFuture<uint64> CMongoClientActor::f_Count
 		(
-			NStr::CStr const &_Collection
-			, NEncoding::CEJSONOrdered const &_Query
+			NStr::CStr _Collection
+			, NEncoding::CEJSONOrdered _Query
 			, uint32 _nToReturn
 			, uint32 _nToSkip
 		)
 	{
-		NConcurrency::TCPromise<uint64> Promise;
-
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
-			return Promise <<= DMibErrorInstance("Tailing query already running");
+			co_return DMibErrorInstance("Tailing query already running");
+
 		NStr::CStr Error = Internal.f_MakeSureConnected();
 		if (!Error.f_IsEmpty())
-			return Promise <<= DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
 		mongocxx::options::count CountOptions;
 
@@ -663,7 +636,7 @@ namespace NMib::NMongo
 			auto Collection = Internal.f_GetCollection(_Collection);
 
 			uint64 Count = Collection.count_documents(fg_ToBSON(_Query), CountOptions);
-			return Promise <<= Count;
+			co_return Count;
 		}
 		catch (std::exception const &_Exception)
 		{
@@ -671,20 +644,19 @@ namespace NMib::NMongo
 			if (_Exception.what())
 				pError = _Exception.what();
 
-			return Promise <<= DMibErrorInstance(NStr::fg_Format("MongoDB count failed: {}", pError));
+			co_return DMibErrorInstance(NStr::fg_Format("MongoDB count failed: {}", pError));
 		}
 	}
 
-	NConcurrency::TCFuture<void> CMongoClientActor::f_Insert(NStr::CStr const &_Collection, NEncoding::CEJSONOrdered const &_Document, EInsertOption _Options)
+	NConcurrency::TCFuture<void> CMongoClientActor::f_Insert(NStr::CStr _Collection, NEncoding::CEJSONOrdered _Document, EInsertOption _Options)
 	{
-		NConcurrency::TCPromise<void> Result;
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
-			return Result <<= DMibErrorInstance("Tailing query already running");
+			co_return DMibErrorInstance("Tailing query already running");
 
 		NStr::CStr Error = Internal.f_MakeSureConnected();
 		if (!Error.f_IsEmpty())
-			return Result <<= DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
 		mongocxx::options::insert InsertOptions;
 		if (_Options & EInsertOption_ContinueOnError)
@@ -696,7 +668,7 @@ namespace NMib::NMongo
 		{
 			auto Collection = Internal.f_GetCollection(_Collection);
 			Collection.insert_one(fg_ToBSON(_Document), InsertOptions);
-			return Result <<= g_Void;
+			co_return {};
 		}
 		catch (std::exception const &_Exception)
 		{
@@ -704,21 +676,19 @@ namespace NMib::NMongo
 			if (_Exception.what())
 				pError = _Exception.what();
 
-			return Result <<= DMibErrorInstance(NStr::fg_Format("MongoDB insert failed: {}", pError));
+			co_return DMibErrorInstance(NStr::fg_Format("MongoDB insert failed: {}", pError));
 		}
 	}
 
-	NConcurrency::TCFuture<void> CMongoClientActor::f_BatchInsert(NStr::CStr const &_Collection, NContainer::TCVector<NEncoding::CEJSONOrdered> const &_Documents, EInsertOption _Options)
+	NConcurrency::TCFuture<void> CMongoClientActor::f_BatchInsert(NStr::CStr _Collection, NContainer::TCVector<NEncoding::CEJSONOrdered> _Documents, EInsertOption _Options)
 	{
-		NConcurrency::TCPromise<void> Promise;
-
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
-			return Promise <<= DMibErrorInstance("Tailing query already running");
+			co_return DMibErrorInstance("Tailing query already running");
 
 		NStr::CStr Error = Internal.f_MakeSureConnected();
 		if (!Error.f_IsEmpty())
-			return Promise <<= DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
 		mongocxx::options::insert InsertOptions;
 		if (_Options & EInsertOption_ContinueOnError)
@@ -737,7 +707,7 @@ namespace NMib::NMongo
 
 			Collection.insert_many(AllDocuments);
 
-			return Promise <<= g_Void;
+			co_return {};
 		}
 		catch (std::exception const &_Exception)
 		{
@@ -745,28 +715,26 @@ namespace NMib::NMongo
 			if (_Exception.what())
 				pError = _Exception.what();
 
-			return Promise <<= DMibErrorInstance(NStr::fg_Format("MongoDB insert failed: {}", pError));
+			co_return DMibErrorInstance(NStr::fg_Format("MongoDB insert failed: {}", pError));
 		}
 	}
 
 	auto CMongoClientActor::f_Update
 		(
-			NStr::CStr const &_Collection
-			, NEncoding::CEJSONOrdered const &_Query
-			, NEncoding::CEJSONOrdered const &_Update
+			NStr::CStr _Collection
+			, NEncoding::CEJSONOrdered _Query
+			, NEncoding::CEJSONOrdered _Update
 			, EUpdateOption _Options
 		)
 		-> NConcurrency::TCFuture<CUpdateResult>
 	{
-		NConcurrency::TCPromise<CUpdateResult> Promise;
-
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
-			return Promise <<= DMibErrorInstance("Tailing query already running");
+			co_return DMibErrorInstance("Tailing query already running");
 
 		NStr::CStr Error = Internal.f_MakeSureConnected();
 		if (!Error.f_IsEmpty())
-			return Promise <<= DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
 		mongocxx::options::update UpdateOptions;
 
@@ -784,9 +752,9 @@ namespace NMib::NMongo
 				UpdateResult = Collection.update_many(fg_ToBSON(_Query), fg_ToBSON(_Update), UpdateOptions);
 
 			if (!UpdateResult)
-				return Promise <<= DMibErrorInstance("MongoDB update did not return any results");
+				co_return DMibErrorInstance("MongoDB update did not return any results");
 
-			return Promise <<= CUpdateResult{UpdateResult->matched_count(), UpdateResult->modified_count()};
+			co_return CUpdateResult{UpdateResult->matched_count(), UpdateResult->modified_count()};
 		}
 		catch (std::exception const &_Exception)
 		{
@@ -794,20 +762,19 @@ namespace NMib::NMongo
 			if (_Exception.what())
 				pError = _Exception.what();
 
-			return Promise <<= DMibErrorInstance(NStr::fg_Format("MongoDB update failed: {}", pError));
+			co_return DMibErrorInstance(NStr::fg_Format("MongoDB update failed: {}", pError));
 		}
 	}
 
-	NConcurrency::TCFuture<void> CMongoClientActor::f_Remove(NStr::CStr const &_Collection, NEncoding::CEJSONOrdered const &_Query, ERemoveOption _Options)
+	NConcurrency::TCFuture<void> CMongoClientActor::f_Remove(NStr::CStr _Collection, NEncoding::CEJSONOrdered _Query, ERemoveOption _Options)
 	{
-		NConcurrency::TCPromise<void> Result;
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
-			return Result <<= DMibErrorInstance("Tailing query already running");
+			co_return DMibErrorInstance("Tailing query already running");
 
 		NStr::CStr Error = Internal.f_MakeSureConnected();
 		if (!Error.f_IsEmpty())
-			return Result <<= DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
 
 		try
 		{
@@ -818,7 +785,7 @@ namespace NMib::NMongo
 			else
 				Collection.delete_many(fg_ToBSON(_Query));
 
-			return Result <<= g_Void;
+			co_return {};
 		}
 		catch (std::exception const &_Exception)
 		{
@@ -826,7 +793,7 @@ namespace NMib::NMongo
 			if (_Exception.what())
 				pError = _Exception.what();
 
-			return Result <<= DMibErrorInstance(NStr::fg_Format("MongoDB remove failed: {}", pError));
+			co_return DMibErrorInstance(NStr::fg_Format("MongoDB remove failed: {}", pError));
 		}
 	}
 }

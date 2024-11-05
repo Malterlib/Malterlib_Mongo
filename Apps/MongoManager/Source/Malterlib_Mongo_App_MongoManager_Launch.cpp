@@ -29,17 +29,17 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<CStr> CMongoManagerActor::fp_LaunchTool
 		(
-			CStr const &_Executable
-			, CStr const &_WorkingDir
-			, TCVector<CStr> const &_Params
-			, CStr const &_LogCategory
+			CStr _Executable
+			, CStr _WorkingDir
+			, TCVector<CStr> _Params
+			, CStr _LogCategory
 			, ELogVerbosity _LogVerbosity
 			, bool _bSeparateStdErr
-			, CStr const &_Home
-			, CStr const &_User
-			, CStr const &_Group
+			, CStr _Home
+			, CStr _User
+			, CStr _Group
 #ifdef DPlatformFamily_Windows
-			, CStrSecure const &_UserPassword
+			, CStrSecure _UserPassword
 #endif
 		)
 	{
@@ -117,12 +117,11 @@ namespace NMib::NMongo::NMongoManager
 		co_return LaunchResult.f_GetStdOut();
 	}
 
-	TCFuture<CStr> CMongoManagerActor::fp_RunToolForVersionCheck(CStr const &_Tool, TCVector<CStr> const &_Arguments)
+	TCFuture<CStr> CMongoManagerActor::fp_RunToolForVersionCheck(CStr _Tool, TCVector<CStr> _Arguments)
 	{
-		co_return co_await self
+		co_return co_await fp_LaunchTool
 			(
-				&CMongoManagerActor::fp_LaunchTool
-				, _Tool
+				_Tool
 				, CFile::fs_GetProgramDirectory()
 				, _Arguments
 				, "VersionCheck"

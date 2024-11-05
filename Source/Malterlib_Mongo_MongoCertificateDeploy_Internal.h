@@ -68,19 +68,19 @@ namespace NMib::NMongo
 			CActorSubscription m_ChangesSubscription;
 		};
 
-		TCFuture<void> f_SecretsManagerAddedWithRetry(TCDistributedActor<CSecretsManager> const &_SecretsManager, CTrustedActorInfo const &_Info);
-		TCFuture<void> f_SecretsManagerAdded(TCDistributedActor<CSecretsManager> const &_SecretsManager, CTrustedActorInfo const &_Info);
-		TCFuture<void> f_SecretsManagerRemoved(TCWeakDistributedActor<CActor> const &_SecretsManager, CTrustedActorInfo const &_ActorInfo);
+		TCFuture<void> f_SecretsManagerAddedWithRetry(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info);
+		TCFuture<void> f_SecretsManagerAdded(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info);
+		TCFuture<void> f_SecretsManagerRemoved(TCWeakDistributedActor<CActor> _SecretsManager, CTrustedActorInfo _ActorInfo);
 
 		void f_UpdateUserStatus(CUser &o_User, CHostInfo const &_HostInfo, EStatusSeverity _Severity, CStr const &_Status);
 
 		[[nodiscard]] NException::CExceptionPointer f_UserUpdate_CheckPreconditions(CUserKey const &_UserKey, CUser *&o_pUser, CUserState *&o_pUserState);
-		TCFuture<void> f_UserUpdate_ForSecretsManager(CUserKey const &_UserKey, TCDistributedActor<CSecretsManager> const &_SecretsManager, CHostInfo const &_SecretsManagerHostInfo);
-		TCFuture<void> f_UserUpdate_ForAllSecretsManagers(CUserKey const &_UserKey);
+		TCFuture<void> f_UserUpdate_ForSecretsManager(CUserKey _UserKey, TCDistributedActor<CSecretsManager> _SecretsManager, CHostInfo _SecretsManagerHostInfo);
+		TCFuture<void> f_UserUpdate_ForAllSecretsManagers(CUserKey _UserKey);
 		TCFuture<void> f_UserUpdate_AllUsersForAllSecretsManagers();
 		CExceptionPointer f_UserUpdate_CheckCertificate(CStrSecure const &_Certificate, CSecretsManager::CSecretID const &_SecretID, CStr const &_Description);
-		TCFuture<void> f_UserUpdate_UpdateFiles(CUserKey const &_UserKey, CCertificateFilesSettings const &_FileSettings);
-		TCFuture<void> f_UserUpdate(CUserKey const &_UserKey);
+		TCFuture<void> f_UserUpdate_UpdateFiles(CUserKey _UserKey, CCertificateFilesSettings _FileSettings);
+		TCFuture<void> f_UserUpdate(CUserKey _UserKey);
 
 		CMongoCertificateDeployActor *m_pThis;
 		TCActor<CActorDistributionManager> m_DistributionManager;
