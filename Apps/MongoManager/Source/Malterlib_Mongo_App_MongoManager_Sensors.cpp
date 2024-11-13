@@ -27,6 +27,10 @@ namespace NMib::NMongo::NMongoManager
 		SensorInfo.m_Name = "Mongo Manager Replica Status";
 		SensorInfo.m_ExpectedReportInterval = 1_minutes;
 		SensorInfo.m_Type = NConcurrency::CDistributedAppSensorReporter::ESensorDataType_Status;
+		SensorInfo.m_Flags = NConcurrency::CDistributedAppSensorReporter::ESensorInfoFlag::mc_PreventRebootOnError
+			| NConcurrency::CDistributedAppSensorReporter::ESensorInfoFlag::mc_PreventRebootOnWarning
+			| NConcurrency::CDistributedAppSensorReporter::ESensorInfoFlag::mc_PreventRebootOnOutdated
+		;
 
 		mp_ReplicaStatusReporter = co_await mp_AppState.m_AppActor(&CDistributedAppActor::f_OpenSensorReporter, fg_Move(SensorInfo));
 
