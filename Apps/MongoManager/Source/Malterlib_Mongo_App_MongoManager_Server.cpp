@@ -95,15 +95,7 @@ namespace NMib::NMongo::NMongoManager
 		if (mp_Mode == EMode_UpdateReplicationConfig || mp_Mode == EMode_SetupPermissions)
 			co_return {};
 
-		co_await fp_RunMongoScript
-			(
-				mp_MongoConnectionSettings
-				, "MongoWaitForPrimary"
-				, "local"
-				, 5.0*60.0
-				, CEJSONSorted{"expectReplica"_= mp_Mode != EMode_JoinReplicaSet}
-			)
-		;
+		co_await fp_Mongo_WaitForPrimary(fp_LocalConnectionSettings(), mp_Mode != EMode_JoinReplicaSet);
 
 		if (mp_Mode == EMode_Normal)
 			CMongoManagerActor::fp_StartMongoBackup();
@@ -278,6 +270,15 @@ namespace NMib::NMongo::NMongoManager
 
 					CFileSystemInterface_VirtualFS MalterlibFS(ExeFS.m_FileSystem);
 					CFileSystemInterface_Disk DiskFS;
+
+					if (CFile::fs_FileExists(ProgramDirectory / "mongo/4.0"))
+						CFile::fs_DeleteDirectoryRecursive(ProgramDirectory / "mongo/4.0");
+
+					if (CFile::fs_FileExists(ProgramDirectory / "mongo/4.4"))
+						CFile::fs_DeleteDirectoryRecursive(ProgramDirectory / "mongo/4.4");
+
+					if (CFile::fs_FileExists(ProgramDirectory / "mongo/6.0/bin/mongo"))
+						CFile::fs_DeleteFile(ProgramDirectory / "mongo/6.0/bin/mongo");
 
 					MalterlibFS.f_CopyFilesWithAttribs("*", DiskFS, ProgramDirectory);
 

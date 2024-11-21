@@ -175,136 +175,6 @@ namespace NMib::NMongo::NMongoManager
 #endif
 	}
 	
-	void CMongoManagerActor::fp_RunMongoScriptInternal
-		(
-			CMongoConnectionSettings const &_MongoConnectionSettings
-			, CStr const &_Script
-			, CStr const &_LogCategory
-			, CStr const &_Database
-			, fp32 _Timeout
-			, TCPromise<CStr> const &_Promise
-			, CClock const &_Clock
-			, CEJSONSorted const &_Config
-		)
-	{
-		CStr MongoPath = fp_GetDataPath("mongo");
-	
-		TCVector<CStr> Params = _MongoConnectionSettings.f_GetToolParams(true);
-		auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
-
-		CEJSONSorted Config = _Config;
-		Config["replicaName"] = mp_MongoReplicaName;
-		Config["mongoSelf"] = fg_Format("{}:{}", MongoHost.m_Host, MongoHost.m_Port);
-		Config["verbose"] = mp_bVerboseMongoScripts;
-		
-		bool bQuiet = false;
-		if (auto pValue = _Config.f_GetMember("quiet"))
-			bQuiet = pValue->f_Boolean();
-		
-		if (bQuiet)
-			Params.f_Insert("--quiet"); 
-		
-		Params << fg_CreateVector<CStr>
-			(
-				"--eval"
-				, fg_Format("var scriptConfig = {};", Config.f_ToString(nullptr))
-				, _Database
-				, _Script
-			)
-		;
-
-		DLog(Info, "Running mongo script '{}'", _LogCategory);
-		fp_LaunchTool
-			(
-				fp_GetMongoExecutable("mongo")
-				, CStr()
-				, fg_Move(Params)
-				, _LogCategory
-				, mp_bVerboseMongoScripts ? ELogVerbosity_All : ELogVerbosity_None
-				, false
-				, MongoPath
-				, mp_MongoUser.m_UserName
-				, mp_MongoUser.m_GroupName
-#ifdef DPlatformFamily_Windows
-				, fp_GetUserPassword(mp_MongoUser.m_Name)
-#endif
-			)
-			> [=, this](TCAsyncResult<CStr> &&_StdOut)
-			{
-				if (!_StdOut)
-				{
-					if (_Timeout != 0.0f)
-					{
-						CStr ErrorString = _StdOut.f_GetExceptionStr();
-						if (ErrorString.f_Find("exception: connect failed") >= 0)
-						{
-							if (_Clock.f_GetTime() < _Timeout)
-							{
-								DLog(Info, "Mongo script '{}' connection failed, retrying", _LogCategory);
-								// Retry
-								fg_OneshotTimer
-									(
-										1.0
-										, [=, this]() -> TCFuture<void>
-										{
-											fp_RunMongoScriptInternal(_MongoConnectionSettings, _Script, _LogCategory, _Database, _Timeout, _Promise, _Clock, _Config);
-
-											co_return {};
-										}
-										, self 
-									)
-								;
-								return;
-							}
-						}
-					}
-
-					DLog(Error, "Mongo script '{}' failed: {}", _LogCategory, _StdOut.f_GetExceptionStr());
-					_Promise.f_SetException(fg_Move(_StdOut));
-					return;
-				}
-				
-				DLog(Info, "Mongo script '{}' finished successfully", _LogCategory);
-				_Promise.f_SetResult(fg_Move(*_StdOut));
-			}
-		;
-	}
-	
-	TCFuture<CStr> CMongoManagerActor::fp_RunMongoScript
-		(
-			CMongoConnectionSettings _MongoConnectionSettings
-			, CStr _Script
-			, CStr _Database
-			, fp32 _Timeout
-			, CEJSONSorted _Config
-		)
-	{
-		auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
-
-		CStr ProgramDirectory = CFile::fs_GetProgramDirectory();
-		
-		if (MongoHost.m_Host.f_IsEmpty())
-			co_return DErrorInstance(fg_Format("Failed to launch mongo for running {}: Hostname is empty", _Script));
-
-		CClock Clock{true};
-		
-		TCPromiseFuturePair<CStr> Promise;
-
-		fp_RunMongoScriptInternal
-			(	
-				_MongoConnectionSettings
-				, fg_Format("{}/Source/Malterlib_Mongo_App_MongoManager_{}.js", ProgramDirectory, _Script)
-				, _Script
-				, _Database
-				, _Timeout
-				, Promise.m_Promise
-				, Clock
-				, _Config
-			)
-		;
-		co_return co_await fg_Move(Promise.m_Future);
-	}
-
 	TCFuture<void> CMongoManagerActor::fp_DetermineHostname()
 	{
 		mp_ResolveActor = fg_Construct();
@@ -341,76 +211,50 @@ namespace NMib::NMongo::NMongoManager
 		auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
 
 		TCVector<CStr> Arguments;
-		if (mp_Mode != EMode_UpdateReplicationConfig && mp_Mode != EMode_SetupPermissions)
-		{
-			Arguments.f_Insert("--replSet");
-			Arguments.f_Insert(mp_MongoReplicaName);
-		}
-		Arguments << fg_CreateVector<CStr>
-			(
-				"--dbpath"
-				, DatabasePath
-				, "--logpath"
-				, LogPath
-				, "--logappend"
-				, "--logRotate"
-				, "rename"
-				, "--journal"
-				, "--port"
-				, CStr::fs_ToStr(MongoHost.m_Port)
-				, "--storageEngine"
-				, "wiredTiger"
-			)
+
+		auto fAddValue = [&](CStr const &_Setting, CStr const &_Value)
+			{
+				Arguments.f_Insert(_Setting);
+				Arguments.f_Insert(_Value);
+			}
 		;
+
+		auto fAddFlag = [&](CStr const &_Flag)
+			{
+				Arguments.f_Insert(_Flag);
+			}
+		;
+
+		if (mp_Mode != EMode_UpdateReplicationConfig && mp_Mode != EMode_SetupPermissions)
+			fAddValue("--replSet", mp_MongoReplicaName);
+
+		fAddValue("--dbpath", DatabasePath);
+		fAddValue("--logpath", LogPath);
+		fAddFlag("--logappend");
+		fAddValue("--logRotate", "rename");
+		fAddFlag("--journal");
+		fAddValue("--port", CStr::fs_ToStr(MongoHost.m_Port));
+		fAddValue("--storageEngine", "wiredTiger");
+
 		if (mp_bEnableSSL)
 		{
-			auto fSslToTls = [&](CStr const &_String, CStr const &_Alternate = {})
-				{
-					if (mp_Version_MongoDB >= CVersion(4, 4, 0))
-					{
-						if (_Alternate)
-							return _Alternate;
-						else
-							return _String.f_Replace("ssl", "tls");
-					}
-
-					return _String;
-				}
-			;
-			Arguments << fg_CreateVector<CStr>
-				(
-					fSslToTls("--sslMode")
-					, fSslToTls("requireSSL", "requireTLS")
-					, fSslToTls("--sslPEMKeyFile", "--tlsCertificateKeyFile")
-					, fg_Format("{}/certificates/{}.pem", MongoPath, MongoHost.m_Host)
-					, fSslToTls("--sslClusterFile")
-					, fg_Format("{}/certificates/{}.pem", MongoPath, MongoHost.m_Host)
-					, fSslToTls("--sslCAFile")
-					, fg_Format("{}/certificates/MongoCA.crt", MongoPath)
-#ifndef DMibMongo_SupportUnpatchedMongo
-					, fSslToTls("--sslDisabledProtocols")
-					, "TLS1_0,TLS1_1"
-#endif
-					, "--clusterAuthMode"
-					, "x509"
-#ifndef DMibMongo_SupportUnpatchedMongo // Need patched mongod (3.6)
-					, "--setParameter"
-					, "opensslCipherConfig=AES256+EECDH:AES256+EDH:!aNULL:!SHA:!SHA256:!SHA384:!DSS"
-#endif
-					, "--bind_ip_all"
-				)
-			;
+			CStr CertificateFile = MongoPath / ("certificates/{}.pem"_f << MongoHost.m_Host);
+			fAddValue("--tlsMode", "requireTLS");
+			fAddValue("--tlsCertificateKeyFile", CertificateFile);
+			fAddValue("--tlsClusterFile", CertificateFile);
+			fAddValue("--tlsCAFile", MongoPath / "certificates/MongoCA.crt");
+			fAddValue("--tlsDisabledProtocols", "TLS1_0,TLS1_1");
+			fAddValue("--clusterAuthMode", "x509");
+			fAddValue("--setParameter", "opensslCipherConfig=AES256+EECDH:AES256+EDH:!aNULL:!SHA:!SHA256:!SHA384:!DSS");
+			fAddValue("--setParameter", "opensslCipherSuiteConfig=TLS_AES_256_GCM_SHA384");
+			fAddValue("--setParameter", "ocspEnabled=false");
+			fAddFlag("--bind_ip_all");
 		}
 		else
-		{
-			// If not running SSL we just disable external access
-			Arguments.f_Insert("--bind_ip");
-			Arguments.f_Insert(mp_MongoLocalAddress.f_GetString(ENetAddressStringFlag::ENetAddressStringFlag_None));
-		}
-		
+			fAddValue("--bind_ip", mp_MongoLocalAddress.f_GetString(ENetAddressStringFlag::ENetAddressStringFlag_None)); // If not running SSL we just disable external access
+
 #ifdef DPlatformFamily_macOS
-		Arguments.f_Insert("--oplogSize");
-		Arguments.f_Insert("25804");
+		fAddValue("--oplogSize", "25804");
 #endif
 		
 #ifdef DDebug
@@ -418,7 +262,6 @@ namespace NMib::NMongo::NMongoManager
 //		Arguments.f_Insert("--profile=2");
 //		Arguments.f_Insert("--slowms=0");
 #endif
-
 		{
 			fp64 MaxCacheSize = fp64::fs_Inf();
 			if (auto *pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("MaxCacheSize", EJSONType_Float))
@@ -436,8 +279,8 @@ namespace NMib::NMongo::NMongoManager
 			 
 			fp64 CacheSize = fg_Max(fg_Min(MaxCacheSize, MemoryAvailableGB - (ReservedMemory + ReservedMemoryPerCore * NSys::fg_Thread_GetVirtualCores())), 1.0);
 			uint64 CacheSizeInt = fg_Max(1, CacheSize.f_ToInt());
-			Arguments.f_Insert("--wiredTigerCacheSizeGB");
-			Arguments.f_Insert(CStr::fs_ToStr(CacheSizeInt));
+
+			fAddValue("--wiredTigerCacheSizeGB", CStr::fs_ToStr(CacheSizeInt));
 		}
 		
 #ifdef DPlatformFamily_Linux
@@ -561,31 +404,26 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 	
+	CMongoConnectionSettings CMongoManagerActor::fp_LocalConnectionSettings()
+	{
+		auto Return = mp_MongoConnectionSettings;
+		Return.m_bDirectConnection = true;
+
+		return Return;
+	}
+
 	TCFuture<void> CMongoManagerActor::f_UpdateReplicationConfig()
 	{
-		co_await fp_RunMongoScript(mp_MongoConnectionSettings, "MongoUpdateReplicationConfig", "local", 60.0, {});
+		co_await fp_Mongo_UpdateReplicationConfig(fp_LocalConnectionSettings());
 
 		co_return {};
 	}
 
 	TCFuture<void> CMongoManagerActor::f_SetupPermissions()
 	{
-		co_await fp_RunMongoScript(mp_MongoConnectionSettings, "MongoSetupPermissions", "local", 60.0, {"mongoAdminDN"_= mp_MongoConnectionSettings.m_UserName});
+		co_await fp_Mongo_SetupPermissions(fp_LocalConnectionSettings(), mp_MongoConnectionSettings.m_UserName);
 
 		co_return {};
-	}
-
-	static CStr fg_FilterScriptOutput(CStr const &_Output)
-	{
-		TCVector<CStr> Return;
-
-		for (auto &Line : _Output.f_SplitLine<true>())
-		{
-			if (!Line.f_StartsWith("{"))
-				Return.f_Insert(fg_Move(Line));
-		}
-
-		return CStr::fs_Join(Return, "\n");
 	}
 
 	TCFuture<void> CMongoManagerActor::f_JoinReplica(CJoinReplicaOptions _Options)
@@ -602,6 +440,7 @@ namespace NMib::NMongo::NMongoManager
 				bConfigChanged = true;
 			}
 		}
+
 		if (_Options.m_Port)
 		{
 			uint16 const &Port = *_Options.m_Port;
@@ -623,49 +462,53 @@ namespace NMib::NMongo::NMongoManager
 		CStr Self = mp_MongoConnectionSettings.f_GetConnectionString();
 		CStr SelfTag = Self.f_ReplaceChar('.', '_').f_ReplaceChar(':', '_');
 
-		CEJSONSorted Config = {"selfTag"_= SelfTag};
-		CEJSONSorted &ReplicationConfig = Config["replicationConfig"] =
+		CEJSONOrdered Config = {"selfTag"_o= SelfTag};
+		CEJSONOrdered &ReplicationConfig = Config["replicationConfig"] =
 			{
-				"host"_= Self
-				, "arbiterOnly"_= _Options.m_ArbiterOnly.f_Get(false)
-				, "buildIndexes"_= _Options.m_BuildIndexes.f_Get(true)
-				, "hidden"_= _Options.m_Hidden.f_Get(false)
-				, "priority"_= _Options.m_Priority.f_Get(1.0)
-				, "tags"_=
+				"host"_o= Self
+				, "arbiterOnly"_o= _Options.m_ArbiterOnly.f_Get(false)
+				, "buildIndexes"_o= _Options.m_BuildIndexes.f_Get(true)
+				, "hidden"_o= _Options.m_Hidden.f_Get(false)
+				, "priority"_o= _Options.m_Priority.f_Get(1.0)
+				, "tags"_o=
 				{
-					_(SelfTag) = "1"
+					_o(SelfTag) = "1"
 				}
-				, "secondaryDelaySecs"_= 0
-				, "votes"_= _Options.m_CanVote.f_Get(true) ? 1 : 0
+				, "secondaryDelaySecs"_o= 0
+				, "votes"_o= _Options.m_CanVote.f_Get(true) ? 1 : 0
 			}
 		;
 
 		if (_Options.m_ExtraTags)
 		{
-			CEJSONSorted &Tags = ReplicationConfig["tags"];
+			CEJSONOrdered &Tags = ReplicationConfig["tags"];
 			for (auto iTag = _Options.m_ExtraTags->f_GetIterator(); iTag; ++iTag)
 				Tags[iTag.f_GetKey()] = *iTag;
 		}
 
 		auto JoinConnectionSettings = mp_MongoConnectionSettings.f_ForConnectionString(_Options.m_MemberToJoin);
+		JoinConnectionSettings.m_bDirectConnection = true;
+
 		if (JoinConnectionSettings.m_Hosts == mp_MongoConnectionSettings.m_Hosts)
 		{
-			co_await fp_RunMongoScript(mp_MongoConnectionSettings, "MongoInitReplicaSet", "local", 60.0, Config);
+			co_await fp_Mongo_InitReplicaSet(fp_LocalConnectionSettings(), ReplicationConfig, SelfTag);
 
 			co_return {};
 		}
 
 		DMibLog(Info, "Get Primary");
 
-		auto Primary = fg_FilterScriptOutput((co_await fp_RunMongoScript(JoinConnectionSettings, "MongoGetPrimary", "local", 60.0, {"quiet"_= true})).f_Trim());
+		auto Primary = co_await fp_Mongo_GetPrimary(JoinConnectionSettings);
 
 		DMibLog(Info, "Primary: {}", Primary);
 
 		auto ConnectionSettings = mp_MongoConnectionSettings.f_ForConnectionString(Primary);
+		ConnectionSettings.m_bDirectConnection = true;
 
-		DMibLog(Info, "ConnectionSettings: {}", ConnectionSettings.f_GetUrl("").f_Encode());
+		DMibLog(Info, "Join connection setings: {}", ConnectionSettings.f_GetUrl("").f_Encode());
+		DMibLog(Info, "Local connection settings: {}", fp_LocalConnectionSettings().f_GetUrl("").f_Encode());
 
-		co_await fp_RunMongoScript(ConnectionSettings, "MongoJoinReplicaSet", "local", 60.0, Config);
+		co_await fp_Mongo_JoinReplicaSet(ConnectionSettings, fp_LocalConnectionSettings(), ReplicationConfig, SelfTag);
 
 		DMibLog(Info, "Join finished");
 

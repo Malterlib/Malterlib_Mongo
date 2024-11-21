@@ -538,7 +538,7 @@ namespace NMib::NMongo::NMongoManager
 		Options.m_MemberToJoin = _Params["ReplicaMember"].f_String();
 		if (Options.m_MemberToJoin.f_IsEmpty())
 			co_return DMibErrorInstance("You must specify replica memeber to join");
-		
+
 		co_await mp_pManager(&CMongoManagerActor::f_JoinReplica, Options);
 
 		*_pCommandLine %= "Replica set successfully joined\n";

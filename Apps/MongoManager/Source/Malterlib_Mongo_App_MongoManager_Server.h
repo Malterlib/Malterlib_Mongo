@@ -77,33 +77,13 @@ namespace NMib::NMongo::NMongoManager
 			, ELogVerbosity_Messages
 			, ELogVerbosity_All
 		};
+
 		TCFuture<void> fp_Destroy() override;
 
 		void fp_StartMongoBackup();
 
 		TCFuture<void> fp_SetupPrerequisites_Mongo();
 		CStr fp_GetMongoExecutable(CStr const &_ExecutableName) const;
-		void fp_RunMongoScriptInternal
-			(
-				CMongoConnectionSettings const &_MongoConnectionSettings
-				, CStr const &_Script
-				, CStr const &_LogCategory
-				, CStr const &_Database
-				, fp32 _Timeout
-				, TCPromise<CStr> const &_Promise
-				, CClock const &_Clock
-				, CEJSONSorted const &_Config
-			)
-		;
-		TCFuture<CStr> fp_RunMongoScript
-			(
-				CMongoConnectionSettings _MongoConnectionSettings
-				, CStr _Script
-				, CStr _Database
-				, fp32 _Timeout
-				, CEJSONSorted _Config
-			)
-		;
 		TCFuture<void> fp_StartMongo();
 		TCFuture<void> fp_DetermineHostname();
 
@@ -150,6 +130,44 @@ namespace NMib::NMongo::NMongoManager
 		TCFuture<void> fp_UpdateReplicaStatusPerform();
 		CFutureCoroutineContext::COnResumeScopeAwaiter fp_CheckSensorDependencies() const;
 
+		TCActor<CMongoClientActor> fp_MongoHelper_GetClient(CMongoConnectionSettings _ConnectionSettings);
+
+		static CStr fsp_Mongo_GetErrorCodeName(CExceptionPointer &&_pException);
+		static CEJSONOrdered fsp_Mongo_SetInt32Value(int32 _Value);
+		static int32 fsp_Mongo_GetInt32Value(CEJSONOrdered const *_pValue);
+
+		TCFuture<CEJSONOrdered> fp_MongoHelper_GetHello(TCSharedPointer<CMongoClientRetryState> _pState);
+		TCFuture<void> fp_MongoHelper_WaitForPrimary(TCSharedPointer<CMongoClientRetryState> _pState);
+		TCFuture<void> fp_MongoHelper_WaitForSelf(TCSharedPointer<CMongoClientRetryState> _pState, bool _bExpectNotInitializedWhenPolling);
+		TCFuture<CEJSONOrdered> fp_MongoHelper_GetReplicaSetStatus(TCSharedPointer<CMongoClientRetryState> _pState);
+		TCFuture<CEJSONOrdered> fp_MongoHelper_GetReplicaSetConfig(TCSharedPointer<CMongoClientRetryState> _pState);
+
+		TCFuture<CEJSONOrdered> fp_MongoHelper_GetRole(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name);
+		TCFuture<void> fp_MongoHelper_CreateRole(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJSONOrdered _Role);
+
+		TCFuture<CEJSONOrdered> fp_MongoHelper_GetUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name);
+		TCFuture<void> fp_MongoHelper_CreateUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJSONOrdered _User);
+		TCFuture<void> fp_MongoHelper_UpdateUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJSONOrdered _User);
+
+		TCFuture<CStr> fp_Mongo_GetPrimary(CMongoConnectionSettings _ConnectionSettings);
+		TCFuture<void> fp_Mongo_InitReplicaSet(CMongoConnectionSettings _ConnectionSettings, CEJSONOrdered _ReplicationConfig, CStr _SelfTag);
+		TCFuture<void> fp_Mongo_JoinReplicaSet
+			(
+				CMongoConnectionSettings _JoinConnectionSettings
+				, CMongoConnectionSettings _LocalConnectionSettings
+				, CEJSONOrdered _ReplicationConfig
+				, CStr _SelfTag
+			)
+		;
+		TCFuture<void> fp_Mongo_SetupPermissions(CMongoConnectionSettings _ConnectionSettings, CStr _UserName);
+		TCFuture<void> fp_Mongo_UpdateReplicationConfig(CMongoConnectionSettings _ConnectionSettings);
+		TCFuture<void> fp_Mongo_WaitForPrimary(CMongoConnectionSettings _ConnectionSettings, bool _bExpectReplica);
+
+		static bool fsp_MongoHelper_ReplicaSetStatusIsNotYetInitialized(TCAsyncResult<CEJSONOrdered> const &_Status);
+		static TCFuture<void> fsp_MongoHelper_AssureNotYetInitialized(TCAsyncResult<CEJSONOrdered> _Status);
+
+		CMongoConnectionSettings fp_LocalConnectionSettings();
+
 		EMode mp_Mode;
 
 		TCActor<CResolveActor> mp_ResolveActor;
@@ -162,7 +180,7 @@ namespace NMib::NMongo::NMongoManager
 
 		CMongoConnectionSettings mp_MongoConnectionSettings{{{NProcess::NPlatform::fg_Process_GetHostName(), 25017}}};
 		CUser mp_MongoUser{mp_pUniqueUserGroup->f_GetUser("mib_mongo"), mp_pUniqueUserGroup->f_GetGroup("mib_mongo")};
-		CVersion mp_Version_MongoDB{4, 0, 0};
+		CVersion mp_Version_MongoDB{6, 0, 0};
 		bool mp_bEnableSSL = true;
 		bool mp_bVerboseMongoScripts = false;
 
