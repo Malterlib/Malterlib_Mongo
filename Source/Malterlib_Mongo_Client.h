@@ -44,6 +44,7 @@ namespace NMib::NMongo
 		NStr::CStr m_ReadPreference;
 		bool m_bEnableSSL = false;
 		bool m_bEnableSrv = false;
+		bool m_bDirectConnection = false;
 	};
 
 	class CMongoClientActor : public NConcurrency::CActor
