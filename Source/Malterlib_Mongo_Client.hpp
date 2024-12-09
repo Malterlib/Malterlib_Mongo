@@ -10,4 +10,13 @@ namespace NMib::NMongo
 	{
 		o_Str += typename tf_CStr::CFormat("{}:{}") << m_Host << m_Port;
 	}
+
+	template <typename tf_CStream>
+	void CMongoErrorData::f_Stream(tf_CStream &_Stream)
+	{
+		uint32 Version = EProtocolVersion_Current;
+		_Stream % Version;
+		_Stream % m_RawServerError;
+		_Stream % m_ErrorCode;
+	}
 }

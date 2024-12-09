@@ -21,6 +21,14 @@
 #include <mongocxx/stdx.hpp>
 #include <mongocxx/uri.hpp>
 
+#include <mongocxx/exception/bulk_write_exception.hpp>
+#include <mongocxx/exception/error_code.hpp>
+#include <mongocxx/exception/logic_error.hpp>
+#include <mongocxx/exception/operation_exception.hpp>
+#include <mongocxx/exception/server_error_code.hpp>
+
+#include <mongoc/mongoc.h>
+
 namespace
 {
 	struct CMongoClientInit
@@ -30,10 +38,10 @@ namespace
 		CMongoClientInit()
 		{
 		}
+
 		~CMongoClientInit()
 		{
 		}
-		
 	};
 
 	constinit NMib::NStorage::TCAggregate<CMongoClientInit> g_MongoClientInit = {DAggregateInit};
@@ -41,6 +49,222 @@ namespace
 
 namespace NMib::NMongo
 {
+	DMibImpErrorClassImplement(CExceptionMongo);
+
+	static NException::CExceptionPointer fg_MongoExceptionToMalterlibException(NException::CExceptionPointer const &_pException, NStr::CStr const &_Description)
+	{
+		using namespace NStr;
+		CMongoErrorData ErrorData;
+		CStr ExceptionString;
+
+		bool bHandled = NException::fg_VisitException
+			<
+				mongocxx::operation_exception
+				, mongocxx::exception
+				, std::exception
+			>
+			(
+				_pException
+				, [&]<typename tf_CException>(tf_CException &&_Exception)
+				{
+					using CExceptionType = typename NTraits::TCRemoveReferenceAndQualifiers<tf_CException>::CType;
+
+					if constexpr (NTraits::TCIsSame<CExceptionType, mongocxx::operation_exception>::mc_Value)
+					{
+						ExceptionString = _Exception.what();
+						if (auto ServerError = _Exception.raw_server_error())
+							ErrorData.m_RawServerError = fg_FromBSON(ServerError->view());
+
+						if (_Exception.code().category() == mongocxx::server_error_category())
+							ErrorData.m_ErrorCode = (mongoc_error_code_t)_Exception.code().value();
+					}
+					else if constexpr (NTraits::TCIsSame<CExceptionType, mongocxx::exception>::mc_Value)
+					{
+						ExceptionString = _Exception.what();
+						if (_Exception.code().category() == mongocxx::server_error_category())
+							ErrorData.m_ErrorCode = (mongoc_error_code_t)_Exception.code().value();
+					}
+					else if constexpr (NTraits::TCIsSame<CExceptionType, std::exception>::mc_Value)
+						ExceptionString = _Exception.what();
+					else
+						DMibFastCheck(false);
+				}
+			)
+		;
+
+		if (!bHandled)
+			return DMibErrorInstanceMongo(gc_Str<"Unknown MongoDB error">.m_Str, fg_Move(ErrorData));
+
+
+		return DMibErrorInstanceMongo("MongoDB {} failed: {}"_f << _Description << ExceptionString, fg_Move(ErrorData));
+	}
+
+	NStr::CStr CMongoErrorData::f_GetErrorCodeDescription() const
+	{
+		if (!m_ErrorCode)
+			return {};
+
+		switch (*m_ErrorCode)
+		{
+		case MONGOC_ERROR_STREAM_NAME_RESOLUTION: return NStr::gc_Str<"MONGOC_ERROR_STREAM_NAME_RESOLUTION">;
+		case MONGOC_ERROR_STREAM_SOCKET: return NStr::gc_Str<"MONGOC_ERROR_STREAM_SOCKET">;
+		case MONGOC_ERROR_STREAM_CONNECT: return NStr::gc_Str<"MONGOC_ERROR_STREAM_CONNECT">;
+		case MONGOC_ERROR_STREAM_NOT_ESTABLISHED: return NStr::gc_Str<"MONGOC_ERROR_STREAM_NOT_ESTABLISHED">;
+		case MONGOC_ERROR_SERVER_SELECTION_FAILURE: return NStr::gc_Str<"MONGOC_ERROR_SERVER_SELECTION_FAILURE">;
+		case MONGOC_ERROR_STREAM_INVALID_TYPE: return NStr::gc_Str<"MONGOC_ERROR_STREAM_INVALID_TYPE">;
+		case MONGOC_ERROR_STREAM_INVALID_STATE: return NStr::gc_Str<"MONGOC_ERROR_STREAM_INVALID_STATE">;
+		case MONGOC_ERROR_CLIENT_NOT_READY: return NStr::gc_Str<"MONGOC_ERROR_CLIENT_NOT_READY">;
+		case MONGOC_ERROR_CLIENT_TOO_BIG: return NStr::gc_Str<"MONGOC_ERROR_CLIENT_TOO_BIG">;
+		case MONGOC_ERROR_CLIENT_TOO_SMALL: return NStr::gc_Str<"MONGOC_ERROR_CLIENT_TOO_SMALL">;
+		case MONGOC_ERROR_CLIENT_GETNONCE: return NStr::gc_Str<"MONGOC_ERROR_CLIENT_GETNONCE">;
+		case MONGOC_ERROR_CLIENT_AUTHENTICATE: return NStr::gc_Str<"MONGOC_ERROR_CLIENT_AUTHENTICATE">;
+		case MONGOC_ERROR_CLIENT_NO_ACCEPTABLE_PEER: return NStr::gc_Str<"MONGOC_ERROR_CLIENT_NO_ACCEPTABLE_PEER">;
+		case MONGOC_ERROR_CLIENT_IN_EXHAUST: return NStr::gc_Str<"MONGOC_ERROR_CLIENT_IN_EXHAUST">;
+		case MONGOC_ERROR_PROTOCOL_INVALID_REPLY: return NStr::gc_Str<"MONGOC_ERROR_PROTOCOL_INVALID_REPLY">;
+		case MONGOC_ERROR_PROTOCOL_BAD_WIRE_VERSION: return NStr::gc_Str<"MONGOC_ERROR_PROTOCOL_BAD_WIRE_VERSION">;
+		case MONGOC_ERROR_CURSOR_INVALID_CURSOR: return NStr::gc_Str<"MONGOC_ERROR_CURSOR_INVALID_CURSOR">;
+		case MONGOC_ERROR_QUERY_FAILURE: return NStr::gc_Str<"MONGOC_ERROR_QUERY_FAILURE">;
+		case MONGOC_ERROR_BSON_INVALID: return NStr::gc_Str<"MONGOC_ERROR_BSON_INVALID">;
+		case MONGOC_ERROR_MATCHER_INVALID: return NStr::gc_Str<"MONGOC_ERROR_MATCHER_INVALID">;
+		case MONGOC_ERROR_NAMESPACE_INVALID: return NStr::gc_Str<"MONGOC_ERROR_NAMESPACE_INVALID">;
+		case MONGOC_ERROR_NAMESPACE_INVALID_FILTER_TYPE: return NStr::gc_Str<"MONGOC_ERROR_NAMESPACE_INVALID_FILTER_TYPE">;
+		case MONGOC_ERROR_COMMAND_INVALID_ARG: return NStr::gc_Str<"MONGOC_ERROR_COMMAND_INVALID_ARG">;
+		case MONGOC_ERROR_COLLECTION_INSERT_FAILED: return NStr::gc_Str<"MONGOC_ERROR_COLLECTION_INSERT_FAILED">;
+		case MONGOC_ERROR_COLLECTION_UPDATE_FAILED: return NStr::gc_Str<"MONGOC_ERROR_COLLECTION_UPDATE_FAILED">;
+		case MONGOC_ERROR_COLLECTION_DELETE_FAILED: return NStr::gc_Str<"MONGOC_ERROR_COLLECTION_DELETE_FAILED">;
+		case MONGOC_ERROR_COLLECTION_DOES_NOT_EXIST: return NStr::gc_Str<"MONGOC_ERROR_COLLECTION_DOES_NOT_EXIST">;
+		case MONGOC_ERROR_GRIDFS_INVALID_FILENAME: return NStr::gc_Str<"MONGOC_ERROR_GRIDFS_INVALID_FILENAME">;
+		case MONGOC_ERROR_SCRAM_NOT_DONE: return NStr::gc_Str<"MONGOC_ERROR_SCRAM_NOT_DONE">;
+		case MONGOC_ERROR_SCRAM_PROTOCOL_ERROR: return NStr::gc_Str<"MONGOC_ERROR_SCRAM_PROTOCOL_ERROR">;
+		case MONGOC_ERROR_QUERY_COMMAND_NOT_FOUND: return NStr::gc_Str<"MONGOC_ERROR_QUERY_COMMAND_NOT_FOUND">;
+		case MONGOC_ERROR_QUERY_NOT_TAILABLE: return NStr::gc_Str<"MONGOC_ERROR_QUERY_NOT_TAILABLE">;
+		case MONGOC_ERROR_SERVER_SELECTION_BAD_WIRE_VERSION: return NStr::gc_Str<"MONGOC_ERROR_SERVER_SELECTION_BAD_WIRE_VERSION">;
+		case MONGOC_ERROR_SERVER_SELECTION_INVALID_ID: return NStr::gc_Str<"MONGOC_ERROR_SERVER_SELECTION_INVALID_ID">;
+		case MONGOC_ERROR_GRIDFS_CHUNK_MISSING: return NStr::gc_Str<"MONGOC_ERROR_GRIDFS_CHUNK_MISSING">;
+		case MONGOC_ERROR_GRIDFS_PROTOCOL_ERROR: return NStr::gc_Str<"MONGOC_ERROR_GRIDFS_PROTOCOL_ERROR">;
+		//case MONGOC_ERROR_PROTOCOL_ERROR: return NStr::gc_Str<"MONGOC_ERROR_PROTOCOL_ERROR">;
+		case MONGOC_ERROR_WRITE_CONCERN_ERROR: return NStr::gc_Str<"MONGOC_ERROR_WRITE_CONCERN_ERROR">;
+		case MONGOC_ERROR_DUPLICATE_KEY: return NStr::gc_Str<"MONGOC_ERROR_DUPLICATE_KEY">;
+		case MONGOC_ERROR_MAX_TIME_MS_EXPIRED: return NStr::gc_Str<"MONGOC_ERROR_MAX_TIME_MS_EXPIRED">;
+		case MONGOC_ERROR_CHANGE_STREAM_NO_RESUME_TOKEN: return NStr::gc_Str<"MONGOC_ERROR_CHANGE_STREAM_NO_RESUME_TOKEN">;
+		case MONGOC_ERROR_CLIENT_SESSION_FAILURE: return NStr::gc_Str<"MONGOC_ERROR_CLIENT_SESSION_FAILURE">;
+		case MONGOC_ERROR_TRANSACTION_INVALID_STATE: return NStr::gc_Str<"MONGOC_ERROR_TRANSACTION_INVALID_STATE">;
+		case MONGOC_ERROR_GRIDFS_CORRUPT: return NStr::gc_Str<"MONGOC_ERROR_GRIDFS_CORRUPT">;
+		case MONGOC_ERROR_GRIDFS_BUCKET_FILE_NOT_FOUND: return NStr::gc_Str<"MONGOC_ERROR_GRIDFS_BUCKET_FILE_NOT_FOUND">;
+		case MONGOC_ERROR_GRIDFS_BUCKET_STREAM: return NStr::gc_Str<"MONGOC_ERROR_GRIDFS_BUCKET_STREAM">;
+		case MONGOC_ERROR_CLIENT_INVALID_ENCRYPTION_STATE: return NStr::gc_Str<"MONGOC_ERROR_CLIENT_INVALID_ENCRYPTION_STATE">;
+		case MONGOC_ERROR_CLIENT_INVALID_ENCRYPTION_ARG: return NStr::gc_Str<"MONGOC_ERROR_CLIENT_INVALID_ENCRYPTION_ARG">;
+		//case MONGOC_ERROR_CLIENT_API_ALREADY_SET: return NStr::gc_Str<"MONGOC_ERROR_CLIENT_API_ALREADY_SET">;
+		case MONGOC_ERROR_CLIENT_API_FROM_POOL: return NStr::gc_Str<"MONGOC_ERROR_CLIENT_API_FROM_POOL">;
+		case MONGOC_ERROR_POOL_API_ALREADY_SET: return NStr::gc_Str<"MONGOC_ERROR_POOL_API_ALREADY_SET">;
+		case MONGOC_ERROR_POOL_API_TOO_LATE: return NStr::gc_Str<"MONGOC_ERROR_POOL_API_TOO_LATE">;
+		case MONGOC_ERROR_CLIENT_INVALID_LOAD_BALANCER: return NStr::gc_Str<"MONGOC_ERROR_CLIENT_INVALID_LOAD_BALANCER">;
+		//case MONGOC_ERROR_KMS_SERVER_HTTP: return NStr::gc_Str<"MONGOC_ERROR_KMS_SERVER_HTTP">;
+		case MONGOC_ERROR_KMS_SERVER_BAD_JSON: return NStr::gc_Str<"MONGOC_ERROR_KMS_SERVER_BAD_JSON">;
+		}
+
+		return {};
+	}
+
+	bool CMongoErrorData::f_IsRecoverableConnectionError() const
+	{
+		if (!m_ErrorCode)
+			return false;
+
+		switch (*m_ErrorCode)
+		{
+		case MONGOC_ERROR_STREAM_NAME_RESOLUTION:
+		case MONGOC_ERROR_STREAM_SOCKET:
+		case MONGOC_ERROR_STREAM_CONNECT:
+		case MONGOC_ERROR_STREAM_NOT_ESTABLISHED:
+		case MONGOC_ERROR_SERVER_SELECTION_FAILURE:
+			return true;
+
+		case MONGOC_ERROR_STREAM_INVALID_TYPE:
+		case MONGOC_ERROR_STREAM_INVALID_STATE:
+		case MONGOC_ERROR_CLIENT_NOT_READY:
+		case MONGOC_ERROR_CLIENT_TOO_BIG:
+		case MONGOC_ERROR_CLIENT_TOO_SMALL:
+		case MONGOC_ERROR_CLIENT_GETNONCE:
+		case MONGOC_ERROR_CLIENT_AUTHENTICATE:
+		case MONGOC_ERROR_CLIENT_NO_ACCEPTABLE_PEER:
+		case MONGOC_ERROR_CLIENT_IN_EXHAUST:
+		case MONGOC_ERROR_PROTOCOL_INVALID_REPLY:
+		case MONGOC_ERROR_PROTOCOL_BAD_WIRE_VERSION:
+		case MONGOC_ERROR_CURSOR_INVALID_CURSOR:
+		case MONGOC_ERROR_QUERY_FAILURE:
+		case MONGOC_ERROR_BSON_INVALID:
+		case MONGOC_ERROR_MATCHER_INVALID:
+		case MONGOC_ERROR_NAMESPACE_INVALID:
+		case MONGOC_ERROR_NAMESPACE_INVALID_FILTER_TYPE:
+		case MONGOC_ERROR_COMMAND_INVALID_ARG:
+		case MONGOC_ERROR_COLLECTION_INSERT_FAILED:
+		case MONGOC_ERROR_COLLECTION_UPDATE_FAILED:
+		case MONGOC_ERROR_COLLECTION_DELETE_FAILED:
+		case MONGOC_ERROR_COLLECTION_DOES_NOT_EXIST:
+		case MONGOC_ERROR_GRIDFS_INVALID_FILENAME:
+		case MONGOC_ERROR_SCRAM_NOT_DONE:
+		case MONGOC_ERROR_SCRAM_PROTOCOL_ERROR:
+		case MONGOC_ERROR_QUERY_COMMAND_NOT_FOUND:
+		case MONGOC_ERROR_QUERY_NOT_TAILABLE:
+		case MONGOC_ERROR_SERVER_SELECTION_BAD_WIRE_VERSION:
+		case MONGOC_ERROR_SERVER_SELECTION_INVALID_ID:
+		case MONGOC_ERROR_GRIDFS_CHUNK_MISSING:
+		case MONGOC_ERROR_GRIDFS_PROTOCOL_ERROR:
+		//case MONGOC_ERROR_PROTOCOL_ERROR:
+		case MONGOC_ERROR_WRITE_CONCERN_ERROR:
+		case MONGOC_ERROR_DUPLICATE_KEY:
+		case MONGOC_ERROR_MAX_TIME_MS_EXPIRED:
+		case MONGOC_ERROR_CHANGE_STREAM_NO_RESUME_TOKEN:
+		case MONGOC_ERROR_CLIENT_SESSION_FAILURE:
+		case MONGOC_ERROR_TRANSACTION_INVALID_STATE:
+		case MONGOC_ERROR_GRIDFS_CORRUPT:
+		case MONGOC_ERROR_GRIDFS_BUCKET_FILE_NOT_FOUND:
+		case MONGOC_ERROR_GRIDFS_BUCKET_STREAM:
+		case MONGOC_ERROR_CLIENT_INVALID_ENCRYPTION_STATE:
+		case MONGOC_ERROR_CLIENT_INVALID_ENCRYPTION_ARG:
+		//case MONGOC_ERROR_CLIENT_API_ALREADY_SET:
+		case MONGOC_ERROR_CLIENT_API_FROM_POOL:
+		case MONGOC_ERROR_POOL_API_ALREADY_SET:
+		case MONGOC_ERROR_POOL_API_TOO_LATE:
+		case MONGOC_ERROR_CLIENT_INVALID_LOAD_BALANCER:
+		//case MONGOC_ERROR_KMS_SERVER_HTTP:
+		case MONGOC_ERROR_KMS_SERVER_BAD_JSON:
+			return false;
+		}
+
+		return false;
+	}
+
+	NStr::CStr CMongoErrorData::f_GetCodeName() const
+	{
+		if (!m_RawServerError.f_IsValid())
+			return {};
+
+		if (auto *pValue = m_RawServerError.f_GetMember("codeName", NEncoding::EJSONType_String))
+			return pValue->f_String();
+
+		return {};
+	}
+
+	NStorage::TCOptional<CMongoErrorData> CMongoErrorData::fs_FromException(NException::CExceptionPointer const &_pException)
+	{
+		NStorage::TCOptional<CMongoErrorData> Return;
+
+		NException::fg_VisitException<CExceptionMongo>
+			(
+				_pException
+				, [&](CExceptionMongo const &_Exception)
+				{
+					Return = _Exception.f_GetSpecific();
+				}
+			)
+		;
+
+		return Return;
+		
+	}
+
 	bool CMongoConnectionSettings::f_Compatible(CMongoConnectionSettings const &_Settings) const
 	{
 		if (!m_bEnableSSL && !_Settings.m_bEnableSSL)
@@ -214,7 +438,7 @@ namespace NMib::NMongo
 		{
 		}
 
-		NStr::CStr f_MakeSureConnected()
+		NException::CExceptionPointer f_MakeSureConnected()
 		{
 			if (m_pConnection)
 				return {};
@@ -225,12 +449,9 @@ namespace NMib::NMongo
 
 				return {};
 			}
-			catch (std::exception const &_Exception)
+			catch (std::exception const &)
 			{
-				if (_Exception.what())
-					return _Exception.what();
-
-				return "Unknown mongo error";
+				return fg_MongoExceptionToMalterlibException(NException::fg_CurrentException(), NStr::gc_Str<"connect">);
 			}
 		}
 
@@ -371,9 +592,8 @@ namespace NMib::NMongo
 		if (Internal.m_pTailThread)
 			co_return DMibErrorInstance("Tailing query already running");
 
-		NStr::CStr Error = Internal.f_MakeSureConnected();
-		if (!Error.f_IsEmpty())
-			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+		if (auto pError = Internal.f_MakeSureConnected())
+			co_return fg_Move(pError);
 
 		NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> pOrder = fg_Construct();
 		(*pOrder)["$natural"] = -1;
@@ -502,17 +722,13 @@ namespace NMib::NMongo
 								}
 							}
 						}
-						catch (std::exception const &_Exception)
+						catch (std::exception const &)
 						{
 							if (_pThread->f_GetState() == NThread::EThreadState_EventWantQuit)
 								return 0;
 
-							const ch8 *pError = "Unknown mongo error";
-							if (_Exception.what())
-								pError = _Exception.what();
-
 							NEncoding::CEJSONOrdered Error;
-							Error["error"] = pError;
+							Error["error"] = NException::fg_ExceptionString(fg_MongoExceptionToMalterlibException(NException::fg_CurrentException(), NStr::gc_Str<"tail oplog">));
 
 							(*pOnDataCallback)(fg_Move(Error)).f_DiscardResult();
 						}
@@ -542,9 +758,8 @@ namespace NMib::NMongo
 		if (Internal.m_pTailThread)
 			co_return DMibErrorInstance("Tailing query already running");
 
-		NStr::CStr Error = Internal.f_MakeSureConnected();
-		if (!Error.f_IsEmpty())
-			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+		if (auto pError = Internal.f_MakeSureConnected())
+			co_return fg_Move(pError);
 
 		auto QueryOptions = fg_QueryOptions(_Options, _pFields, _pOrder);
 
@@ -566,13 +781,9 @@ namespace NMib::NMongo
 
 			co_return fg_Move(ToReturn);
 		}
-		catch (std::exception const &_Exception)
+		catch (std::exception const &)
 		{
-			const ch8 *pError = "Unknown mongo error";
-			if (_Exception.what())
-				pError = _Exception.what();
-
-			co_return DMibErrorInstance(NStr::fg_Format("Mongo query failed: {}", pError));
+			co_return fg_MongoExceptionToMalterlibException(NException::fg_CurrentException(), NStr::gc_Str<"query">);
 		}
 	}
 
@@ -586,9 +797,8 @@ namespace NMib::NMongo
 		if (Internal.m_pTailThread)
 			co_return DMibErrorInstance("Tailing query already running");
 
-		NStr::CStr Error = Internal.f_MakeSureConnected();
-		if (!Error.f_IsEmpty())
-			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+		if (auto pError = Internal.f_MakeSureConnected())
+			co_return fg_Move(pError);
 
 		try
 		{
@@ -600,13 +810,9 @@ namespace NMib::NMongo
 
 			co_return fg_Move(ToReturn);
 		}
-		catch (std::exception const &_Exception)
+		catch (std::exception const &)
 		{
-			const ch8 *pError = "Unknown mongo error";
-			if (_Exception.what())
-				pError = _Exception.what();
-
-			co_return DMibErrorInstance(NStr::fg_Format("Mongo run command failed: {}", pError));
+			co_return fg_MongoExceptionToMalterlibException(NException::fg_CurrentException(), NStr::gc_Str<"run command">);
 		}
 	}
 
@@ -622,9 +828,8 @@ namespace NMib::NMongo
 		if (Internal.m_pTailThread)
 			co_return DMibErrorInstance("Tailing query already running");
 
-		NStr::CStr Error = Internal.f_MakeSureConnected();
-		if (!Error.f_IsEmpty())
-			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+		if (auto pError = Internal.f_MakeSureConnected())
+			co_return fg_Move(pError);
 
 		mongocxx::options::count CountOptions;
 
@@ -641,13 +846,9 @@ namespace NMib::NMongo
 			uint64 Count = Collection.count_documents(fg_ToBSON(_Query), CountOptions);
 			co_return Count;
 		}
-		catch (std::exception const &_Exception)
+		catch (std::exception const &)
 		{
-			const ch8 *pError = "Unknown mongo error";
-			if (_Exception.what())
-				pError = _Exception.what();
-
-			co_return DMibErrorInstance(NStr::fg_Format("MongoDB count failed: {}", pError));
+			co_return fg_MongoExceptionToMalterlibException(NException::fg_CurrentException(), NStr::gc_Str<"count">);
 		}
 	}
 
@@ -657,9 +858,8 @@ namespace NMib::NMongo
 		if (Internal.m_pTailThread)
 			co_return DMibErrorInstance("Tailing query already running");
 
-		NStr::CStr Error = Internal.f_MakeSureConnected();
-		if (!Error.f_IsEmpty())
-			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+		if (auto pError = Internal.f_MakeSureConnected())
+			co_return fg_Move(pError);
 
 		mongocxx::options::insert InsertOptions;
 		if (_Options & EInsertOption_ContinueOnError)
@@ -673,13 +873,9 @@ namespace NMib::NMongo
 			Collection.insert_one(fg_ToBSON(_Document), InsertOptions);
 			co_return {};
 		}
-		catch (std::exception const &_Exception)
+		catch (std::exception const &)
 		{
-			const ch8 *pError = "Unknown mongo error";
-			if (_Exception.what())
-				pError = _Exception.what();
-
-			co_return DMibErrorInstance(NStr::fg_Format("MongoDB insert failed: {}", pError));
+			co_return fg_MongoExceptionToMalterlibException(NException::fg_CurrentException(), NStr::gc_Str<"insert">);
 		}
 	}
 
@@ -689,9 +885,8 @@ namespace NMib::NMongo
 		if (Internal.m_pTailThread)
 			co_return DMibErrorInstance("Tailing query already running");
 
-		NStr::CStr Error = Internal.f_MakeSureConnected();
-		if (!Error.f_IsEmpty())
-			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+		if (auto pError = Internal.f_MakeSureConnected())
+			co_return fg_Move(pError);
 
 		mongocxx::options::insert InsertOptions;
 		if (_Options & EInsertOption_ContinueOnError)
@@ -712,13 +907,9 @@ namespace NMib::NMongo
 
 			co_return {};
 		}
-		catch (std::exception const &_Exception)
+		catch (std::exception const &)
 		{
-			const ch8 *pError = "Unknown mongo error";
-			if (_Exception.what())
-				pError = _Exception.what();
-
-			co_return DMibErrorInstance(NStr::fg_Format("MongoDB insert failed: {}", pError));
+			co_return fg_MongoExceptionToMalterlibException(NException::fg_CurrentException(), NStr::gc_Str<"batch insert">);
 		}
 	}
 
@@ -735,9 +926,8 @@ namespace NMib::NMongo
 		if (Internal.m_pTailThread)
 			co_return DMibErrorInstance("Tailing query already running");
 
-		NStr::CStr Error = Internal.f_MakeSureConnected();
-		if (!Error.f_IsEmpty())
-			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+		if (auto pError = Internal.f_MakeSureConnected())
+			co_return fg_Move(pError);
 
 		mongocxx::options::update UpdateOptions;
 
@@ -759,13 +949,9 @@ namespace NMib::NMongo
 
 			co_return CUpdateResult{UpdateResult->matched_count(), UpdateResult->modified_count()};
 		}
-		catch (std::exception const &_Exception)
+		catch (std::exception const &)
 		{
-			const ch8 *pError = "Unknown mongo error";
-			if (_Exception.what())
-				pError = _Exception.what();
-
-			co_return DMibErrorInstance(NStr::fg_Format("MongoDB update failed: {}", pError));
+			co_return fg_MongoExceptionToMalterlibException(NException::fg_CurrentException(), NStr::gc_Str<"update">);
 		}
 	}
 
@@ -775,9 +961,8 @@ namespace NMib::NMongo
 		if (Internal.m_pTailThread)
 			co_return DMibErrorInstance("Tailing query already running");
 
-		NStr::CStr Error = Internal.f_MakeSureConnected();
-		if (!Error.f_IsEmpty())
-			co_return DMibErrorInstance(fg_Format("Failed to connect to MongoDB server: {}", Error));
+		if (auto pError = Internal.f_MakeSureConnected())
+			co_return fg_Move(pError);
 
 		try
 		{
@@ -790,13 +975,9 @@ namespace NMib::NMongo
 
 			co_return {};
 		}
-		catch (std::exception const &_Exception)
+		catch (std::exception const &)
 		{
-			const ch8 *pError = "Unknown mongo error";
-			if (_Exception.what())
-				pError = _Exception.what();
-
-			co_return DMibErrorInstance(NStr::fg_Format("MongoDB remove failed: {}", pError));
+			co_return fg_MongoExceptionToMalterlibException(NException::fg_CurrentException(), NStr::gc_Str<"remove">);
 		}
 	}
 }

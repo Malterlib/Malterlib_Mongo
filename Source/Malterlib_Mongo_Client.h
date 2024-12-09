@@ -11,6 +11,32 @@
 
 namespace NMib::NMongo
 {
+	struct CMongoErrorData
+	{
+		template <typename tf_CStream>
+		void f_Stream(tf_CStream &_Stream);
+
+		bool f_IsRecoverableConnectionError() const;
+		NStr::CStr f_GetErrorCodeDescription() const;
+		NStr::CStr f_GetCodeName() const;
+
+		static NStorage::TCOptional<CMongoErrorData> fs_FromException(NException::CExceptionPointer const &_pException);
+
+		enum : uint32
+		{
+			EProtocolVersion_Min = 0x101
+			, EProtocolVersion_Current = 0x101
+		};
+
+		NEncoding::CEJSONOrdered m_RawServerError;
+		NStorage::TCOptional<uint32> m_ErrorCode; // mongoc_error_code_t
+	};
+
+	DMibImpErrorSpecificClassDefine(CExceptionMongo, NMib::NException::CException, CMongoErrorData);
+
+#	define DMibErrorMongo(d_Description, d_Specific) DMibImpErrorSpecific(NMib::NMongo::CExceptionMongo, d_Description, d_Specific)
+#	define DMibErrorInstanceMongo(d_Description, d_Specific) DMibImpExceptionInstanceSpecific(NMib::NMongo::CExceptionMongo, d_Description, d_Specific)
+
 	struct CMongoServerHost
 	{
 		auto operator <=> (CMongoServerHost const &_Right) const = default;
