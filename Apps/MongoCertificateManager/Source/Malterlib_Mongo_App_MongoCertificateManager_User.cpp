@@ -148,7 +148,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			co_return {};
 		}
 
-		EPublicKeyType EllipticCurveType = EPublicKeyType_EC_secp521r1;
+		CPublicKeySetting PublicKeySetting = CPublicKeySettings_EC_secp521r1{};
 		if (auto *pKeyType = MetaData.f_FindEqual("KeyType"))
 		{
 			if (!pKeyType->f_IsString())
@@ -159,7 +159,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 			try
 			{
-				EllipticCurveType = fsp_EllipticCurveTypeFromStr(pKeyType->f_String());
+				PublicKeySetting = fsp_PublicKeySettingFromStr(pKeyType->f_String());
 			}
 			catch (CException const &)
 			{
@@ -194,7 +194,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		{
 			User.m_Certificate.m_Key = CSecureByteVector::fs_FromString(*pPrivateKey);
 			User.m_Certificate.m_Certificate = CByteVector::fs_FromString(*pCertificate);
-			User.m_EllipticCurveType = EllipticCurveType;
+			User.m_PublicKeySetting = PublicKeySetting;
 			User.m_LastModified = ModifiedTime;
 			User.m_Created = CreatedTime;
 			User.m_Type = Type;

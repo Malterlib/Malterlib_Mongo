@@ -33,7 +33,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			TCVector<TCTrustedActor<CSecretsManager>> const &_SecretManagers
 			, CAuthority const &_Authority
 			, CUserKey const &_UserKey
-			, EPublicKeyType _KeyType
+			, CPublicKeySetting const &_PublicKeySetting
 			, EUserType _Type
 			, CTime const &_Created
 			, CTime const &_Modified
@@ -50,7 +50,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		Properties.f_SetSecret(Secrets);
 		Properties.f_SetSemanticID(CStrSecure::CFormat(CStr(mc_pUserSemanticPrefix) + "{}") << _UserKey.f_GetSecretIDName());
-		Properties.f_SetMetadata("KeyType", fsp_EllipticCurveTypeToStr(_KeyType));
+		Properties.f_SetMetadata("KeyType", fsp_PublicKeySettingToStr(_PublicKeySetting));
 		Properties.f_SetMetadata("Type", fsp_UserTypeToStr(_Type));
 		Properties.f_SetTags(TCSet<CStrSecure>{"Private"});
 
@@ -68,7 +68,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		}
 	}
 
-	auto CMongoCertificateManagerActor::fp_GenerateUserCertificate(CCertificateAndKey _Certificate, EPublicKeyType _EllipticCurveType, CStr _UserName, EUserType _UserType)
+	auto CMongoCertificateManagerActor::fp_GenerateUserCertificate(CCertificateAndKey _Certificate, CPublicKeySetting _PublicKeySetting, CStr _UserName, EUserType _UserType)
 		-> TCFuture<CCertificateAndKey>
 	{
 		co_return co_await
@@ -99,7 +99,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 					Options.m_CommonName = _UserName;
 					Options.m_RelativeDistinguishedNames = RelativeDistinguishedNames;
 					//Options.m_Hostnames = Subjects;
-					Options.m_KeySetting = fsp_EllipticCurveTypeToKeySettings(_EllipticCurveType);
+					Options.m_KeySetting = _PublicKeySetting;
 
 					Options.f_AddExtension_BasicConstraints(false);
 					switch (_UserType)
@@ -135,7 +135,12 @@ namespace NMib::NMongo::NMongoCertificateManager
 	{
 		auto Auditor = f_Auditor();
 
-		[[maybe_unused]] auto EllipticCurveType = fsp_EllipticCurveTypeFromStr(_Params["EllipticCurveType"].f_String());
+		CPublicKeySetting PublicKeySetting;
+
+		if (auto *pRSASize = _Params.f_GetMember("RSASize", EJSONType_Integer))
+			PublicKeySetting = CPublicKeySettings_RSA(pRSASize->f_Integer());
+		else
+			PublicKeySetting = fsp_EllipticCurveTypeToKeySettings(fsp_EllipticCurveTypeFromStr(_Params["EllipticCurveType"].f_String()));
 
 		CStr UserName = _Params["User"].f_String();
 		CStr Authority = _Params["Authority"].f_String();
@@ -184,7 +189,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			)
 		;
 
-		auto UserCertificate = co_await fp_GenerateUserCertificate(pAuthority->m_Certificate, EllipticCurveType, UserName, Type);
+		auto UserCertificate = co_await fp_GenerateUserCertificate(pAuthority->m_Certificate, PublicKeySetting, UserName, Type);
 
 		NTime::CTime Now = NTime::CTime::fs_NowUTC();
 
@@ -210,7 +215,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 					AllSecretManagers
 					, *pAuthority
 					, UserKey
-					, EllipticCurveType
+					, PublicKeySetting
 					, Type
 					, Now
 					, Now

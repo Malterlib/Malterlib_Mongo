@@ -41,7 +41,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 			// Stored
 			CCertificateAndKey m_Certificate;
-			EPublicKeyType m_EllipticCurveType = EPublicKeyType_EC_secp521r1;
+			CPublicKeySetting m_PublicKeySetting = CPublicKeySettings_EC_secp521r1{};
 			int32 m_Serial = 2;
 			CTime m_Created;
 			CTime m_LastModified;
@@ -87,7 +87,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 			// Stored
 			CCertificateAndKey m_Certificate;
-			EPublicKeyType m_EllipticCurveType = EPublicKeyType_EC_secp521r1;
+			CPublicKeySetting m_PublicKeySetting = CPublicKeySettings_EC_secp521r1{};
 			CTime m_Created;
 			CTime m_LastModified;
 			EUserType m_Type = EUserType_User;
@@ -119,6 +119,8 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		static EPublicKeyType fsp_EllipticCurveTypeFromStr(CStr const &_String);
 		static CStr fsp_EllipticCurveTypeToStr(EPublicKeyType _Type);
+		static CPublicKeySetting fsp_PublicKeySettingFromStr(CStr const &_String);
+		static CStr fsp_PublicKeySettingToStr(CPublicKeySetting const &_PublicKeySetting);
 		static CPublicKeySetting fsp_EllipticCurveTypeToKeySettings(EPublicKeyType _Type);
 
 		TCFuture<void> fp_SecretsManagerAddedWithRetry(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info);
@@ -126,7 +128,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		TCFuture<void> fp_SecretsManagerAdded(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info);
 		TCFuture<void> fp_SecretsManagerRemoved(TCWeakDistributedActor<CActor> _SecretsManager, CTrustedActorInfo _ActorInfo);
 
-		TCFuture<CCertificateAndKey> fp_GenerateUserCertificate(CCertificateAndKey _Certificate, EPublicKeyType _EllipticCurveType, CStr _UserName, EUserType _UserType);
+		TCFuture<CCertificateAndKey> fp_GenerateUserCertificate(CCertificateAndKey _Certificate, CPublicKeySetting _PublicKeySetting, CStr _UserName, EUserType _UserType);
 
 		TCFuture<void> fp_Authority_UpdateSensor(CStr _Authority);
 		TCFuture<void> fp_Authority_UpdateSensors();
@@ -140,7 +142,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 				TCVector<TCTrustedActor<CSecretsManager>> const &_SecretManagers
 				, CStr const &_Name
 				, int32 _Serial
-				, EPublicKeyType _KeyType
+				, CPublicKeySetting const &_PublicKeySetting
 				, CTime const &_Created
 				, CTime const &_Modified
 				, CCertificateAndKey const &_Certificate
@@ -164,7 +166,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 				TCVector<TCTrustedActor<CSecretsManager>> const &_SecretManagers
 				, CAuthority const &_Authority
 				, CUserKey const &_Key
-				, EPublicKeyType _KeyType
+				, CPublicKeySetting const &_PublicKeySetting
 				, EUserType _Type
 				, CTime const &_Created
 				, CTime const &_Modified

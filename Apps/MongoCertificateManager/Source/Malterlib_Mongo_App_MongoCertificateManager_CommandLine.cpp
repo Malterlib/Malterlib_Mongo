@@ -30,6 +30,15 @@ namespace NMib::NMongo::NMongoCertificateManager
 				, "Description"_o= "The type of elliptic curve to use for the EC certificate."
 			}
 		;
+
+		auto SettingsOption_RSASize = "RSASize?"_o=
+			{
+				"Names"_o= {"--rsa-size"}
+				, "Type"_o= 4096
+				, "Description"_o= "The size of the RSA certificate."
+			}
+		;
+
 		auto SettingsOption_Authority = "Authority?"_o=
 			{
 				"Names"_o= {"--authority"}
@@ -68,6 +77,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 							, "Description"_o= "Name of the certificate authority"
 						}
 						, SettingsOption_EllipticCurveType
+						, SettingsOption_RSASize
 					}
 				}
 				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
@@ -144,6 +154,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 							, "Description"_o= "The type of user to create."
 						}
 						, SettingsOption_EllipticCurveType
+						, SettingsOption_RSASize
 					}
 				}
 				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)

@@ -62,7 +62,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 					AllSecretManagers
 					, Name
 					, pAuthority->m_Serial
-					, pAuthority->m_EllipticCurveType
+					, pAuthority->m_PublicKeySetting
 					, pAuthority->m_Created
 					, pAuthority->m_LastModified
 					, pAuthority->m_Certificate

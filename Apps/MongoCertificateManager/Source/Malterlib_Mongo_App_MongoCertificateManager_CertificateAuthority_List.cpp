@@ -29,7 +29,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		;
 
 		fAddHeading("Certificate Authority", false);
-		fAddHeading("EC Type");
+		fAddHeading("Key Type");
 		fAddHeading("Serial");
 		fAddHeading("Secret Managers");
 		mint iMissingOnManagersHeading = Headings.f_GetLen();
@@ -98,7 +98,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			TableRenderer.f_AddRow
 				(
 					Name
-					, fsp_EllipticCurveTypeToStr(Authority.m_EllipticCurveType)
+					, fsp_PublicKeySettingToStr(Authority.m_PublicKeySetting)
 					, "{}"_f << Authority.m_Serial
 					, CStr::fs_Join(SecretManagers, "\n")
 					, CStr::fs_Join(MissingSecretManagers, "\n")

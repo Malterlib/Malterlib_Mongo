@@ -14,7 +14,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			TCVector<TCTrustedActor<CSecretsManager>> const &_SecretManagers
 			, CStr const &_Name
 			, int32 _Serial
-			, EPublicKeyType _KeyType
+			, CPublicKeySetting const &_PublicKeySetting
 			, CTime const &_Created
 			, CTime const &_Modified
 			, CCertificateAndKey const &_Certificate
@@ -30,7 +30,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		Properties.f_SetSecret(Secrets);
 		Properties.f_SetSemanticID(CStrSecure::CFormat(CStr(mc_pAuthoritySemanticPrefix) + "{}") << _Name);
 		Properties.f_SetMetadata("Serial", _Serial);
-		Properties.f_SetMetadata("KeyType", fsp_EllipticCurveTypeToStr(_KeyType));
+		Properties.f_SetMetadata("KeyType", fsp_PublicKeySettingToStr(_PublicKeySetting));
 		Properties.f_SetTags(TCSet<CStrSecure>{"Private"});
 
 		Properties.m_Created = _Created;
@@ -54,7 +54,12 @@ namespace NMib::NMongo::NMongoCertificateManager
 	{
 		auto Auditor = f_Auditor();
 
-		[[maybe_unused]] auto EllipticCurveType = fsp_EllipticCurveTypeFromStr(_Params["EllipticCurveType"].f_String());
+		CPublicKeySetting PublicKeySetting;
+
+		if (auto *pRSASize = _Params.f_GetMember("RSASize", EJSONType_Integer))
+			PublicKeySetting = CPublicKeySettings_RSA(pRSASize->f_Integer());
+		else
+			PublicKeySetting = fsp_EllipticCurveTypeToKeySettings(fsp_EllipticCurveTypeFromStr(_Params["EllipticCurveType"].f_String()));
 
 		CStr Name = _Params["Name"].f_String();
 
@@ -78,7 +83,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		CCertificateAndKey CaCertificate = co_await
 			(
-				g_ConcurrentDispatch / [EllipticCurveType, Name]
+				g_ConcurrentDispatch / [PublicKeySetting, Name]
 				{
 					CByteVector CaCertData;
 					CSecureByteVector CaKeyData;
@@ -89,7 +94,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 					CCertificateOptions Options;
 					Options.m_CommonName = "Malterlib MongoDB CA {} - {nfh,sj16,sf0}"_f <<  Name << fg_GetHighEntropyRandomInteger<uint64>();
 					//Options.m_RelativeDistinguishedNames = RelativeDistinguishedNames;
-					Options.m_KeySetting = fsp_EllipticCurveTypeToKeySettings(EllipticCurveType);
+					Options.m_KeySetting = PublicKeySetting;
 					Options.f_MakeCA();
 					SignOptions.f_AddExtension_SubjectKeyIdentifier();
 
@@ -134,7 +139,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 					AllSecretManagers
 					, Name
 					, Serial
-					, EllipticCurveType
+					, PublicKeySetting
 					, Now
 					, Now
 					, CaCertificate

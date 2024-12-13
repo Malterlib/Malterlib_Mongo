@@ -78,7 +78,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 					AllSecretManagers
 					, *pAuthority
 					, UserKey
-					, pUser->m_EllipticCurveType
+					, pUser->m_PublicKeySetting
 					, pUser->m_Type
 					, pUser->m_Created
 					, pUser->m_LastModified

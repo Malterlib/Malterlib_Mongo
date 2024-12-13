@@ -32,7 +32,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		fAddHeading("Authority", false);
 		fAddHeading("Type", false);
 		fAddHeading("User", false);
-		fAddHeading("EC Type");
+		fAddHeading("Key Type");
 		fAddHeading("Secret Managers");
 		mint iMissingOnManagersHeading = Headings.f_GetLen();
 		fAddHeading("{}{}Missing on Managers{}"_f << AnsiEncoding.f_StatusWarning() << AnsiEncoding.f_Bold() << AnsiEncoding.f_Default());
@@ -104,7 +104,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 					UserKey.m_Authority
 					, fsp_UserTypeToStr(User.m_Type)
 					, UserKey.m_Name
-					, fsp_EllipticCurveTypeToStr(User.m_EllipticCurveType)
+					, fsp_PublicKeySettingToStr(User.m_PublicKeySetting)
 					, CStr::fs_Join(SecretManagers, "\n")
 					, CStr::fs_Join(MissingSecretManagers, "\n")
 					, StatusDescription

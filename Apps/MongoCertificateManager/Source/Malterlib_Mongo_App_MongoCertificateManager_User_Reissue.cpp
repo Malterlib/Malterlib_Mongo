@@ -94,7 +94,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 			TCFutureMap<TCWeakDistributedActor<CSecretsManager>, CSecretsManager::CSetSecretPropertiesResult> StoreResultsAsync;
 
-			auto UserCertificate = co_await fp_GenerateUserCertificate(pAuthority->m_Certificate, pUser->m_EllipticCurveType, pUser->f_GetKey().m_Name, pUser->m_Type);
+			auto UserCertificate = co_await fp_GenerateUserCertificate(pAuthority->m_Certificate, pUser->m_PublicKeySetting, pUser->f_GetKey().m_Name, pUser->m_Type);
 
 			CTime LastModified = CTime::fs_NowUTC();
 
@@ -103,7 +103,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 					AllSecretManagers
 					, *pAuthority
 					, UserKey
-					, pUser->m_EllipticCurveType
+					, pUser->m_PublicKeySetting
 					, pUser->m_Type
 					, pUser->m_Created
 					, LastModified

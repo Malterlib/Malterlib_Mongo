@@ -108,6 +108,27 @@ namespace NMib::NMongo::NMongoCertificateManager
 			DMibError("Unknown elliptic key type: {}"_f << _String);
 	}
 
+	CPublicKeySetting CMongoCertificateManagerActor::fsp_PublicKeySettingFromStr(CStr const &_String)
+	{
+		if (_String.f_StartsWith("RSA-"))
+			return _String.f_RemovePrefix("RSA-").f_ToInt(uint32(4096));
+		else
+			return fsp_EllipticCurveTypeFromStr(_String);
+	}
+
+	CStr CMongoCertificateManagerActor::fsp_PublicKeySettingToStr(CPublicKeySetting const &_PublicKeySetting)
+	{
+		switch (_PublicKeySetting.f_GetTypeID())
+		{
+		case EPublicKeyType_RSA: return "RSA-{}"_f << _PublicKeySetting.f_Get<EPublicKeyType_RSA>().m_KeyLength;
+		case EPublicKeyType_EC_secp256r1: return "secp256r1";
+		case EPublicKeyType_EC_secp384r1: return "secp384r1";
+		case EPublicKeyType_EC_secp521r1: return "secp521r1";
+		case EPublicKeyType_EC_X25519: return "X25519";
+		}
+		return "Unknown";
+	}
+
 	CStr CMongoCertificateManagerActor::fsp_EllipticCurveTypeToStr(EPublicKeyType _Type)
 	{
 		switch (_Type)
