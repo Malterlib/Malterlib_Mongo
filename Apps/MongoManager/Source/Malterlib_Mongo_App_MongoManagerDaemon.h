@@ -26,6 +26,7 @@ namespace NMib::NMongo::NMongoManager
 		
 		TCFuture<void> fp_StartApp(NEncoding::CEJSONSorted const _Params) override;
 		TCFuture<void> fp_StopApp() override;
+		TCFuture<void> fp_Destroy() override;
 		TCFuture<void> fp_PreStop() override;
 		void fp_PopulateAppInterfaceInfo
 			(

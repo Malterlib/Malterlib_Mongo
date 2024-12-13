@@ -4,6 +4,8 @@
 #include "Malterlib_Mongo_App_MongoManagerDaemon.h"
 #include "Malterlib_Mongo_App_MongoManager_Server.h"
 
+#include <Mib/Concurrency/LogError>
+
 namespace NMib::NMongo::NMongoManager
 {
 	CMongoManagerDaemonActor::CMongoManagerDaemonActor()
@@ -87,6 +89,21 @@ namespace NMib::NMongo::NMongoManager
 			co_await (fg_Move(mp_pManager).f_Destroy() % "Failed to shut down server");
 		}
 		
+		co_return {};
+	}
+	
+	TCFuture<void> CMongoManagerDaemonActor::fp_Destroy()
+	{
+		CLogError LogError("MongoManagerDaemon");
+
+		if (mp_pManager)
+		{
+			DMibLogWithCategory(Mib/Mongo/MongoManager/Daemon, Info, "Shutting down");
+			co_await fg_Move(mp_pManager).f_Destroy().f_Wrap() > LogError("Failed to shut down server");
+		}
+
+		co_await CDistributedAppActor::fp_Destroy();
+
 		co_return {};
 	}
 	
