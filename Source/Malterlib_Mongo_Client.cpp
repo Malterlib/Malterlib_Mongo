@@ -980,4 +980,15 @@ namespace NMib::NMongo
 			co_return fg_MongoExceptionToMalterlibException(NException::fg_CurrentException(), NStr::gc_Str<"remove">);
 		}
 	}
+
+	CMongoClientRetryState::CMongoClientRetryState(CMongoConnectionSettings const &_ConnectionSettings, fp64 _Timeout)
+		: m_ConnectionSettings(_ConnectionSettings)
+		, m_Timeout(_Timeout)
+	{
+	}
+
+	NConcurrency::TCFuture<void> CMongoClientRetryState::f_Destroy()
+	{
+		return fg_Move(m_MongoClient).f_Destroy();
+	}
 }

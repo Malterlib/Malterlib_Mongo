@@ -73,6 +73,19 @@ namespace NMib::NMongo
 		bool m_bDirectConnection = false;
 	};
 
+	class CMongoClientActor;
+	
+	struct CMongoClientRetryState
+	{
+		CMongoClientRetryState(CMongoConnectionSettings const &_ConnectionSettings, fp64 _Timeout = 60.0);
+
+		NConcurrency::TCFuture<void> f_Destroy();
+
+		CMongoConnectionSettings m_ConnectionSettings;
+		NConcurrency::TCActor<CMongoClientActor> m_MongoClient;
+		fp64 m_Timeout = 60.0;
+	};
+
 	class CMongoClientActor : public NConcurrency::CActor
 	{
 	public:
@@ -163,6 +176,15 @@ namespace NMib::NMongo
 		NConcurrency::TCFuture<void> f_Insert(NStr::CStr _Collection, NEncoding::CEJSONOrdered _Document, EInsertOption _Options);
 		NConcurrency::TCFuture<CUpdateResult> f_Update(NStr::CStr _Collection, NEncoding::CEJSONOrdered _Query, NEncoding::CEJSONOrdered _Update, EUpdateOption _Options);
 		NConcurrency::TCFuture<void> f_Remove(NStr::CStr _Collection, NEncoding::CEJSONOrdered _Query, ERemoveOption _Options);
+
+		template <typename tf_CReturn, typename ...tf_CParams>
+		static tf_CReturn fs_WithConnectionRetry
+			(
+				tf_CReturn (CMongoClientActor::* _pMemberPointer)(tf_CParams ...)
+				, NStorage::TCSharedPointer<CMongoClientRetryState> _pState
+				, typename NTraits::TCRemoveReferenceAndQualifiers<tf_CParams>::CType ...p_Params
+			)
+		;
 
 	private:
 		NConcurrency::TCFuture<void> fp_Destroy() override;
