@@ -129,6 +129,24 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterCommand
 			(
 				{
+					"Names"_o= {"--without-replica-set"}
+					, "Description"_o=
+					fg_Format
+					(
+						"Starts temporarily without replica set.\n"
+						"Use this in cases where you need to debug or change replica set configuration.\n"
+					)
+				}
+				, [this](NEncoding::CEJSONSorted _Parameters, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine) -> TCFuture<uint32>
+				{
+					co_return co_await fp_CommandLine_WithoutReplicaSet(fg_Move(_Parameters), fg_Move(_pCommandLine));
+				}
+				, EDistributedAppCommandFlag_RunLocalApp
+			)
+		;
+		Section.f_RegisterCommand
+			(
+				{
 					"Names"_o= {"--run-backup"}
 					, "Description"_o= "Run a backup without running from an AppManager.\n"
 					, "Output"_o= "Backup ID.\n"
@@ -325,6 +343,33 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 	
+	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_WithoutReplicaSet
+		(
+			NEncoding::CEJSONSorted const _Params
+			, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine
+		)
+	{
+		co_await fp_WaitForAppStartup();
+
+		TCPromiseFuturePair<void> Promise;
+		auto Subscription = co_await _pCommandLine->f_RegisterForCancellation
+			(
+				g_ActorFunctor / [Promise = fg_Move(Promise.m_Promise)]() -> TCFuture<bool>
+				{
+					Promise.f_SetResult();
+
+					co_return false;
+				}
+			)
+		;
+
+		*_pCommandLine += "Waiting for cancellation\n";
+
+		co_await fg_Move(Promise.m_Future);
+
+		co_return {};
+	}
+
 	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_SetupPermissions(NEncoding::CEJSONSorted const _Param, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();

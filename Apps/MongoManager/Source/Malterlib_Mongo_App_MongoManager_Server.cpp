@@ -34,6 +34,11 @@ namespace NMib::NMongo::NMongoManager
 	{
 	}
 
+	bool CMongoManagerActor::fp_ShouldUseReplica() const
+	{
+		return mp_Mode != EMode_UpdateReplicationConfig && mp_Mode != EMode_SetupPermissions && mp_Mode != EMode_WithoutReplicaSet;
+	}
+
 	TCFuture<void> CMongoManagerActor::f_Startup(EMode _Mode, CStr _OverrideReplicaName, uint16 _Port, TCOptional<bool> _VerboseMongoScrips)
 	{
 		mp_Mode = _Mode;
@@ -92,7 +97,7 @@ namespace NMib::NMongo::NMongoManager
 
 		co_await fp_StartMongo();
 
-		if (mp_Mode == EMode_UpdateReplicationConfig || mp_Mode == EMode_SetupPermissions)
+		if (!fp_ShouldUseReplica())
 			co_return {};
 
 		co_await fp_Mongo_WaitForPrimary(fp_LocalConnectionSettings(), mp_Mode != EMode_JoinReplicaSet);
@@ -259,7 +264,7 @@ namespace NMib::NMongo::NMongoManager
 					UserName = mp_MongoUser.m_UserName
 					, MongoVersion = mp_MongoVersion
 					, MongoPort = mp_MongoConnectionSettings.f_GetSingleHost().m_Port
-					, MongoReplicaName = mp_MongoReplicaName
+					, MongoReplicaName = fp_ShouldUseReplica() ? mp_MongoReplicaName : CStr{}
 				]
 				{
 					CExeFS ExeFS;

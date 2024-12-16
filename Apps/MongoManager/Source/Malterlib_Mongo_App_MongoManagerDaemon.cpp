@@ -59,6 +59,8 @@ namespace NMib::NMongo::NMongoManager
 			Mode = CMongoManagerActor::EMode_RunRestore;
 		else if (Command == "--update-replication-config")
 			Mode = CMongoManagerActor::EMode_UpdateReplicationConfig;
+		else if (Command == "--without-replica-set")
+			Mode = CMongoManagerActor::EMode_WithoutReplicaSet;
 		else if (Command == "--setup-permissions")
 			Mode = CMongoManagerActor::EMode_SetupPermissions;
 		else if (Command == "--join-replica-set")

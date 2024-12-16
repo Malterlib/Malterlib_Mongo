@@ -225,7 +225,7 @@ namespace NMib::NMongo::NMongoManager
 			}
 		;
 
-		if (mp_Mode != EMode_UpdateReplicationConfig && mp_Mode != EMode_SetupPermissions)
+		if (fp_ShouldUseReplica())
 			fAddValue("--replSet", mp_MongoReplicaName);
 
 		fAddValue("--dbpath", DatabasePath);

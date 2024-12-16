@@ -45,6 +45,7 @@ namespace NMib::NMongo::NMongoManager
 			, EMode_UpdateReplicationConfig
 			, EMode_SetupPermissions
 			, EMode_JoinReplicaSet
+			, EMode_WithoutReplicaSet
 		};
 
 		CMongoManagerActor(CDistributedAppState &_AppState);
@@ -81,6 +82,8 @@ namespace NMib::NMongo::NMongoManager
 		TCFuture<void> fp_Destroy() override;
 
 		void fp_StartMongoBackup();
+
+		bool fp_ShouldUseReplica() const;
 
 		TCFuture<void> fp_SetupPrerequisites_Mongo();
 		CStr fp_GetMongoExecutable(CStr const &_ExecutableName) const;

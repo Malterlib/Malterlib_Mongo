@@ -28,15 +28,21 @@ if [[ "$1" == "--port" ]]; then
 	shift 2
 fi
 
+if [[ '{3}' == '' ]]; then
+	MongoHostName="`hostname`:$MONGO_PORT"
+else
+	MongoHostName="{3}/`hostname`:$MONGO_PORT"
+fi
+
 if [[ "$MongoCommand" == "$ScriptDir/mongo/{1}/bin/mongosh" ]]; then
 	sudo -u {0} \
-		$MongoCommand --host "{3}/`hostname`:$MONGO_PORT" \
+		$MongoCommand --host "$MongoHostName" \
 		--tls --authenticationMechanism MONGODB-X509 --authenticationDatabase "\$external" \
 		--tlsCAFile "$ScriptDir/mongo/certificates/MongoCA.crt" --tlsCertificateKeyFile "$ScriptDir/mongo/certificates/admin.pem" \
 		"${{Arguments[@]}"
 else
 	sudo -u {0} \
-		$MongoCommand --host "{3}/`hostname`:$MONGO_PORT" \
+		$MongoCommand --host "$MongoHostName" \
 		--ssl --authenticationMechanism MONGODB-X509 --authenticationDatabase "\$external" \
 		--sslCAFile "$ScriptDir/mongo/certificates/MongoCA.crt" --sslPEMKeyFile "$ScriptDir/mongo/certificates/admin.pem" \
 		"${{Arguments[@]}"

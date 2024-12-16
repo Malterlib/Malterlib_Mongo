@@ -14,6 +14,7 @@ namespace NMib::NMongo::NMongoManager
 		{
 		case EMode_RunRestore:
 		case EMode_UpdateReplicationConfig:
+		case EMode_WithoutReplicaSet:
 		case EMode_SetupPermissions:
 		case EMode_JoinReplicaSet:
 			co_return {};
