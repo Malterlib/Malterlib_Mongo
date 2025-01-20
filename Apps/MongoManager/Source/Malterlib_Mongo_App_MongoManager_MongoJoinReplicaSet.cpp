@@ -76,9 +76,14 @@ namespace NMib::NMongo::NMongoManager
 
 			if (Result)
 				break;
+			else if (mp_bVerboseMongoScripts)
+				DMibLog(Warning, "Error while waiting for self (retrying): {}", Result.f_GetExceptionStr());
 
 			co_await fg_Timeout(1.0);
 		}
+
+		if (mp_bVerboseMongoScripts)
+			DMibLog(Info, "Waiting for primary");
 
 		co_await fp_MongoHelper_WaitForPrimary(pState);
 

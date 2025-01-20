@@ -85,6 +85,9 @@ namespace NMib::NMongo
 					}
 				}
 
+				if (_pState->m_MongoClient)
+					co_await fg_Move(_pState->m_MongoClient).f_Destroy();
+
 				co_return TryResult.f_GetException();
 			}
 			else
