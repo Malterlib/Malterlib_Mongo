@@ -463,7 +463,7 @@ namespace NMib::NMongo::NMongoManager
 		CStr SelfTag = Self.f_ReplaceChar('.', '_').f_ReplaceChar(':', '_');
 
 		CEJSONOrdered Config = {"selfTag"_o= SelfTag};
-		CEJSONOrdered &ReplicationConfig = Config["replicationConfig"] =
+		CEJSONOrdered &ReplicationConfig = Config["replicationConfig"] = _o=
 			{
 				"host"_o= Self
 				, "arbiterOnly"_o= _Options.m_ArbiterOnly.f_Get(false)

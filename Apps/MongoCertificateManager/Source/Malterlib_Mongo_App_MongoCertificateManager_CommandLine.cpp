@@ -24,7 +24,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		auto SettingsOption_EllipticCurveType = "EllipticCurveType?"_o=
 			{
-				"Names"_o= {"--elliptic-curve-type"}
+				"Names"_o= _o["--elliptic-curve-type"]
 				, "Default"_o= "secp521r1"
 				, "Type"_o= COneOf{"secp256r1", "secp384r1", "secp521r1", "X25519"}
 				, "Description"_o= "The type of elliptic curve to use for the EC certificate."
@@ -33,7 +33,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		auto SettingsOption_RSASize = "RSASize?"_o=
 			{
-				"Names"_o= {"--rsa-size"}
+				"Names"_o= _o["--rsa-size"]
 				, "Type"_o= 4096
 				, "Description"_o= "The size of the RSA certificate."
 			}
@@ -41,7 +41,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		auto SettingsOption_Authority = "Authority?"_o=
 			{
-				"Names"_o= {"--authority"}
+				"Names"_o= _o["--authority"]
 				, "Default"_o= ""
 				, "Type"_o= ""
 				, "Description"_o= "The certificate authority to use"
@@ -66,13 +66,13 @@ namespace NMib::NMongo::NMongoCertificateManager
 		AuthorityManagement.f_RegisterCommand
 			(
 				{
-					"Names"_o= {"--authority-create"}
+					"Names"_o= _o["--authority-create"]
 					, "Description"_o= "Create a certificate authority\n"
 					, "Options"_o=
 					{
 						"Name"_o=
 						{
-							"Names"_o= {"--name"}
+							"Names"_o= _o["--name"]
 							, "Type"_o= ""
 							, "Description"_o= "Name of the certificate authority"
 						}
@@ -89,13 +89,13 @@ namespace NMib::NMongo::NMongoCertificateManager
 		AuthorityManagement.f_RegisterCommand
 			(
 				{
-					"Names"_o= {"--authority-list"}
+					"Names"_o= _o["--authority-list"]
 					, "Description"_o= "List certificate authorities."
 					, "Options"_o=
 					{
 						"Verbose?"_o=
 						{
-							"Names"_o= {"--verbose", "-v"}
+							"Names"_o= _o["--verbose", "-v"]
 							, "Default"_o= false
 							, "Description"_o= "Display more extensive information about the ca."
 						}
@@ -112,7 +112,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		AuthorityManagement.f_RegisterCommand
 			(
 				{
-					"Names"_o= {"--authority-resync"}
+					"Names"_o= _o["--authority-resync"]
 					, "Description"_o= "Update certificate authorities on out of date secret managers."
 					, "Options"_o=
 					{
@@ -130,7 +130,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		auto SettingsOption_User = "User?"_o=
 			{
-				"Names"_o= {"--user"}
+				"Names"_o= _o["--user"]
 				, "Default"_o= ""
 				, "Type"_o= ""
 				, "Description"_o= "Name of the user"
@@ -140,7 +140,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		UserManagement.f_RegisterCommand
 			(
 				{
-					"Names"_o= {"--user-create"}
+					"Names"_o= _o["--user-create"]
 					, "Description"_o= "Create a user\n"
 					, "Options"_o=
 					{
@@ -148,7 +148,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 						, fStripOptional(fStripDefault(SettingsOption_User))
 						, "Type?"_o=
 						{
-							"Names"_o= {"--type"}
+							"Names"_o= _o["--type"]
 							, "Default"_o= "user"
 							, "Type"_o= COneOf{"user", "server"}
 							, "Description"_o= "The type of user to create."
@@ -166,13 +166,13 @@ namespace NMib::NMongo::NMongoCertificateManager
 		UserManagement.f_RegisterCommand
 			(
 				{
-					"Names"_o= {"--user-list"}
+					"Names"_o= _o["--user-list"]
 					, "Description"_o= "List certificate authorities."
 					, "Options"_o=
 					{
 						"Verbose?"_o=
 						{
-							"Names"_o= {"--verbose", "-v"}
+							"Names"_o= _o["--verbose", "-v"]
 							, "Default"_o= false
 							, "Description"_o= "Display more extensive information about the ca."
 						}
@@ -190,7 +190,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		UserManagement.f_RegisterCommand
 			(
 				{
-					"Names"_o= {"--user-resync"}
+					"Names"_o= _o["--user-resync"]
 					, "Description"_o= "Update users on out of date secret managers."
 					, "Options"_o=
 					{
@@ -207,13 +207,13 @@ namespace NMib::NMongo::NMongoCertificateManager
 		UserManagement.f_RegisterCommand
 			(
 				{
-					"Names"_o= {"--user-reissue-certificate"}
+					"Names"_o= _o["--user-reissue-certificate"]
 					, "Description"_o= "Reissue certificates that are about to expire."
 					, "Options"_o=
 					{
 						"Days?"_o=
 						{
-							"Names"_o= {"--days", "-v"}
+							"Names"_o= _o["--days", "-v"]
 							, "Default"_o= 365
 							, "Description"_o= "Reissue certificates that are about to expire within these number of days."
 						}

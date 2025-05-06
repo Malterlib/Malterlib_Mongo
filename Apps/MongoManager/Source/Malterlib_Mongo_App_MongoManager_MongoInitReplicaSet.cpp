@@ -28,11 +28,13 @@ namespace NMib::NMongo::NMongoManager
 				"_id"_o= mp_MongoReplicaName
 				, "members"_o=
 				{
-					{
+					_o
+					[
 						MemberConfig
-					}
+					]
 				}
-				, "settings"_o= {
+				, "settings"_o=
+				{
 					"getLastErrorModes"_o= EJSONType_Object
 				}
 			}

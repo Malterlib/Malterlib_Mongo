@@ -21,24 +21,26 @@ namespace NMib::NMongo::NMongoManager
 					, "oplogger"
 					, CEJSONOrdered
 					{
-						"privileges"_o=
-						{
+						"privileges"_o= _o
+						[
+							_o=
 							{
 								"resource"_o=
 								{
 									"db"_o= "local"
 									, "collection"_o= "oplog.rs"
 								}
-								, "actions"_o= {"find"}
+								, "actions"_o= _o["find"]
 							}
-						}
-						, "roles"_o=
-						{
+						]
+						, "roles"_o= _o
+						[
+							_o=
 							{
 								"role"_o= "read"
 								, "db"_o= "local"
 							}
-						}
+						]
 					}
 				)
 			;
@@ -52,44 +54,46 @@ namespace NMib::NMongo::NMongoManager
 					, "anyActionOnAnyResource"
 					, CEJSONOrdered
 					{
-						"privileges"_o=
-						{
+						"privileges"_o= _o
+						[
+							_o=
 							{
 								"resource"_o=
 								{
 									"anyResource"_o= true
 								}
-								, "actions"_o= {"anyAction"}
+								, "actions"_o= _o["anyAction"]
 							}
-						}
+						]
 						, "roles"_o= EJSONType_Array
 					}
 				)
 			;
 		}
 
-		CEJSONOrdered AdminRoles =
-			{
+		CEJSONOrdered AdminRoles = _o
+			[
+				_o=
 				{
 					"role"_o= "root"
 					, "db"_o= "admin"
 				}
-				,
+				, _o=
 				{
 					"role"_o= "read"
 					, "db"_o= "local"
 				}
-				,
+				, _o=
 				{
 					"role"_o= "oplogger"
 					, "db"_o= "admin"
 				}
-				,
+				, _o=
 				{
 					"role"_o= "anyActionOnAnyResource"
 					, "db"_o= "admin"
 				}
-			}
+			]
 		;
 
 		if (!(co_await fp_MongoHelper_GetUser(pState, _UserName)).f_IsValid())
@@ -98,7 +102,10 @@ namespace NMib::NMongo::NMongoManager
 				(
 					pState
 					, _UserName
-					, CEJSONOrdered{"roles"_o= fg_TempCopy(AdminRoles)}
+					, CEJSONOrdered
+					{
+						"roles"_o= AdminRoles
+					}
 				)
 			;
 		}
@@ -108,7 +115,10 @@ namespace NMib::NMongo::NMongoManager
 				(
 					pState
 					, _UserName
-					, CEJSONOrdered{"roles"_o= fg_TempCopy(AdminRoles)}
+					, CEJSONOrdered
+					{
+						"roles"_o= AdminRoles
+					}
 				)
 			;
 		}

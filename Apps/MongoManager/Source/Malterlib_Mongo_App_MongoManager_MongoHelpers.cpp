@@ -174,7 +174,8 @@ namespace NMib::NMongo::NMongoManager
 				, gc_Str<"admin">.m_Str
 				, CEJSONOrdered
 				{
-					"rolesInfo"_o= {
+					"rolesInfo"_o=
+					{
 						"role"_o= _Name
 						, "db"_o= "admin"
 					}
@@ -197,7 +198,7 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<void> CMongoManagerActor::fp_MongoHelper_CreateRole(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJSONOrdered _Role)
 	{
-		CEJSONOrdered CreateCommand = CEJSONOrdered
+		CEJSONOrdered CreateCommand
 			{
 				"createRole"_o= _Name
 			}
@@ -227,7 +228,8 @@ namespace NMib::NMongo::NMongoManager
 				, gc_Str<"$external">.m_Str
 				, CEJSONOrdered
 				{
-					"usersInfo"_o= {
+					"usersInfo"_o=
+					{
 						"user"_o= _Name
 						, "db"_o= "$external"
 					}
@@ -250,7 +252,7 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<void> CMongoManagerActor::fp_MongoHelper_CreateUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJSONOrdered _User)
 	{
-		CEJSONOrdered CreateCommand = CEJSONOrdered
+		CEJSONOrdered CreateCommand
 			{
 				"createUser"_o= _Name
 			}
@@ -273,7 +275,7 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<void> CMongoManagerActor::fp_MongoHelper_UpdateUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJSONOrdered _User)
 	{
-		CEJSONOrdered UpdateCommand = CEJSONOrdered
+		CEJSONOrdered UpdateCommand
 			{
 				"updateUser"_o= _Name
 			}

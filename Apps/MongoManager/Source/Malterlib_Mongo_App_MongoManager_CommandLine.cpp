@@ -25,7 +25,7 @@ namespace NMib::NMongo::NMongoManager
 				{
 					"VerboseMongoScripts?"_o=
 					{
-						"Names"_o= {"--verbose-mongo-scripts"}
+						"Names"_o= _o["--verbose-mongo-scripts"]
 						, "Type"_o= false
 						, "Description"_o= "Log verbose info from mongo scripts\n"
 							"Defaults to false. Can also be specied in config file VerboseMongoScripts. Command line option overrides setting in config file."
@@ -39,7 +39,7 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterDirectCommand
 			(
 				{
-					"Names"_o= {"--list-restore-range"}
+					"Names"_o= _o["--list-restore-range"]
 					, "Description"_o=
 					fg_Format
 					(
@@ -57,17 +57,13 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterCommand
 			(
 				{
-					"Names"_o= {"--restore"}
-					, "Description"_o=
-					fg_Format
-					(
-						"Restores the database from backup.\n"
-						"Expects the dump to be located in directory: {}\n"
-						"Expects the oplog to be located at: {}\n"
-						"Should not be run when the daemon is started\n"
-						, CFile::fs_GetProgramDirectory() + "/MongoDump"
-						, CFile::fs_GetProgramDirectory() + "/Oplog.bson"
-					)
+					"Names"_o= _o["--restore"]
+					, "Description"_o= "Restores the database from backup.\n"
+					"Expects the dump to be located in directory: {}\n"
+					"Expects the oplog to be located at: {}\n"
+					"Should not be run when the daemon is started\n"_f
+					<< CFile::fs_GetProgramDirectory() + "/MongoDump"
+					<< CFile::fs_GetProgramDirectory() + "/Oplog.bson"
 					, "Parameters"_o=
 					{
 						"RestoreTime?"_o=
@@ -88,13 +84,13 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterCommand
 			(
 				{
-					"Names"_o= {"--setup-permissions"}
+					"Names"_o= _o["--setup-permissions"]
 					, "Description"_o= "Sets up permissions for a empty database by adding the admin user.\n"
 					, "Options"_o=
 					{
 						"MongoPort?"_o=
 						{
-							"Names"_o= {"--port"}
+							"Names"_o= _o["--port"]
 							, "Type"_o= 0
 							, "Description"_o= "Specify the port to run the mongo server on. Will overwrite MongoManagerConfig.json with stripped comments."
 						}
@@ -110,14 +106,10 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterCommand
 			(
 				{
-					"Names"_o= {"--update-replication-config"}
-					, "Description"_o=
-					fg_Format
-					(
-						"Updates replication config.\n"
-						"Use this in cases such as when hostname has changed and you need to update replication config to reflect this\n"
-						"Should not be run when the daemon is started. Should not be run in a distributed replica.\n"
-					)
+					"Names"_o= _o["--update-replication-config"]
+					, "Description"_o= "Updates replication config.\n"
+					"Use this in cases such as when hostname has changed and you need to update replication config to reflect this\n"
+					"Should not be run when the daemon is started. Should not be run in a distributed replica.\n"
 				}
 				, [this](NEncoding::CEJSONSorted _Parameters, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine) -> TCFuture<uint32>
 				{
@@ -129,13 +121,9 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterCommand
 			(
 				{
-					"Names"_o= {"--without-replica-set"}
-					, "Description"_o=
-					fg_Format
-					(
-						"Starts temporarily without replica set.\n"
-						"Use this in cases where you need to debug or change replica set configuration.\n"
-					)
+					"Names"_o= _o["--without-replica-set"]
+					, "Description"_o="Starts temporarily without replica set.\n"
+					"Use this in cases where you need to debug or change replica set configuration.\n"
 				}
 				, [this](NEncoding::CEJSONSorted _Parameters, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine) -> TCFuture<uint32>
 				{
@@ -147,7 +135,7 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterCommand
 			(
 				{
-					"Names"_o= {"--run-backup"}
+					"Names"_o= _o["--run-backup"]
 					, "Description"_o= "Run a backup without running from an AppManager.\n"
 					, "Output"_o= "Backup ID.\n"
 				}
@@ -161,13 +149,13 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterCommand
 			(
 				{
-					"Names"_o= {"--cancel-backups"}
+					"Names"_o= _o["--cancel-backups"]
 					, "Description"_o= "Run a backup without running from an AppManager.\n"
 					, "Parameters"_o=
 					{
 						"BackupIDs...?"_o=
 						{
-							"Type"_o= {1}
+							"Type"_o= _o[1]
 							, "Description"_o= "The backup IDs to cancel. Specify none to cancel all backups"
 						}
 					}
@@ -183,56 +171,59 @@ namespace NMib::NMongo::NMongoManager
 		Section.f_RegisterCommand
 			(
 				{
-					"Names"_o= {"--join-replica-set"}
+					"Names"_o= _o["--join-replica-set"]
 					, "Description"_o= "Joins mongo replica.\n"
 					, "Options"_o=
 					{
 						"MongoPort?"_o=
 						{
-							"Names"_o= {"--port"}
+							"Names"_o= _o["--port"]
 							, "Type"_o= 0
 							, "Description"_o= "Specify the port to run the mongo server on. Will overwrite MongoManagerConfig.json with stripped comments."
 						}
 						, "MongoReplicaName?"_o=
 						{
-							"Names"_o= {"--replica-name"}
+							"Names"_o= _o["--replica-name"]
 							, "Type"_o= ""
 							, "Description"_o= "Specify the name of the replica to join. Will overwrite MongoManagerConfig.json with stripped comments."
 						}
 						, "CanVote?"_o=
 						{
-							"Names"_o= {"--can-vote"}
+							"Names"_o= _o["--can-vote"]
 							, "Type"_o= true
 							, "Description"_o= "Specify whether this mongo instance should have a vote in the election process."
 						}
 						, "Priority?"_o=
 						{
-							"Names"_o= {"--priority"}
+							"Names"_o= _o["--priority"]
 							, "Type"_o= 1.0
 							, "Description"_o= "Specify the priority this mongo should have in the election process."
 						}
 						, "ArbiterOnly?"_o=
 						{
-							"Names"_o= {"--arbiter-only"}
+							"Names"_o= _o["--arbiter-only"]
 							, "Type"_o= false
 							, "Description"_o= "Specify that the member should be a arbiter only."
 						}
 						, "BuildIndexes?"_o=
 						{
-							"Names"_o= {"--build-indexes"}
+							"Names"_o= _o["--build-indexes"]
 							, "Type"_o= true
 							, "Description"_o= "Specify that the member should not build indexes. Useful for backup only hosts."
 						}
 						, "Hidden?"_o=
 						{
-							"Names"_o= {"--hidden"}
+							"Names"_o= _o["--hidden"]
 							, "Type"_o= false
 							, "Description"_o= "Hide this member so clients does not use it for queries."
 						}
 						, "ExtraTags?"_o=
 						{
-							"Names"_o= {"--extra-tags"}
-							, "Type"_o= {"*"_o= ""}
+							"Names"_o= _o["--extra-tags"]
+							, "Type"_o=
+							{
+								"*"_o= ""
+							}
 							, "Description"_o= fg_Format("Specify extra tags to add to this member. The hostname '{}' will always be included as a tag.", NProcess::NPlatform::fg_Process_GetHostName())
 						}
 					}

@@ -96,16 +96,17 @@ namespace
 								, "k_utf8"_o= "Value2"
 							}
 						}
-						, "k_array"_o=
-						{
+						, "k_array"_o= _o
+						[
+							_o=
 							{
 								"k_double"_o= 5.6
 								, "k_utf8"_o= "Value"
 							}
 							, "String"
 							, CTimeConvert::fs_CreateTime(2001, 02, 03)
-						}
-						, "k_array_empty"_o= _[_]
+						]
+						, "k_array_empty"_o= _o[]
 						, "k_bool"_o= true
 						, "k_date"_o= CTimeConvert::fs_CreateTime(2001, 02, 03)
 						, "k_null"_o= nullptr
@@ -132,11 +133,11 @@ namespace
 					}
 				;
 
-				CEJSONOrdered const ExpectedEJSONArray =
-					{
+				CEJSONOrdered const ExpectedEJSONArray = _o
+					[
 						"String"
 						, ExpectedEJSON
-					}
+					]
 				;
 				
 				DMibExpect(fg_FromBSON(NMib::fg_TempCopy(OriginalBSON)), ==, ExpectedEJSON);
