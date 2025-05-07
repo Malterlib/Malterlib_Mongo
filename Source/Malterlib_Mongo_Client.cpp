@@ -241,7 +241,7 @@ namespace NMib::NMongo
 		if (!m_RawServerError.f_IsValid())
 			return {};
 
-		if (auto *pValue = m_RawServerError.f_GetMember("codeName", NEncoding::EJSONType_String))
+		if (auto *pValue = m_RawServerError.f_GetMember("codeName", NEncoding::EJsonType_String))
 			return pValue->f_String();
 
 		return {};
@@ -539,7 +539,7 @@ namespace NMib::NMongo
 			(
 				CMongoClientActor::EQueryOption _Options
 				, auto const &_Fields
-				, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> const &_pOrder
+				, NStorage::TCUniquePointer<NEncoding::CEJsonOrdered> const &_pOrder
 			)
 		{
 			mongocxx::options::find Options;
@@ -585,7 +585,7 @@ namespace NMib::NMongo
 	NConcurrency::TCFuture<NConcurrency::CActorSubscription> CMongoClientActor::f_TailQuery
 		(
 			CTailQueryParams _Params
-			, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSONOrdered _Result)> _fOnResult
+			, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJsonOrdered _Result)> _fOnResult
 		)
 	{
 		auto &Internal = *mp_pInternal;
@@ -595,16 +595,16 @@ namespace NMib::NMongo
 		if (auto pError = Internal.f_MakeSureConnected())
 			co_return fg_Move(pError);
 
-		NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> pOrder = fg_Construct();
+		NStorage::TCUniquePointer<NEncoding::CEJsonOrdered> pOrder = fg_Construct();
 		(*pOrder)["$natural"] = -1;
 
-		NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> pFields = fg_Construct();
+		NStorage::TCUniquePointer<NEncoding::CEJsonOrdered> pFields = fg_Construct();
 		(*pFields)[_Params.m_OrderBy] = 1;
 
 		auto StartQuery = _Params.m_Query;
 		if (_Params.m_StartQuery)
 		{
-			if (_Params.m_StartQuery->f_Type() != NEncoding::EJSONType_Object)
+			if (_Params.m_StartQuery->f_Type() != NEncoding::EJsonType_Object)
 				co_return DMibErrorInstance("Expected m_StartQuery to be an object");
 
 			for (auto &Entry : _Params.m_StartQuery->f_Object())
@@ -615,14 +615,14 @@ namespace NMib::NMongo
 
 		auto QueryResult = co_await fg_ThisActor(this)(&CMongoClientActor::f_Query, Collection, StartQuery, 1, 0, fg_Move(pFields), fg_Move(pOrder), EQueryOption_None);
 
-		NEncoding::CEJSONOrdered GetOnwardsFromValue;
+		NEncoding::CEJsonOrdered GetOnwardsFromValue;
 
 		if (!QueryResult.f_IsEmpty() && QueryResult.f_GetFirst().f_IsValid())
 			GetOnwardsFromValue = fg_Move(QueryResult.f_GetFirst()[_Params.m_OrderBy]);
 		else if (_Params.m_StartQuery)
 			co_return DMibErrorInstance("Start query didn't return any document");
 
-		NStorage::TCSharedPointer<NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSONOrdered _Data)>> pOnDataCallback
+		NStorage::TCSharedPointer<NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJsonOrdered _Data)>> pOnDataCallback
 			= fg_Construct(fg_Move(_fOnResult))
 		;
 
@@ -660,7 +660,7 @@ namespace NMib::NMongo
 				{
 					auto &Internal = *mp_pInternal;
 
-					NEncoding::CEJSONOrdered Order;
+					NEncoding::CEJsonOrdered Order;
 
 #ifndef DPlatformFamily_Windows
 					auto SignalSubscription = NSys::fg_System_RegisterForThreadSignal
@@ -727,7 +727,7 @@ namespace NMib::NMongo
 							if (_pThread->f_GetState() == NThread::EThreadState_EventWantQuit)
 								return 0;
 
-							NEncoding::CEJSONOrdered Error;
+							NEncoding::CEJsonOrdered Error;
 							Error["error"] = NException::fg_ExceptionString(fg_MongoExceptionToMalterlibException(NException::fg_CurrentException(), NStr::gc_Str<"tail oplog">));
 
 							(*pOnDataCallback)(fg_Move(Error)).f_DiscardResult();
@@ -743,14 +743,14 @@ namespace NMib::NMongo
 		co_return co_await fg_Move(Result.m_Future);
 	}
 
-	NConcurrency::TCFuture<NContainer::TCVector<NEncoding::CEJSONOrdered>> CMongoClientActor::f_Query
+	NConcurrency::TCFuture<NContainer::TCVector<NEncoding::CEJsonOrdered>> CMongoClientActor::f_Query
 		(
 			NStr::CStr _Collection
-			, NEncoding::CEJSONOrdered _Query
+			, NEncoding::CEJsonOrdered _Query
 			, uint32 _nToReturn
 			, uint32 _nToSkip
-			, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> _pFields
-			, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> _pOrder
+			, NStorage::TCUniquePointer<NEncoding::CEJsonOrdered> _pFields
+			, NStorage::TCUniquePointer<NEncoding::CEJsonOrdered> _pOrder
 			, EQueryOption _Options
 		)
 	{
@@ -775,7 +775,7 @@ namespace NMib::NMongo
 
 			auto Cursor = Collection.find(fg_ToBSON(_Query), QueryOptions);
 
-			NContainer::TCVector<NEncoding::CEJSONOrdered> ToReturn;
+			NContainer::TCVector<NEncoding::CEJsonOrdered> ToReturn;
 			for (auto &&Document : Cursor)
 			   ToReturn.f_Insert(fg_FromBSON(Document));
 
@@ -787,10 +787,10 @@ namespace NMib::NMongo
 		}
 	}
 
-	NConcurrency::TCFuture<NEncoding::CEJSONOrdered> CMongoClientActor::f_RunCommand
+	NConcurrency::TCFuture<NEncoding::CEJsonOrdered> CMongoClientActor::f_RunCommand
 		(
 			NStr::CStr _Database
-			, NEncoding::CEJSONOrdered _Command
+			, NEncoding::CEJsonOrdered _Command
 		)
 	{
 		auto &Internal = *mp_pInternal;
@@ -806,7 +806,7 @@ namespace NMib::NMongo
 
 			auto ResultDocument = Database.run_command(fg_ToBSON(_Command));
 
-			NEncoding::CEJSONOrdered ToReturn = fg_FromBSON(fg_Move(ResultDocument));
+			NEncoding::CEJsonOrdered ToReturn = fg_FromBSON(fg_Move(ResultDocument));
 
 			co_return fg_Move(ToReturn);
 		}
@@ -819,7 +819,7 @@ namespace NMib::NMongo
 	NConcurrency::TCFuture<uint64> CMongoClientActor::f_Count
 		(
 			NStr::CStr _Collection
-			, NEncoding::CEJSONOrdered _Query
+			, NEncoding::CEJsonOrdered _Query
 			, uint32 _nToReturn
 			, uint32 _nToSkip
 		)
@@ -852,7 +852,7 @@ namespace NMib::NMongo
 		}
 	}
 
-	NConcurrency::TCFuture<void> CMongoClientActor::f_Insert(NStr::CStr _Collection, NEncoding::CEJSONOrdered _Document, EInsertOption _Options)
+	NConcurrency::TCFuture<void> CMongoClientActor::f_Insert(NStr::CStr _Collection, NEncoding::CEJsonOrdered _Document, EInsertOption _Options)
 	{
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
@@ -879,7 +879,7 @@ namespace NMib::NMongo
 		}
 	}
 
-	NConcurrency::TCFuture<void> CMongoClientActor::f_BatchInsert(NStr::CStr _Collection, NContainer::TCVector<NEncoding::CEJSONOrdered> _Documents, EInsertOption _Options)
+	NConcurrency::TCFuture<void> CMongoClientActor::f_BatchInsert(NStr::CStr _Collection, NContainer::TCVector<NEncoding::CEJsonOrdered> _Documents, EInsertOption _Options)
 	{
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
@@ -916,8 +916,8 @@ namespace NMib::NMongo
 	auto CMongoClientActor::f_Update
 		(
 			NStr::CStr _Collection
-			, NEncoding::CEJSONOrdered _Query
-			, NEncoding::CEJSONOrdered _Update
+			, NEncoding::CEJsonOrdered _Query
+			, NEncoding::CEJsonOrdered _Update
 			, EUpdateOption _Options
 		)
 		-> NConcurrency::TCFuture<CUpdateResult>
@@ -955,7 +955,7 @@ namespace NMib::NMongo
 		}
 	}
 
-	NConcurrency::TCFuture<void> CMongoClientActor::f_Remove(NStr::CStr _Collection, NEncoding::CEJSONOrdered _Query, ERemoveOption _Options)
+	NConcurrency::TCFuture<void> CMongoClientActor::f_Remove(NStr::CStr _Collection, NEncoding::CEJsonOrdered _Query, ERemoveOption _Options)
 	{
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)

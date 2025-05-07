@@ -4,7 +4,7 @@
 #include "Malterlib_Mongo_App_MongoManager_Server.h"
 
 #include <Mib/Concurrency/AsyncDestroy>
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 
 namespace NMib::NMongo::NMongoManager
 {
@@ -23,12 +23,12 @@ namespace NMib::NMongo::NMongoManager
 		return {};
 	}
 
-	CEJSONOrdered CMongoManagerActor::fsp_Mongo_SetInt32Value(int32 _Value)
+	CEJsonOrdered CMongoManagerActor::fsp_Mongo_SetInt32Value(int32 _Value)
 	{
-		return CEJSONOrdered::CUserType{"int32", _Value};
+		return CEJsonOrdered::CUserType{"int32", _Value};
 	}
 
-	int32 CMongoManagerActor::fsp_Mongo_GetInt32Value(CEJSONOrdered const *_pValue)
+	int32 CMongoManagerActor::fsp_Mongo_GetInt32Value(CEJsonOrdered const *_pValue)
 	{
 		if (!_pValue)
 			return 0;
@@ -41,14 +41,14 @@ namespace NMib::NMongo::NMongoManager
 			return 0;
 	}
 
-	TCFuture<CEJSONOrdered> CMongoManagerActor::fp_MongoHelper_GetReplicaSetStatus(TCSharedPointer<CMongoClientRetryState> _pState)
+	TCFuture<CEJsonOrdered> CMongoManagerActor::fp_MongoHelper_GetReplicaSetStatus(TCSharedPointer<CMongoClientRetryState> _pState)
 	{
 		co_return co_await CMongoClientActor::fs_WithConnectionRetry
 			(
 				&CMongoClientActor::f_RunCommand
 				, _pState
 				, gc_Str<"admin">.m_Str
-				, CEJSONOrdered
+				, CEJsonOrdered
 				{
 					"replSetGetStatus"_o= 1
 				}
@@ -56,12 +56,12 @@ namespace NMib::NMongo::NMongoManager
 		;
 	}
 
-	bool CMongoManagerActor::fsp_MongoHelper_ReplicaSetStatusIsNotYetInitialized(TCAsyncResult<CEJSONOrdered> const &_Status)
+	bool CMongoManagerActor::fsp_MongoHelper_ReplicaSetStatusIsNotYetInitialized(TCAsyncResult<CEJsonOrdered> const &_Status)
 	{
 		return !_Status && fsp_Mongo_GetErrorCodeName(_Status.f_GetException()) == "NotYetInitialized";
 	}
 
-	TCFuture<void> CMongoManagerActor::fsp_MongoHelper_AssureNotYetInitialized(TCAsyncResult<CEJSONOrdered> _Status)
+	TCFuture<void> CMongoManagerActor::fsp_MongoHelper_AssureNotYetInitialized(TCAsyncResult<CEJsonOrdered> _Status)
 	{
 		if (!fsp_MongoHelper_ReplicaSetStatusIsNotYetInitialized(_Status))
 			co_return DMibErrorInstance("Expected database with no replica set config, not: {}"_f << _Status);
@@ -69,14 +69,14 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 
-	TCFuture<CEJSONOrdered> CMongoManagerActor::fp_MongoHelper_GetReplicaSetConfig(TCSharedPointer<CMongoClientRetryState> _pState)
+	TCFuture<CEJsonOrdered> CMongoManagerActor::fp_MongoHelper_GetReplicaSetConfig(TCSharedPointer<CMongoClientRetryState> _pState)
 	{
 		auto Result = co_await CMongoClientActor::fs_WithConnectionRetry
 			(
 				&CMongoClientActor::f_RunCommand
 				, _pState
 				, gc_Str<"admin">.m_Str
-				, CEJSONOrdered
+				, CEJsonOrdered
 				{
 					"replSetGetConfig"_o= 1
 				}
@@ -86,7 +86,7 @@ namespace NMib::NMongo::NMongoManager
 		if (Result.f_GetMemberValue("ok", 0.0) != 1.0)
 			co_return DMibErrorInstance("Replica set config is not OK: {}"_f << Result);
 
-		auto pConfig = Result.f_GetMember("config", EJSONType_Object);
+		auto pConfig = Result.f_GetMember("config", EJsonType_Object);
 		if (!pConfig)
 			co_return DMibErrorInstance("Replica set config doesn't contain 'config': {}"_f << Result);
 
@@ -104,7 +104,7 @@ namespace NMib::NMongo::NMongoManager
 
 			auto const Status = *StatusResult;
 
-			if (auto *pStatus = Status.f_GetMember("ok", EEJSONType_Float))
+			if (auto *pStatus = Status.f_GetMember("ok", EEJsonType_Float))
 			{
 				if (pStatus->f_Float() != 1.0)
 				{
@@ -116,12 +116,12 @@ namespace NMib::NMongo::NMongoManager
 			else
 				co_return DMibErrorInstance("Couldn't find 'ok' with float type in replication status: {}"_f << Status);
 
-			if (auto *pMembers = Status.f_GetMember("members", EEJSONType_Array))
+			if (auto *pMembers = Status.f_GetMember("members", EEJsonType_Array))
 			{
 				bool bFoundPrimary = false;
 				for (auto &Member : pMembers->f_Array())
 				{
-					if (auto *pState = Member.f_GetMember("state", EEJSONType_UserType))
+					if (auto *pState = Member.f_GetMember("state", EEJsonType_UserType))
 					{
 						if (!pState->f_UserType().m_Value.f_IsInteger())
 							co_return DMibErrorInstance("Wrong type for 'state' in replication status: {}"_f << Status);
@@ -150,14 +150,14 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 
-	TCFuture<CEJSONOrdered> CMongoManagerActor::fp_MongoHelper_GetHello(TCSharedPointer<CMongoClientRetryState> _pState)
+	TCFuture<CEJsonOrdered> CMongoManagerActor::fp_MongoHelper_GetHello(TCSharedPointer<CMongoClientRetryState> _pState)
 	{
 		co_return co_await CMongoClientActor::fs_WithConnectionRetry
 			(
 				&CMongoClientActor::f_RunCommand
 				, _pState
 				, gc_Str<"admin">.m_Str
-				, CEJSONOrdered
+				, CEJsonOrdered
 				{
 					"hello"_o= 1
 				}
@@ -165,14 +165,14 @@ namespace NMib::NMongo::NMongoManager
 		;
 	}
 
-	TCFuture<CEJSONOrdered> CMongoManagerActor::fp_MongoHelper_GetRole(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name)
+	TCFuture<CEJsonOrdered> CMongoManagerActor::fp_MongoHelper_GetRole(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name)
 	{
 		auto Roles = co_await CMongoClientActor::fs_WithConnectionRetry
 			(
 				&CMongoClientActor::f_RunCommand
 				, _pState
 				, gc_Str<"admin">.m_Str
-				, CEJSONOrdered
+				, CEJsonOrdered
 				{
 					"rolesInfo"_o=
 					{
@@ -183,7 +183,7 @@ namespace NMib::NMongo::NMongoManager
 			)
 		;
 
-		auto *pRoles = Roles.f_GetMember("roles", EJSONType_Array);
+		auto *pRoles = Roles.f_GetMember("roles", EJsonType_Array);
 		if (!pRoles)
 			co_return {};
 
@@ -196,9 +196,9 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 
-	TCFuture<void> CMongoManagerActor::fp_MongoHelper_CreateRole(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJSONOrdered _Role)
+	TCFuture<void> CMongoManagerActor::fp_MongoHelper_CreateRole(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJsonOrdered _Role)
 	{
-		CEJSONOrdered CreateCommand
+		CEJsonOrdered CreateCommand
 			{
 				"createRole"_o= _Name
 			}
@@ -219,14 +219,14 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 
-	TCFuture<CEJSONOrdered> CMongoManagerActor::fp_MongoHelper_GetUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name)
+	TCFuture<CEJsonOrdered> CMongoManagerActor::fp_MongoHelper_GetUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name)
 	{
 		auto Roles = co_await CMongoClientActor::fs_WithConnectionRetry
 			(
 				&CMongoClientActor::f_RunCommand
 				, _pState
 				, gc_Str<"$external">.m_Str
-				, CEJSONOrdered
+				, CEJsonOrdered
 				{
 					"usersInfo"_o=
 					{
@@ -237,7 +237,7 @@ namespace NMib::NMongo::NMongoManager
 			)
 		;
 
-		auto *pUsers = Roles.f_GetMember("users", EJSONType_Array);
+		auto *pUsers = Roles.f_GetMember("users", EJsonType_Array);
 		if (!pUsers)
 			co_return {};
 
@@ -250,9 +250,9 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 
-	TCFuture<void> CMongoManagerActor::fp_MongoHelper_CreateUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJSONOrdered _User)
+	TCFuture<void> CMongoManagerActor::fp_MongoHelper_CreateUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJsonOrdered _User)
 	{
-		CEJSONOrdered CreateCommand
+		CEJsonOrdered CreateCommand
 			{
 				"createUser"_o= _Name
 			}
@@ -273,9 +273,9 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 
-	TCFuture<void> CMongoManagerActor::fp_MongoHelper_UpdateUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJSONOrdered _User)
+	TCFuture<void> CMongoManagerActor::fp_MongoHelper_UpdateUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJsonOrdered _User)
 	{
-		CEJSONOrdered UpdateCommand
+		CEJsonOrdered UpdateCommand
 			{
 				"updateUser"_o= _Name
 			}
@@ -315,7 +315,7 @@ namespace NMib::NMongo::NMongoManager
 
 			auto const &Status = *StatusResult;
 
-			if (auto *pStatus = Status.f_GetMember("ok", EEJSONType_Float))
+			if (auto *pStatus = Status.f_GetMember("ok", EEJsonType_Float))
 			{
 				if (pStatus->f_Float() != 1.0)
 				{
@@ -327,7 +327,7 @@ namespace NMib::NMongo::NMongoManager
 			else
 				co_return DMibErrorInstance("Couldn't find 'ok' with float type in replication status: {}"_f << Status);
 
-			if (auto *pState = Status.f_GetMember("myState", EEJSONType_UserType))
+			if (auto *pState = Status.f_GetMember("myState", EEJsonType_UserType))
 			{
 				if (!pState->f_UserType().m_Value.f_IsInteger())
 					co_return DMibErrorInstance("Wrong type for 'myState' in replication status: {}"_f << Status);

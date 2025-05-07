@@ -4,7 +4,7 @@
 #include "Malterlib_Mongo_App_MongoManager_Server.h"
 
 #include <Mib/Concurrency/LogError>
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 
 namespace NMib::NMongo::NMongoManager
 {
@@ -149,7 +149,7 @@ namespace NMib::NMongo::NMongoManager
 				(
 					&CMongoClientActor::f_RunCommand
 					, gc_Str<"admin">.m_Str
-					, CEJSONOrdered
+					, CEJsonOrdered
 					{
 						"replSetGetConfig"_o= 1
 					}
@@ -158,7 +158,7 @@ namespace NMib::NMongo::NMongoManager
 				(
 					&CMongoClientActor::f_RunCommand
 					, gc_Str<"admin">.m_Str
-					, CEJSONOrdered
+					, CEJsonOrdered
 					{
 						"replSetGetStatus"_o= 1
 					}

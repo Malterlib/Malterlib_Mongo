@@ -3,7 +3,7 @@
 
 #include "Malterlib_Mongo_App_MongoManager_Server.h"
 #include <Mib/Concurrency/Actor/Timer>
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 
 #include <Mib/Cryptography/Certificate>
 
@@ -264,15 +264,15 @@ namespace NMib::NMongo::NMongoManager
 #endif
 		{
 			fp64 MaxCacheSize = fp64::fs_Inf();
-			if (auto *pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("MaxCacheSize", EJSONType_Float))
+			if (auto *pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("MaxCacheSize", EJsonType_Float))
 				MaxCacheSize = pValue->f_Float();  
 			
 			fp64 ReservedMemory = 2.0;
-			if (auto *pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("ReservedMemory", EJSONType_Float))
+			if (auto *pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("ReservedMemory", EJsonType_Float))
 				ReservedMemory = pValue->f_Float();  
 
 			fp64 ReservedMemoryPerCore = 0.0;
-			if (auto *pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("ReservedMemoryPerCore", EJSONType_Float))
+			if (auto *pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("ReservedMemoryPerCore", EJsonType_Float))
 				ReservedMemoryPerCore = pValue->f_Float();  
 
 			fp64 MemoryAvailableGB = fp64(NProcess::NPlatform::fg_Process_GetPhysicalMemory()) / (1024.0*1024.0*1024.0);
@@ -462,8 +462,8 @@ namespace NMib::NMongo::NMongoManager
 		CStr Self = mp_MongoConnectionSettings.f_GetConnectionString();
 		CStr SelfTag = Self.f_ReplaceChar('.', '_').f_ReplaceChar(':', '_');
 
-		CEJSONOrdered Config = {"selfTag"_o= SelfTag};
-		CEJSONOrdered &ReplicationConfig = Config["replicationConfig"] = _o=
+		CEJsonOrdered Config = {"selfTag"_o= SelfTag};
+		CEJsonOrdered &ReplicationConfig = Config["replicationConfig"] = _o=
 			{
 				"host"_o= Self
 				, "arbiterOnly"_o= _Options.m_ArbiterOnly.f_Get(false)
@@ -481,7 +481,7 @@ namespace NMib::NMongo::NMongoManager
 
 		if (_Options.m_ExtraTags)
 		{
-			CEJSONOrdered &Tags = ReplicationConfig["tags"];
+			CEJsonOrdered &Tags = ReplicationConfig["tags"];
 			for (auto iTag = _Options.m_ExtraTags->f_GetIterator(); iTag; ++iTag)
 				Tags[iTag.f_GetKey()] = *iTag;
 		}

@@ -104,18 +104,18 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		TCFuture<void> fp_Destroy() override;
 
-		TCFuture<void> fp_StartApp(NEncoding::CEJSONSorted const _Params) override;
+		TCFuture<void> fp_StartApp(NEncoding::CEJsonSorted const _Params) override;
 		TCFuture<void> fp_StopApp() override;
 		TCFuture<void> fp_RegisterSensors();
 
-		TCFuture<uint32> fp_CommandLine_AuthorityCreate(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
-		TCFuture<uint32> fp_CommandLine_AuthorityList(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
-		TCFuture<uint32> fp_CommandLine_AuthorityResync(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
+		TCFuture<uint32> fp_CommandLine_AuthorityCreate(CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
+		TCFuture<uint32> fp_CommandLine_AuthorityList(CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
+		TCFuture<uint32> fp_CommandLine_AuthorityResync(CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
 
-		TCFuture<uint32> fp_CommandLine_UserCreate(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
-		TCFuture<uint32> fp_CommandLine_UserList(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
-		TCFuture<uint32> fp_CommandLine_UserResync(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
-		TCFuture<uint32> fp_CommandLine_UserReissue(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
+		TCFuture<uint32> fp_CommandLine_UserCreate(CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
+		TCFuture<uint32> fp_CommandLine_UserList(CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
+		TCFuture<uint32> fp_CommandLine_UserResync(CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
+		TCFuture<uint32> fp_CommandLine_UserReissue(CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
 
 		static EPublicKeyType fsp_EllipticCurveTypeFromStr(CStr const &_String);
 		static CStr fsp_EllipticCurveTypeToStr(EPublicKeyType _Type);

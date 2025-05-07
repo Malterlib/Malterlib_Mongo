@@ -1,7 +1,7 @@
 // Copyright © 2022 Favro Holding AB
 // Distributed under the MIT license, see license text in LICENSE.Malterlib
 
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 #include <Mib/Cryptography/RandomID>
 #include <Mib/CommandLine/TableRenderer>
 
@@ -80,7 +80,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 						, SettingsOption_RSASize
 					}
 				}
-				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
+				, [this](CEJsonSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
 				{
 					return fp_CommandLine_AuthorityCreate(fg_Move(_Params), fg_Move(_pCommandLine));
 				}
@@ -103,7 +103,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 						, CTableRenderHelper::fs_OutputTypeOption()
 					}
 				}
-				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
+				, [this](CEJsonSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
 				{
 					return fp_CommandLine_AuthorityList(fg_Move(_Params), fg_Move(_pCommandLine));
 				}
@@ -119,7 +119,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 						SettingsOption_Authority
 					}
 				}
-				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
+				, [this](CEJsonSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
 				{
 					return fp_CommandLine_AuthorityResync(fg_Move(_Params), fg_Move(_pCommandLine));
 				}
@@ -157,7 +157,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 						, SettingsOption_RSASize
 					}
 				}
-				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
+				, [this](CEJsonSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
 				{
 					return fp_CommandLine_UserCreate(fg_Move(_Params), fg_Move(_pCommandLine));
 				}
@@ -181,7 +181,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 						, CTableRenderHelper::fs_OutputTypeOption()
 					}
 				}
-				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
+				, [this](CEJsonSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
 				{
 					return fp_CommandLine_UserList(fg_Move(_Params), fg_Move(_pCommandLine));
 				}
@@ -198,7 +198,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 						, SettingsOption_User
 					}
 				}
-				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
+				, [this](CEJsonSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
 				{
 					return fp_CommandLine_UserResync(fg_Move(_Params), fg_Move(_pCommandLine));
 				}
@@ -221,7 +221,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 						, SettingsOption_User
 					}
 				}
-				, [this](CEJSONSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
+				, [this](CEJsonSorted &&_Params, NStorage::TCSharedPointer<CCommandLineControl> &&_pCommandLine)
 				{
 					return fp_CommandLine_UserReissue(fg_Move(_Params), fg_Move(_pCommandLine));
 				}

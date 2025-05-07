@@ -3,7 +3,7 @@
 
 #include "Malterlib_Mongo_App_MongoCertificateManager.h"
 
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 #include <Mib/CommandLine/TableRenderer>
 #include <Mib/Concurrency/LogError>
 

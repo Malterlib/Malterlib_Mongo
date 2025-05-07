@@ -136,29 +136,29 @@ namespace NMib::NMongo::NMongoManager
 		TCActor<CMongoClientActor> fp_MongoHelper_GetClient(CMongoConnectionSettings _ConnectionSettings);
 
 		static CStr fsp_Mongo_GetErrorCodeName(CExceptionPointer &&_pException);
-		static CEJSONOrdered fsp_Mongo_SetInt32Value(int32 _Value);
-		static int32 fsp_Mongo_GetInt32Value(CEJSONOrdered const *_pValue);
+		static CEJsonOrdered fsp_Mongo_SetInt32Value(int32 _Value);
+		static int32 fsp_Mongo_GetInt32Value(CEJsonOrdered const *_pValue);
 
-		TCFuture<CEJSONOrdered> fp_MongoHelper_GetHello(TCSharedPointer<CMongoClientRetryState> _pState);
+		TCFuture<CEJsonOrdered> fp_MongoHelper_GetHello(TCSharedPointer<CMongoClientRetryState> _pState);
 		TCFuture<void> fp_MongoHelper_WaitForPrimary(TCSharedPointer<CMongoClientRetryState> _pState);
 		TCFuture<void> fp_MongoHelper_WaitForSelf(TCSharedPointer<CMongoClientRetryState> _pState, bool _bExpectNotInitializedWhenPolling);
-		TCFuture<CEJSONOrdered> fp_MongoHelper_GetReplicaSetStatus(TCSharedPointer<CMongoClientRetryState> _pState);
-		TCFuture<CEJSONOrdered> fp_MongoHelper_GetReplicaSetConfig(TCSharedPointer<CMongoClientRetryState> _pState);
+		TCFuture<CEJsonOrdered> fp_MongoHelper_GetReplicaSetStatus(TCSharedPointer<CMongoClientRetryState> _pState);
+		TCFuture<CEJsonOrdered> fp_MongoHelper_GetReplicaSetConfig(TCSharedPointer<CMongoClientRetryState> _pState);
 
-		TCFuture<CEJSONOrdered> fp_MongoHelper_GetRole(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name);
-		TCFuture<void> fp_MongoHelper_CreateRole(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJSONOrdered _Role);
+		TCFuture<CEJsonOrdered> fp_MongoHelper_GetRole(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name);
+		TCFuture<void> fp_MongoHelper_CreateRole(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJsonOrdered _Role);
 
-		TCFuture<CEJSONOrdered> fp_MongoHelper_GetUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name);
-		TCFuture<void> fp_MongoHelper_CreateUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJSONOrdered _User);
-		TCFuture<void> fp_MongoHelper_UpdateUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJSONOrdered _User);
+		TCFuture<CEJsonOrdered> fp_MongoHelper_GetUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name);
+		TCFuture<void> fp_MongoHelper_CreateUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJsonOrdered _User);
+		TCFuture<void> fp_MongoHelper_UpdateUser(TCSharedPointer<CMongoClientRetryState> _pState, CStr _Name, CEJsonOrdered _User);
 
 		TCFuture<CStr> fp_Mongo_GetPrimary(CMongoConnectionSettings _ConnectionSettings);
-		TCFuture<void> fp_Mongo_InitReplicaSet(CMongoConnectionSettings _ConnectionSettings, CEJSONOrdered _ReplicationConfig, CStr _SelfTag);
+		TCFuture<void> fp_Mongo_InitReplicaSet(CMongoConnectionSettings _ConnectionSettings, CEJsonOrdered _ReplicationConfig, CStr _SelfTag);
 		TCFuture<void> fp_Mongo_JoinReplicaSet
 			(
 				CMongoConnectionSettings _JoinConnectionSettings
 				, CMongoConnectionSettings _LocalConnectionSettings
-				, CEJSONOrdered _ReplicationConfig
+				, CEJsonOrdered _ReplicationConfig
 				, CStr _SelfTag
 			)
 		;
@@ -166,8 +166,8 @@ namespace NMib::NMongo::NMongoManager
 		TCFuture<void> fp_Mongo_UpdateReplicationConfig(CMongoConnectionSettings _ConnectionSettings);
 		TCFuture<void> fp_Mongo_WaitForPrimary(CMongoConnectionSettings _ConnectionSettings, bool _bExpectReplica);
 
-		static bool fsp_MongoHelper_ReplicaSetStatusIsNotYetInitialized(TCAsyncResult<CEJSONOrdered> const &_Status);
-		static TCFuture<void> fsp_MongoHelper_AssureNotYetInitialized(TCAsyncResult<CEJSONOrdered> _Status);
+		static bool fsp_MongoHelper_ReplicaSetStatusIsNotYetInitialized(TCAsyncResult<CEJsonOrdered> const &_Status);
+		static TCFuture<void> fsp_MongoHelper_AssureNotYetInitialized(TCAsyncResult<CEJsonOrdered> _Status);
 
 		CMongoConnectionSettings fp_LocalConnectionSettings();
 

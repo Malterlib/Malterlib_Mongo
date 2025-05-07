@@ -152,7 +152,7 @@ namespace NMib::NMongo::NMongoManager
 		if (mp_Mode != EMode_Normal)
 			co_return {};
 		
-		if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("BackupEnable", EJSONType_Boolean))
+		if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("BackupEnable", EJsonType_Boolean))
 		{
 			if (!pValue->f_Boolean())
 				co_return {};

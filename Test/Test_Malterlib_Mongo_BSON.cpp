@@ -2,7 +2,7 @@
 // Distributed under the MIT license, see license text in LICENSE.Malterlib
 
 #include <Mib/Mongo/BSON>
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/builder/stream/array.hpp>
@@ -82,7 +82,7 @@ namespace
 					<< builder::stream::finalize
 				;
 				
-				CEJSONOrdered const ExpectedEJSON =
+				CEJsonOrdered const ExpectedEJson =
 					{
 						"k_double"_o= 5.6
 						, "k_utf8"_o= "Value"
@@ -110,44 +110,44 @@ namespace
 						, "k_bool"_o= true
 						, "k_date"_o= CTimeConvert::fs_CreateTime(2001, 02, 03)
 						, "k_null"_o= nullptr
-						, "k_int32"_o= CEJSONUserTypeOrdered{"int32", int32(556)}
+						, "k_int32"_o= CEJsonUserTypeOrdered{"int32", int32(556)}
 						, "k_int64"_o= int64(constant_int64(66554466556665))
 						, "k_binary"_o= TestBinary
-						, "k_binary k_function"_o= CEJSONUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "Function"}}
-						, "k_binary k_binary_deprecated"_o= CEJSONUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "ByteArrayDeprecated"}}
-						, "k_binary k_uuid_deprecated"_o= CEJSONUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "bdtUUID"}}
-						, "k_binary k_uuid"_o= CEJSONUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "newUUID"}}
-						, "k_binary k_md5"_o= CEJSONUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "MD5Type"}}
-						, "k_binary k_user"_o= CEJSONUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "bdtCustom"}}
-						, "k_undefined"_o= CEJSONUserTypeOrdered{"Undefined", 1}
-						, "k_oid"_o= CEJSONUserTypeOrdered{"jstOID", TestOID.c_str()}
-						, "k_regex"_o= CEJSONUserTypeOrdered{"RegEx", {"Regex"_jo= "RegEx", "RegexFlags"_jo= "ls"}}
-						, "k_dbpointer"_o= CEJSONUserTypeOrdered{"DBRef", {"NS"_jo= "Collection", "ObjectID"_jo= TestOID.c_str()}}
-						, "k_code"_o= CEJSONUserTypeOrdered{"Code", "TestCode"}
-						, "k_symbol"_o= CEJSONUserTypeOrdered{"Symbol", "TestSymbol"}
-						, "k_codewscope"_o= CEJSONUserTypeOrdered{"CodeWScope", {"Code"_jo= "TestCode", "Scope"_jo= {"Test1"_jo= "Test2"}}}
-						, "k_timestamp"_o= CEJSONUserTypeOrdered{"Timestamp", {"Seconds"_jo= 555, "Increment"_jo= 666}}
-						, "k_decimal128"_o= CEJSONUserTypeOrdered{"Decimal128", {"High"_jo= constant_uint64(55555555555), "Low"_jo= constant_uint64(66666666666)}}
-						, "k_minkey"_o= CEJSONUserTypeOrdered{"MinKey", 1}
-						, "k_maxkey"_o= CEJSONUserTypeOrdered{"MaxKey", 1}
+						, "k_binary k_function"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "Function"}}
+						, "k_binary k_binary_deprecated"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "ByteArrayDeprecated"}}
+						, "k_binary k_uuid_deprecated"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "bdtUUID"}}
+						, "k_binary k_uuid"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "newUUID"}}
+						, "k_binary k_md5"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "MD5Type"}}
+						, "k_binary k_user"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "bdtCustom"}}
+						, "k_undefined"_o= CEJsonUserTypeOrdered{"Undefined", 1}
+						, "k_oid"_o= CEJsonUserTypeOrdered{"jstOID", TestOID.c_str()}
+						, "k_regex"_o= CEJsonUserTypeOrdered{"RegEx", {"Regex"_jo= "RegEx", "RegexFlags"_jo= "ls"}}
+						, "k_dbpointer"_o= CEJsonUserTypeOrdered{"DBRef", {"NS"_jo= "Collection", "ObjectID"_jo= TestOID.c_str()}}
+						, "k_code"_o= CEJsonUserTypeOrdered{"Code", "TestCode"}
+						, "k_symbol"_o= CEJsonUserTypeOrdered{"Symbol", "TestSymbol"}
+						, "k_codewscope"_o= CEJsonUserTypeOrdered{"CodeWScope", {"Code"_jo= "TestCode", "Scope"_jo= {"Test1"_jo= "Test2"}}}
+						, "k_timestamp"_o= CEJsonUserTypeOrdered{"Timestamp", {"Seconds"_jo= 555, "Increment"_jo= 666}}
+						, "k_decimal128"_o= CEJsonUserTypeOrdered{"Decimal128", {"High"_jo= constant_uint64(55555555555), "Low"_jo= constant_uint64(66666666666)}}
+						, "k_minkey"_o= CEJsonUserTypeOrdered{"MinKey", 1}
+						, "k_maxkey"_o= CEJsonUserTypeOrdered{"MaxKey", 1}
 					}
 				;
 
-				CEJSONOrdered const ExpectedEJSONArray = _o
+				CEJsonOrdered const ExpectedEJsonArray = _o
 					[
 						"String"
-						, ExpectedEJSON
+						, ExpectedEJson
 					]
 				;
 				
-				DMibExpect(fg_FromBSON(NMib::fg_TempCopy(OriginalBSON)), ==, ExpectedEJSON);
-				DMibExpect(fg_FromBSON(NMib::fg_TempCopy(OriginalBSONArray)), ==, ExpectedEJSONArray);
+				DMibExpect(fg_FromBSON(NMib::fg_TempCopy(OriginalBSON)), ==, ExpectedEJson);
+				DMibExpect(fg_FromBSON(NMib::fg_TempCopy(OriginalBSONArray)), ==, ExpectedEJsonArray);
 
-				DMibExpect(fg_FromBSON(fg_ToBSON(ExpectedEJSON)), ==, ExpectedEJSON);
-				DMibExpect(fg_FromBSON(fg_ToBSONArray(ExpectedEJSONArray)), ==, ExpectedEJSONArray);
+				DMibExpect(fg_FromBSON(fg_ToBSON(ExpectedEJson)), ==, ExpectedEJson);
+				DMibExpect(fg_FromBSON(fg_ToBSONArray(ExpectedEJsonArray)), ==, ExpectedEJsonArray);
 
-				DMibExpect(fg_ToBSON(ExpectedEJSON).view(), ==, OriginalBSON.view());
-				DMibExpect(fg_ToBSONArray(ExpectedEJSONArray).view(), ==, OriginalBSONArray.view());
+				DMibExpect(fg_ToBSON(ExpectedEJson).view(), ==, OriginalBSON.view());
+				DMibExpect(fg_ToBSONArray(ExpectedEJsonArray).view(), ==, OriginalBSONArray.view());
 
 				DMibExpect(fg_ToBSON(fg_FromBSON(NMib::fg_TempCopy(OriginalBSON))).view(), ==, OriginalBSON.view());
 				DMibExpect(fg_ToBSONArray(fg_FromBSON(NMib::fg_TempCopy(OriginalBSONArray))).view(), ==, OriginalBSONArray.view());

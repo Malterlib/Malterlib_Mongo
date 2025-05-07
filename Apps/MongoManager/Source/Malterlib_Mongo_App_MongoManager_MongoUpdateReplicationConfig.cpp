@@ -4,7 +4,7 @@
 #include "Malterlib_Mongo_App_MongoManager_Server.h"
 
 #include <Mib/Concurrency/AsyncDestroy>
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 
 namespace NMib::NMongo::NMongoManager
 {
@@ -15,14 +15,14 @@ namespace NMib::NMongo::NMongoManager
 		
 		auto &MongoHost = _ConnectionSettings.f_GetSingleHost();
 
-		CEJSONOrdered CurrentReplicaSet;
+		CEJsonOrdered CurrentReplicaSet;
 		{
 			auto CurrentReplicaSets = co_await CMongoClientActor::fs_WithConnectionRetry
 				(
 					&CMongoClientActor::f_Query
 					, pState
 					, "local.system.replset"
-					, EJSONType_Object
+					, EJsonType_Object
 					, 1
 					, 0
 					, nullptr
@@ -34,7 +34,7 @@ namespace NMib::NMongo::NMongoManager
 			if (!CurrentReplicaSets.f_IsEmpty())
 				CurrentReplicaSet = fg_Move(CurrentReplicaSets.f_GetFirst());
 			else
-				CurrentReplicaSet = EJSONType_Object;
+				CurrentReplicaSet = EJsonType_Object;
 		}
 
 		auto OldConfig = CurrentReplicaSet;
@@ -44,7 +44,7 @@ namespace NMib::NMongo::NMongoManager
 				&CMongoClientActor::f_Remove
 				, pState
 				, "local.system.replset"
-				, EJSONType_Object
+				, EJsonType_Object
 				, CMongoClientActor::ERemoveOption_None
 			)
 		;
@@ -56,7 +56,7 @@ namespace NMib::NMongo::NMongoManager
 		CStr SelfTag = Self.f_ReplaceChar('.', '_').f_ReplaceChar(':', '_');
 
 		Members.f_Clear();
-		Members.f_Insert() = CEJSONOrdered
+		Members.f_Insert() = CEJsonOrdered
 			{
 				"_id"_o= fsp_Mongo_SetInt32Value(0)
 				, "host"_o= fg_Format("{}:{}", MongoHost.m_Host, MongoHost.m_Port)
@@ -73,7 +73,7 @@ namespace NMib::NMongo::NMongoManager
 			}
 		;
 
-		CurrentReplicaSet["settings"]["getLastErrorModes"] = CEJSONOrdered(EJSONType_Object);
+		CurrentReplicaSet["settings"]["getLastErrorModes"] = CEJsonOrdered(EJsonType_Object);
 		CurrentReplicaSet["settings"]["getLastErrorModes"][SelfTag][SelfTag] = 1;
 		CurrentReplicaSet["version"] = fsp_Mongo_SetInt32Value(fsp_Mongo_GetInt32Value(CurrentReplicaSet.f_GetMember("version")) + 1);
 

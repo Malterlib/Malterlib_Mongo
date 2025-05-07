@@ -25,7 +25,7 @@ namespace NMib::NMongo::NMongoManager
 		(
 			CDistributedAppInterfaceServer::CRegisterInfo &o_RegisterInfo
 			, CDistributedAppInterfaceServer::CConfigFiles &o_ConfigFiles
-			, NEncoding::CEJSONSorted const &_Params
+			, NEncoding::CEJsonSorted const &_Params
 		)
 	{
 		o_RegisterInfo.m_UpdateType = EDistributedAppUpdateType_OneAtATime;
@@ -49,7 +49,7 @@ namespace NMib::NMongo::NMongoManager
 		o_RegisterInfo.m_Resources_MaxMapCount = 128000;
 	}
 	
-	TCFuture<void> CMongoManagerDaemonActor::fp_StartApp(NEncoding::CEJSONSorted const _Params)
+	TCFuture<void> CMongoManagerDaemonActor::fp_StartApp(NEncoding::CEJsonSorted const _Params)
 	{
 		mp_pManager = fg_ConstructActor<CMongoManagerActor>(fg_Construct(self), mp_State);
 		CMongoManagerActor::EMode Mode = CMongoManagerActor::EMode_Normal;

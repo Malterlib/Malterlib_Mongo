@@ -21,46 +21,46 @@ namespace NMib::NMongo
 {
 	namespace
 	{
-		template <typename tf_CBuilder, typename tf_CJSON>
-		void fg_ToBSONMemberCommon(tf_CBuilder &&_Builder, NStr::CStr const &_Name, tf_CJSON const &_Value);
+		template <typename tf_CBuilder, typename tf_CJson>
+		void fg_ToBSONMemberCommon(tf_CBuilder &&_Builder, NStr::CStr const &_Name, tf_CJson const &_Value);
 		template <typename tf_CBuilder>
-		void fg_ToBSONMember(tf_CBuilder &&_Builder, NStr::CStr const &_Name, NEncoding::CEJSONOrdered const &_Value);
-		template <typename tf_CBuilder, typename tf_CJSON>
-		void fg_ToBSONMember(tf_CBuilder &&_Builder, NStr::CStr const &_Name, tf_CJSON const &_Value);
-		template <typename tf_CBuilder, typename tf_CJSON>
-		void fg_ToBSONImplArray(tf_CBuilder &&_Builder, tf_CJSON const &_JSON);
-		template <typename tf_CBuilder, typename tf_CJSON>
-		void fg_ToBSONImpl(tf_CBuilder &&_Builder, tf_CJSON const &_JSON);
-		template <typename tf_CBuilder, typename tf_CJSON>
-		void fg_ToBSONValue(tf_CBuilder &&_Builder, tf_CJSON const &_Value);
+		void fg_ToBSONMember(tf_CBuilder &&_Builder, NStr::CStr const &_Name, NEncoding::CEJsonOrdered const &_Value);
+		template <typename tf_CBuilder, typename tf_CJson>
+		void fg_ToBSONMember(tf_CBuilder &&_Builder, NStr::CStr const &_Name, tf_CJson const &_Value);
+		template <typename tf_CBuilder, typename tf_CJson>
+		void fg_ToBSONImplArray(tf_CBuilder &&_Builder, tf_CJson const &_Json);
+		template <typename tf_CBuilder, typename tf_CJson>
+		void fg_ToBSONImpl(tf_CBuilder &&_Builder, tf_CJson const &_Json);
+		template <typename tf_CBuilder, typename tf_CJson>
+		void fg_ToBSONValue(tf_CBuilder &&_Builder, tf_CJson const &_Value);
 
 		stdx::string_view fg_ToStringData(NStr::CStr const &_Data)
 		{
 			return stdx::string_view(_Data.f_GetStr(), _Data.f_GetLen());
 		}
 
-		template <typename tf_CBuilder, typename tf_CJSON>
-		void fg_ToBSONValueCommon(tf_CBuilder &&_Builder, tf_CJSON const &_Value)
+		template <typename tf_CBuilder, typename tf_CJson>
+		void fg_ToBSONValueCommon(tf_CBuilder &&_Builder, tf_CJson const &_Value)
 		{
 			auto &Value = _Value;
 			switch (Value.f_Type())
 			{
-			case NEncoding::EJSONType_Null:
+			case NEncoding::EJsonType_Null:
 				_Builder << types::b_null{};
 				break;
-			case NEncoding::EJSONType_String:
+			case NEncoding::EJsonType_String:
 				_Builder << fg_ToStringData(Value.f_String());
 				break;
-			case NEncoding::EJSONType_Integer:
+			case NEncoding::EJsonType_Integer:
 				_Builder << (std::int64_t)Value.f_Integer();
 				break;
-			case NEncoding::EJSONType_Float:
+			case NEncoding::EJsonType_Float:
 				_Builder << Value.f_Float().f_Get();
 				break;
-			case NEncoding::EJSONType_Boolean:
+			case NEncoding::EJsonType_Boolean:
 				_Builder << Value.f_Boolean();
 				break;
-			case NEncoding::EJSONType_Object:
+			case NEncoding::EJsonType_Object:
 				{
 					auto BeginObject = _Builder << builder::stream::open_document;
 					fg_ToBSONImpl
@@ -72,7 +72,7 @@ namespace NMib::NMongo
 					BeginObject << builder::stream::close_document;
 				}
 				break;
-			case NEncoding::EJSONType_Array:
+			case NEncoding::EJsonType_Array:
 				{
 					auto BeginArray = _Builder << builder::stream::open_array;
 					fg_ToBSONImplArray
@@ -88,24 +88,24 @@ namespace NMib::NMongo
 			}
 		}
 
-		template <typename tf_CBuilder, typename tf_CJSON>
-		void fg_ToBSONMemberCommon(tf_CBuilder &&_Builder, NStr::CStr const &_Name, tf_CJSON const &_Value)
+		template <typename tf_CBuilder, typename tf_CJson>
+		void fg_ToBSONMemberCommon(tf_CBuilder &&_Builder, NStr::CStr const &_Name, tf_CJson const &_Value)
 		{
 			fg_ToBSONValueCommon(_Builder << fg_ToStringData(_Name), _Value);
 		}
 
 		template <typename tf_CBuilder>
-		void fg_ToBSONValue(tf_CBuilder &&_Builder, NEncoding::CEJSONOrdered const &_Value)
+		void fg_ToBSONValue(tf_CBuilder &&_Builder, NEncoding::CEJsonOrdered const &_Value)
 		{
 			auto &Value = _Value;
 			switch (Value.f_EType())
 			{
-			case NEncoding::EEJSONType_Date:
+			case NEncoding::EEJsonType_Date:
 				{
 					_Builder << types::b_date{std::chrono::milliseconds{NTime::CTimeConvert{Value.f_Date()}.f_UnixMilliseconds()}};
 				}
 				break;
-			case NEncoding::EEJSONType_UserType:
+			case NEncoding::EEJsonType_UserType:
 				{
 					auto &UserType = Value.f_UserType();
 					if (UserType.m_Type == "int32")
@@ -155,7 +155,7 @@ namespace NMib::NMongo
 					else if (UserType.m_Type == "CodeWScope")
 					{
 						auto &Code = UserType.m_Value["Code"].f_String();
-						auto Scope = fg_ToBSON(NEncoding::CEJSONOrdered::fs_FromJson(UserType.m_Value["Scope"]));
+						auto Scope = fg_ToBSON(NEncoding::CEJsonOrdered::fs_FromJson(UserType.m_Value["Scope"]));
 						_Builder << types::b_codewscope{fg_ToStringData(Code), Scope};
 					}
 					else if (UserType.m_Type == "Symbol")
@@ -188,7 +188,7 @@ namespace NMib::NMongo
 						fg_ToBSONValue(_Builder, Value.f_ToJson());
 				}
 				break;
-			case NEncoding::EEJSONType_Binary:
+			case NEncoding::EEJsonType_Binary:
 				{
 					mint Length = Value.f_Binary().f_GetLen();
 					if (Length> mint(TCLimitsInt<uint32>::mc_Max))
@@ -202,35 +202,35 @@ namespace NMib::NMongo
 			}
 		}
 
-		template <typename tf_CBuilder, typename tf_CJSON>
-		void fg_ToBSONValue(tf_CBuilder &&_Builder, tf_CJSON const &_Value)
+		template <typename tf_CBuilder, typename tf_CJson>
+		void fg_ToBSONValue(tf_CBuilder &&_Builder, tf_CJson const &_Value)
 		{
 			return fg_ToBSONValueCommon(_Builder, _Value);
 		}
 
 		template <typename tf_CBuilder>
-		void fg_ToBSONMember(tf_CBuilder &&_Builder, NStr::CStr const &_Name, NEncoding::CEJSONOrdered const &_Value)
+		void fg_ToBSONMember(tf_CBuilder &&_Builder, NStr::CStr const &_Name, NEncoding::CEJsonOrdered const &_Value)
 		{
 			fg_ToBSONValue(_Builder << fg_ToStringData(_Name), _Value);
 		}
 
-		template <typename tf_CBuilder, typename tf_CJSON>
-		void fg_ToBSONMember(tf_CBuilder &&_Builder, NStr::CStr const &_Name, tf_CJSON const &_Value)
+		template <typename tf_CBuilder, typename tf_CJson>
+		void fg_ToBSONMember(tf_CBuilder &&_Builder, NStr::CStr const &_Name, tf_CJson const &_Value)
 		{
 			return fg_ToBSONMemberCommon(_Builder, _Name, _Value);
 		}
 
-		template <typename tf_CBuilder, typename tf_CJSON>
-		void fg_ToBSONImplArray(tf_CBuilder &&_Builder, tf_CJSON const &_JSON)
+		template <typename tf_CBuilder, typename tf_CJson>
+		void fg_ToBSONImplArray(tf_CBuilder &&_Builder, tf_CJson const &_Json)
 		{
-			for (auto &Member : _JSON.f_Array())
+			for (auto &Member : _Json.f_Array())
 				fg_ToBSONValue(_Builder, Member);
 		}
 
-		template <typename tf_CBuilder, typename tf_CJSON>
-		void fg_ToBSONImpl(tf_CBuilder &&_Builder, tf_CJSON const &_JSON)
+		template <typename tf_CBuilder, typename tf_CJson>
+		void fg_ToBSONImpl(tf_CBuilder &&_Builder, tf_CJson const &_Json)
 		{
-			for (auto iMember = _JSON.f_Object().f_OrderedIterator(); iMember; ++iMember)
+			for (auto iMember = _Json.f_Object().f_OrderedIterator(); iMember; ++iMember)
 				fg_ToBSONMember(_Builder, iMember->f_Name(), iMember->f_Value());
 		}
 
@@ -239,54 +239,54 @@ namespace NMib::NMongo
 			return NStr::CStr(_Data.data(), _Data.length());
 		}
 
-		void fg_FromBSONImp(NEncoding::CEJSONOrdered &_JSON, bsoncxx::document::view const &_BSON);
-		void fg_FromBSONImp(NEncoding::CEJSONOrdered &_JSON, bsoncxx::array::view const &_BSON);
+		void fg_FromBSONImp(NEncoding::CEJsonOrdered &_Json, bsoncxx::document::view const &_BSON);
+		void fg_FromBSONImp(NEncoding::CEJsonOrdered &_Json, bsoncxx::array::view const &_BSON);
 
-		void fg_FromBSONImp(NEncoding::CEJSONOrdered &_JSON, bsoncxx::document::element const &_Element)
+		void fg_FromBSONImp(NEncoding::CEJsonOrdered &_Json, bsoncxx::document::element const &_Element)
 		{
 			switch (_Element.type())
 			{
 			case type::k_double:
-				_JSON = _Element.get_double().value;
+				_Json = _Element.get_double().value;
 				return;
 			case type::k_string:
-				_JSON = fg_FromStringData(_Element.get_string().value);
+				_Json = fg_FromStringData(_Element.get_string().value);
 				return;
 			case type::k_document:
 				{
-					fg_FromBSONImp(_JSON, _Element.get_document().value);
+					fg_FromBSONImp(_Json, _Element.get_document().value);
 				}
 				return;
 			case type::k_array:
 				{
-					fg_FromBSONImp(_JSON, _Element.get_array().value);
+					fg_FromBSONImp(_Json, _Element.get_array().value);
 				}
 				return;
 			case type::k_bool:
 				{
-					_JSON = _Element.get_bool().value;
+					_Json = _Element.get_bool().value;
 				}
 				return;
 			case type::k_date:
 				{
-					_JSON = NTime::CTimeConvert::fs_FromUnixMilliseconds(_Element.get_date().to_int64());
+					_Json = NTime::CTimeConvert::fs_FromUnixMilliseconds(_Element.get_date().to_int64());
 				}
 				return;
 			case type::k_null:
 				{
-					_JSON = nullptr;
+					_Json = nullptr;
 				}
 				return;
 			case type::k_int32:
 				{
-					_JSON = NEncoding::EEJSONType_UserType;
-					auto &UserType = _JSON.f_UserType();
+					_Json = NEncoding::EEJsonType_UserType;
+					auto &UserType = _Json.f_UserType();
 					UserType.m_Type = "int32";
 					UserType.m_Value = _Element.get_int32();
 				}
 				return;
 			case type::k_int64:
-				_JSON = int64(_Element.get_int64());
+				_Json = int64(_Element.get_int64());
 				return;
 			case type::k_binary:
 				{
@@ -297,12 +297,12 @@ namespace NMib::NMongo
 
 					if (Binary.sub_type == binary_sub_type::k_binary)
 					{
-						_JSON = fg_Move(Data);
+						_Json = fg_Move(Data);
 						return;
 					}
 
-					_JSON = NEncoding::EEJSONType_UserType;
-					auto &UserType = _JSON.f_UserType();
+					_Json = NEncoding::EEJsonType_UserType;
+					auto &UserType = _Json.f_UserType();
 
 					UserType.m_Type = "BinData";
 					UserType.m_Value["Data"] = NEncoding::fg_Base64Encode(Data);
@@ -347,16 +347,16 @@ namespace NMib::NMongo
 				return;
 			case type::k_undefined:
 				{
-					_JSON = NEncoding::EEJSONType_UserType;
-					auto &UserType = _JSON.f_UserType();
+					_Json = NEncoding::EEJsonType_UserType;
+					auto &UserType = _Json.f_UserType();
 					UserType.m_Type = "Undefined";
 					UserType.m_Value = 1;
 				}
 				return;
 			case type::k_oid:
 				{
-					_JSON = NEncoding::EEJSONType_UserType;
-					auto &UserType = _JSON.f_UserType();
+					_Json = NEncoding::EEJsonType_UserType;
+					auto &UserType = _Json.f_UserType();
 
 					UserType.m_Type = "jstOID";
 					UserType.m_Value = _Element.get_oid().value.to_string().c_str();
@@ -364,8 +364,8 @@ namespace NMib::NMongo
 				return;
 			case type::k_regex:
 				{
-					_JSON = NEncoding::EEJSONType_UserType;
-					auto &UserType = _JSON.f_UserType();
+					_Json = NEncoding::EEJsonType_UserType;
+					auto &UserType = _Json.f_UserType();
 
 					auto RegEx = _Element.get_regex();
 
@@ -378,8 +378,8 @@ namespace NMib::NMongo
 				{
 					auto DbPointer = _Element.get_dbpointer();
 
-					_JSON = NEncoding::EEJSONType_UserType;
-					auto &UserType = _JSON.f_UserType();
+					_Json = NEncoding::EEJsonType_UserType;
+					auto &UserType = _Json.f_UserType();
 
 					UserType.m_Type = "DBRef";
 					UserType.m_Value["NS"] = fg_FromStringData(DbPointer.collection);
@@ -388,8 +388,8 @@ namespace NMib::NMongo
 				return;
 			case type::k_code:
 				{
-					_JSON = NEncoding::EEJSONType_UserType;
-					auto &UserType = _JSON.f_UserType();
+					_Json = NEncoding::EEJsonType_UserType;
+					auto &UserType = _Json.f_UserType();
 
 					UserType.m_Type = "Code";
 					UserType.m_Value = fg_FromStringData(_Element.get_code().code);
@@ -397,8 +397,8 @@ namespace NMib::NMongo
 				return;
 			case type::k_symbol:
 				{
-					_JSON = NEncoding::EEJSONType_UserType;
-					auto &UserType = _JSON.f_UserType();
+					_Json = NEncoding::EEJsonType_UserType;
+					auto &UserType = _Json.f_UserType();
 
 					UserType.m_Type = "Symbol";
 					UserType.m_Value = fg_FromStringData(_Element.get_symbol().symbol);
@@ -406,14 +406,14 @@ namespace NMib::NMongo
 				return;
 			case type::k_codewscope:
 				{
-					_JSON = NEncoding::EEJSONType_UserType;
-					auto &UserType = _JSON.f_UserType();
+					_Json = NEncoding::EEJsonType_UserType;
+					auto &UserType = _Json.f_UserType();
 
 					auto SourceData = _Element.get_codewscope();
 
 					UserType.m_Type = "CodeWScope";
 					UserType.m_Value["Code"] = fg_FromStringData(SourceData.code);
-					NEncoding::CEJSONOrdered Scope;
+					NEncoding::CEJsonOrdered Scope;
 					fg_FromBSONImp(Scope, SourceData.scope);
 					if (Scope.f_IsValid())
 						UserType.m_Value["Scope"] = Scope.f_ToJson();
@@ -421,8 +421,8 @@ namespace NMib::NMongo
 				return;
 			case type::k_timestamp:
 				{
-					_JSON = NEncoding::EEJSONType_UserType;
-					auto &UserType = _JSON.f_UserType();
+					_Json = NEncoding::EEJsonType_UserType;
+					auto &UserType = _Json.f_UserType();
 
 					auto SourceData = _Element.get_timestamp();
 
@@ -433,8 +433,8 @@ namespace NMib::NMongo
 				return;
 			case type::k_decimal128:
 				{
-					_JSON = NEncoding::EEJSONType_UserType;
-					auto &UserType = _JSON.f_UserType();
+					_Json = NEncoding::EEJsonType_UserType;
+					auto &UserType = _Json.f_UserType();
 
 					auto SourceData = _Element.get_decimal128();
 
@@ -445,16 +445,16 @@ namespace NMib::NMongo
 				return;
 			case type::k_minkey:
 				{
-					_JSON = NEncoding::EEJSONType_UserType;
-					auto &UserType = _JSON.f_UserType();
+					_Json = NEncoding::EEJsonType_UserType;
+					auto &UserType = _Json.f_UserType();
 					UserType.m_Type = "MinKey";
 					UserType.m_Value = 1;
 				}
 				return;
 			case type::k_maxkey:
 				{
-					_JSON = NEncoding::EEJSONType_UserType;
-					auto &UserType = _JSON.f_UserType();
+					_Json = NEncoding::EEJsonType_UserType;
+					auto &UserType = _Json.f_UserType();
 					UserType.m_Type = "MaxKey";
 					UserType.m_Value = 1;
 				}
@@ -463,69 +463,69 @@ namespace NMib::NMongo
 			DMibNeverGetHere; // Not supported
 		}
 
-		void fg_FromBSONImp(NEncoding::CEJSONOrdered &_JSON, bsoncxx::document::view const &_BSON)
+		void fg_FromBSONImp(NEncoding::CEJsonOrdered &_Json, bsoncxx::document::view const &_BSON)
 		{
-			_JSON = NEncoding::EJSONType_Object;
+			_Json = NEncoding::EJsonType_Object;
 
 			for (auto &&Element : _BSON)
 			{
-				auto &Member = _JSON.f_Object().f_CreateMember(fg_FromStringData(Element.key()));
+				auto &Member = _Json.f_Object().f_CreateMember(fg_FromStringData(Element.key()));
 				fg_FromBSONImp(Member, Element);
 			}
 		}
 
-		void fg_FromBSONImp(NEncoding::CEJSONOrdered &_JSON, bsoncxx::array::view const &_BSON)
+		void fg_FromBSONImp(NEncoding::CEJsonOrdered &_Json, bsoncxx::array::view const &_BSON)
 		{
-			_JSON = NEncoding::EJSONType_Array;
+			_Json = NEncoding::EJsonType_Array;
 
 			for (auto &&Element : _BSON)
 			{
-				auto &Member = _JSON.f_Array().f_Insert();
+				auto &Member = _Json.f_Array().f_Insert();
 				fg_FromBSONImp(Member, reinterpret_cast<bsoncxx::document::element const &>(Element));
 			}
 		}
 	}
 
-	document::value fg_ToBSON(NEncoding::CEJSONOrdered const &_JSON)
+	document::value fg_ToBSON(NEncoding::CEJsonOrdered const &_Json)
 	{
-		switch (_JSON.f_Type())
+		switch (_Json.f_Type())
 		{
-		case NEncoding::EJSONType_Object:
+		case NEncoding::EJsonType_Object:
 			{
 				bsoncxx::builder::stream::document Builder;
-				fg_ToBSONImpl(Builder, _JSON);
+				fg_ToBSONImpl(Builder, _Json);
 				return Builder << builder::stream::finalize;
 			}
 			break;
-		case NEncoding::EJSONType_Invalid:
+		case NEncoding::EJsonType_Invalid:
 			{
 				return bsoncxx::document::value(nullptr, 0, nullptr);
 			}
 			break;
-		case NEncoding::EJSONType_Array:
+		case NEncoding::EJsonType_Array:
 			DMibError("Object contains array, use fg_ToBSONArray");
 		default:
 			DMibError("Unsupported BSON root type");
 		}
 	}
 
-	bsoncxx::array::value fg_ToBSONArray(NEncoding::CEJSONOrdered const &_JSON)
+	bsoncxx::array::value fg_ToBSONArray(NEncoding::CEJsonOrdered const &_Json)
 	{
-		switch (_JSON.f_Type())
+		switch (_Json.f_Type())
 		{
-		case NEncoding::EJSONType_Array:
+		case NEncoding::EJsonType_Array:
 			{
 				bsoncxx::builder::stream::array Builder;
-				fg_ToBSONImplArray(Builder, _JSON);
+				fg_ToBSONImplArray(Builder, _Json);
 				return Builder << builder::stream::finalize;
 			}
 			break;
-		case NEncoding::EJSONType_Invalid:
+		case NEncoding::EJsonType_Invalid:
 			{
 				return bsoncxx::array::value(nullptr, 0, nullptr);
 			}
 			break;
-		case NEncoding::EJSONType_Object:
+		case NEncoding::EJsonType_Object:
 			DMibError("Object contains object, use fg_ToBSON");
 		default:
 			DMibError("Unsupported BSON root type");
@@ -533,15 +533,15 @@ namespace NMib::NMongo
 	}
 
 
-	NEncoding::CEJSONOrdered fg_FromBSON(bsoncxx::document::view_or_value _BSON)
+	NEncoding::CEJsonOrdered fg_FromBSON(bsoncxx::document::view_or_value _BSON)
 	{
-		NEncoding::CEJSONOrdered Ret;
+		NEncoding::CEJsonOrdered Ret;
 		fg_FromBSONImp(Ret, _BSON);
 		return Ret;
 	}
-	NEncoding::CEJSONOrdered fg_FromBSON(bsoncxx::array::view_or_value _BSON)
+	NEncoding::CEJsonOrdered fg_FromBSON(bsoncxx::array::view_or_value _BSON)
 	{
-		NEncoding::CEJSONOrdered Ret;
+		NEncoding::CEJsonOrdered Ret;
 		fg_FromBSONImp(Ret, _BSON);
 		return Ret;
 	}

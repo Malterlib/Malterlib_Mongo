@@ -3,7 +3,7 @@
 
 #include <Mib/Core/Platform>
 
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 #include <Mib/Concurrency/LogError>
 #include "Malterlib_Mongo_App_MongoCertificateManager.h"
 
@@ -16,7 +16,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 	CMongoCertificateManagerActor::~CMongoCertificateManagerActor() = default;
 
-	TCFuture<void> CMongoCertificateManagerActor::fp_StartApp(NEncoding::CEJSONSorted const _Params)
+	TCFuture<void> CMongoCertificateManagerActor::fp_StartApp(NEncoding::CEJsonSorted const _Params)
 	{
 		auto OnResume = co_await fg_OnResume
 			(

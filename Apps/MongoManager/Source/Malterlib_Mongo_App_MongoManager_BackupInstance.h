@@ -52,7 +52,7 @@ namespace NMib::NMongo::NMongoManager
 		CTime mp_BackupTime;
 		CStr mp_BackupID;
 		TCSharedPointer<CCanDestroyTracker> mp_pCanDestroy;
-		TCVector<NEncoding::CEJSONOrdered> mp_PendingOplogData;
+		TCVector<NEncoding::CEJsonOrdered> mp_PendingOplogData;
 		CActorSubscription mp_InitialBackupFinishedSubscription;
 		CActorSubscription mp_BackupStoppedSubscription;
 		bool mp_PendingSaveScheduled = false;

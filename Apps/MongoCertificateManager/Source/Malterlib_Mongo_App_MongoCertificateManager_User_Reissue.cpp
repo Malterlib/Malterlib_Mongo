@@ -3,12 +3,12 @@
 
 #include "Malterlib_Mongo_App_MongoCertificateManager.h"
 
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 #include <Mib/CommandLine/TableRenderer>
 
 namespace NMib::NMongo::NMongoCertificateManager
 {
-	TCFuture<uint32> CMongoCertificateManagerActor::fp_CommandLine_UserReissue(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
+	TCFuture<uint32> CMongoCertificateManagerActor::fp_CommandLine_UserReissue(CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		CStr UserName = _Params["User"].f_String();
 		CStr AuthorityName = _Params["Authority"].f_String();

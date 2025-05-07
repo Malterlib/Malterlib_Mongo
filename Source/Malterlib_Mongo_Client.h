@@ -5,7 +5,7 @@
 
 #include <Mib/Core/Core>
 #include <Mib/Concurrency/ConcurrencyManager>
-#include <Mib/Encoding/EJSON>
+#include <Mib/Encoding/EJson>
 #include <Mib/Web/HTTP/URL>
 #include <Mib/Concurrency/ActorFunctorWeak>
 
@@ -28,7 +28,7 @@ namespace NMib::NMongo
 			, EProtocolVersion_Current = 0x101
 		};
 
-		NEncoding::CEJSONOrdered m_RawServerError;
+		NEncoding::CEJsonOrdered m_RawServerError;
 		NStorage::TCOptional<uint32> m_ErrorCode; // mongoc_error_code_t
 	};
 
@@ -134,48 +134,48 @@ namespace NMib::NMongo
 		struct CTailQueryParams
 		{
 			NStr::CStr m_Collection;
-			NEncoding::CEJSONOrdered m_Query;
+			NEncoding::CEJsonOrdered m_Query;
 			NStr::CStr m_OrderBy;
-			NStorage::TCOptional<NEncoding::CEJSONOrdered> m_Fields;
-			NStorage::TCOptional<NEncoding::CEJSONOrdered> m_StartQuery;
+			NStorage::TCOptional<NEncoding::CEJsonOrdered> m_Fields;
+			NStorage::TCOptional<NEncoding::CEJsonOrdered> m_StartQuery;
 			EQueryOption m_Options = EQueryOption_None;
 		};
 
-		NConcurrency::TCFuture<NContainer::TCVector<NEncoding::CEJSONOrdered>> f_Query
+		NConcurrency::TCFuture<NContainer::TCVector<NEncoding::CEJsonOrdered>> f_Query
 			(
 				NStr::CStr _Collection
-				, NEncoding::CEJSONOrdered _Query
+				, NEncoding::CEJsonOrdered _Query
 				, uint32 _nToReturn
 				, uint32 _nToSkip
-				, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> _pFields
-				, NStorage::TCUniquePointer<NEncoding::CEJSONOrdered> _pOrder
+				, NStorage::TCUniquePointer<NEncoding::CEJsonOrdered> _pFields
+				, NStorage::TCUniquePointer<NEncoding::CEJsonOrdered> _pOrder
 				, EQueryOption _Options
 			)
 		;
-		NConcurrency::TCFuture<NEncoding::CEJSONOrdered> f_RunCommand
+		NConcurrency::TCFuture<NEncoding::CEJsonOrdered> f_RunCommand
 			(
 				NStr::CStr _Database
-				, NEncoding::CEJSONOrdered _Command
+				, NEncoding::CEJsonOrdered _Command
 			)
 		;
 		NConcurrency::TCFuture<NConcurrency::CActorSubscription> f_TailQuery
 			(
 				CTailQueryParams _Params
-				, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJSONOrdered _Result)> _fOnResult
+				, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJsonOrdered _Result)> _fOnResult
 			)
 		;
 		NConcurrency::TCFuture<uint64> f_Count
 			(
 				 NStr::CStr _Collection
-				, NEncoding::CEJSONOrdered _Query
+				, NEncoding::CEJsonOrdered _Query
 				, uint32 _nToReturn
 				, uint32 _nToSkip
 			)
 		;
-		NConcurrency::TCFuture<void> f_BatchInsert(NStr::CStr _Collection, NContainer::TCVector<NEncoding::CEJSONOrdered> _Documents, EInsertOption _Options);
-		NConcurrency::TCFuture<void> f_Insert(NStr::CStr _Collection, NEncoding::CEJSONOrdered _Document, EInsertOption _Options);
-		NConcurrency::TCFuture<CUpdateResult> f_Update(NStr::CStr _Collection, NEncoding::CEJSONOrdered _Query, NEncoding::CEJSONOrdered _Update, EUpdateOption _Options);
-		NConcurrency::TCFuture<void> f_Remove(NStr::CStr _Collection, NEncoding::CEJSONOrdered _Query, ERemoveOption _Options);
+		NConcurrency::TCFuture<void> f_BatchInsert(NStr::CStr _Collection, NContainer::TCVector<NEncoding::CEJsonOrdered> _Documents, EInsertOption _Options);
+		NConcurrency::TCFuture<void> f_Insert(NStr::CStr _Collection, NEncoding::CEJsonOrdered _Document, EInsertOption _Options);
+		NConcurrency::TCFuture<CUpdateResult> f_Update(NStr::CStr _Collection, NEncoding::CEJsonOrdered _Query, NEncoding::CEJsonOrdered _Update, EUpdateOption _Options);
+		NConcurrency::TCFuture<void> f_Remove(NStr::CStr _Collection, NEncoding::CEJsonOrdered _Query, ERemoveOption _Options);
 
 		template <typename tf_CReturn, typename ...tf_CParams>
 		static tf_CReturn fs_WithConnectionRetry

@@ -3,7 +3,7 @@
 
 #include "Malterlib_Mongo_App_MongoCertificateManager.h"
 
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 #include <Mib/CommandLine/TableRenderer>
 #include <Mib/Concurrency/LogError>
 
@@ -131,13 +131,13 @@ namespace NMib::NMongo::NMongoCertificateManager
 		;
 	}
 
-	TCFuture<uint32> CMongoCertificateManagerActor::fp_CommandLine_UserCreate(CEJSONSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
+	TCFuture<uint32> CMongoCertificateManagerActor::fp_CommandLine_UserCreate(CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		auto Auditor = f_Auditor();
 
 		CPublicKeySetting PublicKeySetting;
 
-		if (auto *pRSASize = _Params.f_GetMember("RSASize", EJSONType_Integer))
+		if (auto *pRSASize = _Params.f_GetMember("RSASize", EJsonType_Integer))
 			PublicKeySetting = CPublicKeySettings_RSA(pRSASize->f_Integer());
 		else
 			PublicKeySetting = fsp_EllipticCurveTypeToKeySettings(fsp_EllipticCurveTypeFromStr(_Params["EllipticCurveType"].f_String()));

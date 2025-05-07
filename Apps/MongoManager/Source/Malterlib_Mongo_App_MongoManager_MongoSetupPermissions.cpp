@@ -4,7 +4,7 @@
 #include "Malterlib_Mongo_App_MongoManager_Server.h"
 
 #include <Mib/Concurrency/AsyncDestroy>
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 
 namespace NMib::NMongo::NMongoManager
 {
@@ -19,7 +19,7 @@ namespace NMib::NMongo::NMongoManager
 				(
 					pState
 					, "oplogger"
-					, CEJSONOrdered
+					, CEJsonOrdered
 					{
 						"privileges"_o= _o
 						[
@@ -52,7 +52,7 @@ namespace NMib::NMongo::NMongoManager
 				(
 					pState
 					, "anyActionOnAnyResource"
-					, CEJSONOrdered
+					, CEJsonOrdered
 					{
 						"privileges"_o= _o
 						[
@@ -65,13 +65,13 @@ namespace NMib::NMongo::NMongoManager
 								, "actions"_o= _o["anyAction"]
 							}
 						]
-						, "roles"_o= EJSONType_Array
+						, "roles"_o= EJsonType_Array
 					}
 				)
 			;
 		}
 
-		CEJSONOrdered AdminRoles = _o
+		CEJsonOrdered AdminRoles = _o
 			[
 				_o=
 				{
@@ -102,7 +102,7 @@ namespace NMib::NMongo::NMongoManager
 				(
 					pState
 					, _UserName
-					, CEJSONOrdered
+					, CEJsonOrdered
 					{
 						"roles"_o= AdminRoles
 					}
@@ -115,7 +115,7 @@ namespace NMib::NMongo::NMongoManager
 				(
 					pState
 					, _UserName
-					, CEJSONOrdered
+					, CEJsonOrdered
 					{
 						"roles"_o= AdminRoles
 					}

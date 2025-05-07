@@ -26,9 +26,9 @@ namespace NMib::NMongo::NMongoManager
 				g_Dispatch(BlockingActorCheckout) / [pBackupFile = _pBackupFile, Pending = fg_Move(mp_PendingOplogData)]() -> uint64
 				{
 					CByteVector Data;
-					for (auto &JSONData : Pending)
+					for (auto &JsonData : Pending)
 					{
-						auto BSON = fg_ToBSON(JSONData);
+						auto BSON = fg_ToBSON(JsonData);
 						
 						Data.f_Insert((uint8 const *)BSON.view().data(), BSON.view().length());
 					}
@@ -49,7 +49,7 @@ namespace NMib::NMongo::NMongoManager
 	{
 		TCSharedPointer<CFile> pBackupFile = _pBackupFile;
 
-		CEJSONOrdered Query;
+		CEJsonOrdered Query;
 		Query["fromMigrate"]["$exists"] = false;
 
 		CMongoClientActor::CTailQueryParams TailQueryParams
@@ -66,7 +66,7 @@ namespace NMib::NMongo::NMongoManager
 			(
 				&CMongoClientActor::f_TailQuery
 				, fg_Move(TailQueryParams)
-				, g_ActorFunctorWeak / [this, pBackupFile = fg_Move(pBackupFile)](NEncoding::CEJSONOrdered _Result) -> TCFuture<void>
+				, g_ActorFunctorWeak / [this, pBackupFile = fg_Move(pBackupFile)](NEncoding::CEJsonOrdered _Result) -> TCFuture<void>
 				{
 					if (!mp_pCanDestroy)
 						co_return {}; // Destroyed

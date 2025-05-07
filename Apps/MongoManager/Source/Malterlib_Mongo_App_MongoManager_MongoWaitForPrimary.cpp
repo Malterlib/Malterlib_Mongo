@@ -4,7 +4,7 @@
 #include "Malterlib_Mongo_App_MongoManager_Server.h"
 
 #include <Mib/Concurrency/AsyncDestroy>
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 
 namespace NMib::NMongo::NMongoManager
 {
@@ -30,7 +30,7 @@ namespace NMib::NMongo::NMongoManager
 
 		CStr MongoSelf = fg_Format("{}:{}", MongoHost.m_Host, MongoHost.m_Port);
 
-		auto *pMembers = Status.f_GetMember("members", EJSONType_Array);
+		auto *pMembers = Status.f_GetMember("members", EJsonType_Array);
 		if (!pMembers)
 			co_return DMibErrorInstance("Replica set status doesn't include members: {}"_f << Status);
 

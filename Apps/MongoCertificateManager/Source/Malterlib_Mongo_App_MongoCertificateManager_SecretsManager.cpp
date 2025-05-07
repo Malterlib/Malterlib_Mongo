@@ -1,7 +1,7 @@
 // Copyright © 2022 Favro Holding AB
 // Distributed under the MIT license, see license text in LICENSE.Malterlib
 
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 #include <Mib/Concurrency/LogError>
 
 #include "Malterlib_Mongo_App_MongoCertificateManager.h"

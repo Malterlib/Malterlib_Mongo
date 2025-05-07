@@ -4,7 +4,7 @@
 #include "Malterlib_Mongo_App_MongoManager_Server.h"
 
 #include <Mib/Concurrency/AsyncDestroy>
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 
 namespace NMib::NMongo::NMongoManager
 {
@@ -12,7 +12,7 @@ namespace NMib::NMongo::NMongoManager
 		(
 			CMongoConnectionSettings _JoinConnectionSettings
 			, CMongoConnectionSettings _LocalConnectionSettings
-			, CEJSONOrdered _ReplicationConfig
+			, CEJsonOrdered _ReplicationConfig
 			, CStr _SelfTag
 		)
 	{
@@ -22,7 +22,7 @@ namespace NMib::NMongo::NMongoManager
 
 			auto HelloInfo = co_await fp_MongoHelper_GetHello(pState).f_Wrap();
 
-			auto fIsPrimary = [](CEJSONOrdered const &_Hello) -> bool
+			auto fIsPrimary = [](CEJsonOrdered const &_Hello) -> bool
 				{
 					auto Master = _Hello.f_GetMemberValue("master", CStr()).f_String();
 					auto Me = _Hello.f_GetMemberValue("me", CStr()).f_String();
@@ -35,7 +35,7 @@ namespace NMib::NMongo::NMongoManager
 				co_return DMibErrorInstance("Trying to join replica set on non primary: {}"_f << HelloInfo);
 
 			auto ReplicaSetConfig = co_await fp_MongoHelper_GetReplicaSetConfig(pState);
-			auto *pMembers = ReplicaSetConfig.f_GetMember("members", EJSONType_Array);
+			auto *pMembers = ReplicaSetConfig.f_GetMember("members", EJsonType_Array);
 			if (!pMembers)
 				co_return DMibErrorInstance("Replica set config doesn't contain 'members': {}"_f << ReplicaSetConfig);
 
@@ -55,7 +55,7 @@ namespace NMib::NMongo::NMongoManager
 					&CMongoClientActor::f_RunCommand
 					, pState
 					, gc_Str<"admin">.m_Str
-					, CEJSONOrdered
+					, CEJsonOrdered
 					{
 						"replSetReconfig"_o= fg_TempCopy(ReplicaSetConfig)
 					}

@@ -6,7 +6,7 @@
 #include <Mib/File/ExeFS>
 #include <Mib/File/VirtualFS>
 #include <Mib/File/VirtualFSs/MalterlibFS>
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 #include <Mib/Concurrency/LogError>
 
 namespace NMib::NMongo::NMongoManager
@@ -47,25 +47,25 @@ namespace NMib::NMongo::NMongoManager
 
 		if (_VerboseMongoScrips)
 			mp_bVerboseMongoScripts = *_VerboseMongoScrips;
-		else if (auto *pValue = Config.f_GetMember("VerboseMongoScripts", EJSONType_Boolean))
+		else if (auto *pValue = Config.f_GetMember("VerboseMongoScripts", EJsonType_Boolean))
 			mp_bVerboseMongoScripts = pValue->f_Boolean();
 
 		if (_Port)
 			mp_MongoConnectionSettings.m_Hosts[0].m_Port = _Port;
-		else if (auto *pValue = Config.f_GetMember("MongoPort", EJSONType_Integer))
+		else if (auto *pValue = Config.f_GetMember("MongoPort", EJsonType_Integer))
 			mp_MongoConnectionSettings.m_Hosts[0].m_Port = pValue->f_Integer();
 
 		if (!_OverrideReplicaName.f_IsEmpty())
 			mp_MongoReplicaName = _OverrideReplicaName;
-		else if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("ReplicaName", EJSONType_String))
+		else if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("ReplicaName", EJsonType_String))
 			mp_MongoReplicaName = pValue->f_String();
 
-		if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("MongoVersion", EJSONType_String))
+		if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("MongoVersion", EJsonType_String))
 			mp_MongoVersion = pValue->f_String();
 
 		if (mp_Mode == EMode_SetupPermissions || mp_Mode == EMode_RunRestore)
 			mp_bEnableSSL = false;
-		else if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("EnableSSL", EJSONType_Boolean))
+		else if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("EnableSSL", EJsonType_Boolean))
 			mp_bEnableSSL = pValue->f_Boolean();
 		
 		co_await fp_OpenSensors();
@@ -204,11 +204,11 @@ namespace NMib::NMongo::NMongoManager
 #ifdef DPlatformFamily_Windows
 	CStrSecure CMongoManagerActor::fp_GetUserPassword(CStr const &_User)
 	{
-		if (auto pUsers = mp_AppState.m_StateDatabase.m_Data.f_GetMember("Users", EJSONType_Object))
+		if (auto pUsers = mp_AppState.m_StateDatabase.m_Data.f_GetMember("Users", EJsonType_Object))
 		{
-			if (auto pUser = pUsers->f_GetMember(_User, EJSONType_Object))
+			if (auto pUser = pUsers->f_GetMember(_User, EJsonType_Object))
 			{
-				if (auto pPassword = pUser->f_GetMember("Password", EJSONType_String))
+				if (auto pPassword = pUser->f_GetMember("Password", EJsonType_String))
 					return pPassword->f_String();
 			}
 		}

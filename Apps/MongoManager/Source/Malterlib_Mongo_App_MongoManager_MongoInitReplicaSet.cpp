@@ -4,11 +4,11 @@
 #include "Malterlib_Mongo_App_MongoManager_Server.h"
 
 #include <Mib/Concurrency/AsyncDestroy>
-#include <Mib/Encoding/JSONShortcuts>
+#include <Mib/Encoding/JsonShortcuts>
 
 namespace NMib::NMongo::NMongoManager
 {
-	TCFuture<void> CMongoManagerActor::fp_Mongo_InitReplicaSet(CMongoConnectionSettings _ConnectionSettings, CEJSONOrdered _ReplicationConfig, CStr _SelfTag)
+	TCFuture<void> CMongoManagerActor::fp_Mongo_InitReplicaSet(CMongoConnectionSettings _ConnectionSettings, CEJsonOrdered _ReplicationConfig, CStr _SelfTag)
 	{
 		TCSharedPointer<CMongoClientRetryState> pState = fg_Construct(_ConnectionSettings);
 		auto DestroyMongoClient = co_await fg_AsyncDestroy(pState);
@@ -23,7 +23,7 @@ namespace NMib::NMongo::NMongoManager
 		auto MemberConfig = _ReplicationConfig;
 		MemberConfig["_id"] = 0;
 
-		CEJSONOrdered ExpectedConfig
+		CEJsonOrdered ExpectedConfig
 			{
 				"_id"_o= mp_MongoReplicaName
 				, "members"_o=
@@ -35,7 +35,7 @@ namespace NMib::NMongo::NMongoManager
 				}
 				, "settings"_o=
 				{
-					"getLastErrorModes"_o= EJSONType_Object
+					"getLastErrorModes"_o= EJsonType_Object
 				}
 			}
 		;
@@ -47,7 +47,7 @@ namespace NMib::NMongo::NMongoManager
 				&CMongoClientActor::f_RunCommand
 				, pState
 				, gc_Str<"admin">.m_Str
-				, CEJSONOrdered
+				, CEJsonOrdered
 				{
 					"replSetInitiate"_o= fg_TempCopy(ExpectedConfig)
 				}
