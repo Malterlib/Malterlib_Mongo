@@ -35,7 +35,7 @@ namespace NMib::NMongo::NMongoManager
 				}
 				, "settings"_o=
 				{
-					"getLastErrorModes"_o= EJsonType_Object
+					"getLastErrorModes"_o= _o={}
 				}
 			}
 		;

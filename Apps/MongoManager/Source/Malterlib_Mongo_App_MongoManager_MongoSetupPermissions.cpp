@@ -65,7 +65,7 @@ namespace NMib::NMongo::NMongoManager
 								, "actions"_o= _o["anyAction"]
 							}
 						]
-						, "roles"_o= EJsonType_Array
+						, "roles"_o= _o[]
 					}
 				)
 			;
