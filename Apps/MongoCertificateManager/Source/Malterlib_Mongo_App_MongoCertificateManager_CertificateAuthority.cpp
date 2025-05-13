@@ -66,15 +66,15 @@ namespace NMib::NMongo::NMongoCertificateManager
 				SecretID.m_Folder = mc_pAuthorityFolder;
 				SecretID.m_Name = _AuthorityName;
 
-				CSecretsManager::CSetMetadata SetMetaData;
+				CSecretsManager::CSetMetadata SetMetadata;
 
-				SetMetaData.m_ID = pAuthority->f_GetSecretID();
-				SetMetaData.m_Key = "Serial";
-				SetMetaData.m_Value = NewSerial;
-				SetMetaData.m_ExpectedValue = OldSerial;
-				SetMetaData.m_ModifiedTime = ModifiedTime;
+				SetMetadata.m_ID = pAuthority->f_GetSecretID();
+				SetMetadata.m_Key = "Serial";
+				SetMetadata.m_Value = NewSerial;
+				SetMetadata.m_ExpectedValue = OldSerial;
+				SetMetadata.m_ModifiedTime = ModifiedTime;
 
-				SecretManager.f_CallActor(&CSecretsManager::f_SetMetadata)(fg_Move(SetMetaData)) > AsyncResults;
+				SecretManager.f_CallActor(&CSecretsManager::f_SetMetadata)(fg_Move(SetMetadata)) > AsyncResults;
 			}
 
 			{
@@ -162,18 +162,18 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		if (!Properties.m_Metadata)
 		{
-			DMibLog(Warning, "Missing meta data for secret '{}'", _SecretID);
+			DMibLog(Warning, "Missing metadata for secret '{}'", _SecretID);
 			co_return {};
 		}
 
-		auto &MetaData = *Properties.m_Metadata;
+		auto &Metadata = *Properties.m_Metadata;
 
 		CPublicKeySetting PublicKeySetting = CPublicKeySettings_EC_secp521r1{};
-		if (auto *pKeyType = MetaData.f_FindEqual("KeyType"))
+		if (auto *pKeyType = Metadata.f_FindEqual("KeyType"))
 		{
 			if (!pKeyType->f_IsString())
 			{
-				DMibLog(Warning, "Invalid json type for KeyType in meta data for secret '{}'", _SecretID);
+				DMibLog(Warning, "Invalid json type for KeyType in metadata for secret '{}'", _SecretID);
 				co_return {};
 			}
 
@@ -183,22 +183,22 @@ namespace NMib::NMongo::NMongoCertificateManager
 			}
 			catch (CException const &)
 			{
-				DMibLog(Warning, "Invalid KeyType ({}) in meta data for secret  '{}'", pKeyType->f_String(), _SecretID);
+				DMibLog(Warning, "Invalid KeyType ({}) in metadata for secret  '{}'", pKeyType->f_String(), _SecretID);
 				co_return {};
 			}
 		}
 		else
 		{
-			DMibLog(Warning, "Missing KeyType in meta data for secret '{}'", _SecretID);
+			DMibLog(Warning, "Missing KeyType in metadata for secret '{}'", _SecretID);
 			co_return {};
 		}
 
 		int32 Serial = 0;
-		if (auto *pSerial = MetaData.f_FindEqual("Serial"))
+		if (auto *pSerial = Metadata.f_FindEqual("Serial"))
 		{
 			if (!pSerial->f_IsInteger())
 			{
-				DMibLog(Warning, "Invalid json type for Serial in meta data for secret '{}'", _SecretID);
+				DMibLog(Warning, "Invalid json type for Serial in metadata for secret '{}'", _SecretID);
 				co_return {};
 			}
 
@@ -206,7 +206,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		}
 		else
 		{
-			DMibLog(Warning, "Missing Serial in meta data for secret '{}'", _SecretID);
+			DMibLog(Warning, "Missing Serial in metadata for secret '{}'", _SecretID);
 			co_return {};
 		}
 

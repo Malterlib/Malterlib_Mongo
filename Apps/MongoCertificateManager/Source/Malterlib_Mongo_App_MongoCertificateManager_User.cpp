@@ -58,18 +58,18 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		if (!Properties.m_Metadata)
 		{
-			DMibLog(Warning, "Missing meta data for secret '{}'", _SecretID);
+			DMibLog(Warning, "Missing metadata for secret '{}'", _SecretID);
 			co_return {};
 		}
 
-		auto &MetaData = *Properties.m_Metadata;
+		auto &Metadata = *Properties.m_Metadata;
 
 		EUserType Type = EUserType_User;
-		if (auto *pType = MetaData.f_FindEqual("Type"))
+		if (auto *pType = Metadata.f_FindEqual("Type"))
 		{
 			if (!pType->f_IsString())
 			{
-				DMibLog(Warning, "Invalid json type for Type in meta data for secret '{}'", _SecretID);
+				DMibLog(Warning, "Invalid json type for Type in metadata for secret '{}'", _SecretID);
 				co_return {};
 			}
 
@@ -79,13 +79,13 @@ namespace NMib::NMongo::NMongoCertificateManager
 			}
 			catch (CException const &)
 			{
-				DMibLog(Warning, "Invalid Type ({}) in meta data for secret  '{}'", pType->f_String(), _SecretID);
+				DMibLog(Warning, "Invalid Type ({}) in metadata for secret '{}'", pType->f_String(), _SecretID);
 				co_return {};
 			}
 		}
 		else
 		{
-			DMibLog(Warning, "Missing KeyType in meta data for secret '{}'", _SecretID);
+			DMibLog(Warning, "Missing KeyType in metadata for secret '{}'", _SecretID);
 			co_return {};
 		}
 
@@ -149,11 +149,11 @@ namespace NMib::NMongo::NMongoCertificateManager
 		}
 
 		CPublicKeySetting PublicKeySetting = CPublicKeySettings_EC_secp521r1{};
-		if (auto *pKeyType = MetaData.f_FindEqual("KeyType"))
+		if (auto *pKeyType = Metadata.f_FindEqual("KeyType"))
 		{
 			if (!pKeyType->f_IsString())
 			{
-				DMibLog(Warning, "Invalid json type for KeyType in meta data for secret '{}'", _SecretID);
+				DMibLog(Warning, "Invalid json type for KeyType in metadata for secret '{}'", _SecretID);
 				co_return {};
 			}
 
@@ -163,13 +163,13 @@ namespace NMib::NMongo::NMongoCertificateManager
 			}
 			catch (CException const &)
 			{
-				DMibLog(Warning, "Invalid KeyType ({}) in meta data for secret  '{}'", pKeyType->f_String(), _SecretID);
+				DMibLog(Warning, "Invalid KeyType ({}) in metadata for secret  '{}'", pKeyType->f_String(), _SecretID);
 				co_return {};
 			}
 		}
 		else
 		{
-			DMibLog(Warning, "Missing KeyType in meta data for secret '{}'", _SecretID);
+			DMibLog(Warning, "Missing KeyType in metadata for secret '{}'", _SecretID);
 			co_return {};
 		}
 
