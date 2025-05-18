@@ -67,9 +67,9 @@ namespace NMib::NMongo
 				_pException
 				, [&]<typename tf_CException>(tf_CException &&_Exception)
 				{
-					using CExceptionType = typename NTraits::TCRemoveReferenceAndQualifiers<tf_CException>::CType;
+					using CExceptionType = NTraits::TCRemoveReferenceAndQualifiers<tf_CException>;
 
-					if constexpr (NTraits::TCIsSame<CExceptionType, mongocxx::operation_exception>::mc_Value)
+					if constexpr (NTraits::cIsSame<CExceptionType, mongocxx::operation_exception>)
 					{
 						ExceptionString = _Exception.what();
 						if (auto ServerError = _Exception.raw_server_error())
@@ -78,13 +78,13 @@ namespace NMib::NMongo
 						if (_Exception.code().category() == mongocxx::server_error_category())
 							ErrorData.m_ErrorCode = (mongoc_error_code_t)_Exception.code().value();
 					}
-					else if constexpr (NTraits::TCIsSame<CExceptionType, mongocxx::exception>::mc_Value)
+					else if constexpr (NTraits::cIsSame<CExceptionType, mongocxx::exception>)
 					{
 						ExceptionString = _Exception.what();
 						if (_Exception.code().category() == mongocxx::server_error_category())
 							ErrorData.m_ErrorCode = (mongoc_error_code_t)_Exception.code().value();
 					}
-					else if constexpr (NTraits::TCIsSame<CExceptionType, std::exception>::mc_Value)
+					else if constexpr (NTraits::cIsSame<CExceptionType, std::exception>)
 						ExceptionString = _Exception.what();
 					else
 						DMibFastCheck(false);

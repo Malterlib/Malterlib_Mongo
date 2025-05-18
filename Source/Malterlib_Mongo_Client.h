@@ -182,7 +182,7 @@ namespace NMib::NMongo
 			(
 				tf_CReturn (CMongoClientActor::* _pMemberPointer)(tf_CParams ...)
 				, NStorage::TCSharedPointer<CMongoClientRetryState> _pState
-				, typename NTraits::TCRemoveReferenceAndQualifiers<tf_CParams>::CType ...p_Params
+				, NTraits::TCRemoveReferenceAndQualifiers<tf_CParams> ...p_Params
 			)
 		;
 
