@@ -89,7 +89,7 @@ namespace NMib::NMongo
 	class CMongoClientActor : public NConcurrency::CActor
 	{
 	public:
-		typedef NConcurrency::CSeparateThreadActorHolder CActorHolder;
+		using CActorHolder = NConcurrency::CSeparateThreadActorHolder;
 
 		CMongoClientActor(CMongoConnectionSettings const &_ConnectionSetting, NStr::CStr const &_DefaultDatabase);
 		~CMongoClientActor();
