@@ -113,7 +113,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		if (_String.f_StartsWith("RSA-"))
 			return _String.f_RemovePrefix("RSA-").f_ToInt(uint32(4096));
 		else
-			return fsp_EllipticCurveTypeFromStr(_String);
+			return fsp_EllipticCurveTypeToKeySettings(fsp_EllipticCurveTypeFromStr(_String));
 	}
 
 	CStr CMongoCertificateManagerActor::fsp_PublicKeySettingToStr(CPublicKeySetting const &_PublicKeySetting)
