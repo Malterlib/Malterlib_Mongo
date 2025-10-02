@@ -97,13 +97,13 @@ namespace NMib::NMongo::NMongoCertificateManager
 	EPublicKeyType CMongoCertificateManagerActor::fsp_EllipticCurveTypeFromStr(CStr const &_String)
 	{
 		if (_String == "secp256r1")
-			return EPublicKeyType_EC_secp256r1;
+			return EPublicKeyType::mc_EC_secp256r1;
 		else if (_String == "secp384r1")
-			return EPublicKeyType_EC_secp384r1;
+			return EPublicKeyType::mc_EC_secp384r1;
 		else if (_String == "secp521r1")
-			return EPublicKeyType_EC_secp521r1;
+			return EPublicKeyType::mc_EC_secp521r1;
 		else if (_String == "X25519")
-			return EPublicKeyType_EC_X25519;
+			return EPublicKeyType::mc_EC_X25519;
 		else
 			DMibError("Unknown elliptic key type: {}"_f << _String);
 	}
@@ -120,11 +120,11 @@ namespace NMib::NMongo::NMongoCertificateManager
 	{
 		switch (_PublicKeySetting.f_GetTypeID())
 		{
-		case EPublicKeyType_RSA: return "RSA-{}"_f << _PublicKeySetting.f_Get<EPublicKeyType_RSA>().m_KeyLength;
-		case EPublicKeyType_EC_secp256r1: return "secp256r1";
-		case EPublicKeyType_EC_secp384r1: return "secp384r1";
-		case EPublicKeyType_EC_secp521r1: return "secp521r1";
-		case EPublicKeyType_EC_X25519: return "X25519";
+		case EPublicKeyType::mc_RSA: return "RSA-{}"_f << _PublicKeySetting.f_Get<EPublicKeyType::mc_RSA>().m_KeyLength;
+		case EPublicKeyType::mc_EC_secp256r1: return "secp256r1";
+		case EPublicKeyType::mc_EC_secp384r1: return "secp384r1";
+		case EPublicKeyType::mc_EC_secp521r1: return "secp521r1";
+		case EPublicKeyType::mc_EC_X25519: return "X25519";
 		}
 		return "Unknown";
 	}
@@ -133,10 +133,10 @@ namespace NMib::NMongo::NMongoCertificateManager
 	{
 		switch (_Type)
 		{
-		case EPublicKeyType_EC_secp256r1: return "secp256r1";
-		case EPublicKeyType_EC_secp384r1: return "secp384r1";
-		case EPublicKeyType_EC_secp521r1: return "secp521r1";
-		case EPublicKeyType_EC_X25519: return "X25519";
+		case EPublicKeyType::mc_EC_secp256r1: return "secp256r1";
+		case EPublicKeyType::mc_EC_secp384r1: return "secp384r1";
+		case EPublicKeyType::mc_EC_secp521r1: return "secp521r1";
+		case EPublicKeyType::mc_EC_X25519: return "X25519";
 		default: break;
 		}
 		return "Unknown";
@@ -146,10 +146,10 @@ namespace NMib::NMongo::NMongoCertificateManager
 	{
 		switch (_Type)
 		{
-		case EPublicKeyType_EC_secp256r1: return CPublicKeySettings_EC_secp256r1{};
-		case EPublicKeyType_EC_secp384r1: return CPublicKeySettings_EC_secp384r1{};
-		case EPublicKeyType_EC_secp521r1: return CPublicKeySettings_EC_secp521r1{};
-		case EPublicKeyType_EC_X25519: return CPublicKeySettings_EC_X25519{};
+		case EPublicKeyType::mc_EC_secp256r1: return CPublicKeySettings_EC_secp256r1{};
+		case EPublicKeyType::mc_EC_secp384r1: return CPublicKeySettings_EC_secp384r1{};
+		case EPublicKeyType::mc_EC_secp521r1: return CPublicKeySettings_EC_secp521r1{};
+		case EPublicKeyType::mc_EC_X25519: return CPublicKeySettings_EC_X25519{};
 		default: break;
 		}
 		return CPublicKeySettings_EC_secp521r1{};
