@@ -1,0 +1,5 @@
+../../../mongo-c-driver/src/libbson/_eval.tmp.cmake
+../../../../../../../External/mongo-cxx-driver/mongo-c-driver/build/cmake/packageConfigVersion.cmake.in
+../../../../../../../External/mongo-cxx-driver/mongo-c-driver/src/libbson/CMakeLists.txt
+../../../../../../../External/mongo-cxx-driver/mongo-c-driver/src/libbson/src/bson/config.h.in
+../../../../../../../External/mongo-cxx-driver/mongo-c-driver/src/libbson/src/bson/version.h.in

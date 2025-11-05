@@ -1,5 +1,0 @@
-if(ENABLE_STATIC AND NOT ENABLE_STATIC STREQUAL "BUILD_ONLY")
-  set(bool 1)
-else()
-  set(bool 0)
-endif()
