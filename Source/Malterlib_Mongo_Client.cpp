@@ -1,4 +1,4 @@
-// Copyright © 2015 Hansoft AB 
+// Copyright © 2015 Hansoft AB
 // Distributed under the MIT license, see license text in LICENSE.Malterlib
 
 #include <Mib/Core/Core>
@@ -18,7 +18,6 @@
 
 #include <mongocxx/instance.hpp>
 #include <mongocxx/client.hpp>
-#include <mongocxx/stdx.hpp>
 #include <mongocxx/uri.hpp>
 
 #include <mongocxx/exception/bulk_write_exception.hpp>
@@ -34,7 +33,7 @@ namespace
 	struct CMongoClientInit
 	{
 		mongocxx::instance m_MongoInstance;
-		
+
 		CMongoClientInit()
 		{
 		}
@@ -262,7 +261,7 @@ namespace NMib::NMongo
 		;
 
 		return Return;
-		
+
 	}
 
 	bool CMongoConnectionSettings::f_Compatible(CMongoConnectionSettings const &_Settings) const
@@ -466,7 +465,7 @@ namespace NMib::NMongo
 
 			return DatabaseReturn;
 		}
-		
+
 		decltype(auto) f_GetCollection(NStr::CStr _Collection) const
 		{
 			NStr::CStr Database;
@@ -938,7 +937,7 @@ namespace NMib::NMongo
 		{
 			auto Collection = Internal.f_GetCollection(_Collection);
 
-			mongocxx::stdx::optional<mongocxx::result::update> UpdateResult;
+			bsoncxx::v_noabi::stdx::optional<mongocxx::result::update> UpdateResult;
 			if (_Options & EUpdateOption_Multi)
 				UpdateResult = Collection.update_one(fg_ToBSON(_Query), fg_ToBSON(_Update), UpdateOptions);
 			else

@@ -1,4 +1,4 @@
-// Copyright © 2015 Hansoft AB 
+// Copyright © 2015 Hansoft AB
 // Distributed under the MIT license, see license text in LICENSE.Malterlib
 
 #include <Mib/Core/Core>
@@ -139,6 +139,8 @@ namespace NMib::NMongo
 							Subtype = binary_sub_type::k_column;
 						else if (Type == "Sensitive")
 							Subtype = binary_sub_type::k_sensitive;
+						else if (Type == "Vector")
+							Subtype = binary_sub_type::k_vector;
 						else
 							DMibError(NStr::fg_Format("Unknown BinData type: {}", Type));
 
@@ -336,6 +338,9 @@ namespace NMib::NMongo
 						break;
 					case binary_sub_type::k_sensitive:
 						Type = "Sensitive";
+						break;
+					case binary_sub_type::k_vector:
+						Type = "Vector";
 						break;
 					case binary_sub_type::k_binary:
 						DMibNeverGetHere;

@@ -1,4 +1,4 @@
-// Copyright © 2015 Hansoft AB 
+// Copyright © 2015 Hansoft AB
 // Distributed under the MIT license, see license text in LICENSE.Malterlib
 
 #include <Mib/Mongo/BSON>
@@ -19,16 +19,16 @@ namespace
 	class CBSON_Tests : public CTest
 	{
 	public:
-		
+
 		void f_DoTests()
 		{
 			DMibTestSuite("Conversion")
 			{
 				using namespace bsoncxx;
-				
+
 				CByteVector TestBinary{1,2,6,8};
 				std::string TestOID = "012345678901234567890123";
-				
+
 				bsoncxx::document::value OriginalBSON = builder::stream::document{}
 					<< "k_double" << 5.6
 					<< "k_utf8" << "Value"
@@ -62,6 +62,7 @@ namespace
 					<< "k_binary k_uuid" << types::b_binary{binary_sub_type::k_uuid, fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
 					<< "k_binary k_md5" << types::b_binary{binary_sub_type::k_md5, fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
 					<< "k_binary k_user" << types::b_binary{binary_sub_type::k_user, fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
+					<< "k_binary k_vector" << types::b_binary{binary_sub_type::k_vector, fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
 					<< "k_undefined" << types::b_undefined{}
 					<< "k_oid" << types::b_oid{oid{TestOID}}
 					<< "k_regex" << types::b_regex{"RegEx", "ls"}
@@ -75,13 +76,13 @@ namespace
 					<< "k_maxkey" << types::b_maxkey{}
 					<< builder::stream::finalize
 				;
-				
+
 				bsoncxx::array::value OriginalBSONArray = builder::stream::array{}
 					<< "String"
 					<< OriginalBSON
 					<< builder::stream::finalize
 				;
-				
+
 				CEJsonOrdered const ExpectedEJson =
 					{
 						"k_double"_o= 5.6
@@ -119,6 +120,7 @@ namespace
 						, "k_binary k_uuid"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "newUUID"}}
 						, "k_binary k_md5"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "MD5Type"}}
 						, "k_binary k_user"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "bdtCustom"}}
+						, "k_binary k_vector"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "Vector"}}
 						, "k_undefined"_o= CEJsonUserTypeOrdered{"Undefined", 1}
 						, "k_oid"_o= CEJsonUserTypeOrdered{"jstOID", TestOID.c_str()}
 						, "k_regex"_o= CEJsonUserTypeOrdered{"RegEx", {"Regex"_jo= "RegEx", "RegexFlags"_jo= "ls"}}
@@ -139,7 +141,7 @@ namespace
 						, ExpectedEJson
 					]
 				;
-				
+
 				DMibExpect(fg_FromBSON(NMib::fg_TempCopy(OriginalBSON)), ==, ExpectedEJson);
 				DMibExpect(fg_FromBSON(NMib::fg_TempCopy(OriginalBSONArray)), ==, ExpectedEJsonArray);
 

@@ -30,22 +30,22 @@ Property
 	MalterlibMongoIncludePath_bson: [string] = [
 		"../../External/mongo-c-driver/src/libbson/src"->MakeAbsolute()
 		, "../../External/mongo-c-driver/src/libbson/src/bson"->MakeAbsolute()
-		, `@(GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:libbson.Target:Lib_libbson_bson_static.Import:*.Target:Lib_libbson_bson_static"))/src/libbson/src`
+		, `@(GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:libbson.Target:Lib_libbson_bson_static.Import:*.Target:Lib_libbson_bson_static"))/mongo-c-driver/src/libbson/src`
 	]
 
 	MalterlibMongoIncludePath_mongoc: [string] = [
 		"../../External/mongo-c-driver/src/libmongoc/src"->MakeAbsolute()
 		, "../../External/mongo-c-driver/src/libmongoc/src/mongoc"->MakeAbsolute()
-		, `@(GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:libmongoc.Target:Lib_libmongoc_mongoc_static.Import:*.Target:Lib_libmongoc_mongoc_static"))/src/libmongoc/src/mongoc`
+		, `@(GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:libmongoc.Target:Lib_libmongoc_mongoc_static.Import:*.Target:Lib_libmongoc_mongoc_static"))/mongo-c-driver/src/libmongoc/src`
 	]
 }
 
-%Import "../../External/mongo-c-driver/CMakeLists.txt"
+%Import "../../External/mongo-cxx-driver/CMakeLists.txt"
 {
 	Import.CMake_FullRebuildVersion `@(Import.CMake_FullRebuildVersion).1`
 
 	Import.CMake_Variables =+ [
-		"BUILD_VERSION=1.28.0"
+		"BUILD_VERSION=2.1.2"
 		, "CMAKE_BUILD_WITH_INSTALL_RPATH=ON"
 		, "ENABLE_APPLE_FRAMEWORK=OFF"
 		, "MONGOC_ENABLE_EXECUTABLES=OFF"
@@ -58,19 +58,32 @@ Property
 		, "ENABLE_STATIC=ON"
 		, "MONGOC_ENABLE_STATIC=ON"
 		, "ENABLE_TESTS=OFF"
+		, "BUILD_TESTING=OFF"
 		, "ENABLE_ZSTD=OFF"
 		, "ENABLE_EXAMPLES=OFF"
 		, "ENABLE_SASL=OFF"
 		, "ENABLE_ICU=OFF"
 		, "ENABLE_SSL=EXTERNAL_OPENSSL"
-		, "DISABLE_PACKAGES=ON"
 		, "ENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF"
 		, "ENABLE_SNAPPY=OFF"
 		, "ENABLE_SHM_COUNTERS=OFF"
 		, "ENABLE_ZLIB=SYSTEM"
 		, `ZLIB_INCLUDE_DIR=@("../../External/zlib"->MakeAbsolute())`
 		, `ZLIB_LIBRARY=@(Malterlib_DummmyLibrary)`
+		, "CMAKE_CXX_STANDARD=14"
+		, "BUILD_SHARED_LIBS=OFF"
+		, "DISABLE_PACKAGES=ON"
+		, "BSONCXX_POLY_USE_STD=ON"
+		, "BSONCXX_POLY_USE_MNMLSTC_DEFAULT=OFF"
+		, "BSONCXX_POLY_USE_BOOST_DEFAULT=OFF"
+		, "MONGOCXX_LINK_WITH_STATIC_MONGOC=ON"
+		, "BSONCXX_LINK_WITH_STATIC_MONGOC=ON"
 	]
+
+	Import.CMake_Variables =+ ["CMAKE_BUILD_WITH_INSTALL_RPATH=ON"]
+	{
+		!!PlatformFamily "Linux"
+	}
 
 	Compile
 	{
@@ -115,6 +128,8 @@ Property
 		}
 	}
 
+	Property.IdentityFileName: string = this.Identity->GetFile()
+
 	%Target "Lib_libbson_bson_static"
 	{
 		Compile.PreprocessorDefines += ["BSONCXX_STATIC", "MONGOCXX_STATIC", "BSON_STATIC", "MONGOC_STATIC"]
@@ -155,53 +170,6 @@ Property
 		}
 		Target.ExtraGroups =+ "{Malterlib}/{Lib_Malterlib_Cryptography}/{DependOnBoringSSL}"
 	}
-}
-
-%Import "../../External/mongo-cxx-driver/CMakeLists.txt"
-{
-	Import.CMake_FullRebuildVersion `@(Import.CMake_FullRebuildVersion).1`
-
-	Import.CMake_Variables =+ [
-		"ENABLE_BSON=ON"
-		, "CMAKE_CXX_STANDARD=14"
-		, "BUILD_SHARED_LIBS=OFF"
-		, "DISABLE_PACKAGES=ON"
-		, "BSONCXX_POLY_USE_STD=ON"
-		, "BSONCXX_POLY_USE_MNMLSTC_DEFAULT=OFF"
-		, "BSONCXX_POLY_USE_BOOST_DEFAULT=OFF"
-		, "MONGOCXX_LINK_WITH_STATIC_MONGOC=ON"
-		, "BSONCXX_LINK_WITH_STATIC_MONGOC=ON"
-	]
-
-	Import.CMake_Variables =+ ["CMAKE_BUILD_WITH_INSTALL_RPATH=ON"]
-	{
-		!!PlatformFamily "Linux"
-	}
-
-	Compile
-	{
-		!!MalterlibCompileSupportTabSetings true
-		IndentWidth 3
-		TabWidth 3
-		UsesTabs false
-	}
-
-	Compile
-	{
-		!!CompileDialect "C"
-
-		Analyzer false
-		PrefixHeader undefined
-		Warnings_DeprecatedDeclarations false
-		{
-			!!Compiler "Clang"
-		}
-		Warnings_AlignMismatch false
-		{
-			!!Compiler "Clang"
-		}
-	}
-	Property.IdentityFileName: string = this.Identity->GetFile()
 
 	%Target "Lib_BSONCXX_bsoncxx_static"
 	{
@@ -298,11 +266,15 @@ Property
 		SearchPath += [
 			"../../External/mongo-cxx-driver/src/bsoncxx/include/bsoncxx/v_noabi"->MakeAbsolute()
 			, "../../External/mongo-cxx-driver/src/mongocxx/include/mongocxx/v_noabi"->MakeAbsolute()
+			, "../../External/mongo-cxx-driver/src/bsoncxx/include"->MakeAbsolute()
+			, "../../External/mongo-cxx-driver/src/mongocxx/include"->MakeAbsolute()
 			, "../../External/mongo-cxx-driver/src"->MakeAbsolute()
 			, MalterlibMongoIncludePath_bson...
 		]
 		SearchPath += GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:BSONCXX.Target:Lib_BSONCXX_bsoncxx_static.Import:*.Target:Lib_BSONCXX_bsoncxx_static") / "src/bsoncxx/lib/bsoncxx/v_noabi"
 		SearchPath += GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:MONGOCXX.Target:Lib_MONGOCXX_mongocxx_static.Import:*.Target:Lib_MONGOCXX_mongocxx_static") / "src/mongocxx/lib/mongocxx/v_noabi"
+		SearchPath += GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:BSONCXX.Target:Lib_BSONCXX_bsoncxx_static.Import:*.Target:Lib_BSONCXX_bsoncxx_static") / "src/bsoncxx/lib"
+		SearchPath += GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:MONGOCXX.Target:Lib_MONGOCXX_mongocxx_static.Import:*.Target:Lib_MONGOCXX_mongocxx_static") / "src/mongocxx/lib"
 		SearchPath += [MalterlibMongoIncludePath_mongoc..., MalterlibMongoIncludePath_bson...]
 		PreprocessorDefines += ["BSONCXX_STATIC", "MONGOCXX_STATIC", "BSON_STATIC", "MONGOC_STATIC"]
 		PreprocessorDefines += "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING"
