@@ -199,6 +199,9 @@ Property
 						IdentityFileName "element.cpp"
 						IdentityFileName "value.cpp"
 						IdentityFileName "view.cpp"
+						IdentityFileName "config.cpp"
+						IdentityFileName "version.cpp"
+						IdentityFileName "export.cpp"
 					}
 				}
 			}
@@ -244,6 +247,9 @@ Property
 						IdentityFileName "client_session.cpp"
 						IdentityFileName "client_encryption.cpp"
 						IdentityFileName "rewrap_many_datakey.cpp"
+						IdentityFileName "config.cpp"
+						IdentityFileName "version.cpp"
+						IdentityFileName "export.cpp"
 					}
 				}
 			}
