@@ -41,7 +41,7 @@
 #define MONGOC_USER_SET_LDFLAGS "-stdlib=libc++ -Wno-unused-command-line-argument"
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
-#define MONGOC_CC "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchaincc"
+#define MONGOC_CC "cc"
 
 /*
  * MONGOC_ENABLE_SSL_SECURE_CHANNEL is set from configure to determine if we are
