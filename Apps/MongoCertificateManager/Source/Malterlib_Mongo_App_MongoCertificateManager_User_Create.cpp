@@ -27,7 +27,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		return SecretID;
 	}
-	
+
 	void CMongoCertificateManagerActor::fp_User_StoreSecrets
 		(
 			TCVector<TCTrustedActor<CSecretsManager>> const &_SecretManagers
@@ -91,7 +91,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 					RelativeDistinguishedNames["O"] = "malterlib.org";
 
 					CCertificateSignOptions SignOptions;
-					SignOptions.m_Serial = fg_GetRandom();
+					SignOptions.m_Serial = fg_GetSecureRandom();
 					SignOptions.m_Days = 365*10;
 					SignOptions.f_AddExtension_AuthorityKeyIdentifier();
 
@@ -252,7 +252,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 			Auditor.f_Info("Added User '{}'"_f << UserKey);
 		}
-		
+
 		co_return 0;
 	}
 }
