@@ -112,6 +112,11 @@ Property
 
 		Analyzer false
 		PreprocessorDefines += "BSON_STATIC"
+		PreprocessorDefines += "MLIB_DISABLE_INLINING_ASSERTIONS"
+		{
+			!!Compile.Inline "Off"
+		}
+
 		PrefixHeader undefined
 		Warnings "Minimal"
 		Warnings_UnusedFunction false
