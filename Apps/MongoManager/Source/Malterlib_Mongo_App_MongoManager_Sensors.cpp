@@ -38,7 +38,7 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 
-	CFutureCoroutineContext::COnResumeScopeAwaiter CMongoManagerActor::fp_CheckSensorDependencies() const
+	CFutureCoroutineContextOnResumeScopeAwaiter CMongoManagerActor::fp_CheckSensorDependencies() const
 	{
 		return fg_OnResume
 			(
@@ -52,7 +52,7 @@ namespace NMib::NMongo::NMongoManager
 			)
 		;
 	}
-	
+
 	void CMongoManagerActor::fp_SetStatus(CDistributedAppSensorReporter::EStatusSeverity _Severity, CStr const &_Description)
 	{
 		if (_Severity == CDistributedAppSensorReporter::EStatusSeverity_Error)
@@ -142,7 +142,7 @@ namespace NMib::NMongo::NMongoManager
 	TCFuture<void> CMongoManagerActor::fp_UpdateReplicaStatusPerform()
 	{
 		auto CheckDependencies = co_await fp_CheckSensorDependencies();
-		
+
 		auto [ConfigResultMutable, StatusResultMutable] = co_await
 			(
 				mp_ReplicaStatusMongoClient

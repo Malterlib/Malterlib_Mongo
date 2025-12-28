@@ -131,7 +131,7 @@ namespace NMib::NMongo::NMongoManager
 		void fp_SetStatus(CDistributedAppSensorReporter::EStatusSeverity _Severity, CStr const &_Description);
 		TCFuture<void> fp_UpdateReplicaStatus();
 		TCFuture<void> fp_UpdateReplicaStatusPerform();
-		CFutureCoroutineContext::COnResumeScopeAwaiter fp_CheckSensorDependencies() const;
+		CFutureCoroutineContextOnResumeScopeAwaiter fp_CheckSensorDependencies() const;
 
 		TCActor<CMongoClientActor> fp_MongoHelper_GetClient(CMongoConnectionSettings _ConnectionSettings);
 
