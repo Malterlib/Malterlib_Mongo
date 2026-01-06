@@ -16,10 +16,10 @@ namespace NMib::NMongo::NMongoManager
 		o_CommandLine.f_SetProgramDescription
 			(
 				"Malterlib Mongo Manager"
-				, "Manages mongodb server daemon." 
+				, "Manages mongodb server daemon."
 			)
 		;
-		
+
 		o_CommandLine.f_RegisterGlobalOptions
 			(
 				{
@@ -33,9 +33,9 @@ namespace NMib::NMongo::NMongoManager
 				}
 			)
 		;
-		
+
 		auto Section = o_CommandLine.f_AddSection("Mongo Manager", "Mongo Manager Commands");
-		
+
 		Section.f_RegisterDirectCommand
 			(
 				{
@@ -45,7 +45,7 @@ namespace NMib::NMongo::NMongoManager
 					(
 						"Lists the time range available for restore for the oplog.\n"
 						"Expects the oplog to be located at: {}\n"
-						, CFile::fs_GetProgramDirectory() + "/Oplog.bson" 
+						, CFile::fs_GetProgramDirectory() + "/Oplog.bson"
 					)
 				}
 				, [this](NEncoding::CEJsonSorted const &_Params, CDistributedAppCommandLineClient &_CommandLineClient) -> uint32
@@ -167,7 +167,7 @@ namespace NMib::NMongo::NMongoManager
 				, EDistributedAppCommandFlag_None
 			)
 		;
-		
+
 		Section.f_RegisterCommand
 			(
 				{
@@ -249,7 +249,7 @@ namespace NMib::NMongo::NMongoManager
 	uint32 CMongoManagerDaemonActor::fp_CommandLine_ListRestoreRange(NEncoding::CEJsonSorted const &_Params)
 	{
 		CStr RestoreOplog = CFile::fs_GetProgramDirectory() + "/Oplog.bson";
-		
+
 		if (!CFile::fs_FileExists(RestoreOplog))
 		{
 			DConErrOut("No oplog found{\n}", 0);
@@ -258,25 +258,25 @@ namespace NMib::NMongo::NMongoManager
 
 		CTime First;
 		CTime Last;
-		
+
 		try
 		{
 			TCBinaryStreamFile<> Stream;
-			
+
 			Stream.f_Open(RestoreOplog, EFileOpen_Read | EFileOpen_ShareRead);
-			
+
 			while (!Stream.f_IsAtEndOfStream())
 			{
 				int32 EntrySize;
 				Stream >> EntrySize;
 				Stream.f_AddPosition(-int32(sizeof(int32)));
-				
+
 				CByteVector Data;
 				Data.f_SetLen(EntrySize);
 				Stream.f_ConsumeBytes(Data.f_GetArray(), EntrySize);
-				
+
 				auto OplogEntry = fg_FromBSON(bsoncxx::document::view{Data.f_GetArray(), Data.f_GetLen()});
-				
+
 				if (auto pTimestamp = OplogEntry.f_GetMember("ts", EEJsonType_UserType))
 				{
 					if (pTimestamp->f_UserType().m_Type == "Timestamp")
@@ -294,13 +294,13 @@ namespace NMib::NMongo::NMongoManager
 		{
 			DConErrOut("Warning: Exception reading oplog: {}{\n}", _Error.f_GetErrorStr());
 		}
-		
+
 		DConOut("First oplog entry: {}{\n}", First.f_ToLocal());
 		DConOut("Last oplog entry: {}{\n}", Last.f_ToLocal());
-		
+
 		return 0;
 	}
-	
+
 	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_Restore(NEncoding::CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();
@@ -311,14 +311,14 @@ namespace NMib::NMongo::NMongoManager
 			if (RestoreTime.f_IsDate())
 				Time = RestoreTime.f_Date();
 		}
-		
+
 		co_await (mp_pManager(&CMongoManagerActor::f_RestoreMongo, Time) % "Error restoring from backup");
 
 		*_pCommandLine += "Restore finished successfully\n";
 
 		co_return 0;
 	}
-	
+
 	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_UpdateReplicationConfig
 		(
 			NEncoding::CEJsonSorted const _Params
@@ -333,7 +333,7 @@ namespace NMib::NMongo::NMongoManager
 
 		co_return {};
 	}
-	
+
 	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_WithoutReplicaSet
 		(
 			NEncoding::CEJsonSorted const _Params
@@ -371,7 +371,7 @@ namespace NMib::NMongo::NMongoManager
 
 		co_return 0;
 	}
-	
+
 	struct CDummyBackupInterface : public CDistributedAppInterfaceBackup
 	{
 		enum : uint32
@@ -394,11 +394,11 @@ namespace NMib::NMongo::NMongoManager
 			AppendData += "\tExclude wildcards: {vs}\n"_f << _Config.m_ExcludeWildcards;
 			AppendData += "\tAdd sync flags wildcards: {vs}\n"_f << _Config.m_AddSyncFlagsWildcards;
 			AppendData += "\tRemove sync flags wildcards: {vs}\n"_f << _Config.m_RemoveSyncFlagsWildcards;
-			
+
 			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Append manifest:\n{}", m_BackupID, AppendData);
 			co_return {};
 		}
-		
+
 		NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeInitialFinished
 			(
 				NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> _fOnInitialFinished
@@ -408,7 +408,7 @@ namespace NMib::NMongo::NMongoManager
 			_fOnInitialFinished().f_DiscardResult();
 			co_return {};
 		}
-		
+
 		NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeBackupStopped
 			(
 				NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> _fOnStopped
@@ -417,18 +417,18 @@ namespace NMib::NMongo::NMongoManager
 			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Subscribe backup stopped", m_BackupID);
 			co_return {};
 		}
-		
+
 		uint32 m_BackupID = -1;
 	};
-	
+
 	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_RunBackup(NEncoding::CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();
 
 		uint32 BackupID = mp_NextLocalBackup++;
-		
+
 		auto &LocalBackup = mp_LocalBackups[BackupID];
-		
+
 		LocalBackup.m_BackupInterface = mp_State.m_DistributionManager->f_ConstructActor<CDummyBackupInterface>(BackupID);
 
 		auto Cleanup = g_OnScopeExitActor / [&]
@@ -469,32 +469,32 @@ namespace NMib::NMongo::NMongoManager
 			for (auto &ID : pValue->f_Array())
 				BackupIDs[ID.f_Integer()];
 		}
-		
+
 		if (BackupIDs.f_IsEmpty())
 			BackupIDs = mp_LocalBackups;
-		
+
 		TCSet<uint32> MissingBackupIDs;
-		
+
 		TCFutureMap<uint32, void> DestroyResults;
-		
+
 		for (auto &ID : BackupIDs)
 		{
 			auto *pLocalBackup = mp_LocalBackups.f_FindEqual(ID);
-			
+
 			if (!pLocalBackup)
 			{
 				MissingBackupIDs[ID];
 				continue;
 			}
-			
+
 			auto &LocalBackup = *pLocalBackup;
-			
+
 			if (LocalBackup.m_Subscription)
 				LocalBackup.m_Subscription->f_Destroy() > DestroyResults[ID];
-			
+
 			mp_LocalBackups.f_Remove(pLocalBackup);
 		}
-		
+
 		auto Results = co_await fg_AllDoneWrapped(DestroyResults);
 
 		uint32 ExitStatus = 0;
@@ -520,7 +520,7 @@ namespace NMib::NMongo::NMongoManager
 
 		co_return ExitStatus;
 	}
-	
+
 	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_JoinReplica(NEncoding::CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();

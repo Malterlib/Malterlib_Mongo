@@ -1,4 +1,4 @@
-// Copyright © 2015 Hansoft AB 
+// Copyright © 2015 Hansoft AB
 // Distributed under the MIT license, see license text in LICENSE.Malterlib
 
 #pragma once
@@ -74,7 +74,7 @@ namespace NMib::NMongo
 	};
 
 	class CMongoClientActor;
-	
+
 	struct CMongoClientRetryState
 	{
 		CMongoClientRetryState(CMongoConnectionSettings const &_ConnectionSettings, fp64 _Timeout = 60.0);

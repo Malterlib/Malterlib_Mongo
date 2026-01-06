@@ -206,7 +206,7 @@ namespace NMib::NMongo::NMongoManager
 
 		for (auto &Member : _Role.f_Object())
 			CreateCommand[Member.f_Name()] = fg_Move(Member.f_Value());
-		
+
 		co_await CMongoClientActor::fs_WithConnectionRetry
 			(
 				&CMongoClientActor::f_RunCommand

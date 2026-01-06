@@ -12,7 +12,7 @@ namespace NMib::NMongo::NMongoManager
 	{
 		TCSharedPointer<CMongoClientRetryState> pState = fg_Construct(_ConnectionSettings);
 		auto DestroyMongoClient = co_await fg_AsyncDestroy(pState);
-		
+
 		auto &MongoHost = _ConnectionSettings.f_GetSingleHost();
 
 		CEJsonOrdered CurrentReplicaSet;

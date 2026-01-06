@@ -96,5 +96,5 @@ namespace NMib::NMongo
 
 		co_return {};
 	}
-	
+
 }

@@ -16,7 +16,7 @@ namespace NMib::NMongo::NMongoManager
 	private:
 
 	public:
-		
+
 		CMongoBackupManagerActor
 			(
 				CMongoConnectionSettings const &_MongoConnectionSettings
@@ -29,7 +29,7 @@ namespace NMib::NMongo::NMongoManager
 			, mp_BackupInterface(fg_Move(_BackupInterface))
 		{
 		}
-		
+
 		TCFuture<void> f_StartBackup(CActorSubscription _ManifestFinished, CStr _BackupRoot) override
 		{
 			DLogWithCategory(MongoManager/Backup, Info, "Starting initial full backup");
@@ -41,14 +41,14 @@ namespace NMib::NMongo::NMongoManager
 
 			co_return {};
 		}
-		
+
 		void f_MongoStopped() override
 		{
 			if (!mp_Backup)
 				return;
 			mp_Backup(&CMongoBackupInstanceActor::f_MongoStopped).f_DiscardResult();
 		}
-		
+
 	private:
 		TCFuture<void> fp_Destroy() override
 		{
@@ -59,10 +59,10 @@ namespace NMib::NMongo::NMongoManager
 			mp_pCanDestroy.f_Clear();
 
 			co_await fg_Move(Future);
-			
+
 			co_return {};
 		}
-		
+
 		TCFuture<void> fp_CleanupOldBackups()
 		{
 			auto pCanDestroy = mp_pCanDestroy;
@@ -118,27 +118,27 @@ namespace NMib::NMongo::NMongoManager
 
 			co_return {};
 		}
-		
+
 	private:
 		CMongoConnectionSettings mp_MongoConnectionSettings;
 		CStr mp_MongoExecutable;
-		
+
 		TCActor<CMongoBackupInstanceActor> mp_Backup;
 		TCSharedPointer<CCanDestroyTracker> mp_pCanDestroy;
-		
+
 		TCDistributedActorInterface<CDistributedAppInterfaceBackup> mp_BackupInterface;
 	};
 
 	void CMongoManagerActor::fp_StartMongoBackup()
 	{
 		mp_bMongoBackupCanStart = true;
-		
+
 		for (auto &Pending : mp_PendingBackupStart)
 			Pending.f_SetResult();
-		
+
 		mp_PendingBackupStart.f_Clear();
 	}
-	
+
 	TCFuture<CActorSubscription> CMongoManagerActor::f_StartBackup
 		(
 			TCDistributedActorInterface<CDistributedAppInterfaceBackup> _BackupInterface
@@ -151,29 +151,29 @@ namespace NMib::NMongo::NMongoManager
 
 		if (mp_Mode != EMode_Normal)
 			co_return {};
-		
+
 		if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("BackupEnable", EJsonType_Boolean))
 		{
 			if (!pValue->f_Boolean())
 				co_return {};
 		}
-		
+
 		CStr BackupID = fg_RandomID();
-		
+
 		mp_MongoBackupManagerActors[BackupID];
-		
+
 		auto Subscription = g_ActorSubscription / [this, BackupID]() -> TCFuture<void>
 			{
 				auto pActor = mp_MongoBackupManagerActors.f_FindEqual(BackupID);
 				if (!pActor || !*pActor)
 					co_return {};
-				
+
 				co_await fg_Move(*pActor).f_Destroy();
 
 				co_return {};
 			}
 		;
-		
+
 		if (!mp_bMongoBackupCanStart)
 			co_await mp_PendingBackupStart.f_Insert().f_Future();
 

@@ -45,12 +45,12 @@ namespace NMib::NMongo::NMongoManager
 	{
 		if (mp_pCanDestroyTracker.f_IsEmpty() || mp_bStopped)
 			co_return "";
-		
+
 		auto *pToolLaunch = &mp_ToolLaunches.f_Insert();
 		pToolLaunch->m_ProcessLaunch = fg_ConstructActor<CProcessLaunchActor>();
-		
+
 		CProcessLaunchActor::CSimpleLaunch Launch = NMib::NProcess::CProcessLaunchParams::fs_LaunchExecutable(_Executable, _Params, _WorkingDir, {});
-		
+
 		switch (_LogVerbosity)
 		{
 		case ELogVerbosity_None:
@@ -67,15 +67,15 @@ namespace NMib::NMongo::NMongoManager
 		}
 		Launch.m_LogName = _LogCategory;
 		Launch.m_Params.m_bCreateNewProcessGroup = true;
-		
+
 		auto &LaunchParams = Launch.m_Params;
-		
+
 		fs_SetupEnvironment(LaunchParams);
 
 		LaunchParams.m_bSeparateStdErr = _bSeparateStdErr;
 		LaunchParams.m_bAllowExecutableLocate = true;
 		LaunchParams.m_bShowLaunched = false;
-		
+
 		if (!_User.f_IsEmpty())
 		{
 			LaunchParams.m_RunAsUser = _User;
@@ -94,7 +94,7 @@ namespace NMib::NMongo::NMongoManager
 			LaunchParams.m_Environment["TEMP"] = _Home + "/.tmp";
 #endif
 		}
-		
+
 		TCSharedPointer<bool> pDestroyed = pToolLaunch->m_pDestroyed;
 		auto pCleanup = g_OnScopeExitActor / [this, pDestroyed, pToolLaunch]
 			{
@@ -102,7 +102,7 @@ namespace NMib::NMongo::NMongoManager
 					mp_ToolLaunches.f_Remove(*pToolLaunch);
 			}
 		;
-		
+
 		auto LaunchResult = co_await pToolLaunch->m_ProcessLaunch(&CProcessLaunchActor::f_LaunchSimple, fg_Move(Launch));
 		if (LaunchResult.m_ExitCode != 0)
 		{

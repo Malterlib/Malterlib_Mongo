@@ -15,15 +15,15 @@ namespace NMib::NMongo::NMongoManager
 	{
 		CMongoManagerDaemonActor();
 		~CMongoManagerDaemonActor();
-		
+
 	private:
-		
+
 		struct CLocalBackup
 		{
 			TCDistributedActor<CDistributedAppInterfaceBackup> m_BackupInterface;
 			CActorSubscription m_Subscription;
 		};
-		
+
 		TCFuture<void> fp_StartApp(NEncoding::CEJsonSorted const _Params) override;
 		TCFuture<void> fp_StopApp() override;
 		TCFuture<void> fp_Destroy() override;
@@ -42,8 +42,8 @@ namespace NMib::NMongo::NMongoManager
 				, CStr _BackupRoot
 			) override
 		;
-		
-		void fp_BuildCommandLine(CDistributedAppCommandLineSpecification &o_CommandLine) override; 
+
+		void fp_BuildCommandLine(CDistributedAppCommandLineSpecification &o_CommandLine) override;
 		uint32 fp_CommandLine_ListRestoreRange(NEncoding::CEJsonSorted const &_Params);
 		TCFuture<uint32> fp_CommandLine_Restore(NEncoding::CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
 		TCFuture<uint32> fp_CommandLine_UpdateReplicationConfig(NEncoding::CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
@@ -52,7 +52,7 @@ namespace NMib::NMongo::NMongoManager
 		TCFuture<uint32> fp_CommandLine_JoinReplica(NEncoding::CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
 		TCFuture<uint32> fp_CommandLine_RunBackup(NEncoding::CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
 		TCFuture<uint32> fp_CommandLine_CancelBackups(NEncoding::CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
-		
+
 		TCActor<CMongoManagerActor> mp_pManager;
 		TCMap<uint32, CLocalBackup> mp_LocalBackups;
 		uint32 mp_NextLocalBackup = 0;

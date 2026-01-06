@@ -67,7 +67,7 @@ namespace NMib::NMongo::NMongoManager
 			mp_bEnableSSL = false;
 		else if (auto pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("EnableSSL", EJsonType_Boolean))
 			mp_bEnableSSL = pValue->f_Boolean();
-		
+
 		co_await fp_OpenSensors();
 
 		CStr MongoDirectory = fp_GetDataPath("mongo");

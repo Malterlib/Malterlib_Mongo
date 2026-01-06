@@ -73,7 +73,7 @@ namespace NMib::NMongo::NMongoManager
 				(
 					CertificateAuthority
 					, "admin"
-					, 
+					,
 					{
 						{
 							.m_BasePath = MongoDirectory + "/certificates"
@@ -165,7 +165,7 @@ namespace NMib::NMongo::NMongoManager
 #endif
 		co_return {};
 	}
-	
+
 	CStr CMongoManagerActor::fp_GetMongoExecutable(CStr const &_ExecutableName) const
 	{
 #ifdef DMibMongo_UseInternalMongo
@@ -174,7 +174,7 @@ namespace NMib::NMongo::NMongoManager
 		return _ExecutableName;
 #endif
 	}
-	
+
 	TCFuture<void> CMongoManagerActor::fp_DetermineHostname()
 	{
 		mp_ResolveActor = fg_Construct();
@@ -256,7 +256,7 @@ namespace NMib::NMongo::NMongoManager
 #ifdef DPlatformFamily_macOS
 		fAddValue("--oplogSize", "25804");
 #endif
-		
+
 #ifdef DDebug
 // Enable this for profiling all mongo queries
 //		Arguments.f_Insert("--profile=2");
@@ -265,24 +265,24 @@ namespace NMib::NMongo::NMongoManager
 		{
 			fp64 MaxCacheSize = fp64::fs_Inf();
 			if (auto *pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("MaxCacheSize", EJsonType_Float))
-				MaxCacheSize = pValue->f_Float();  
-			
+				MaxCacheSize = pValue->f_Float();
+
 			fp64 ReservedMemory = 2.0;
 			if (auto *pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("ReservedMemory", EJsonType_Float))
-				ReservedMemory = pValue->f_Float();  
+				ReservedMemory = pValue->f_Float();
 
 			fp64 ReservedMemoryPerCore = 0.0;
 			if (auto *pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("ReservedMemoryPerCore", EJsonType_Float))
-				ReservedMemoryPerCore = pValue->f_Float();  
+				ReservedMemoryPerCore = pValue->f_Float();
 
 			fp64 MemoryAvailableGB = fp64(NProcess::NPlatform::fg_Process_GetPhysicalMemory()) / (1024.0*1024.0*1024.0);
-			 
+
 			fp64 CacheSize = fg_Max(fg_Min(MaxCacheSize, MemoryAvailableGB - (ReservedMemory + ReservedMemoryPerCore * NSys::fg_Thread_GetVirtualCores())), 1.0);
 			uint64 CacheSizeInt = fg_Max(1, CacheSize.f_ToInt());
 
 			fAddValue("--wiredTigerCacheSizeGB", CStr::fs_ToStr(CacheSizeInt));
 		}
-		
+
 #ifdef DPlatformFamily_Linux
 		TCVector<CStr> LaunchArguments = {"--interleave=all"};
 		LaunchArguments.f_Insert(fp_GetMongoExecutable("mongod"));
@@ -355,11 +355,11 @@ namespace NMib::NMongo::NMongoManager
 				}
 			)
 		;
-		
+
 		Launch.m_ToLog = CProcessLaunchActor::ELogFlag_All;
 		Launch.m_LogName = "mongod";
 		Launch.m_Params.m_bCreateNewProcessGroup = true;
-		
+
 		auto &Params = Launch.m_Params;
 
 		Params.m_bAllowExecutableLocate = true;
@@ -379,7 +379,7 @@ namespace NMib::NMongo::NMongoManager
 			Limit.m_Value = fs_GetMongoThreadLimits();
 			Limit.m_MaxValue = fs_GetMongoThreadLimits();
 		}
-		
+
 		fs_SetupEnvironment(Params);
 		Params.m_bMergeEnvironment = true;
 		Params.m_Environment["HOME"] = MongoPath;
@@ -388,9 +388,9 @@ namespace NMib::NMongo::NMongoManager
 		Params.m_Environment["TMP"] = MongoPath + "/.tmp";
 		Params.m_Environment["TEMP"] = MongoPath + "/.tmp";
 #endif
-		
+
 		mp_pMongoLaunch = fg_ConstructActor<CProcessLaunchActor>();
-		
+
 		auto Subscription = co_await mp_pMongoLaunch(&CProcessLaunchActor::f_Launch, fg_Move(Launch), fg_ThisActor(this)).f_Wrap();
 		if (!Subscription)
 		{
@@ -403,7 +403,7 @@ namespace NMib::NMongo::NMongoManager
 
 		co_return {};
 	}
-	
+
 	CMongoConnectionSettings CMongoManagerActor::fp_LocalConnectionSettings()
 	{
 		auto Return = mp_MongoConnectionSettings;
@@ -429,7 +429,7 @@ namespace NMib::NMongo::NMongoManager
 	TCFuture<void> CMongoManagerActor::f_JoinReplica(CJoinReplicaOptions _Options)
 	{
 		bool bConfigChanged = false;
-		
+
 		if (_Options.m_ReplicaName)
 		{
 			CStr const &ReplicaName = *_Options.m_ReplicaName;
@@ -451,12 +451,12 @@ namespace NMib::NMongo::NMongoManager
 				bConfigChanged = true;
 			}
 		}
-		
+
 		TCFutureVector<void> Results;
-		
+
 		if (bConfigChanged)
 			mp_AppState.m_ConfigDatabase.f_Save() > Results;
-		
+
 		co_await fg_AllDoneWrapped(Results);
 
 		CStr Self = mp_MongoConnectionSettings.f_GetConnectionString();

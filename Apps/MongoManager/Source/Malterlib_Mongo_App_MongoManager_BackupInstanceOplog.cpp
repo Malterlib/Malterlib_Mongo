@@ -6,7 +6,7 @@
 
 #include <Mib/Concurrency/LogError>
 #include <Mib/Mongo/BSON>
- 
+
 namespace NMib::NMongo::NMongoManager
 {
 	TCFuture<void> CMongoBackupInstanceActor::fp_SavePendingOplogData(TCSharedPointer<CFile> _pBackupFile)
@@ -29,7 +29,7 @@ namespace NMib::NMongo::NMongoManager
 					for (auto &JsonData : Pending)
 					{
 						auto BSON = fg_ToBSON(JsonData);
-						
+
 						Data.f_Insert((uint8 const *)BSON.view().data(), BSON.view().length());
 					}
 					pBackupFile->f_Write(Data.f_GetArray(), Data.f_GetLen());
@@ -44,7 +44,7 @@ namespace NMib::NMongo::NMongoManager
 
 		co_return {};
 	}
-	
+
 	TCFuture<void> CMongoBackupInstanceActor::fp_TailOplog(TCSharedPointer<CFile> _pBackupFile)
 	{
 		TCSharedPointer<CFile> pBackupFile = _pBackupFile;
@@ -60,7 +60,7 @@ namespace NMib::NMongo::NMongoManager
 				, .m_Options = CMongoClientActor::EQueryOption_AwaitData | CMongoClientActor::EQueryOption_CursorTailable | CMongoClientActor::EQueryOption_NoCursorTimeout
 			}
 		;
-	
+
 		// Start by subscribing to the op log
 		mp_MongoTailSubscription = co_await mp_MongoClient
 			(
@@ -70,18 +70,18 @@ namespace NMib::NMongo::NMongoManager
 				{
 					if (!mp_pCanDestroy)
 						co_return {}; // Destroyed
-					
+
 					auto pCanDestroy = mp_pCanDestroy;
-					
+
 					if (_Result.f_GetMember("error"))
 					{
 						if (!mp_bMongoStopped)
 							DLogWithCategory(Backup, Error, "Error tailing oplog: {}", _Result["error"].f_AsString());
 						co_return {};
 					}
-					
+
 					mp_PendingOplogData.f_Insert(fg_Move(_Result));
-					
+
 					if (!mp_PendingSaveScheduled)
 					{
 						mp_PendingSaveScheduled = true;

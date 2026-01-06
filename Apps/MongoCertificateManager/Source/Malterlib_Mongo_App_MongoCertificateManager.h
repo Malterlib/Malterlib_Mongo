@@ -150,7 +150,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			)
 		;
 		TCFuture<int32> fp_Authority_GetNewSerial(CStr _AuthorityName);
-		
+
 		static EUserType fsp_UserTypeFromStr(CStr const &_String);
 		static CStr fsp_UserTypeToStr(EUserType _Type);
 

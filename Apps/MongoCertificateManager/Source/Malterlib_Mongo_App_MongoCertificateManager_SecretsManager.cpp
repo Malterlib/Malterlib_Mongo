@@ -86,7 +86,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			(**pSubscription).f_Destroy().f_DiscardResult();
 			mp_UserSubscriptions.f_Remove(_SecretsManager);
 		}
-		
+
 		if (auto *pSubscription = mp_AuthoritySubscriptions.f_FindEqual(_SecretsManager))
 		{
 			(**pSubscription).f_Destroy().f_DiscardResult();

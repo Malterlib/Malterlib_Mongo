@@ -219,7 +219,7 @@ namespace NMib::NMongo
 		CSecretsManager::CSecretID SecretID;
 		SecretID.m_Folder = "org.malterlib.mongo.user";
 		SecretID.m_Name = "{}#{}"_f << _UserKey.m_Authority << _UserKey.m_Name;
-		
+
 		auto Secret = co_await
 			(
 				(

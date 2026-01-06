@@ -22,19 +22,19 @@ namespace NMib::NMongo::NMongoManager
 		~CMongoBackupInstanceActor();
 
 		TCFuture<void> f_StartBackup(CActorSubscription _ManifestFinished, CStr _BackupRoot);
-		
+
 		void f_MongoStopped();
-		
+
 	private:
 		TCFuture<void> fp_Destroy() override;
-		
+
 		TCFuture<TCSharedPointer<CFile>> fp_OpenBackupFiles();
 		TCFuture<void> fp_DumpDatabase();
 		TCFuture<void> fp_TailOplog(TCSharedPointer<CFile> _pBackupFile);
 		TCFuture<void> fp_SavePendingOplogData(TCSharedPointer<CFile> _pBackupFile);
 		TCFuture<void> fp_DeleteBackup();
 		TCFuture<void> fp_MarkBackupFinished();
-		
+
 	private:
 
 		TCDistributedActor<CDistributedAppInterfaceBackup> mp_BackupInterface;
@@ -46,7 +46,7 @@ namespace NMib::NMongo::NMongoManager
 		CSequencer mp_OplogWriteSequencer{"BackupInstance"};
 
 		NCloud::CBackupManager::CBackupKey mp_BackupKey;
-		
+
 		CStr mp_MongoExecutable;
 		CStr mp_BackupDirectory;
 		CTime mp_BackupTime;

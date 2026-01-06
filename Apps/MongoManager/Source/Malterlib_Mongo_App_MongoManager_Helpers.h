@@ -23,7 +23,7 @@ namespace NMib::NMongo::NMongoManager
 	{
 		CVersion(uint32 _Major, uint32 _Minor, uint32 _Revision);
 		CVersion();
-		
+
 		auto operator <=> (CVersion const &_Right) const = default;
 
 		template <typename tf_CFormatInto>
@@ -33,7 +33,7 @@ namespace NMib::NMongo::NMongoManager
 		uint32 m_Minor = 0;
 		uint32 m_Revision = 0;
 	};
-	
+
 	struct CToolLaunch
 	{
 		CToolLaunch();

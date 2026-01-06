@@ -27,7 +27,7 @@ class CMongoManager : public CApplication
 			}
 		;
 		return Daemon.f_Run();
-	}	
+	}
 };
 
 DAppImplement(CMongoManager);

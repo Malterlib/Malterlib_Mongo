@@ -18,7 +18,7 @@ namespace NMib::NMongo::NMongoManager
 			auto Status = co_await fp_MongoHelper_GetReplicaSetStatus(pState).f_Wrap();
 
 			co_await fsp_MongoHelper_AssureNotYetInitialized(Status);
-			
+
 			co_return {};
 		}
 

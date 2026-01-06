@@ -134,7 +134,7 @@ namespace NMib::NMongo::NMongoManager
 		TCSharedPointer<CActorSubscription> pManifestFinished = fg_Construct(fg_Move(_ManifestFinished));
 
 		auto pOplogFile = co_await fp_OpenBackupFiles();
-		
+
 		if (f_IsDestroyed())
 			co_return DErrorInstance("Destroyed");
 
