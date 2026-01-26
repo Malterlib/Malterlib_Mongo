@@ -71,6 +71,8 @@ namespace NMib::NMongo::NMongoCertificateManager
 	auto CMongoCertificateManagerActor::fp_GenerateUserCertificate(CCertificateAndKey _Certificate, CPublicKeySetting _PublicKeySetting, CStr _UserName, EUserType _UserType)
 		-> TCFuture<CCertificateAndKey>
 	{
+		int32 ValidityDays = (int32)mp_State.m_ConfigDatabase.m_Data.f_GetMemberValue("CertificateValidityDays", 365 * 10).f_Integer();
+
 		co_return co_await
 			(
 				g_ConcurrentDispatch / [=]
@@ -92,7 +94,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 					CCertificateSignOptions SignOptions;
 					SignOptions.m_Serial = fg_GetSecureRandom();
-					SignOptions.m_Days = 365*10;
+					SignOptions.m_Days = ValidityDays;
 					SignOptions.f_AddExtension_AuthorityKeyIdentifier();
 
 					CCertificateOptions Options;
@@ -112,6 +114,8 @@ namespace NMib::NMongo::NMongoCertificateManager
 						break;
 					case EUserType_Server:
 						{
+							Options.f_AddExtension_KeyUsage(EKeyUsage_DigitalSignature | EKeyUsage_KeyEncipherment);
+							Options.f_AddExtension_ExtendedKeyUsage(EExtendedKeyUsage_ServerAuth | EExtendedKeyUsage_ClientAuth);
 							Options.m_Hostnames.f_Insert(_UserName);
 						}
 						break;

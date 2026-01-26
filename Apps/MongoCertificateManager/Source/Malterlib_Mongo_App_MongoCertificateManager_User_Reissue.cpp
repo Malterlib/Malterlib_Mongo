@@ -77,7 +77,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 			if (ExpireTime >= MinExpireTime)
 			{
-				*_pCommandLine %= "{}: Already up to date. Will expire in {} days\n"_f << UserKey << CTimeSpanConvert(ExpireTime - MinExpireTime).f_GetDays();
+				*_pCommandLine %= "{}: Already up to date. Will expire in {} days\n"_f << UserKey << CTimeSpanConvert(ExpireTime - CTime::fs_NowUTC()).f_GetDays();
 				continue;
 			}
 

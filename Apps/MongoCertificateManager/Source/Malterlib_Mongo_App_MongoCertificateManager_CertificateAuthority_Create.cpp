@@ -81,15 +81,17 @@ namespace NMib::NMongo::NMongoCertificateManager
 			)
 		;
 
+		int32 CaValidityDays = (int32)mp_State.m_ConfigDatabase.m_Data.f_GetMemberValue("CAValidityDays", 365 * 100).f_Integer();
+
 		CCertificateAndKey CaCertificate = co_await
 			(
-				g_ConcurrentDispatch / [PublicKeySetting, Name]
+				g_ConcurrentDispatch / [PublicKeySetting, Name, CaValidityDays]
 				{
 					CByteVector CaCertData;
 					CSecureByteVector CaKeyData;
 
 					CCertificateSignOptions SignOptions;
-					SignOptions.m_Days = 365*100;
+					SignOptions.m_Days = CaValidityDays;
 
 					CCertificateOptions Options;
 					Options.m_CommonName = "Malterlib MongoDB CA {} - {nfh,sj16,sf0}"_f <<  Name << fg_GetHighEntropyRandomInteger<uint64>();
