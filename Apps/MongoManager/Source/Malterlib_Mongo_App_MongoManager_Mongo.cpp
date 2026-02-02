@@ -232,7 +232,6 @@ namespace NMib::NMongo::NMongoManager
 		fAddValue("--logpath", LogPath);
 		fAddFlag("--logappend");
 		fAddValue("--logRotate", "rename");
-		fAddFlag("--journal");
 		fAddValue("--port", CStr::fs_ToStr(MongoHost.m_Port));
 		fAddValue("--storageEngine", "wiredTiger");
 
