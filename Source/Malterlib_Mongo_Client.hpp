@@ -50,7 +50,7 @@ namespace NMib::NMongo
 
 		bool bFirstTime = true;
 
-		NTime::CClock Clock{true};
+		NTime::CStopwatch Stopwatch{true};
 
 		while (true)
 		{
@@ -75,7 +75,7 @@ namespace NMib::NMongo
 				auto MongoErrorData = CMongoErrorData::fs_FromException(pException);
 				if (MongoErrorData && MongoErrorData->f_IsRecoverableConnectionError())
 				{
-					if (Clock.f_GetTime() > _pState->m_Timeout)
+					if (Stopwatch.f_GetTime() > _pState->m_Timeout)
 						DMibLog(Error, "Timed out waiting for MongoDB connection. Error: {} {}", TryResult.f_GetExceptionStr(), MongoErrorData->m_RawServerError);
 					else
 					{

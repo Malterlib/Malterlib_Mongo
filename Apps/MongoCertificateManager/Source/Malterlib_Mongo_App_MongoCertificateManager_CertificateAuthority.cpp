@@ -43,7 +43,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		// This algorithm might waste serials that never get used, but should allow it to resolve eventually
 
-		NTime::CClock TimeTaken(true);
+		NTime::CStopwatch TimeTaken(true);
 		while (TimeTaken.f_GetTime() < 30.0)
 		{
 			CTime ModifiedTime = CTime::fs_NowUTC();
