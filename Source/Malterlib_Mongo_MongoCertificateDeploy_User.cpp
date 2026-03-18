@@ -50,16 +50,6 @@ namespace NMib::NMongo
 			o_User.m_Settings.m_fOnStatusChange(_HostInfo, Status) > fg_LogError("Mib/Mongo/MongoCertificateDeploy", "On status change failed");
 	}
 
-	auto CMongoCertificateDeployActor::CUserStatus::f_Tuple() const
-	{
-		return fg_TupleReferences(m_Severity, m_Description);
-	}
-
-	bool CMongoCertificateDeployActor::CUserStatus::operator == (CUserStatus const &_Right) const
-	{
-		return f_Tuple() == _Right.f_Tuple();
-	}
-
 	auto CMongoCertificateDeployActor::CInternal::CUser::f_GetKey() const -> CUserKey const &
 	{
 		return TCMap<CUserKey, CUser>::fs_GetKey(*this);

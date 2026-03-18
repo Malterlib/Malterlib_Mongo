@@ -56,8 +56,7 @@ namespace NMib::NMongo
 
 		struct CUserStatus
 		{
-			auto f_Tuple() const;
-			bool operator == (CUserStatus const &_Right) const;
+			auto operator <=> (CUserStatus const &_Right) const noexcept = default;
 
 			NStr::CStr m_Description;
 			EStatusSeverity m_Severity = EStatusSeverity_Info;

@@ -62,7 +62,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 				o_Str += typename tf_CStr::CFormat("{}/{}") << m_Authority << m_Name;
 			}
 
-			auto operator <=> (CUserKey const &_Right) const = default;
+			auto operator <=> (CUserKey const &_Right) const noexcept = default;
 
 			CSecretsManager::CSecretID f_GetSecretID() const;
 			CStr f_GetSecretIDName() const;

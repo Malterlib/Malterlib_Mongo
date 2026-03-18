@@ -44,7 +44,7 @@ namespace NMib::NMongo
 				o_Str += typename tf_CStr::CFormat("{}/{}") << m_Authority << m_Name;
 			}
 
-			auto operator <=> (CUserKey const &_Right) const = default;
+			auto operator <=> (CUserKey const &_Right) const noexcept = default;
 
 			CStr m_Authority;
 			CStr m_Name;
