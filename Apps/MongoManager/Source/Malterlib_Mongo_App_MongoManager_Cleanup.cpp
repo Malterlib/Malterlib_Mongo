@@ -13,7 +13,7 @@ namespace NMib::NMongo::NMongoManager
 	{
 		void fg_CleanupOldProcesses()
 		{
-			mint nKilled = 0;
+			umint nKilled = 0;
 			// First try to gracefully stop manager processes
 			nKilled += CProcessLaunch::fs_KillProcessesInDirectory("MongoManager*");
 

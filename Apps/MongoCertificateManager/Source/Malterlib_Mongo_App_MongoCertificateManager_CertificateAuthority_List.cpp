@@ -17,7 +17,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		CTableRenderHelper TableRenderer = _pCommandLine->f_TableRenderer();
 
 		TCVector<CStr> Headings;
-		TCSet<mint> VerboseHeadings;
+		TCSet<umint> VerboseHeadings;
 
 		auto fAddHeading = [&](CStr const &_Name, bool _bVerbose = true)
 			{
@@ -32,7 +32,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		fAddHeading("Key Type");
 		fAddHeading("Serial");
 		fAddHeading("Secret Managers");
-		mint iMissingOnManagersHeading = Headings.f_GetLen();
+		umint iMissingOnManagersHeading = Headings.f_GetLen();
 		fAddHeading("{}{}Missing on Managers{}"_f << AnsiEncoding.f_StatusWarning() << AnsiEncoding.f_Bold() << AnsiEncoding.f_Default());
 		fAddHeading("Status", false);
 

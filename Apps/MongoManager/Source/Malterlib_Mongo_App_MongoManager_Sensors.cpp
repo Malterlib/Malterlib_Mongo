@@ -206,8 +206,8 @@ namespace NMib::NMongo::NMongoManager
 			}
 		;
 
-		mint nPrimary = 0;
-		mint nSecondary = 0;
+		umint nPrimary = 0;
+		umint nSecondary = 0;
 		CTime BestOpTime = CTime::fs_StartOfTime();
 
 		for (auto &Member : Members)
@@ -229,7 +229,7 @@ namespace NMib::NMongo::NMongoManager
 		else if (nPrimary > 1)
 			fAddSeverity(CDistributedAppSensorReporter::EStatusSeverity_Error, "Multiple primaries: {}"_f << nPrimary);
 
-		mint nVotingMembers = nPrimary + nSecondary;
+		umint nVotingMembers = nPrimary + nSecondary;
 		if (nVotingMembers < MajorityCount)
 			fAddSeverity(CDistributedAppSensorReporter::EStatusSeverity_Error, "Not enough voting members. {} / {}"_f << nVotingMembers << MajorityCount);
 		else if (nVotingMembers < nExpectedMembers)

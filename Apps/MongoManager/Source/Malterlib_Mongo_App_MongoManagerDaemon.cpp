@@ -30,16 +30,16 @@ namespace NMib::NMongo::NMongoManager
 	{
 		o_RegisterInfo.m_UpdateType = EDistributedAppUpdateType_OneAtATime;
 
-		mint nMaxFilesNeeded = 8192;
+		umint nMaxFilesNeeded = 8192;
 		nMaxFilesNeeded += CMongoManagerActor::fs_GetMongoFileLimits();
 
-		mint nFilesPerProc = 8192;
+		umint nFilesPerProc = 8192;
 		nFilesPerProc = fg_Max(nFilesPerProc, CMongoManagerActor::fs_GetMongoFileLimits());
 
-		mint nMaxThreads = 1024;
+		umint nMaxThreads = 1024;
 		nMaxThreads += CMongoManagerActor::fs_GetMongoThreadLimits();
 
-		mint nMaxPids = 32; // Our own
+		umint nMaxPids = 32; // Our own
 		nMaxPids += 64000; // For mongod
 
 		o_RegisterInfo.m_Resources_Files = nMaxFilesNeeded;

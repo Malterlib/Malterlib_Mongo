@@ -358,12 +358,12 @@ namespace NMib::NMongo::NMongoManager
 		return CFile::fs_AppendPath(CFile::fs_GetProgramDirectory(), _Path);
 	}
 
-	mint CMongoManagerActor::fs_GetMongoFileLimits()
+	umint CMongoManagerActor::fs_GetMongoFileLimits()
 	{
 		return 64000;
 	}
 
-	mint CMongoManagerActor::fs_GetMongoThreadLimits()
+	umint CMongoManagerActor::fs_GetMongoThreadLimits()
 	{
 		return 32000;
 	}

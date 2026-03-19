@@ -115,8 +115,8 @@ namespace NMib::NMongo
 						NContainer::CByteVector Data;
 						NEncoding::fg_Base64Decode(UserType.m_Value["Data"].f_String(), Data);
 
-						mint Length = Data.f_GetLen();
-						if (Length> mint(TCLimitsInt<uint32>::mc_Max))
+						umint Length = Data.f_GetLen();
+						if (Length> umint(TCLimitsInt<uint32>::mc_Max))
 							DMibError("Only 4 GiB of binary data supported by BSON");
 
 						NStr::CStr Type = UserType.m_Value["Type"].f_String();
@@ -192,8 +192,8 @@ namespace NMib::NMongo
 				break;
 			case NEncoding::EEJsonType_Binary:
 				{
-					mint Length = Value.f_Binary().f_GetLen();
-					if (Length> mint(TCLimitsInt<uint32>::mc_Max))
+					umint Length = Value.f_Binary().f_GetLen();
+					if (Length> umint(TCLimitsInt<uint32>::mc_Max))
 						DMibError("Only 4 GiB of binary data supported by BSON");
 					_Builder << types::b_binary{binary_sub_type::k_binary, static_cast<uint32_t>(Length), Value.f_Binary().f_GetArray()};
 				}

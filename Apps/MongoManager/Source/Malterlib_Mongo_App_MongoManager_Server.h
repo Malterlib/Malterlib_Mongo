@@ -67,8 +67,8 @@ namespace NMib::NMongo::NMongoManager
 
 		static void fs_SetupEnvironment(CProcessLaunchParams &_Params);
 
-		static mint fs_GetMongoFileLimits();
-		static mint fs_GetMongoThreadLimits();
+		static umint fs_GetMongoFileLimits();
+		static umint fs_GetMongoThreadLimits();
 
 	private:
 		enum ELogVerbosity
