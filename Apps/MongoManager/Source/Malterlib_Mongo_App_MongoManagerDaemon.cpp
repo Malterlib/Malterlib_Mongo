@@ -1,5 +1,5 @@
-// Copyright © 2015 Hansoft AB
-// Distributed under the MIT license, see license text in LICENSE.Malterlib
+// Copyright © Unbroken AB
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
 #include "Malterlib_Mongo_App_MongoManagerDaemon.h"
 #include "Malterlib_Mongo_App_MongoManager_Server.h"

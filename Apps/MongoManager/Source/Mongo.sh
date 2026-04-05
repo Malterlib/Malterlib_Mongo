@@ -1,6 +1,6 @@
 #!/bin/bash
-# Copyright © 2024 Favro Holding AB
-# Distributed under the MIT license, see license text in LICENSE.Malterlib
+# Copyright © Unbroken AB
+# SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
 set -e
 

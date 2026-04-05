@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright © Unbroken AB
+# SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
 # To build only a stage
 # BuildOnly=BuildMongo ./build.sh
