@@ -1,7 +1,6 @@
-// Copyright © 2024 Favro Holding AB
-// Distributed under the MIT license, see license text in LICENSE.Malterlib
-
-R"-----(#!/bin/bash
+#!/bin/bash
+# Copyright © 2024 Favro Holding AB
+# Distributed under the MIT license, see license text in LICENSE.Malterlib
 
 set -e
 
@@ -48,4 +47,3 @@ else
 		"${{Arguments[@]}"
 fi
 
-)-----"

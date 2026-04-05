@@ -250,8 +250,11 @@ namespace NMib::NMongo::NMongoManager
 		}
 	}
 
-	ch8 const *g_pMongoScript =
-#		include "Mongo.sh"
+	constexpr static ch8 const gc_pMongoScript[] =
+		{
+			#embed "Mongo.sh"
+			, '\0'
+		}
 	;
 
 	TCFuture<void> CMongoManagerActor::fp_ExtractExeFS() const
@@ -287,7 +290,7 @@ namespace NMib::NMongo::NMongoManager
 
 					MalterlibFS.f_CopyFilesWithAttribs("*", DiskFS, ProgramDirectory);
 
-					CStr MongoScript = CStr::CFormat(g_pMongoScript) << UserName << MongoVersion << MongoPort << MongoReplicaName;
+					CStr MongoScript = CStr::CFormat(gc_pMongoScript) << UserName << MongoVersion << MongoPort << MongoReplicaName;
 					CByteVector MongoScriptData;
 					CFile::fs_WriteStringToVector(MongoScriptData, MongoScript, false);
 					EFileAttrib Permissions
