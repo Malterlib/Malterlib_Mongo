@@ -49,7 +49,7 @@ namespace NMib::NMongo::NMongoManager
 		auto *pToolLaunch = &mp_ToolLaunches.f_Insert();
 		pToolLaunch->m_ProcessLaunch = fg_ConstructActor<CProcessLaunchActor>();
 
-		CProcessLaunchActor::CSimpleLaunch Launch = NMib::NProcess::CProcessLaunchParams::fs_LaunchExecutable(_Executable, _Params, _WorkingDir, {});
+		CProcessLaunchActor::CSimpleLaunch Launch{NMib::NProcess::CProcessLaunchParams::fs_LaunchExecutable(_Executable, _Params, _WorkingDir, {}), CProcessLaunchActor::ESimpleLaunchFlag_None};
 
 		switch (_LogVerbosity)
 		{

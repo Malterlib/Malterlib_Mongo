@@ -33,6 +33,7 @@ namespace NMib::NMongo::NMongoManager
 				mp_MongoExecutable
 				, Params
 				, CFile::fs_GetPath(mp_MongoExecutable)
+				, CProcessLaunchActor::ESimpleLaunchFlag_None
 			}
 		;
 
