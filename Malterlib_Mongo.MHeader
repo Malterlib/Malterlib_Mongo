@@ -11,6 +11,9 @@ Import "Tool/*/*.MHeader"
 	{
 		Type "External"
 		Remotes =+ {Name: "upstream", URL: "https://github.com/mongodb/mongo-cxx-driver.git"}
+		{
+			!!MalterlibAddUpstreams true
+		}
 	}
 }
 
@@ -20,6 +23,9 @@ Import "Tool/*/*.MHeader"
 	{
 		Type "External"
 		Remotes =+ {Name: "upstream", URL: "https://github.com/mongodb/mongo-c-driver.git"}
+		{
+			!!MalterlibAddUpstreams true
+		}
 	}
 }
 
