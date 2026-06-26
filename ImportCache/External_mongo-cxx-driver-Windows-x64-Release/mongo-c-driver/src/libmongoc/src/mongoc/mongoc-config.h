@@ -36,12 +36,12 @@
 
 /* MONGOC_USER_SET_CFLAGS is set from config based on what compiler flags were
  * used to compile mongoc */
-#define MONGOC_USER_SET_CFLAGS "/DWIN32 /D_WINDOWS"
+#define MONGOC_USER_SET_CFLAGS "--target=x86_64-windows-msvc /DWIN32 /D_WINDOWS"
 
 #define MONGOC_USER_SET_LDFLAGS "/machine:x64"
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
-#define MONGOC_CC "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe"
+#define MONGOC_CC "../../../../../../../../../Binaries/MalterlibLLVM/Windows/x64/bin/clang-cl.exe"
 
 /*
  * MONGOC_ENABLE_SSL_SECURE_CHANNEL is set from configure to determine if we are

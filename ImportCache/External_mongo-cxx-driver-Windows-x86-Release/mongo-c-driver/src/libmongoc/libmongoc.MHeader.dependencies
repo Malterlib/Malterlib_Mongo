@@ -1,0 +1,10 @@
+../../../mongo-c-driver/src/libmongoc/_eval.tmp.cmake
+../../../../../../../External/mongo-cxx-driver/mongo-c-driver/build/cmake/CheckSchedGetCPU.cmake
+../../../../../../../External/mongo-cxx-driver/mongo-c-driver/build/cmake/FindSnappy.cmake
+../../../../../../../External/mongo-cxx-driver/mongo-c-driver/build/cmake/FindUtf8Proc.cmake
+../../../../../../../External/mongo-cxx-driver/mongo-c-driver/build/cmake/ResSearch.cmake
+../../../../../../../External/mongo-cxx-driver/mongo-c-driver/build/cmake/packageConfigVersion.cmake.in
+../../../../../../../External/mongo-cxx-driver/mongo-c-driver/src/libmongoc/CMakeLists.txt
+../../../../../../../External/mongo-cxx-driver/mongo-c-driver/src/libmongoc/etc/mongocConfig.cmake.in
+../../../../../../../External/mongo-cxx-driver/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-config.h.in
+../../../../../../../External/mongo-cxx-driver/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-version.h.in
