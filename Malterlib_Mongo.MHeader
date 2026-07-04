@@ -137,6 +137,10 @@ Property
 		{
 			!!Compiler "Clang"
 		}
+		Warnings_IgnoredAttributes false
+		{
+			!!Compiler "Clang"
+		}
 	}
 
 	Property.IdentityFileName: string = this.Identity->GetFile()
@@ -297,6 +301,10 @@ Property
 		PreprocessorDefines += "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING"
 		{
 			!!PlatformFamily "Windows"
+		}
+		Warnings_IgnoredAttributes false
+		{
+			!!Compiler "Clang"
 		}
 	}
 }
