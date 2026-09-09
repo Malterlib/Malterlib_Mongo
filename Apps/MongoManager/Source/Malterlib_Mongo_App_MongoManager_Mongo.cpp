@@ -181,7 +181,9 @@ namespace NMib::NMongo::NMongoManager
 
 		auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
 
-		auto Address = co_await mp_ResolveActor(&CResolveActor::f_Resolve, MongoHost.m_Host, NNetwork::ENetAddressType_TCPv4);
+		auto Lookup = co_await mp_ResolveActor(&CResolveActor::f_Resolve, MongoHost.m_Host, NNetwork::ENetAddressType_TCPv4);
+		auto Addresses = co_await fg_Move(Lookup.m_Result);
+		auto Address = fg_Move(Addresses[0]);
 
 		if (Address.f_GetType() != NNetwork::ENetAddressType_TCPv4)
 			co_return DMibErrorInstance("Hostname '{}' does not resolve to an IPV4 address"_f << MongoHost.m_Host);

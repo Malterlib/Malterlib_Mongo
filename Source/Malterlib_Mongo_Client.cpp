@@ -9,8 +9,6 @@
 #include <Windows.h>
 #pragma warning(disable:4267)
 #pragma comment(lib, "Dnsapi.lib")
-#else
-#include <signal.h>
 #endif
 
 #include "Malterlib_Mongo_Client.h"
@@ -519,11 +517,7 @@ namespace NMib::NMongo
 		if (Internal.m_pTailThread)
 		{
 			Internal.m_pTailThread->f_Stop(false);
-#ifndef DPlatformFamily_Windows
-			pthread_kill((pthread_t)Internal.m_pTailThread->f_GetThreadID(), SIGUSR2);
-#else
 			Internal.m_pConnection->abort();
-#endif
 			Internal.m_pTailThread->f_Stop(true);
 			Internal.m_pTailThread.f_Clear();
 			Internal.m_pConnection.f_Clear();
@@ -631,11 +625,7 @@ namespace NMib::NMongo
 				if (Internal.m_pTailThread)
 				{
 					Internal.m_pTailThread->f_Stop(false);
-#ifndef DPlatformFamily_Windows
-					pthread_kill((pthread_t)Internal.m_pTailThread->f_GetThreadID(), SIGUSR2);
-#else
 					Internal.m_pConnection->abort();
-#endif
 					Internal.m_pTailThread->f_Stop(true);
 					Internal.m_pTailThread.f_Clear();
 					Internal.m_pConnection.f_Clear();
@@ -661,18 +651,6 @@ namespace NMib::NMongo
 
 					NEncoding::CEJsonOrdered Order;
 
-#ifndef DPlatformFamily_Windows
-					auto SignalSubscription = NSys::fg_System_RegisterForThreadSignal
-						(
-							SIGUSR2
-							, [&]
-							{
-								if (Internal.m_pConnection)
-									Internal.m_pConnection->abort();
-							}
-						)
-					;
-#endif
 					auto UserQuery = _Params.m_Query;
 
 					Order["$natural"] = 1;
@@ -713,6 +691,9 @@ namespace NMib::NMongo
 							{
 								for (auto &&Document : Cursor)
 								{
+									if (_pThread->f_GetState() == NThread::EThreadState_EventWantQuit)
+										return 0;
+
 									auto Data = fg_FromBSON(Document);
 									if (auto pValue = Data.f_Object().f_GetMember(_Params.m_OrderBy))
 										UserQuery[_Params.m_OrderBy]["$gt"] = *pValue;
