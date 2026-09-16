@@ -1,8 +1,8 @@
 {
 	"../../External/mongo-c-driver": {
-		"Hash": "eabc5766800513c3e609b00b1c117b2449479fc0"
+		"Hash": "d0c4cbd4baedec038d05fe0d7163d8c4c9654512"
 	},
 	"../../External/mongo-cxx-driver": {
-		"Hash": "0eb1c61c679a183c1390f773f128f39c3bac2dbd"
+		"Hash": "70e1f451bab374e29b1e944d2b93914777ed8724"
 	}
 }
