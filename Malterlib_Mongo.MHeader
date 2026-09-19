@@ -141,6 +141,10 @@ Property
 		{
 			!!Compiler "Clang"
 		}
+		Warnings_UnusedButSetVariable false
+		{
+			!!Compiler "Clang"
+		}
 	}
 
 	Property.IdentityFileName: string = this.Identity->GetFile()
