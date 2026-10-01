@@ -5,10 +5,10 @@
 #include <Mib/Concurrency/ActorSubscription>
 
 #ifdef DPlatformFamily_Windows
-#include <winsock2.h>
-#include <Windows.h>
-#pragma warning(disable:4267)
-#pragma comment(lib, "Dnsapi.lib")
+#	include <winsock2.h>
+#	include <Windows.h>
+#	pragma warning(disable:4267)
+#	pragma comment(lib, "Dnsapi.lib")
 #endif
 
 #include "Malterlib_Mongo_Client.h"
@@ -54,12 +54,7 @@ namespace NMib::NMongo
 		CMongoErrorData ErrorData;
 		CStr ExceptionString;
 
-		bool bHandled = NException::fg_VisitException
-			<
-				mongocxx::operation_exception
-				, mongocxx::exception
-				, std::exception
-			>
+		bool bHandled = NException::fg_VisitException<mongocxx::operation_exception, mongocxx::exception, std::exception>
 			(
 				_pException
 				, [&]<typename tf_CException>(tf_CException &&_Exception)
@@ -91,7 +86,6 @@ namespace NMib::NMongo
 
 		if (!bHandled)
 			return DMibErrorInstanceMongo(gc_Str<"Unknown MongoDB error">.m_Str, fg_Move(ErrorData));
-
 
 		return DMibErrorInstanceMongo("MongoDB {} failed: {}"_f << _Description << ExceptionString, fg_Move(ErrorData));
 	}
@@ -259,7 +253,6 @@ namespace NMib::NMongo
 		;
 
 		return Return;
-
 	}
 
 	bool CMongoConnectionSettings::f_Compatible(CMongoConnectionSettings const &_Settings) const
@@ -369,31 +362,18 @@ namespace NMib::NMongo
 	NContainer::TCVector<NStr::CStr> CMongoConnectionSettings::f_GetToolParams(bool _bTlsSupported) const
 	{
 		NContainer::TCVector<NStr::CStr> Params;
-		Params << NContainer::fg_CreateVector<NStr::CStr>
-			(
-				"--host"
-				, f_GetConnectionString()
-			)
-		;
+		Params << NContainer::fg_CreateVector<NStr::CStr>("--host", f_GetConnectionString());
 
 		if (m_bEnableSSL)
 		{
-			Params << NContainer::fg_CreateVector<NStr::CStr>
-				(
-					(_bTlsSupported ? "--tls" : "--ssl")
-					, "--authenticationMechanism"
-					, "MONGODB-X509"
-					, "--authenticationDatabase"
-					, "$external"
-				)
-			;
+			Params << NContainer::fg_CreateVector<NStr::CStr>((_bTlsSupported ? "--tls" : "--ssl"), "--authenticationMechanism", "MONGODB-X509", "--authenticationDatabase", "$external");
 
 			if (!m_CACertificatePath.f_IsEmpty())
 				Params.f_Insert({(_bTlsSupported ? "--tlsCAFile" : "--sslCAFile"), m_CACertificatePath});
 
 			if (!m_ClientCertificatePath.f_IsEmpty())
 				Params.f_Insert({(_bTlsSupported ? "--tlsCertificateKeyFile" : "--sslPEMKeyFile"), m_ClientCertificatePath});
-	}
+		}
 
 		return Params;
 	}
@@ -528,12 +508,7 @@ namespace NMib::NMongo
 
 	namespace
 	{
-		mongocxx::options::find fg_QueryOptions
-			(
-				CMongoClientActor::EQueryOption _Options
-				, auto const &_Fields
-				, NStorage::TCUniquePointer<NEncoding::CEJsonOrdered> const &_pOrder
-			)
+		mongocxx::options::find fg_QueryOptions(CMongoClientActor::EQueryOption _Options, auto const &_Fields, NStorage::TCUniquePointer<NEncoding::CEJsonOrdered> const &_pOrder)
 		{
 			mongocxx::options::find Options;
 
@@ -575,11 +550,8 @@ namespace NMib::NMongo
 		}
 	}
 
-	NConcurrency::TCFuture<NConcurrency::CActorSubscription> CMongoClientActor::f_TailQuery
-		(
-			CTailQueryParams _Params
-			, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJsonOrdered _Result)> _fOnResult
-		)
+	auto CMongoClientActor::f_TailQuery(CTailQueryParams _Params, NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJsonOrdered _Result)> _fOnResult)
+		-> NConcurrency::TCFuture<NConcurrency::CActorSubscription>
 	{
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
@@ -615,9 +587,7 @@ namespace NMib::NMongo
 		else if (_Params.m_StartQuery)
 			co_return DMibErrorInstance("Start query didn't return any document");
 
-		NStorage::TCSharedPointer<NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJsonOrdered _Data)>> pOnDataCallback
-			= fg_Construct(fg_Move(_fOnResult))
-		;
+		NStorage::TCSharedPointer<NConcurrency::TCActorFunctorWeak<NConcurrency::TCFuture<void> (NEncoding::CEJsonOrdered _Data)>> pOnDataCallback = fg_Construct(fg_Move(_fOnResult));
 
 		auto Subscription = NConcurrency::g_ActorSubscription / [this]
 			{
@@ -637,14 +607,7 @@ namespace NMib::NMongo
 
 		Internal.m_pTailThread = NThread::CThreadObject::fs_StartThread
 			(
-				[
-					this
-					, _Params = fg_Move(_Params)
-					, pOnDataCallback = fg_Move(pOnDataCallback)
-					, Subscription = fg_Move(Subscription)
-					, Result = fg_Move(Result.m_Promise)
-					, GetOnwardsFromValue
-				]
+				[this, _Params = fg_Move(_Params), pOnDataCallback = fg_Move(pOnDataCallback), Subscription = fg_Move(Subscription), Result = fg_Move(Result.m_Promise), GetOnwardsFromValue]
 				(NThread::CThreadObject *_pThread) mutable -> aint
 				{
 					auto &Internal = *mp_pInternal;
@@ -655,10 +618,8 @@ namespace NMib::NMongo
 
 					Order["$natural"] = 1;
 
-					CMongoClientActor::EQueryOption Options = _Params.m_Options
-						| CMongoClientActor::EQueryOption_AwaitData
-						| CMongoClientActor::EQueryOption_CursorTailable
-						| CMongoClientActor::EQueryOption_NoCursorTimeout
+					CMongoClientActor::EQueryOption Options
+						= _Params.m_Options | CMongoClientActor::EQueryOption_AwaitData | CMongoClientActor::EQueryOption_CursorTailable | CMongoClientActor::EQueryOption_NoCursorTimeout
 					;
 
 					if (GetOnwardsFromValue.f_IsValid())
@@ -757,7 +718,7 @@ namespace NMib::NMongo
 
 			NContainer::TCVector<NEncoding::CEJsonOrdered> ToReturn;
 			for (auto &&Document : Cursor)
-			   ToReturn.f_Insert(fg_FromBSON(Document));
+				ToReturn.f_Insert(fg_FromBSON(Document));
 
 			co_return fg_Move(ToReturn);
 		}
@@ -767,11 +728,7 @@ namespace NMib::NMongo
 		}
 	}
 
-	NConcurrency::TCFuture<NEncoding::CEJsonOrdered> CMongoClientActor::f_RunCommand
-		(
-			NStr::CStr _Database
-			, NEncoding::CEJsonOrdered _Command
-		)
+	NConcurrency::TCFuture<NEncoding::CEJsonOrdered> CMongoClientActor::f_RunCommand(NStr::CStr _Database, NEncoding::CEJsonOrdered _Command)
 	{
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
@@ -796,13 +753,7 @@ namespace NMib::NMongo
 		}
 	}
 
-	NConcurrency::TCFuture<uint64> CMongoClientActor::f_Count
-		(
-			NStr::CStr _Collection
-			, NEncoding::CEJsonOrdered _Query
-			, uint32 _nToReturn
-			, uint32 _nToSkip
-		)
+	NConcurrency::TCFuture<uint64> CMongoClientActor::f_Count(NStr::CStr _Collection, NEncoding::CEJsonOrdered _Query, uint32 _nToReturn, uint32 _nToSkip)
 	{
 		auto &Internal = *mp_pInternal;
 		if (Internal.m_pTailThread)
@@ -893,13 +844,7 @@ namespace NMib::NMongo
 		}
 	}
 
-	auto CMongoClientActor::f_Update
-		(
-			NStr::CStr _Collection
-			, NEncoding::CEJsonOrdered _Query
-			, NEncoding::CEJsonOrdered _Update
-			, EUpdateOption _Options
-		)
+	auto CMongoClientActor::f_Update(NStr::CStr _Collection, NEncoding::CEJsonOrdered _Query, NEncoding::CEJsonOrdered _Update, EUpdateOption _Options)
 		-> NConcurrency::TCFuture<CUpdateResult>
 	{
 		auto &Internal = *mp_pInternal;

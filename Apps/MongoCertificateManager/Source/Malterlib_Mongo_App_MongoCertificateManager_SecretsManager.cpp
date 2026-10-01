@@ -8,11 +8,7 @@
 
 namespace NMib::NMongo::NMongoCertificateManager
 {
-	TCFuture<void> CMongoCertificateManagerActor::fp_SecretsManagerAdded
-		(
-			TCDistributedActor<CSecretsManager> _SecretsManager
-			, CTrustedActorInfo _Info
-		)
+	TCFuture<void> CMongoCertificateManagerActor::fp_SecretsManagerAdded(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info)
 	{
 		co_await fp_Authority_SecretsManagerAdded(_SecretsManager, _Info);
 		co_await fp_User_SecretsManagerAdded(_SecretsManager, _Info);

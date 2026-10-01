@@ -13,12 +13,7 @@ namespace NMib::NMongo::NMongoManager
 	{
 		CDistributedAppActor::fp_BuildCommandLine(o_CommandLine);
 
-		o_CommandLine.f_SetProgramDescription
-			(
-				"Malterlib Mongo Manager"
-				, "Manages mongodb server daemon."
-			)
-		;
+		o_CommandLine.f_SetProgramDescription("Malterlib Mongo Manager", "Manages mongodb server daemon.");
 
 		o_CommandLine.f_RegisterGlobalOptions
 			(
@@ -28,7 +23,7 @@ namespace NMib::NMongo::NMongoManager
 						"Names"_o= _o["--verbose-mongo-scripts"]
 						, "Type"_o= false
 						, "Description"_o= "Log verbose info from mongo scripts\n"
-							"Defaults to false. Can also be specied in config file VerboseMongoScripts. Command line option overrides setting in config file."
+						"Defaults to false. Can also be specied in config file VerboseMongoScripts. Command line option overrides setting in config file."
 					}
 				}
 			)
@@ -122,7 +117,7 @@ namespace NMib::NMongo::NMongoManager
 			(
 				{
 					"Names"_o= _o["--without-replica-set"]
-					, "Description"_o="Starts temporarily without replica set.\n"
+					, "Description"_o= "Starts temporarily without replica set.\n"
 					"Use this in cases where you need to debug or change replica set configuration.\n"
 				}
 				, [this](NEncoding::CEJsonSorted _Parameters, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine) -> TCFuture<uint32>
@@ -224,7 +219,11 @@ namespace NMib::NMongo::NMongoManager
 							{
 								"*"_o= ""
 							}
-							, "Description"_o= fg_Format("Specify extra tags to add to this member. The hostname '{}' will always be included as a tag.", NProcess::NPlatform::fg_Process_GetHostName())
+							, "Description"_o= fg_Format
+							(
+								"Specify extra tags to add to this member. The hostname '{}' will always be included as a tag."
+								, NProcess::NPlatform::fg_Process_GetHostName()
+							)
 						}
 					}
 					, "Parameters"_o=
@@ -233,7 +232,7 @@ namespace NMib::NMongo::NMongoManager
 						{
 							"Type"_o= ""
 							, "Description"_o= "Specify a member of the replica to join.\n"
-								"If you specify yourself here a new replica set will be created."
+							"If you specify yourself here a new replica set will be created."
 						}
 					}
 				}
@@ -319,11 +318,7 @@ namespace NMib::NMongo::NMongoManager
 		co_return 0;
 	}
 
-	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_UpdateReplicationConfig
-		(
-			NEncoding::CEJsonSorted const _Params
-			, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine
-		)
+	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_UpdateReplicationConfig(NEncoding::CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();
 
@@ -334,11 +329,7 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 
-	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_WithoutReplicaSet
-		(
-			NEncoding::CEJsonSorted const _Params
-			, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine
-		)
+	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_WithoutReplicaSet(NEncoding::CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{
 		co_await fp_WaitForAppStartup();
 
@@ -376,7 +367,7 @@ namespace NMib::NMongo::NMongoManager
 	{
 		enum : uint32
 		{
-			EProtocolVersion_Min = 0x101
+			EProtocolVersion_Min       = 0x101
 			, EProtocolVersion_Current = 0x101
 		};
 
@@ -384,6 +375,7 @@ namespace NMib::NMongo::NMongoManager
 			: m_BackupID{_BackupID}
 		{
 		}
+
 		~CDummyBackupInterface() = default;
 
 		NConcurrency::TCFuture<void> f_AppendManifest(CManifestConfig _Config) override
@@ -399,20 +391,14 @@ namespace NMib::NMongo::NMongoManager
 			co_return {};
 		}
 
-		NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeInitialFinished
-			(
-				NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> _fOnInitialFinished
-			) override
+		NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeInitialFinished(NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> _fOnInitialFinished) override
 		{
 			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Subscribe initial finished", m_BackupID);
 			_fOnInitialFinished().f_DiscardResult();
 			co_return {};
 		}
 
-		NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeBackupStopped
-			(
-				NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> _fOnStopped
-			) override
+		NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeBackupStopped(NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> _fOnStopped) override
 		{
 			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Subscribe backup stopped", m_BackupID);
 			co_return {};
@@ -437,13 +423,7 @@ namespace NMib::NMongo::NMongoManager
 			}
 		;
 
-		auto Subscription = co_await fp_StartBackup
-			(
-				LocalBackup.m_BackupInterface->f_ShareInterface<CDistributedAppInterfaceBackup>().f_GetActor()
-				, nullptr
-				, CFile::fs_GetProgramDirectory()
-			)
-		;
+		auto Subscription = co_await fp_StartBackup(LocalBackup.m_BackupInterface->f_ShareInterface<CDistributedAppInterfaceBackup>().f_GetActor(), nullptr, CFile::fs_GetProgramDirectory());
 
 		Cleanup->f_Clear();
 

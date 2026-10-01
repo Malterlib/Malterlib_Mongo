@@ -83,6 +83,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			{
 				return TCMap<CUserKey, CUser>::fs_GetKey(*this);
 			}
+
 			static bool fs_IsValidName(CStr const &_Name, EUserType _Type);
 
 			// Stored

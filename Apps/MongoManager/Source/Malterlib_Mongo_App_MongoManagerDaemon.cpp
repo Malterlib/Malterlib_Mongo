@@ -9,11 +9,7 @@
 namespace NMib::NMongo::NMongoManager
 {
 	CMongoManagerDaemonActor::CMongoManagerDaemonActor()
-		: CDistributedAppActor
-		(
-			CDistributedAppActor_Settings{"MongoManager"}
-			.f_CommandLineBeforeAppStart(true)
-		)
+		: CDistributedAppActor(CDistributedAppActor_Settings{"MongoManager"}.f_CommandLineBeforeAppStart(true))
 	{
 	}
 
@@ -121,12 +117,8 @@ namespace NMib::NMongo::NMongoManager
 		co_return {};
 	}
 
-	TCFuture<CActorSubscription> CMongoManagerDaemonActor::fp_StartBackup
-		(
-			TCDistributedActorInterface<CDistributedAppInterfaceBackup> _BackupInterface
-			, CActorSubscription _ManifestFinished
-			, CStr _BackupRoot
-		)
+	auto CMongoManagerDaemonActor::fp_StartBackup(TCDistributedActorInterface<CDistributedAppInterfaceBackup> _BackupInterface, CActorSubscription _ManifestFinished, CStr _BackupRoot)
+		-> TCFuture<CActorSubscription>
 	{
 		if (!mp_pManager)
 			co_return DMibErrorInstance("App not started");

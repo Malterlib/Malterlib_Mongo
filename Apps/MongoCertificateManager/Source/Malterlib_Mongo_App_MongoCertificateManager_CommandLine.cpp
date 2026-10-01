@@ -13,12 +13,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 	{
 		CDistributedAppActor::fp_BuildCommandLine(o_CommandLine);
 
-		o_CommandLine.f_SetProgramDescription
-			(
-				"Malterlib MongoCertificate Manager"
-				, "Manages service certificates through MongoCertificate service."
-			)
-		;
+		o_CommandLine.f_SetProgramDescription("Malterlib MongoCertificate Manager", "Manages service certificates through MongoCertificate service.");
 
 		auto AuthorityManagement = o_CommandLine.f_AddSection("Service Management", "Commands to manage MongoCertificateManager authorities");
 
