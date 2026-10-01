@@ -108,14 +108,8 @@ namespace NMib::NMongo::NMongoManager
 			auto BlockingActorCheckout = fg_BlockingActor();
 			Info = co_await
 				(
-					g_Dispatch(BlockingActorCheckout) /
-					[
-						MongoDirectory
-						, MongoUser = mp_MongoUser
-						, bNeedAdmin = mp_bEnableSSL || mp_Mode == EMode_SetupPermissions
-						, ConnectionSettings = mp_MongoConnectionSettings
-					]
-					() mutable
+					g_Dispatch(BlockingActorCheckout)
+					/ [MongoDirectory, MongoUser = mp_MongoUser, bNeedAdmin = mp_bEnableSSL || mp_Mode == EMode_SetupPermissions, ConnectionSettings = mp_MongoConnectionSettings]() mutable
 					{
 						DLog(Info, "Setting up mongod");
 
@@ -259,9 +253,9 @@ namespace NMib::NMongo::NMongoManager
 #endif
 
 #ifdef DDebug
-// Enable this for profiling all mongo queries
-//		Arguments.f_Insert("--profile=2");
-//		Arguments.f_Insert("--slowms=0");
+		// Enable this for profiling all mongo queries
+		// Arguments.f_Insert("--profile=2");
+		// Arguments.f_Insert("--slowms=0");
 #endif
 		{
 			fp64 MaxCacheSize = fp64::fs_Inf();
@@ -276,7 +270,7 @@ namespace NMib::NMongo::NMongoManager
 			if (auto *pValue = mp_AppState.m_ConfigDatabase.m_Data.f_GetMember("ReservedMemoryPerCore", EJsonType_Float))
 				ReservedMemoryPerCore = pValue->f_Float();
 
-			fp64 MemoryAvailableGB = fp64(NProcess::NPlatform::fg_Process_GetPhysicalMemory()) / (1024.0*1024.0*1024.0);
+			fp64 MemoryAvailableGB = fp64(NProcess::NPlatform::fg_Process_GetPhysicalMemory()) / (1024.0 * 1024.0 * 1024.0);
 
 			fp64 CacheSize = fg_Max(fg_Min(MaxCacheSize, MemoryAvailableGB - (ReservedMemory + ReservedMemoryPerCore * NSys::fg_Thread_GetVirtualCores())), 1.0);
 			uint64 CacheSizeInt = fg_Max(1, CacheSize.f_ToInt());

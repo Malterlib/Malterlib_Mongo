@@ -98,5 +98,5 @@ namespace NMib::NMongo
 }
 
 #ifndef DMibPNoShortCuts
-	using namespace NMib::NMongo;
+using namespace NMib::NMongo;
 #endif

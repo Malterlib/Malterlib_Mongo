@@ -32,13 +32,7 @@ namespace NMib::NMongo::NMongoManager
 			(
 				g_ActorFunctor / [this, AllowDestroy = g_AllowWrongThreadDestroy]() -> TCFuture<void>
 				{
-					DMibLogWithCategory
-						(
-							MongoManager/Backup
-							, Debug
-							, "Received backup stopped notification"
-						)
-					;
+					DMibLogWithCategory(MongoManager/Backup, Debug, "Received backup stopped notification");
 
 					mp_bBackupStopped = true;
 					co_return {};
@@ -100,13 +94,7 @@ namespace NMib::NMongo::NMongoManager
 	{
 		auto pCanDestroy = mp_pCanDestroy;
 
-		DMibLogWithCategory
-			(
-				MongoManager/Backup
-				, Debug
-				, "Marking initial backup as finished"
-			)
-		;
+		DMibLogWithCategory(MongoManager/Backup, Debug, "Marking initial backup as finished");
 
 		auto SequenceSubscription = co_await mp_WriteSequencer.f_Sequence();
 
@@ -118,7 +106,8 @@ namespace NMib::NMongo::NMongoManager
 					CFile::fs_Touch(FinishedPath);
 				}
 			)
-			.f_Wrap() > fg_LogError("MongoManager/Backup", "Failed to mark backup as finished");
+			.f_Wrap()
+			> fg_LogError("MongoManager/Backup", "Failed to mark backup as finished")
 		;
 
 		co_return {};
@@ -175,13 +164,7 @@ namespace NMib::NMongo::NMongoManager
 							if (!_Result)
 								DLogWithCategory(MongoManager/Backup, Error, "Failed to append manifest: {}", _Result.f_GetExceptionStr());
 
-							DMibLogWithCategory
-								(
-									MongoManager/Backup
-									, Debug
-									, "Letting go of manifest finished subscription"
-								)
-							;
+							DMibLogWithCategory(MongoManager/Backup, Debug, "Letting go of manifest finished subscription");
 						}
 					;
 
@@ -207,9 +190,7 @@ namespace NMib::NMongo::NMongoManager
 					;
 				}
 				else
-				{
 					DLogWithCategory(MongoManager/Backup, Error, "Database dump failed: {}", _Result.f_GetExceptionStr());
-				}
 			}
 		;
 
@@ -271,7 +252,7 @@ namespace NMib::NMongo::NMongoManager
 		}
 
 		if (mp_MongoTailSubscription)
-		 	co_await fg_Exchange(mp_MongoTailSubscription, nullptr)->f_Destroy().f_Wrap() > LogError.f_Warning("Failed to destroy mongo tail subscription");
+			co_await fg_Exchange(mp_MongoTailSubscription, nullptr)->f_Destroy().f_Wrap() > LogError.f_Warning("Failed to destroy mongo tail subscription");
 
 		if (!mp_bInitialBackupUploaded)
 			DLogWithCategory(MongoManager/Backup, Warning, "Aborting backup before the initial full backup has finished uploading");

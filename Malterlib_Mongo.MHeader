@@ -296,10 +296,22 @@ Property
 			, "../../External/mongo-cxx-driver/src"->MakeAbsolute()
 			, MalterlibMongoIncludePath_bson...
 		]
-		SearchPath += GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:BSONCXX.Target:Lib_BSONCXX_bsoncxx_static.Import:*.Target:Lib_BSONCXX_bsoncxx_static") / "src/bsoncxx/lib/bsoncxx/v_noabi"
-		SearchPath += GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:MONGOCXX.Target:Lib_MONGOCXX_mongocxx_static.Import:*.Target:Lib_MONGOCXX_mongocxx_static") / "src/mongocxx/lib/mongocxx/v_noabi"
-		SearchPath += GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:BSONCXX.Target:Lib_BSONCXX_bsoncxx_static.Import:*.Target:Lib_BSONCXX_bsoncxx_static") / "src/bsoncxx/lib"
-		SearchPath += GetProperty(&TargetIdentityAbsolutePath, "Group:External.Group:MONGOCXX.Target:Lib_MONGOCXX_mongocxx_static.Import:*.Target:Lib_MONGOCXX_mongocxx_static") / "src/mongocxx/lib"
+		SearchPath += GetProperty(
+			&TargetIdentityAbsolutePath
+			, "Group:External.Group:BSONCXX.Target:Lib_BSONCXX_bsoncxx_static.Import:*.Target:Lib_BSONCXX_bsoncxx_static"
+		) / "src/bsoncxx/lib/bsoncxx/v_noabi"
+		SearchPath += GetProperty(
+			&TargetIdentityAbsolutePath
+			, "Group:External.Group:MONGOCXX.Target:Lib_MONGOCXX_mongocxx_static.Import:*.Target:Lib_MONGOCXX_mongocxx_static"
+		) / "src/mongocxx/lib/mongocxx/v_noabi"
+		SearchPath += GetProperty(
+			&TargetIdentityAbsolutePath
+			, "Group:External.Group:BSONCXX.Target:Lib_BSONCXX_bsoncxx_static.Import:*.Target:Lib_BSONCXX_bsoncxx_static"
+		) / "src/bsoncxx/lib"
+		SearchPath += GetProperty(
+			&TargetIdentityAbsolutePath
+			, "Group:External.Group:MONGOCXX.Target:Lib_MONGOCXX_mongocxx_static.Import:*.Target:Lib_MONGOCXX_mongocxx_static"
+		) / "src/mongocxx/lib"
 		SearchPath += [MalterlibMongoIncludePath_mongoc..., MalterlibMongoIncludePath_bson...]
 		PreprocessorDefines += ["BSONCXX_STATIC", "MONGOCXX_STATIC", "BSON_STATIC", "MONGOC_STATIC"]
 		PreprocessorDefines += "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING"
@@ -369,7 +381,6 @@ Property
 		Dependency.Indirect true
 	}
 
-
 	%Dependency "resolv"
 	{
 		&
@@ -404,7 +415,6 @@ Property
 		!!MalterlibLibrary_Mongo true
 	}
 }
-
 
 %Group "{Test}/{Malterlib_Mongo}"
 {

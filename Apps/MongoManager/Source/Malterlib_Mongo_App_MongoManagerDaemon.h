@@ -17,7 +17,6 @@ namespace NMib::NMongo::NMongoManager
 		~CMongoManagerDaemonActor();
 
 	private:
-
 		struct CLocalBackup
 		{
 			TCDistributedActor<CDistributedAppInterfaceBackup> m_BackupInterface;
@@ -33,14 +32,11 @@ namespace NMib::NMongo::NMongoManager
 				CDistributedAppInterfaceServer::CRegisterInfo &o_RegisterInfo
 				, CDistributedAppInterfaceServer::CConfigFiles &o_ConfigFiles
 				, NEncoding::CEJsonSorted const &_Params
-			) override
+			)
+			override
 		;
-		TCFuture<CActorSubscription> fp_StartBackup
-			(
-				TCDistributedActorInterface<CDistributedAppInterfaceBackup> _BackupInterface
-				, CActorSubscription _ManifestFinished
-				, CStr _BackupRoot
-			) override
+		auto fp_StartBackup(TCDistributedActorInterface<CDistributedAppInterfaceBackup> _BackupInterface, CActorSubscription _ManifestFinished, CStr _BackupRoot)
+			-> TCFuture<CActorSubscription> override
 		;
 
 		void fp_BuildCommandLine(CDistributedAppCommandLineSpecification &o_CommandLine) override;

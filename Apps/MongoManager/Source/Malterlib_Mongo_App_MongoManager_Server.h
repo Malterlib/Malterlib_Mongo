@@ -57,13 +57,7 @@ namespace NMib::NMongo::NMongoManager
 		TCFuture<void> f_JoinReplica(CJoinReplicaOptions _Options);
 		TCFuture<void> f_PreStop();
 
-		TCFuture<CActorSubscription> f_StartBackup
-			(
-				TCDistributedActorInterface<CDistributedAppInterfaceBackup> _BackupInterface
-				, CActorSubscription _ManifestFinished
-				, CStr _BackupRoot
-			)
-		;
+		TCFuture<CActorSubscription> f_StartBackup(TCDistributedActorInterface<CDistributedAppInterfaceBackup> _BackupInterface, CActorSubscription _ManifestFinished, CStr _BackupRoot);
 
 		static void fs_SetupEnvironment(CProcessLaunchParams &_Params);
 
@@ -154,13 +148,8 @@ namespace NMib::NMongo::NMongoManager
 
 		TCFuture<CStr> fp_Mongo_GetPrimary(CMongoConnectionSettings _ConnectionSettings);
 		TCFuture<void> fp_Mongo_InitReplicaSet(CMongoConnectionSettings _ConnectionSettings, CEJsonOrdered _ReplicationConfig, CStr _SelfTag);
-		TCFuture<void> fp_Mongo_JoinReplicaSet
-			(
-				CMongoConnectionSettings _JoinConnectionSettings
-				, CMongoConnectionSettings _LocalConnectionSettings
-				, CEJsonOrdered _ReplicationConfig
-				, CStr _SelfTag
-			)
+		auto fp_Mongo_JoinReplicaSet(CMongoConnectionSettings _JoinConnectionSettings, CMongoConnectionSettings _LocalConnectionSettings, CEJsonOrdered _ReplicationConfig, CStr _SelfTag)
+			-> TCFuture<void>
 		;
 		TCFuture<void> fp_Mongo_SetupPermissions(CMongoConnectionSettings _ConnectionSettings, CStr _UserName);
 		TCFuture<void> fp_Mongo_UpdateReplicationConfig(CMongoConnectionSettings _ConnectionSettings);

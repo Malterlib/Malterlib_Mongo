@@ -67,7 +67,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 					, pAuthority->m_LastModified
 					, pAuthority->m_Certificate
 					, StoreResultsAsync
-				 )
+				)
 			;
 
 			{
@@ -81,9 +81,8 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 						if (!StoreResult)
 						{
-							CStr ErrorDescription = "Failed to sync certificate authority to secrets manager '{}': {}"_f
-								<< SecretManagerDescriptions[WeakSecretsManager]
-								<< StoreResult.f_GetExceptionStr()
+							CStr ErrorDescription
+								= "Failed to sync certificate authority to secrets manager '{}': {}"_f << SecretManagerDescriptions[WeakSecretsManager] << StoreResult.f_GetExceptionStr()
 							;
 
 							DMibLog(Error, "{}", ErrorDescription);

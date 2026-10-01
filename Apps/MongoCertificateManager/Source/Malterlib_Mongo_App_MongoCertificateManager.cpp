@@ -42,9 +42,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 					}
 					, g_ActorFunctor / [this](TCWeakDistributedActor<CActor> _SecretsManager, CTrustedActorInfo _ActorInfo) -> TCFuture<void>
 					{
-						fp_SecretsManagerRemoved(_SecretsManager, _ActorInfo)
-							> fg_LogError("Mib/Mongo/MongoCertificateManager", "Failed to handle secrets manager removed")
-						;
+						fp_SecretsManagerRemoved(_SecretsManager, _ActorInfo) > fg_LogError("Mib/Mongo/MongoCertificateManager", "Failed to handle secrets manager removed");
 
 						co_return {};
 					}
@@ -55,7 +53,6 @@ namespace NMib::NMongo::NMongoCertificateManager
 			if (!Result)
 				DMibLog(Error, "Failed when subscripbing to secrets manager: {}", Result.f_GetExceptionStr());
 		}
-
 
 		mp_SensorUpdateTimerSubscription = co_await fg_RegisterTimer
 			(

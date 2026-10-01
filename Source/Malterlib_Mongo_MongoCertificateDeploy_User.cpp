@@ -22,17 +22,13 @@ namespace NMib::NMongo
 
 		User.m_Settings = fg_Move(_UserSettings);
 
-		Internal.f_UserUpdate_ForAllSecretsManagers(UserKey)
-			> fg_LogError("Mib/Mongo/MongoCertificateDeploy", "Update User '{}' for all secrets managers had some failures"_f << UserKey)
-		;
+		Internal.f_UserUpdate_ForAllSecretsManagers(UserKey) > fg_LogError("Mib/Mongo/MongoCertificateDeploy", "Update User '{}' for all secrets managers had some failures"_f << UserKey);
 
 		co_return g_ActorSubscription / [pInternal = &Internal, UserKey]() -> TCFuture<void>
 			{
 				if (auto *pUser = pInternal->m_Users.f_FindEqual(UserKey))
 				{
-					co_await fg_Move(pUser->m_UserUpdateSequencer).f_Destroy().f_Wrap()
-						> fg_LogWarning("Mib/Mongo/MongoCertificateDeploy", "Failed to destroy user update sequencer")
-					;
+					co_await fg_Move(pUser->m_UserUpdateSequencer).f_Destroy().f_Wrap() > fg_LogWarning("Mib/Mongo/MongoCertificateDeploy", "Failed to destroy user update sequencer");
 					pInternal->m_Users.f_Remove(UserKey);
 				}
 				co_return {};

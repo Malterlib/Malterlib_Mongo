@@ -39,15 +39,7 @@ namespace NMib::NMongo::NMongoManager
 
 		auto OldConfig = CurrentReplicaSet;
 
-		co_await CMongoClientActor::fs_WithConnectionRetry
-			(
-				&CMongoClientActor::f_Remove
-				, pState
-				, "local.system.replset"
-				, EJsonType_Object
-				, CMongoClientActor::ERemoveOption_None
-			)
-		;
+		co_await CMongoClientActor::fs_WithConnectionRetry(&CMongoClientActor::f_Remove, pState, "local.system.replset", EJsonType_Object, CMongoClientActor::ERemoveOption_None);
 
 		CurrentReplicaSet["_id"] = mp_MongoReplicaName;
 		auto &Members = CurrentReplicaSet["members"].f_Array();
@@ -77,15 +69,7 @@ namespace NMib::NMongo::NMongoManager
 		CurrentReplicaSet["settings"]["getLastErrorModes"][SelfTag][SelfTag] = 1;
 		CurrentReplicaSet["version"] = fsp_Mongo_SetInt32Value(fsp_Mongo_GetInt32Value(CurrentReplicaSet.f_GetMember("version")) + 1);
 
-		co_await CMongoClientActor::fs_WithConnectionRetry
-			(
-				&CMongoClientActor::f_Insert
-				, pState
-				, "local.system.replset"
-				, CurrentReplicaSet
-				, CMongoClientActor::EInsertOption_None
-			)
-		;
+		co_await CMongoClientActor::fs_WithConnectionRetry(&CMongoClientActor::f_Insert, pState, "local.system.replset", CurrentReplicaSet, CMongoClientActor::EInsertOption_None);
 
 		co_return {};
 	}
