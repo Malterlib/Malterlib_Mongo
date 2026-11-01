@@ -85,9 +85,7 @@ namespace NMib::NMongo::NMongoManager
 
 		auto [Version, Dummy1, Dummy2] = co_await
 			(
-				fp_CheckVersion(fp_GetMongoExecutable("mongod"), "--version", "db version v{}.{}.{}\n", mp_Version_MongoDB)
-				+ fp_SetupPrerequisites_Mongo()
-				+ fp_DetermineHostname()
+				fp_CheckVersion(fp_GetMongoExecutable("mongod"), "--version", "db version v{}.{}.{}\n", mp_Version_MongoDB) + fp_SetupPrerequisites_Mongo() + fp_DetermineHostname()
 			)
 		;
 
@@ -182,10 +180,10 @@ namespace NMib::NMongo::NMongoManager
 			}
 			mp_MongoBackupManagerActors.f_Clear();
 
-			co_await fg_AllDone(Destroys).f_Wrap() > LogError.f_Warning("Failed to destroy backup manager");;
+			co_await fg_AllDone(Destroys).f_Wrap() > LogError.f_Warning("Failed to destroy backup manager");
 		}
 
-		co_await fp_DestroyApp_Mongo().f_Wrap() > LogError.f_Warning("Failed to mongo");;
+		co_await fp_DestroyApp_Mongo().f_Wrap() > LogError.f_Warning("Failed to mongo");
 
 		if (mp_CertificateDeploySubscription_Admin)
 			co_await fg_Exchange(mp_CertificateDeploySubscription_Admin, nullptr)->f_Destroy().f_Wrap() > LogError.f_Warning("Failed to destroy admin user certificate deploy subscription");
@@ -250,9 +248,9 @@ namespace NMib::NMongo::NMongoManager
 		}
 	}
 
-	constexpr static ch8 const gc_pMongoScript[] =
+	static constexpr ch8 const gc_pMongoScript[] =
 		{
-			#embed "Mongo.sh"
+#embed "Mongo.sh"
 			, '\0'
 		}
 	;

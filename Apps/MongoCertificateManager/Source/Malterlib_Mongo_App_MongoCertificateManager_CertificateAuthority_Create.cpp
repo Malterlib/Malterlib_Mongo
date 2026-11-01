@@ -44,9 +44,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		for (auto &SecretManager : _SecretManagers)
 		{
 			auto WeakSecretsManager = SecretManager.m_Actor.f_Weak();
-			SecretManager.m_Actor.f_CallActor(&CSecretsManager::f_SetSecretProperties)(SecretID, fg_TempCopy(Properties))
-				> o_StoreResultsAsync[WeakSecretsManager];
-			;
+			SecretManager.m_Actor.f_CallActor(&CSecretsManager::f_SetSecretProperties)(SecretID, fg_TempCopy(Properties)) > o_StoreResultsAsync[WeakSecretsManager];
 		}
 	}
 
@@ -94,7 +92,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 					SignOptions.m_Days = CaValidityDays;
 
 					CCertificateOptions Options;
-					Options.m_CommonName = "Malterlib MongoDB CA {} - {nfh,sj16,sf0}"_f <<  Name << fg_GetHighEntropyRandomInteger<uint64>();
+					Options.m_CommonName = "Malterlib MongoDB CA {} - {nfh,sj16,sf0}"_f << Name << fg_GetHighEntropyRandomInteger<uint64>();
 					//Options.m_RelativeDistinguishedNames = RelativeDistinguishedNames;
 					Options.m_KeySetting = PublicKeySetting;
 					Options.f_MakeCA();
@@ -102,14 +100,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 					CCertificateAndKey Certificate;
 
-					CCertificate::fs_GenerateSelfSignedCertAndKey
-						(
-							Options
-							, Certificate.m_Certificate
-							, Certificate.m_Key
-							, SignOptions
-						)
-					;
+					CCertificate::fs_GenerateSelfSignedCertAndKey(Options, Certificate.m_Certificate, Certificate.m_Key, SignOptions);
 
 					return Certificate;
 				}
@@ -136,18 +127,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		int32 Serial = 2; // CA certificate gets serial 1, so let's start the client certificates on serial 2
 		{
 			TCFutureMap<TCWeakDistributedActor<CSecretsManager>, CSecretsManager::CSetSecretPropertiesResult> StoreResultsAsync;
-			fp_Authority_StoreSecrets
-				(
-					AllSecretManagers
-					, Name
-					, Serial
-					, PublicKeySetting
-					, Now
-					, Now
-					, CaCertificate
-					, StoreResultsAsync
-				)
-			;
+			fp_Authority_StoreSecrets(AllSecretManagers, Name, Serial, PublicKeySetting, Now, Now, CaCertificate, StoreResultsAsync);
 
 			auto StoreResults = co_await fg_AllDoneWrapped(StoreResultsAsync);
 			for (auto &StoreResult : StoreResults)
@@ -158,9 +138,8 @@ namespace NMib::NMongo::NMongoCertificateManager
 				{
 					SecretManagers.f_Remove(WeakSecretsManager);
 
-					CStr ErrorDescription = "Failed to add certificate authority to secrets manager '{}': {}"_f
-						<< SecretManagerDescriptions[WeakSecretsManager]
-						<< StoreResult.f_GetExceptionStr()
+					CStr ErrorDescription
+						= "Failed to add certificate authority to secrets manager '{}': {}"_f << SecretManagerDescriptions[WeakSecretsManager] << StoreResult.f_GetExceptionStr()
 					;
 
 					DMibLog(Error, "{}", ErrorDescription);

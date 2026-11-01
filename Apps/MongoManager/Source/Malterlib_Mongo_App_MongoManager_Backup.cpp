@@ -14,9 +14,7 @@ namespace NMib::NMongo::NMongoManager
 	struct CMongoBackupManagerActor : public CBackupManagerActorInterface
 	{
 	private:
-
 	public:
-
 		CMongoBackupManagerActor
 			(
 				CMongoConnectionSettings const &_MongoConnectionSettings
@@ -139,12 +137,8 @@ namespace NMib::NMongo::NMongoManager
 		mp_PendingBackupStart.f_Clear();
 	}
 
-	TCFuture<CActorSubscription> CMongoManagerActor::f_StartBackup
-		(
-			TCDistributedActorInterface<CDistributedAppInterfaceBackup> _BackupInterface
-			, CActorSubscription _ManifestFinished
-			, CStr _BackupRoot
-		)
+	auto CMongoManagerActor::f_StartBackup(TCDistributedActorInterface<CDistributedAppInterfaceBackup> _BackupInterface, CActorSubscription _ManifestFinished, CStr _BackupRoot)
+		-> TCFuture<CActorSubscription>
 	{
 		if (f_IsDestroyed())
 			co_return DErrorInstance("Destroyed");
@@ -183,13 +177,7 @@ namespace NMib::NMongo::NMongoManager
 
 		auto &BackupActor = *pBackupActor;
 
-		BackupActor = fg_ConstructActor<CMongoBackupManagerActor>
-			(
-				mp_MongoConnectionSettings
-				, fp_GetMongoExecutable("mongodump")
-				, fg_Move(_BackupInterface)
-			)
-		;
+		BackupActor = fg_ConstructActor<CMongoBackupManagerActor>(mp_MongoConnectionSettings, fp_GetMongoExecutable("mongodump"), fg_Move(_BackupInterface));
 
 		co_await BackupActor(&CBackupManagerActorInterface::f_StartBackup, fg_Move(_ManifestFinished), _BackupRoot);
 

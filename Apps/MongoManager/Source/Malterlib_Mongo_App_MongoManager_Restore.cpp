@@ -22,7 +22,6 @@ namespace NMib::NMongo::NMongoManager
 
 						if (CFile::fs_FileExists(OplogFile))
 							CFile::fs_CopyFile(OplogFile, DumpDirectory + "/oplog.bson");
-
 					}
 				)
 			;
@@ -30,15 +29,7 @@ namespace NMib::NMongo::NMongoManager
 
 		auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
 
-		auto Params = fg_CreateVector<CStr>
-			(
-				"--host"
-				, MongoHost.m_Host
-				, "--port"
-				, CStr::fs_ToStr(MongoHost.m_Port)
-				, "--oplogReplay"
-			)
-		;
+		auto Params = fg_CreateVector<CStr>("--host", MongoHost.m_Host, "--port", CStr::fs_ToStr(MongoHost.m_Port), "--oplogReplay");
 
 		if (_RestoreTime.f_IsValid())
 		{

@@ -62,9 +62,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		for (auto &SecretManager : _SecretManagers)
 		{
 			auto WeakSecretsManager = SecretManager.m_Actor.f_Weak();
-			SecretManager.m_Actor.f_CallActor(&CSecretsManager::f_SetSecretProperties)(SecretID, fg_TempCopy(Properties))
-				> o_StoreResultsAsync[WeakSecretsManager];
-			;
+			SecretManager.m_Actor.f_CallActor(&CSecretsManager::f_SetSecretProperties)(SecretID, fg_TempCopy(Properties)) > o_StoreResultsAsync[WeakSecretsManager];
 		}
 	}
 
@@ -214,19 +212,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		{
 			TCFutureMap<TCWeakDistributedActor<CSecretsManager>, CSecretsManager::CSetSecretPropertiesResult> StoreResultsAsync;
-			fp_User_StoreSecrets
-				(
-					AllSecretManagers
-					, *pAuthority
-					, UserKey
-					, PublicKeySetting
-					, Type
-					, Now
-					, Now
-					, UserCertificate
-					, StoreResultsAsync
-				)
-			;
+			fp_User_StoreSecrets(AllSecretManagers, *pAuthority, UserKey, PublicKeySetting, Type, Now, Now, UserCertificate, StoreResultsAsync);
 
 			auto StoreResults = co_await fg_AllDoneWrapped(StoreResultsAsync);
 			for (auto &StoreResult : StoreResults)
@@ -237,10 +223,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 				{
 					SecretManagers.f_Remove(WeakSecretsManager);
 
-					CStr ErrorDescription = "Failed to add user to secrets manager '{}': {}"_f
-						<< SecretManagerDescriptions[WeakSecretsManager]
-						<< StoreResult.f_GetExceptionStr()
-					;
+					CStr ErrorDescription = "Failed to add user to secrets manager '{}': {}"_f << SecretManagerDescriptions[WeakSecretsManager] << StoreResult.f_GetExceptionStr();
 
 					DMibLog(Error, "{}", ErrorDescription);
 					*_pCommandLine %= "{}\n"_f << ErrorDescription;

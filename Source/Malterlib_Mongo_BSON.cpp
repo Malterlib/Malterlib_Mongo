@@ -4,9 +4,9 @@
 #include <Mib/Core/Core>
 
 #ifdef DPlatformFamily_Windows
-#include <winsock2.h>
-#include <Windows.h>
-#pragma warning(disable:4267)
+#	include <winsock2.h>
+#	include <Windows.h>
+#	pragma warning(disable:4267)
 #endif
 
 #include <bsoncxx/json.hpp>
@@ -45,27 +45,21 @@ namespace NMib::NMongo
 			auto &Value = _Value;
 			switch (Value.f_Type())
 			{
-			case NEncoding::EJsonType_Null:
-				_Builder << types::b_null{};
-				break;
-			case NEncoding::EJsonType_String:
-				_Builder << fg_ToStringData(Value.f_String());
-				break;
-			case NEncoding::EJsonType_Integer:
-				_Builder << (std::int64_t)Value.f_Integer();
-				break;
-			case NEncoding::EJsonType_Float:
-				_Builder << Value.f_Float().f_Get();
-				break;
-			case NEncoding::EJsonType_Boolean:
-				_Builder << Value.f_Boolean();
-				break;
+			case NEncoding::EJsonType_Null: _Builder << types::b_null{}; break;
+			case NEncoding::EJsonType_String: _Builder << fg_ToStringData(Value.f_String()); break;
+			case NEncoding::EJsonType_Integer: _Builder << (std::int64_t)Value.f_Integer(); break;
+			case NEncoding::EJsonType_Float: _Builder << Value.f_Float().f_Get(); break;
+			case NEncoding::EJsonType_Boolean: _Builder << Value.f_Boolean(); break;
 			case NEncoding::EJsonType_Object:
 				{
 					auto BeginObject = _Builder << builder::stream::open_document;
 					fg_ToBSONImpl
 						(
-							reinterpret_cast<bsoncxx::v_noabi::builder::stream::key_context<bsoncxx::v_noabi::builder::stream::key_context<bsoncxx::v_noabi::builder::stream::closed_context> > &>(BeginObject)
+							reinterpret_cast
+							<
+								bsoncxx::v_noabi::builder::stream::key_context<bsoncxx::v_noabi::builder::stream::key_context<bsoncxx::v_noabi::builder::stream::closed_context>> &
+							>
+							(BeginObject)
 							, Value
 						)
 					;
@@ -77,14 +71,18 @@ namespace NMib::NMongo
 					auto BeginArray = _Builder << builder::stream::open_array;
 					fg_ToBSONImplArray
 						(
-							reinterpret_cast<bsoncxx::v_noabi::builder::stream::array_context<bsoncxx::v_noabi::builder::stream::key_context<bsoncxx::v_noabi::builder::stream::closed_context> > &>(BeginArray)
+							reinterpret_cast
+							<
+								bsoncxx::v_noabi::builder::stream::array_context<bsoncxx::v_noabi::builder::stream::key_context<bsoncxx::v_noabi::builder::stream::closed_context>> &
+							>
+							(BeginArray)
 							, Value
-						);
+						)
+					;
 					BeginArray << builder::stream::close_array;
 				}
 				break;
-			default:
-				DMibError("Value not convertible to BSON");
+			default: DMibError("Value not convertible to BSON");
 			}
 		}
 
@@ -116,7 +114,7 @@ namespace NMib::NMongo
 						NEncoding::fg_Base64Decode(UserType.m_Value["Data"].f_String(), Data);
 
 						umint Length = Data.f_GetLen();
-						if (Length> umint(TCLimitsInt<uint32>::mc_Max))
+						if (Length > umint(TCLimitsInt<uint32>::mc_Max))
 							DMibError("Only 4 GiB of binary data supported by BSON");
 
 						NStr::CStr Type = UserType.m_Value["Type"].f_String();
@@ -193,14 +191,12 @@ namespace NMib::NMongo
 			case NEncoding::EEJsonType_Binary:
 				{
 					umint Length = Value.f_Binary().f_GetLen();
-					if (Length> umint(TCLimitsInt<uint32>::mc_Max))
+					if (Length > umint(TCLimitsInt<uint32>::mc_Max))
 						DMibError("Only 4 GiB of binary data supported by BSON");
 					_Builder << types::b_binary{binary_sub_type::k_binary, static_cast<uint32_t>(Length), Value.f_Binary().f_GetArray()};
 				}
 				break;
-			default:
-				fg_ToBSONValueCommon(_Builder, _Value);
-				break;
+			default: fg_ToBSONValueCommon(_Builder, _Value); break;
 			}
 		}
 
@@ -312,39 +308,17 @@ namespace NMib::NMongo
 					NStr::CStr Type;
 					switch (Binary.sub_type)
 					{
-					case binary_sub_type::k_function:
-						Type = "Function";
-						break;
-					case binary_sub_type::k_binary_deprecated:
-						Type = "ByteArrayDeprecated";
-						break;
-					case binary_sub_type::k_uuid_deprecated:
-						Type = "bdtUUID";
-						break;
-					case binary_sub_type::k_uuid:
-						Type = "newUUID";
-						break;
-					case binary_sub_type::k_md5:
-						Type = "MD5Type";
-						break;
-					case binary_sub_type::k_user:
-						Type = "bdtCustom";
-						break;
-					case binary_sub_type::k_encrypted:
-						Type = "Encrypt";
-						break;
-					case binary_sub_type::k_column:
-						Type = "Column";
-						break;
-					case binary_sub_type::k_sensitive:
-						Type = "Sensitive";
-						break;
-					case binary_sub_type::k_vector:
-						Type = "Vector";
-						break;
-					case binary_sub_type::k_binary:
-						DMibNeverGetHere;
-						break;
+					case binary_sub_type::k_function: Type = "Function"; break;
+					case binary_sub_type::k_binary_deprecated: Type = "ByteArrayDeprecated"; break;
+					case binary_sub_type::k_uuid_deprecated: Type = "bdtUUID"; break;
+					case binary_sub_type::k_uuid: Type = "newUUID"; break;
+					case binary_sub_type::k_md5: Type = "MD5Type"; break;
+					case binary_sub_type::k_user: Type = "bdtCustom"; break;
+					case binary_sub_type::k_encrypted: Type = "Encrypt"; break;
+					case binary_sub_type::k_column: Type = "Column"; break;
+					case binary_sub_type::k_sensitive: Type = "Sensitive"; break;
+					case binary_sub_type::k_vector: Type = "Vector"; break;
+					case binary_sub_type::k_binary: DMibNeverGetHere; break;
 					}
 
 					UserType.m_Value["Type"] = Type;
@@ -507,10 +481,8 @@ namespace NMib::NMongo
 				return bsoncxx::document::value(nullptr, 0, nullptr);
 			}
 			break;
-		case NEncoding::EJsonType_Array:
-			DMibError("Object contains array, use fg_ToBSONArray");
-		default:
-			DMibError("Unsupported BSON root type");
+		case NEncoding::EJsonType_Array: DMibError("Object contains array, use fg_ToBSONArray");
+		default: DMibError("Unsupported BSON root type");
 		}
 	}
 
@@ -530,13 +502,10 @@ namespace NMib::NMongo
 				return bsoncxx::array::value(nullptr, 0, nullptr);
 			}
 			break;
-		case NEncoding::EJsonType_Object:
-			DMibError("Object contains object, use fg_ToBSON");
-		default:
-			DMibError("Unsupported BSON root type");
+		case NEncoding::EJsonType_Object: DMibError("Object contains object, use fg_ToBSON");
+		default: DMibError("Unsupported BSON root type");
 		}
 	}
-
 
 	NEncoding::CEJsonOrdered fg_FromBSON(bsoncxx::document::view_or_value _BSON)
 	{
@@ -544,6 +513,7 @@ namespace NMib::NMongo
 		fg_FromBSONImp(Ret, _BSON);
 		return Ret;
 	}
+
 	NEncoding::CEJsonOrdered fg_FromBSON(bsoncxx::array::view_or_value _BSON)
 	{
 		NEncoding::CEJsonOrdered Ret;

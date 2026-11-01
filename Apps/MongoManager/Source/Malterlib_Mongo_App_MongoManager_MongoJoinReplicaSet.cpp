@@ -8,13 +8,14 @@
 
 namespace NMib::NMongo::NMongoManager
 {
-	TCFuture<void> CMongoManagerActor::fp_Mongo_JoinReplicaSet
+	auto CMongoManagerActor::fp_Mongo_JoinReplicaSet
 		(
 			CMongoConnectionSettings _JoinConnectionSettings
 			, CMongoConnectionSettings _LocalConnectionSettings
 			, CEJsonOrdered _ReplicationConfig
 			, CStr _SelfTag
 		)
+		-> TCFuture<void>
 	{
 		{
 			TCSharedPointer<CMongoClientRetryState> pState = fg_Construct(_JoinConnectionSettings);

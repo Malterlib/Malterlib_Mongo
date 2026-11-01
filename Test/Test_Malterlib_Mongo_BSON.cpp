@@ -19,14 +19,13 @@ namespace
 	class CBSON_Tests : public CTest
 	{
 	public:
-
 		void f_DoTests()
 		{
 			DMibTestSuite("Conversion")
 			{
 				using namespace bsoncxx;
 
-				CByteVector TestBinary{1,2,6,8};
+				CByteVector TestBinary{1, 2, 6, 8};
 				std::string TestOID = "012345678901234567890123";
 
 				bsoncxx::document::value OriginalBSON = builder::stream::document{}
@@ -69,7 +68,7 @@ namespace
 					<< "k_dbpointer" << types::b_dbpointer{"Collection", oid{TestOID}}
 					<< "k_code" << types::b_code{"TestCode"}
 					<< "k_symbol" << types::b_symbol{"TestSymbol"}
-					<< "k_codewscope" << types::b_codewscope{"TestCode", builder::stream::document{} << "Test1" << "Test2"<< builder::stream::finalize}
+					<< "k_codewscope" << types::b_codewscope{"TestCode", builder::stream::document{} << "Test1" << "Test2" << builder::stream::finalize}
 					<< "k_timestamp" << types::b_timestamp{666, 555}
 					<< "k_decimal128" << types::b_decimal128{decimal128{constant_uint64(55555555555), constant_uint64(66666666666)}}
 					<< "k_minkey" << types::b_minkey{}

@@ -207,14 +207,7 @@ namespace NMib::NMongo::NMongoManager
 		for (auto &Member : _Role.f_Object())
 			CreateCommand[Member.f_Name()] = fg_Move(Member.f_Value());
 
-		co_await CMongoClientActor::fs_WithConnectionRetry
-			(
-				&CMongoClientActor::f_RunCommand
-				, _pState
-				, gc_Str<"admin">.m_Str
-				, fg_Move(CreateCommand)
-			)
-		;
+		co_await CMongoClientActor::fs_WithConnectionRetry(&CMongoClientActor::f_RunCommand, _pState, gc_Str<"admin">.m_Str, fg_Move(CreateCommand));
 
 		co_return {};
 	}
@@ -261,14 +254,7 @@ namespace NMib::NMongo::NMongoManager
 		for (auto &Member : _User.f_Object())
 			CreateCommand[Member.f_Name()] = fg_Move(Member.f_Value());
 
-		co_await CMongoClientActor::fs_WithConnectionRetry
-			(
-				&CMongoClientActor::f_RunCommand
-				, _pState
-				, gc_Str<"$external">.m_Str
-				, fg_Move(CreateCommand)
-			)
-		;
+		co_await CMongoClientActor::fs_WithConnectionRetry(&CMongoClientActor::f_RunCommand, _pState, gc_Str<"$external">.m_Str, fg_Move(CreateCommand));
 
 		co_return {};
 	}
@@ -284,14 +270,7 @@ namespace NMib::NMongo::NMongoManager
 		for (auto &Member : _User.f_Object())
 			UpdateCommand[Member.f_Name()] = fg_Move(Member.f_Value());
 
-		co_await CMongoClientActor::fs_WithConnectionRetry
-			(
-				&CMongoClientActor::f_RunCommand
-				, _pState
-				, gc_Str<"$external">.m_Str
-				, fg_Move(UpdateCommand)
-			)
-		;
+		co_await CMongoClientActor::fs_WithConnectionRetry(&CMongoClientActor::f_RunCommand, _pState, gc_Str<"$external">.m_Str, fg_Move(UpdateCommand));
 		co_return {};
 	}
 

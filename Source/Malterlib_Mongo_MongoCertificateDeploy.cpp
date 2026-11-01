@@ -13,12 +13,7 @@ namespace NMib::NMongo
 
 	CMongoCertificateDeployActor::CUserSettings::CUserSettings() = default;
 
-	void CMongoCertificateDeployActor::CUserSettings::f_InitCommon
-		(
-			NStr::CStr const &_Authority
-			, NStr::CStr const &_Identifier
-			, NContainer::TCVector<CDeployLocaction> const &_Locations
-		)
+	void CMongoCertificateDeployActor::CUserSettings::f_InitCommon(NStr::CStr const &_Authority, NStr::CStr const &_Identifier, NContainer::TCVector<CDeployLocaction> const &_Locations)
 	{
 		m_Authority = _Authority;
 		m_Name = _Identifier;
@@ -48,7 +43,8 @@ namespace NMib::NMongo
 				{
 					Location.m_BasePath / ("{}.crt"_f << _Identifier)
 					, Location.m_FileUser
-					, Location.m_FileGroup, NFile::EFileAttrib_UnixAttributesValid | NFile::EFileAttrib_UserRead | NFile::EFileAttrib_GroupRead | NFile::EFileAttrib_EveryoneRead
+					, Location.m_FileGroup
+					, NFile::EFileAttrib_UnixAttributesValid | NFile::EFileAttrib_UserRead | NFile::EFileAttrib_GroupRead | NFile::EFileAttrib_EveryoneRead
 				}
 			;
 
@@ -63,24 +59,14 @@ namespace NMib::NMongo
 		}
 	}
 
-	void CMongoCertificateDeployActor::CUserSettings::f_InitUser
-		(
-			NStr::CStr const &_Authority
-			, NStr::CStr const &_UserName
-			, NContainer::TCVector<CDeployLocaction> const &_Locations
-		)
+	void CMongoCertificateDeployActor::CUserSettings::f_InitUser(NStr::CStr const &_Authority, NStr::CStr const &_UserName, NContainer::TCVector<CDeployLocaction> const &_Locations)
 	{
 		m_Type = EUserType_User;
 
 		f_InitCommon(_Authority, _UserName, _Locations);
 	}
 
-	void CMongoCertificateDeployActor::CUserSettings::f_InitServer
-		(
-			NStr::CStr const &_Authority
-			, NStr::CStr const &_HostName
-			, NContainer::TCVector<CDeployLocaction> const &_Locations
-		)
+	void CMongoCertificateDeployActor::CUserSettings::f_InitServer(NStr::CStr const &_Authority, NStr::CStr const &_HostName, NContainer::TCVector<CDeployLocaction> const &_Locations)
 	{
 		m_Type = EUserType_Server;
 
@@ -99,11 +85,7 @@ namespace NMib::NMongo
 	{
 	}
 
-	CMongoCertificateDeployActor::CMongoCertificateDeployActor
-		(
-			TCActor<CActorDistributionManager> const &_DistributionManager
-			, TCActor<CDistributedActorTrustManager> const &_TrustManager
-		)
+	CMongoCertificateDeployActor::CMongoCertificateDeployActor(TCActor<CActorDistributionManager> const &_DistributionManager, TCActor<CDistributedActorTrustManager> const &_TrustManager)
 		: mp_pInternal(fg_Construct(this, _DistributionManager, _TrustManager))
 	{
 	}
@@ -189,5 +171,4 @@ namespace NMib::NMongo
 
 		co_return {};
 	}
-
 }

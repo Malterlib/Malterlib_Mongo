@@ -98,19 +98,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 			CTime LastModified = CTime::fs_NowUTC();
 
-			fp_User_StoreSecrets
-				(
-					AllSecretManagers
-					, *pAuthority
-					, UserKey
-					, pUser->m_PublicKeySetting
-					, pUser->m_Type
-					, pUser->m_Created
-					, LastModified
-					, UserCertificate
-					, StoreResultsAsync
-				)
-			;
+			fp_User_StoreSecrets(AllSecretManagers, *pAuthority, UserKey, pUser->m_PublicKeySetting, pUser->m_Type, pUser->m_Created, LastModified, UserCertificate, StoreResultsAsync);
 
 			{
 				bool bUpdated = false;
@@ -123,10 +111,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 						if (!StoreResult)
 						{
-							CStr ErrorDescription = "{}: Failed to sync user to secrets manager: {}"_f
-								<< SecretManagerDescriptions[WeakSecretsManager]
-								<< StoreResult.f_GetExceptionStr()
-							;
+							CStr ErrorDescription = "{}: Failed to sync user to secrets manager: {}"_f << SecretManagerDescriptions[WeakSecretsManager] << StoreResult.f_GetExceptionStr();
 
 							DMibLog(Error, "{}", ErrorDescription);
 							*_pCommandLine %= "{}\n"_f << ErrorDescription;

@@ -22,13 +22,7 @@ namespace NMib::NMongo
 
 	struct CMongoCertificateDeployActor::CInternal : public CActorInternal
 	{
-		CInternal
-			(
-				CMongoCertificateDeployActor *_pThis
-				, TCActor<CActorDistributionManager> const &_DistributionManager
-				, TCActor<CDistributedActorTrustManager> const &_TrustManager
-			)
-		;
+		CInternal(CMongoCertificateDeployActor *_pThis, TCActor<CActorDistributionManager> const &_DistributionManager, TCActor<CDistributedActorTrustManager> const &_TrustManager);
 
 		struct CUserState
 		{
@@ -74,7 +68,7 @@ namespace NMib::NMongo
 
 		void f_UpdateUserStatus(CUser &o_User, CHostInfo const &_HostInfo, EStatusSeverity _Severity, CStr const &_Status);
 
-		[[nodiscard]] NException::CExceptionPointer f_UserUpdate_CheckPreconditions(CUserKey const &_UserKey, CUser *&o_pUser, CUserState *&o_pUserState);
+		[[nodiscard]] NException::CExceptionPointer f_UserUpdate_CheckPreconditions(CUserKey const &_UserKey, CUser * &o_pUser, CUserState * &o_pUserState);
 		TCFuture<void> f_UserUpdate_ForSecretsManager(CUserKey _UserKey, TCDistributedActor<CSecretsManager> _SecretsManager, CHostInfo _SecretsManagerHostInfo);
 		TCFuture<void> f_UserUpdate_ForAllSecretsManagers(CUserKey _UserKey);
 		TCFuture<void> f_UserUpdate_AllUsersForAllSecretsManagers();

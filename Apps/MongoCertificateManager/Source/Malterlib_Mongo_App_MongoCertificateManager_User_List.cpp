@@ -53,9 +53,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			CStr StatusDescription;
 			switch (User.m_Status.m_Severity)
 			{
-			case CDistributedAppSensorReporter::EStatusSeverity_Info:
-				StatusDescription = User.m_Status.m_Description;
-				break;
+			case CDistributedAppSensorReporter::EStatusSeverity_Info: StatusDescription = User.m_Status.m_Description; break;
 			case CDistributedAppSensorReporter::EStatusSeverity_Ok:
 				StatusDescription = "{}{}{}"_f << AnsiEncoding.f_StatusNormal() << User.m_Status.m_Description << AnsiEncoding.f_Default();
 				break;

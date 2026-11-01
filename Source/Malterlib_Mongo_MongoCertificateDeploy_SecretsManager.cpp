@@ -21,15 +21,7 @@ namespace NMib::NMongo
 
 		if (Error != LastError)
 		{
-			DMibLogWithCategory
-				(
-					Mib/Mongo/MongoCertificateDeploy
-					, Error
-					, "Failed to handle secrets manager added for '{}' (will retry every 10 seconds): {}"
-					, _Info.m_HostInfo
-					, Error
-				)
-			;
+			DMibLogWithCategory(Mib/Mongo/MongoCertificateDeploy, Error, "Failed to handle secrets manager added for '{}' (will retry every 10 seconds): {}", _Info.m_HostInfo, Error);
 			LastError = Error;
 			for (auto &User : m_Users)
 				f_UpdateUserStatus(User, _Info.m_HostInfo, EStatusSeverity_Error, Error);
@@ -47,9 +39,7 @@ namespace NMib::NMongo
 					if (!m_SecretsManagerSubscription.m_Actors.f_FindEqual(_SecretsManager))
 						co_return {};
 
-					f_SecretsManagerAddedWithRetry(_SecretsManager, _Info)
-						> fg_LogError("Mib/Mongo/MongoCertificateDeploy", "Failed to handle secret manager added (retry)")
-					;
+					f_SecretsManagerAddedWithRetry(_SecretsManager, _Info) > fg_LogError("Mib/Mongo/MongoCertificateDeploy", "Failed to handle secret manager added (retry)");
 
 					co_return {};
 				}
@@ -88,7 +78,7 @@ namespace NMib::NMongo
 				if (!m_SecretsManagerSubscription.m_Actors.f_FindEqual(_SecretsManager))
 					co_return {};
 
-				constexpr static ch8 const *c_pUserSemanticPrefix = "org.malterlib.mongo.user#";
+				static constexpr ch8 const *c_pUserSemanticPrefix = "org.malterlib.mongo.user#";
 
 				TCSet<CUserKey> UsersToUpdate;
 				for (auto &Properties : _Changes.m_Changed)

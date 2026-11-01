@@ -21,7 +21,7 @@ Property
 		MalterlibTargetNameType "Normal"
 
 		MalterlibCloudVersionInfo_Backup_AddSyncFlagsWildcards =+ [{Pattern: "Dump/DynamicOplog.bson", Flags: ["Append"]}, {Pattern: "Dump/oplog.bson=Append", Flags: ["Append"]}]
-		
+
 		MalterlibDoExeFS true
 
 		MongoManagerCopySources: [type(CFileCopyOptions)] = []
@@ -43,18 +43,17 @@ Property
 	Compile
 	{
 		!!CompileDialect "C"
-		
+
 		PreprocessorDefines += "DMibMongo_UseInternalMongo"
 		{
 			!MongoBinariesPath undefined
-
 		}
 		PreprocessorDefines += "DMibMongo_SupportUnpatchedMongo"
 		{
 			!!MalterlibMongoSupportUnpatchedMongo true
 		}
 	}
-	
+
 	%Group "Source"
 	{
 		%File "Source/*"

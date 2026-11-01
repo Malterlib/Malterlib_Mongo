@@ -37,12 +37,8 @@ namespace NMib::NMongo
 		co_return {};
 	}
 
-	TCFuture<void> CMongoCertificateDeployActor::CInternal::f_UserUpdate_ForSecretsManager
-		(
-			CUserKey _UserKey
-			, TCDistributedActor<CSecretsManager> _SecretsManager
-			, CHostInfo _SecretsManagerHostInfo
-		)
+	auto CMongoCertificateDeployActor::CInternal::f_UserUpdate_ForSecretsManager(CUserKey _UserKey, TCDistributedActor<CSecretsManager> _SecretsManager, CHostInfo _SecretsManagerHostInfo)
+		-> TCFuture<void>
 	{
 		CUser *pUser = nullptr;
 
@@ -71,13 +67,7 @@ namespace NMib::NMongo
 
 		auto UpdateResult = co_await pUser->m_UserUpdateSequencer.f_RunSequenced
 			(
-				g_ActorFunctorWeak /
-				[
-					this
-					, _UserKey
-					, UserState = fg_Move(UserState)
-				]
-				(CActorSubscription _Subscription) mutable -> TCFuture<void>
+				g_ActorFunctorWeak / [this, _UserKey, UserState = fg_Move(UserState)](CActorSubscription _Subscription) mutable -> TCFuture<void>
 				{
 					auto *pUser = m_Users.f_FindEqual(_UserKey);
 
@@ -100,12 +90,7 @@ namespace NMib::NMongo
 
 					User.m_UserState = fg_Move(UserState);
 
-					co_await
-						(
-							f_UserUpdate(User.f_GetKey())
-							% ("Failed to update user '{}'"_f << User.f_GetKey())
-						)
-					;
+					co_await (f_UserUpdate(User.f_GetKey()) % ("Failed to update user '{}'"_f << User.f_GetKey()));
 
 					(void)_Subscription;
 
@@ -150,7 +135,7 @@ namespace NMib::NMongo
 		co_return {};
 	}
 
-	[[nodiscard]] CExceptionPointer CMongoCertificateDeployActor::CInternal::f_UserUpdate_CheckPreconditions(CUserKey const &_UserKey, CUser *&o_pUser, CUserState *&o_pUserState)
+	[[nodiscard]] CExceptionPointer CMongoCertificateDeployActor::CInternal::f_UserUpdate_CheckPreconditions(CUserKey const &_UserKey, CUser * &o_pUser, CUserState * &o_pUserState)
 	{
 		if (m_pThis->f_IsDestroyed())
 			return DMibErrorInstance("Shutting down");
@@ -167,12 +152,8 @@ namespace NMib::NMongo
 		return {};
 	}
 
-	CExceptionPointer CMongoCertificateDeployActor::CInternal::f_UserUpdate_CheckCertificate
-		(
-			CStrSecure const &_Certificate
-			, CSecretsManager::CSecretID const &_SecretID
-			, CStr const &_Description
-		)
+	auto CMongoCertificateDeployActor::CInternal::f_UserUpdate_CheckCertificate(CStrSecure const &_Certificate, CSecretsManager::CSecretID const &_SecretID, CStr const &_Description)
+		-> CExceptionPointer
 	{
 		try
 		{
@@ -220,15 +201,7 @@ namespace NMib::NMongo
 		SecretID.m_Folder = "org.malterlib.mongo.user";
 		SecretID.m_Name = "{}#{}"_f << _UserKey.m_Authority << _UserKey.m_Name;
 
-		auto Secret = co_await
-			(
-				(
-					pUserState->m_SecretsManager.f_CallActor(&CSecretsManager::f_GetSecret)(SecretID)
-					% ("Get secret properties for {}"_f << SecretID)
-				)
-				.f_Dispatch()
-			)
-		;
+		auto Secret = co_await ((pUserState->m_SecretsManager.f_CallActor(&CSecretsManager::f_GetSecret)(SecretID) % ("Get secret properties for {}"_f << SecretID)).f_Dispatch());
 
 		if (Secret.f_GetTypeID() != CSecretsManager::ESecretType_StringMap)
 		{
@@ -240,15 +213,15 @@ namespace NMib::NMongo
 
 		auto *pPrivateKey = Secrets.f_FindEqual("PrivateKey");
 		if (!pPrivateKey)
-			co_return DMibErrorInstance("{}: Secret is missing 'PrivateKey' for secret '{}'"_f <<  *pHostInfo << SecretID);
+			co_return DMibErrorInstance("{}: Secret is missing 'PrivateKey' for secret '{}'"_f << *pHostInfo << SecretID);
 
 		auto pCertificate = Secrets.f_FindEqual("Certificate");
 		if (!pCertificate)
-			co_return DMibErrorInstance("{}: Secret is missing 'Certificate' for secret '{}'"_f <<  *pHostInfo << SecretID);
+			co_return DMibErrorInstance("{}: Secret is missing 'Certificate' for secret '{}'"_f << *pHostInfo << SecretID);
 
 		auto pCertificateAuthority = Secrets.f_FindEqual("CA");
 		if (!pCertificateAuthority)
-			co_return DMibErrorInstance("{}: Secret is missing 'Certificate' for secret '{}'"_f <<  *pHostInfo << SecretID);
+			co_return DMibErrorInstance("{}: Secret is missing 'Certificate' for secret '{}'"_f << *pHostInfo << SecretID);
 
 		if (auto pException = f_UserUpdate_CheckCertificate(*pCertificate, SecretID, "Certificate"))
 			co_return pException;

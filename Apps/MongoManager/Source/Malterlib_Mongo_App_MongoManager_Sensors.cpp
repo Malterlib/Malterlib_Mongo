@@ -18,8 +18,7 @@ namespace NMib::NMongo::NMongoManager
 		case EMode_SetupPermissions:
 		case EMode_JoinReplicaSet:
 			co_return {};
-		case EMode_Normal:
-			break;
+		case EMode_Normal: break;
 		}
 
 		CDistributedAppSensorReporter::CSensorInfo SensorInfo;
@@ -28,7 +27,8 @@ namespace NMib::NMongo::NMongoManager
 		SensorInfo.m_Name = "Mongo Manager Replica Status";
 		SensorInfo.m_ExpectedReportInterval = 1_minutes;
 		SensorInfo.m_Type = NConcurrency::CDistributedAppSensorReporter::ESensorDataType_Status;
-		SensorInfo.m_Flags = NConcurrency::CDistributedAppSensorReporter::ESensorInfoFlag::mc_PreventRebootOnError
+		SensorInfo.m_Flags
+			= NConcurrency::CDistributedAppSensorReporter::ESensorInfoFlag::mc_PreventRebootOnError
 			| NConcurrency::CDistributedAppSensorReporter::ESensorInfoFlag::mc_PreventRebootOnWarning
 			| NConcurrency::CDistributedAppSensorReporter::ESensorInfoFlag::mc_PreventRebootOnOutdated
 		;
@@ -71,7 +71,7 @@ namespace NMib::NMongo::NMongoManager
 		}
 
 		TCVector<CDistributedAppSensorReporter::CSensorReading> SensorReadings;
-		SensorReadings.f_Insert().m_Data = CDistributedAppSensorReporter::CStatus{.m_Severity = _Severity, .m_Description = _Description};;
+		SensorReadings.f_Insert().m_Data = CDistributedAppSensorReporter::CStatus{.m_Severity = _Severity, .m_Description = _Description};
 
 		mp_ReplicaStatusReporter->m_fReportReadings(fg_Move(SensorReadings)) > fg_LogError("MongoManager", "Error reporting sensor reading");
 	}
@@ -118,16 +118,16 @@ namespace NMib::NMongo::NMongoManager
 	{
 		enum class EReplicaMemberState : uint32
 		{
-			mc_Startup = 0
-			, mc_Primary = 1
-			, mc_Secondary = 2
+			mc_Startup      = 0
+			, mc_Primary    = 1
+			, mc_Secondary  = 2
 			, mc_Recovering = 3
-			, mc_Startup2 = 4
-			, mc_Unknown = 5
-			, mc_Arbiter = 6
-			, mc_Down = 7
-			, mc_Rollback = 8
-			, mc_Removed = 9
+			, mc_Startup2   = 4
+			, mc_Unknown    = 5
+			, mc_Arbiter    = 6
+			, mc_Down       = 7
+			, mc_Rollback   = 8
+			, mc_Removed    = 9
 		};
 
 		struct CReplicaMember

@@ -246,7 +246,6 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 	TCFuture<void> CMongoCertificateManagerActor::fp_Authority_SecretsManagerAdded(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info)
 	{
-
 		CSecretsManager::CSubscribeToChanges SubscribeOptions;
 		SubscribeOptions.m_SemanticID = CStr(mc_pAuthoritySemanticPrefix) + "*";
 		SubscribeOptions.m_TagsExclusive["Private"];

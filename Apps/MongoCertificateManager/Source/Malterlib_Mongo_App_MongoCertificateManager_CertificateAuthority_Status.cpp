@@ -185,7 +185,6 @@ namespace NMib::NMongo::NMongoCertificateManager
 					break;
 				}
 			}
-
 		}
 
 		if (Status != o_Authority.m_Status.m_Description || Severity != o_Authority.m_Status.m_Severity)
