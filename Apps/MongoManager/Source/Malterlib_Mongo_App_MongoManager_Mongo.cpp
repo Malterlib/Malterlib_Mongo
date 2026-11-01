@@ -254,8 +254,8 @@ namespace NMib::NMongo::NMongoManager
 
 #ifdef DDebug
 		// Enable this for profiling all mongo queries
-		//		Arguments.f_Insert("--profile=2");
-		//		Arguments.f_Insert("--slowms=0");
+		// Arguments.f_Insert("--profile=2");
+		// Arguments.f_Insert("--slowms=0");
 #endif
 		{
 			fp64 MaxCacheSize = fp64::fs_Inf();
