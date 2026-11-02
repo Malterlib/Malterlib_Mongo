@@ -92,8 +92,6 @@ namespace NMib::NMongo
 
 					co_await (f_UserUpdate(User.f_GetKey()) % ("Failed to update user '{}'"_f << User.f_GetKey()));
 
-					(void)_Subscription;
-
 					co_return {};
 				}
 			)
