@@ -507,14 +507,14 @@ namespace NMib::NMongo
 		}
 	}
 
-	NEncoding::CEJsonOrdered fg_FromBSON(bsoncxx::document::view_or_value _BSON)
+	NEncoding::CEJsonOrdered fg_FromBSON(bsoncxx::document::view_or_value const &_BSON)
 	{
 		NEncoding::CEJsonOrdered Ret;
 		fg_FromBSONImp(Ret, _BSON);
 		return Ret;
 	}
 
-	NEncoding::CEJsonOrdered fg_FromBSON(bsoncxx::array::view_or_value _BSON)
+	NEncoding::CEJsonOrdered fg_FromBSON(bsoncxx::array::view_or_value const &_BSON)
 	{
 		NEncoding::CEJsonOrdered Ret;
 		fg_FromBSONImp(Ret, _BSON);

@@ -432,7 +432,7 @@ namespace NMib::NMongo
 			}
 		}
 
-		decltype(auto) f_GetDatabase(NStr::CStr _Database) const
+		decltype(auto) f_GetDatabase(NStr::CStr const &_Database) const
 		{
 			NStr::CStr Database = _Database;
 
@@ -444,15 +444,15 @@ namespace NMib::NMongo
 			return DatabaseReturn;
 		}
 
-		decltype(auto) f_GetCollection(NStr::CStr _Collection) const
+		decltype(auto) f_GetCollection(NStr::CStr const &_Collection) const
 		{
 			NStr::CStr Database;
 			NStr::CStr Collection;
 
 			if (_Collection.f_FindChar('.') >= 0)
 			{
-				Database = NStr::fg_GetStrSep(_Collection, ".");
 				Collection = _Collection;
+				Database = NStr::fg_GetStrSep(Collection, ".");
 			}
 			else
 			{

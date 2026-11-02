@@ -11,8 +11,8 @@ namespace NMib::NMongo
 {
 	bsoncxx::document::value fg_ToBSON(NEncoding::CEJsonOrdered const &_Json);
 	bsoncxx::array::value fg_ToBSONArray(NEncoding::CEJsonOrdered const &_Json);
-	NEncoding::CEJsonOrdered fg_FromBSON(bsoncxx::document::view_or_value _BSON);
-	NEncoding::CEJsonOrdered fg_FromBSON(bsoncxx::array::view_or_value _BSON);
+	NEncoding::CEJsonOrdered fg_FromBSON(bsoncxx::document::view_or_value const &_BSON);
+	NEncoding::CEJsonOrdered fg_FromBSON(bsoncxx::array::view_or_value const &_BSON);
 }
 
 #ifndef DMibPNoShortCuts

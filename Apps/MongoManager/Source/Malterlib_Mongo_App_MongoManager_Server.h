@@ -127,7 +127,7 @@ namespace NMib::NMongo::NMongoManager
 		TCFuture<void> fp_UpdateReplicaStatusPerform();
 		CFutureCoroutineContextOnResumeScopeAwaiter fp_CheckSensorDependencies() const;
 
-		TCActor<CMongoClientActor> fp_MongoHelper_GetClient(CMongoConnectionSettings _ConnectionSettings);
+		TCActor<CMongoClientActor> fp_MongoHelper_GetClient(CMongoConnectionSettings const &_ConnectionSettings);
 
 		static CStr fsp_Mongo_GetErrorCodeName(CExceptionPointer &&_pException);
 		static CEJsonOrdered fsp_Mongo_SetInt32Value(int32 _Value);

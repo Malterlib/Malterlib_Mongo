@@ -8,7 +8,7 @@
 
 namespace NMib::NMongo::NMongoManager
 {
-	TCActor<CMongoClientActor> CMongoManagerActor::fp_MongoHelper_GetClient(CMongoConnectionSettings _ConnectionSettings)
+	TCActor<CMongoClientActor> CMongoManagerActor::fp_MongoHelper_GetClient(CMongoConnectionSettings const &_ConnectionSettings)
 	{
 		return {fg_Construct(_ConnectionSettings, "local"), "MongoDB client connection (config)"};
 	}
