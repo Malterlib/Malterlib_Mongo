@@ -173,23 +173,23 @@ namespace NMib::NMongo::NMongoManager
 	{
 		mp_ResolveActor = fg_Construct();
 
-		auto &MongoHost = mp_MongoConnectionSettings.f_GetSingleHost();
+		CStr MongoHost = mp_MongoConnectionSettings.f_GetSingleHost().m_Host;
 
-		auto Lookup = co_await mp_ResolveActor(&CResolveActor::f_Resolve, MongoHost.m_Host, NNetwork::ENetAddressType_TCPv4);
+		auto Lookup = co_await mp_ResolveActor(&CResolveActor::f_Resolve, MongoHost, NNetwork::ENetAddressType_TCPv4);
 		auto Addresses = co_await fg_Move(Lookup.m_Result);
 		auto Address = fg_Move(Addresses[0]);
 
 		if (Address.f_GetType() != NNetwork::ENetAddressType_TCPv4)
-			co_return DMibErrorInstance("Hostname '{}' does not resolve to an IPV4 address"_f << MongoHost.m_Host);
+			co_return DMibErrorInstance("Hostname '{}' does not resolve to an IPV4 address"_f << MongoHost);
 
 		NNetwork::CNetAddressTCPv4 IPAddress;
 		if (!Address.f_Get(IPAddress))
-			co_return DMibErrorInstance("Hostname '{}' does not resolve to an valid IPV4 address"_f << MongoHost.m_Host);
+			co_return DMibErrorInstance("Hostname '{}' does not resolve to an valid IPV4 address"_f << MongoHost);
 
 		if (IPAddress.f_GetIP().m_IP[0] != 127)
-			co_return DMibErrorInstance("Hostname '{}' does not resolve to a link local address. {} is not valid"_f << MongoHost.m_Host << Address);
+			co_return DMibErrorInstance("Hostname '{}' does not resolve to a link local address. {} is not valid"_f << MongoHost << Address);
 
-		DLog(Info, "Hostname '{}' resolved to: {}", MongoHost.m_Host, Address);
+		DLog(Info, "Hostname '{}' resolved to: {}", MongoHost, Address);
 
 		mp_MongoLocalAddress = Address;
 
