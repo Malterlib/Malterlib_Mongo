@@ -329,6 +329,7 @@ Property
 {
 	Property
 	{
+		MalterlibConcurrency_DistributedAppPrefixHeader true
 	}
 
 	Target
