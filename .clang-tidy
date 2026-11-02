@@ -10,7 +10,6 @@ Checks: >-
   -malterlib-variable-naming,
   -malterlib-parameter-naming,
   -malterlib-conceptual-prefix,
-  -malterlib-macro-naming,
   -malterlib-type-naming
 CheckOptions:
   malterlib.OptionsFile: ../Core/ClangTidyOptions.yaml

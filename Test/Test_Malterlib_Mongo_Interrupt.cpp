@@ -6,7 +6,7 @@
 #include <Mib/Concurrency/AsyncDestroy>
 
 // Exercise the driver cancellation primitive without requiring a database.
-#define MONGOC_INSIDE
+#define MONGOC_INSIDE // NOLINT(malterlib-macro-naming)
 #include <mongoc/mongoc-socket-private.h>
 #include <mongoc/mongoc-interrupt-private.h>
 #undef MONGOC_INSIDE
