@@ -15,7 +15,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 	CSecretsManager::CSecretID CMongoCertificateManagerActor::CAuthority::f_GetSecretID() const
 	{
 		CSecretsManager::CSecretID SecretID;
-		SecretID.m_Folder = mc_pAuthorityFolder;
+		SecretID.m_Folder = mcp_pAuthorityFolder;
 		SecretID.m_Name = f_GetName();
 
 		return SecretID;
@@ -63,7 +63,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 					continue;
 
 				CSecretsManager::CSecretID SecretID;
-				SecretID.m_Folder = mc_pAuthorityFolder;
+				SecretID.m_Folder = mcp_pAuthorityFolder;
 				SecretID.m_Name = _AuthorityName;
 
 				CSecretsManager::CSetMetadata SetMetadata;
@@ -112,13 +112,13 @@ namespace NMib::NMongo::NMongoCertificateManager
 			co_return {};
 		}
 
-		if (!Properties.m_SemanticID->f_StartsWith(mc_pAuthoritySemanticPrefix))
+		if (!Properties.m_SemanticID->f_StartsWith(mcp_pAuthoritySemanticPrefix))
 		{
 			DMibLog(Warning, "Semantic ID doesn't start with expected prefix for secret '{}'", _SecretID);
 			co_return {};
 		}
 
-		CStr AuthorityName = Properties.m_SemanticID->f_RemovePrefix(mc_pAuthoritySemanticPrefix);
+		CStr AuthorityName = Properties.m_SemanticID->f_RemovePrefix(mcp_pAuthoritySemanticPrefix);
 
 		if (!CAuthority::fs_IsValidName(AuthorityName))
 		{
@@ -247,7 +247,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 	TCFuture<void> CMongoCertificateManagerActor::fp_Authority_SecretsManagerAdded(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info)
 	{
 		CSecretsManager::CSubscribeToChanges SubscribeOptions;
-		SubscribeOptions.m_SemanticID = CStr(mc_pAuthoritySemanticPrefix) + "*";
+		SubscribeOptions.m_SemanticID = CStr(mcp_pAuthoritySemanticPrefix) + "*";
 		SubscribeOptions.m_TagsExclusive["Private"];
 		SubscribeOptions.m_fOnChanges = g_ActorFunctor / [_SecretsManager, this](CSecretsManager::CSecretChanges _Changes) -> TCFuture<void>
 			{
@@ -267,7 +267,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 				for (auto &RemovedID : _Changes.m_Removed)
 				{
-					if (RemovedID.m_Folder != mc_pAuthorityFolder)
+					if (RemovedID.m_Folder != mcp_pAuthorityFolder)
 						continue;
 
 					if (auto *pAuthority = mp_Authorities.f_FindEqual(RemovedID.m_Name))

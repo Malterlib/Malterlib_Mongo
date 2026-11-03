@@ -28,7 +28,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		CSecretsManager::CSecretProperties Properties;
 
 		Properties.f_SetSecret(Secrets);
-		Properties.f_SetSemanticID(CStrSecure::CFormat(CStr(mc_pAuthoritySemanticPrefix) + "{}") << _Name);
+		Properties.f_SetSemanticID(CStrSecure::CFormat(CStr(mcp_pAuthoritySemanticPrefix) + "{}") << _Name);
 		Properties.f_SetMetadata("Serial", _Serial);
 		Properties.f_SetMetadata("KeyType", fsp_PublicKeySettingToStr(_PublicKeySetting));
 		Properties.f_SetTags(TCSet<CStrSecure>{"Private"});
@@ -38,7 +38,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		Properties.m_Immutable = true;
 
 		CSecretsManager::CSecretID SecretID;
-		SecretID.m_Folder = mc_pAuthorityFolder;
+		SecretID.m_Folder = mcp_pAuthorityFolder;
 		SecretID.m_Name = _Name;
 
 		for (auto &SecretManager : _SecretManagers)

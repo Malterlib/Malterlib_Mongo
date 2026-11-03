@@ -176,11 +176,11 @@ namespace NMib::NMongo::NMongoCertificateManager
 			)
 		;
 
-		static constexpr ch8 const *mc_pAuthoritySemanticPrefix = "org.malterlib.mongo.authority#";
-		static constexpr ch8 const *mc_pAuthorityFolder = "org.malterlib.mongo.authority";
+		static constexpr ch8 const *mcp_pAuthoritySemanticPrefix = "org.malterlib.mongo.authority#";
+		static constexpr ch8 const *mcp_pAuthorityFolder = "org.malterlib.mongo.authority";
 
-		static constexpr ch8 const *mc_pUserSemanticPrefix = "org.malterlib.mongo.user#";
-		static constexpr ch8 const *mc_pUserFolder = "org.malterlib.mongo.user";
+		static constexpr ch8 const *mcp_pUserSemanticPrefix = "org.malterlib.mongo.user#";
+		static constexpr ch8 const *mcp_pUserFolder = "org.malterlib.mongo.user";
 
 		TCMap<CStr, CAuthority> mp_Authorities;
 		TCMap<CUserKey, CUser> mp_Users;

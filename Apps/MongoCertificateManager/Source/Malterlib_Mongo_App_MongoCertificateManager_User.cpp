@@ -50,7 +50,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			co_return {};
 		}
 
-		if (!Properties.m_SemanticID->f_StartsWith(mc_pUserSemanticPrefix))
+		if (!Properties.m_SemanticID->f_StartsWith(mcp_pUserSemanticPrefix))
 		{
 			DMibLog(Warning, "Semantic ID doesn't start with expected prefix for secret '{}'", _SecretID);
 			co_return {};
@@ -89,7 +89,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			co_return {};
 		}
 
-		auto AuthorityAndNameStr = Properties.m_SemanticID->f_RemovePrefix(mc_pUserSemanticPrefix);
+		auto AuthorityAndNameStr = Properties.m_SemanticID->f_RemovePrefix(mcp_pUserSemanticPrefix);
 		auto AuthorityAndName = AuthorityAndNameStr.f_Split("#");
 
 		if (AuthorityAndName.f_GetLen() != 2)
@@ -210,7 +210,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 	TCFuture<void> CMongoCertificateManagerActor::fp_User_SecretsManagerAdded(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info)
 	{
 		CSecretsManager::CSubscribeToChanges SubscribeOptions;
-		SubscribeOptions.m_SemanticID = CStr(mc_pUserSemanticPrefix) + "*";
+		SubscribeOptions.m_SemanticID = CStr(mcp_pUserSemanticPrefix) + "*";
 		SubscribeOptions.m_TagsExclusive["Private"];
 		SubscribeOptions.m_fOnChanges = g_ActorFunctor / [_SecretsManager, this](CSecretsManager::CSecretChanges _Changes) -> TCFuture<void>
 			{
@@ -230,7 +230,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 				for (auto &RemovedID : _Changes.m_Removed)
 				{
-					if (RemovedID.m_Folder != mc_pUserFolder)
+					if (RemovedID.m_Folder != mcp_pUserFolder)
 						continue;
 
 					auto AuthorityAndNameStr = RemovedID.m_Name;

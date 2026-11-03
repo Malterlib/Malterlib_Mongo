@@ -22,7 +22,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 	CSecretsManager::CSecretID CMongoCertificateManagerActor::CUserKey::f_GetSecretID() const
 	{
 		CSecretsManager::CSecretID SecretID;
-		SecretID.m_Folder = mc_pUserFolder;
+		SecretID.m_Folder = mcp_pUserFolder;
 		SecretID.m_Name = f_GetSecretIDName();
 
 		return SecretID;
@@ -49,7 +49,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		CSecretsManager::CSecretProperties Properties;
 
 		Properties.f_SetSecret(Secrets);
-		Properties.f_SetSemanticID(CStrSecure::CFormat(CStr(mc_pUserSemanticPrefix) + "{}") << _UserKey.f_GetSecretIDName());
+		Properties.f_SetSemanticID(CStrSecure::CFormat(CStr(mcp_pUserSemanticPrefix) + "{}") << _UserKey.f_GetSecretIDName());
 		Properties.f_SetMetadata("KeyType", fsp_PublicKeySettingToStr(_PublicKeySetting));
 		Properties.f_SetMetadata("Type", fsp_UserTypeToStr(_Type));
 		Properties.f_SetTags(TCSet<CStrSecure>{"Private"});

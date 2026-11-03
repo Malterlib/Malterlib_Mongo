@@ -607,29 +607,29 @@ namespace NMib::NMongo
 
 		Internal.m_pTailThread = NThread::CThreadObject::fs_StartThread
 			(
-				[this, _Params = fg_Move(_Params), pOnDataCallback = fg_Move(pOnDataCallback), Subscription = fg_Move(Subscription), Result = fg_Move(Result.m_Promise), GetOnwardsFromValue]
+				[this, Params = fg_Move(_Params), pOnDataCallback = fg_Move(pOnDataCallback), Subscription = fg_Move(Subscription), Result = fg_Move(Result.m_Promise), GetOnwardsFromValue]
 				(NThread::CThreadObject *_pThread) mutable -> aint
 				{
 					auto &Internal = *mp_pInternal;
 
 					NEncoding::CEJsonOrdered Order;
 
-					auto UserQuery = _Params.m_Query;
+					auto UserQuery = Params.m_Query;
 
 					Order["$natural"] = 1;
 
 					CMongoClientActor::EQueryOption Options
-						= _Params.m_Options | CMongoClientActor::EQueryOption_AwaitData | CMongoClientActor::EQueryOption_CursorTailable | CMongoClientActor::EQueryOption_NoCursorTimeout
+						= Params.m_Options | CMongoClientActor::EQueryOption_AwaitData | CMongoClientActor::EQueryOption_CursorTailable | CMongoClientActor::EQueryOption_NoCursorTimeout
 					;
 
 					if (GetOnwardsFromValue.f_IsValid())
 					{
-						UserQuery[_Params.m_OrderBy]["$gt"] = GetOnwardsFromValue;
-						if (_Params.m_Collection == "local.oplog.rs" && _Params.m_OrderBy == "ts")
+						UserQuery[Params.m_OrderBy]["$gt"] = GetOnwardsFromValue;
+						if (Params.m_Collection == "local.oplog.rs" && Params.m_OrderBy == "ts")
 							Options |= CMongoClientActor::EQueryOption_OplogReplay;
 					}
 
-					auto QueryOptions = fg_QueryOptions(Options, _Params.m_Fields, nullptr);
+					auto QueryOptions = fg_QueryOptions(Options, Params.m_Fields, nullptr);
 					QueryOptions.sort(fg_ToBSON(Order));
 
 					bool bDoneRegistration = false;
@@ -638,7 +638,7 @@ namespace NMib::NMongo
 					{
 						try
 						{
-							auto Collection = Internal.f_GetCollection(_Params.m_Collection);
+							auto Collection = Internal.f_GetCollection(Params.m_Collection);
 
 							auto Cursor = Collection.find(fg_ToBSON(UserQuery), QueryOptions);
 
@@ -656,8 +656,8 @@ namespace NMib::NMongo
 										return 0;
 
 									auto Data = fg_FromBSON(Document);
-									if (auto pValue = Data.f_Object().f_GetMember(_Params.m_OrderBy))
-										UserQuery[_Params.m_OrderBy]["$gt"] = *pValue;
+									if (auto pValue = Data.f_Object().f_GetMember(Params.m_OrderBy))
+										UserQuery[Params.m_OrderBy]["$gt"] = *pValue;
 
 									(*pOnDataCallback)(fg_Move(Data)).f_DiscardResult();
 								}
