@@ -38,12 +38,12 @@ namespace NMib::NMongo
 		}
 	}
 
-	template <typename tf_CReturn, typename ...tf_CParams>
+	template <typename tf_CReturn, typename ...tfp_CParams>
 	auto CMongoClientActor::fs_WithConnectionRetry
 		(
-			tf_CReturn (CMongoClientActor:: *_pMemberPointer)(tf_CParams...)
+			tf_CReturn (CMongoClientActor:: *_pMemberPointer)(tfp_CParams ...p_MemberParams)
 			, NStorage::TCSharedPointer<CMongoClientRetryState> _pState
-			, NTraits::TCRemoveReferenceAndQualifiers<tf_CParams> ...p_Params
+			, NTraits::TCRemoveReferenceAndQualifiers<tfp_CParams> ...p_Params
 		)
 		-> tf_CReturn
 	{

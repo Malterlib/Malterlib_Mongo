@@ -72,7 +72,7 @@ namespace
 								int Events = 0;
 								auto Worker = NThread::CThreadObject::fs_StartThread
 									(
-										[&](NThread::CThreadObject *) -> aint
+										[&](NThread::CThreadObject *_pThread) -> aint
 										{
 											Started.f_SetSignaled();
 											if (Case == 1)

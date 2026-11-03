@@ -48,7 +48,7 @@ namespace
 					Params.m_Collection = Collection;
 					Params.m_OrderBy = "seq";
 					Params.m_Query["seq"]["$gte"] = 0;
-					auto OnData = g_ActorFunctorWeak / [](CEJsonOrdered) -> TCFuture<void>
+					auto OnData = g_ActorFunctorWeak / [](CEJsonOrdered _Data) -> TCFuture<void>
 						{
 							co_return {};
 						}

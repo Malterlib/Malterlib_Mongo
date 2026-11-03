@@ -162,12 +162,12 @@ namespace NMib::NMongo
 		NConcurrency::TCFuture<CUpdateResult> f_Update(NStr::CStr _Collection, NEncoding::CEJsonOrdered _Query, NEncoding::CEJsonOrdered _Update, EUpdateOption _Options);
 		NConcurrency::TCFuture<void> f_Remove(NStr::CStr _Collection, NEncoding::CEJsonOrdered _Query, ERemoveOption _Options);
 
-		template <typename tf_CReturn, typename ...tf_CParams>
+		template <typename tf_CReturn, typename ...tfp_CParams>
 		static tf_CReturn fs_WithConnectionRetry
 			(
-				tf_CReturn (CMongoClientActor:: *_pMemberPointer)(tf_CParams...)
+				tf_CReturn (CMongoClientActor:: *_pMemberPointer)(tfp_CParams ...p_MemberParams)
 				, NStorage::TCSharedPointer<CMongoClientRetryState> _pState
-				, NTraits::TCRemoveReferenceAndQualifiers<tf_CParams> ...p_Params
+				, NTraits::TCRemoveReferenceAndQualifiers<tfp_CParams> ...p_Params
 			)
 		;
 
