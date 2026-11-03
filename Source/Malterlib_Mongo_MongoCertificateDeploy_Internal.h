@@ -33,10 +33,7 @@ namespace NMib::NMongo
 		struct CUserKey
 		{
 			template <typename tf_CStr>
-			void f_Format(tf_CStr &o_Str) const
-			{
-				o_Str += typename tf_CStr::CFormat("{}/{}") << m_Authority << m_Name;
-			}
+			void f_Format(tf_CStr &o_Str) const;
 
 			auto operator <=> (CUserKey const &_Right) const noexcept = default;
 
@@ -92,3 +89,5 @@ namespace NMib::NMongo
 		bool m_bStarted = false;
 	};
 }
+
+#include "Malterlib_Mongo_MongoCertificateDeploy_Internal.hpp"

@@ -57,10 +57,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 		struct CUserKey
 		{
 			template <typename tf_CStr>
-			void f_Format(tf_CStr &o_Str) const
-			{
-				o_Str += typename tf_CStr::CFormat("{}/{}") << m_Authority << m_Name;
-			}
+			void f_Format(tf_CStr &o_Str) const;
 
 			auto operator <=> (CUserKey const &_Right) const noexcept = default;
 
@@ -79,11 +76,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 		struct CUser
 		{
-			CUserKey const &f_GetKey() const
-			{
-				return TCMap<CUserKey, CUser>::fs_GetKey(*this);
-			}
-
+			CUserKey const &f_GetKey() const;
 			static bool fs_IsValidName(CStr const &_Name, EUserType _Type);
 
 			// Stored
@@ -195,3 +188,5 @@ namespace NMib::NMongo::NMongoCertificateManager
 		CActorSubscription mp_SensorUpdateTimerSubscription;
 	};
 }
+
+#include "Malterlib_Mongo_App_MongoCertificateManager.hpp"

@@ -9,6 +9,11 @@
 
 namespace NMib::NMongo::NMongoCertificateManager
 {
+	CMongoCertificateManagerActor::CUserKey const &CMongoCertificateManagerActor::CUser::f_GetKey() const
+	{
+		return TCMap<CUserKey, CUser>::fs_GetKey(*this);
+	}
+
 	CMongoCertificateManagerActor::CMongoCertificateManagerActor()
 		: CDistributedAppActor(CDistributedAppActor_Settings("MongoCertificateManager").f_AuditCategory("Malterlib/Mongo/MongoCertificateManager"))
 	{
