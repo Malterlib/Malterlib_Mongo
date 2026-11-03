@@ -49,7 +49,7 @@ namespace NMib::NMongo::NMongoManager
 		TCFuture<uint32> fp_CommandLine_RunBackup(NEncoding::CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
 		TCFuture<uint32> fp_CommandLine_CancelBackups(NEncoding::CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine);
 
-		TCActor<CMongoManagerActor> mp_pManager;
+		TCActor<CMongoManagerActor> mp_Manager;
 		TCMap<uint32, CLocalBackup> mp_LocalBackups;
 		uint32 mp_NextLocalBackup = 0;
 	};

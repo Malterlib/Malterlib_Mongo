@@ -18,7 +18,7 @@ namespace NMib::NMongo::NMongoManager
 
 		auto SequnceSubscription = co_await mp_OplogWriteSequencer.f_Sequence();
 
-		mp_PendingSaveScheduled = false;
+		mp_bPendingSaveScheduled = false;
 
 		auto BlockingActorCheckout = fg_BlockingActor();
 		co_await
@@ -82,9 +82,9 @@ namespace NMib::NMongo::NMongoManager
 
 					mp_PendingOplogData.f_Insert(fg_Move(_Result));
 
-					if (!mp_PendingSaveScheduled)
+					if (!mp_bPendingSaveScheduled)
 					{
-						mp_PendingSaveScheduled = true;
+						mp_bPendingSaveScheduled = true;
 						fg_ThisActor(this)(&CMongoBackupInstanceActor::fp_SavePendingOplogData, pBackupFile) > fg_LogError("MongoBackupInstance", "Error writing oplog to file");
 					}
 

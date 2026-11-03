@@ -70,7 +70,7 @@ namespace
 								NThread::CEvent Completed;
 								ssize_t Result = 0;
 								int Events = 0;
-								auto Worker = NThread::CThreadObject::fs_StartThread
+								auto pWorker = NThread::CThreadObject::fs_StartThread
 									(
 										[&](NThread::CThreadObject *_pThread) -> aint
 										{
@@ -95,7 +95,7 @@ namespace
 								auto Join = g_OnScopeExit / [&]
 									{
 										_mongoc_interrupt_cancel(pInterrupt);
-										Worker->f_Stop(true);
+										pWorker->f_Stop(true);
 									}
 								;
 								Started.f_Wait();
@@ -108,7 +108,7 @@ namespace
 									_mongoc_interrupt_cancel(pInterrupt);
 
 								DMibExpectFalse(Completed.f_WaitTimeout(2.0));
-								Worker->f_Stop(true);
+								pWorker->f_Stop(true);
 								DMibExpect(Result, ==, Case == 1 || Case == 2 ? 1 : -1);
 								if (Case == 1)
 									DMibExpect(Events & POLLERR, !=, 0);

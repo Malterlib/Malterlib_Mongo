@@ -47,7 +47,7 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<void> CMongoManagerDaemonActor::fp_StartApp(NEncoding::CEJsonSorted const _Params)
 	{
-		mp_pManager = fg_ConstructActor<CMongoManagerActor>(fg_Construct(self), mp_State);
+		mp_Manager = fg_ConstructActor<CMongoManagerActor>(fg_Construct(self), mp_State);
 		CMongoManagerActor::EMode Mode = CMongoManagerActor::EMode_Normal;
 
 		CStr Command = _Params["Command"].f_String();
@@ -74,17 +74,17 @@ namespace NMib::NMongo::NMongoManager
 		if (auto pValue = _Params.f_GetMember("VerboseMongoScripts"))
 			VerboseMongoScrips = pValue->f_Boolean();
 
-		co_await mp_pManager(&CMongoManagerActor::f_Startup, Mode, ReplicaName, Port, VerboseMongoScrips);
+		co_await mp_Manager(&CMongoManagerActor::f_Startup, Mode, ReplicaName, Port, VerboseMongoScrips);
 
 		co_return {};
 	}
 
 	TCFuture<void> CMongoManagerDaemonActor::fp_StopApp()
 	{
-		if (mp_pManager)
+		if (mp_Manager)
 		{
 			DMibLogWithCategory(Mib/Mongo/MongoManager/Daemon, Info, "Shutting down");
-			co_await (fg_Move(mp_pManager).f_Destroy() % "Failed to shut down server");
+			co_await (fg_Move(mp_Manager).f_Destroy() % "Failed to shut down server");
 		}
 
 		co_return {};
@@ -94,10 +94,10 @@ namespace NMib::NMongo::NMongoManager
 	{
 		CLogError LogError("MongoManagerDaemon");
 
-		if (mp_pManager)
+		if (mp_Manager)
 		{
 			DMibLogWithCategory(Mib/Mongo/MongoManager/Daemon, Info, "Shutting down");
-			co_await fg_Move(mp_pManager).f_Destroy().f_Wrap() > LogError("Failed to shut down server");
+			co_await fg_Move(mp_Manager).f_Destroy().f_Wrap() > LogError("Failed to shut down server");
 		}
 
 		co_await CDistributedAppActor::fp_Destroy();
@@ -107,12 +107,12 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<void> CMongoManagerDaemonActor::fp_PreStop()
 	{
-		if (!mp_pManager)
+		if (!mp_Manager)
 			co_return {};
 
 		DMibLogWithCategory(Mib/Mongo/MongoManager/Daemon, Info, "Running pre-stop");
 
-		co_await (mp_pManager(&CMongoManagerActor::f_PreStop) % "Failed to pre-stop server");
+		co_await (mp_Manager(&CMongoManagerActor::f_PreStop) % "Failed to pre-stop server");
 
 		co_return {};
 	}
@@ -120,9 +120,9 @@ namespace NMib::NMongo::NMongoManager
 	auto CMongoManagerDaemonActor::fp_StartBackup(TCDistributedActorInterface<CDistributedAppInterfaceBackup> _BackupInterface, CActorSubscription _ManifestFinished, CStr _BackupRoot)
 		-> TCFuture<CActorSubscription>
 	{
-		if (!mp_pManager)
+		if (!mp_Manager)
 			co_return DMibErrorInstance("App not started");
 
-		co_return co_await (mp_pManager(&CMongoManagerActor::f_StartBackup, fg_Move(_BackupInterface), fg_Move(_ManifestFinished), _BackupRoot) % "Failed to start backup");
+		co_return co_await (mp_Manager(&CMongoManagerActor::f_StartBackup, fg_Move(_BackupInterface), fg_Move(_ManifestFinished), _BackupRoot) % "Failed to start backup");
 	}
 }

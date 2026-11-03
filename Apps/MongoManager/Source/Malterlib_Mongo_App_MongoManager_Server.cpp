@@ -248,7 +248,7 @@ namespace NMib::NMongo::NMongoManager
 		}
 	}
 
-	static constexpr ch8 const gc_pMongoScript[] =
+	static constexpr ch8 const gc_MongoScript[] =
 		{
 #embed "Mongo.sh"
 			, '\0'
@@ -288,7 +288,7 @@ namespace NMib::NMongo::NMongoManager
 
 					MalterlibFS.f_CopyFilesWithAttribs("*", DiskFS, ProgramDirectory);
 
-					CStr MongoScript = CStr::CFormat(gc_pMongoScript) << UserName << MongoVersion << MongoPort << MongoReplicaName;
+					CStr MongoScript = CStr::CFormat(gc_MongoScript) << UserName << MongoVersion << MongoPort << MongoReplicaName;
 					CByteVector MongoScriptData;
 					CFile::fs_WriteStringToVector(MongoScriptData, MongoScript, false);
 					EFileAttrib Permissions
@@ -332,7 +332,7 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<void> CMongoManagerActor::fp_DestroyApp_Mongo()
 	{
-		if (!mp_pMongoLaunch)
+		if (!mp_MongoLaunch)
 			co_return {};
 
 		TCFutureVector<void> Results;
@@ -346,10 +346,10 @@ namespace NMib::NMongo::NMongoManager
 
 		co_await fg_AllDoneWrapped(Results);
 
-		if (!mp_pMongoLaunch)
+		if (!mp_MongoLaunch)
 			co_return{};
 
-		co_await fg_Move(mp_pMongoLaunch).f_Destroy();
+		co_await fg_Move(mp_MongoLaunch).f_Destroy();
 
 		co_return {};
 	}

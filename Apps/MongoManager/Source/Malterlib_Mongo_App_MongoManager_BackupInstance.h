@@ -54,7 +54,7 @@ namespace NMib::NMongo::NMongoManager
 		TCVector<NEncoding::CEJsonOrdered> mp_PendingOplogData;
 		CActorSubscription mp_InitialBackupFinishedSubscription;
 		CActorSubscription mp_BackupStoppedSubscription;
-		bool mp_PendingSaveScheduled = false;
+		bool mp_bPendingSaveScheduled = false;
 		bool mp_bInitialDumpFinished = false;
 		bool mp_bInitialBackupUploaded = false;
 		bool mp_bBackupStopped = false;

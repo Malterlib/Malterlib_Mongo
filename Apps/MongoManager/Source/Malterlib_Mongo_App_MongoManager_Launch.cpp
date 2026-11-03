@@ -94,7 +94,7 @@ namespace NMib::NMongo::NMongoManager
 		}
 
 		TCSharedPointer<bool> pDestroyed = pToolLaunch->m_pDestroyed;
-		auto pCleanup = g_OnScopeExitActor / [this, pDestroyed, pToolLaunch]
+		auto Cleanup = g_OnScopeExitActor / [this, pDestroyed, pToolLaunch]
 			{
 				if (!*pDestroyed)
 					mp_ToolLaunches.f_Remove(*pToolLaunch);

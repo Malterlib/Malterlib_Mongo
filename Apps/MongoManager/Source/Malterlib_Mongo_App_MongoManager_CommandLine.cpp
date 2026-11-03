@@ -310,7 +310,7 @@ namespace NMib::NMongo::NMongoManager
 				Time = RestoreTime.f_Date();
 		}
 
-		co_await (mp_pManager(&CMongoManagerActor::f_RestoreMongo, Time) % "Error restoring from backup");
+		co_await (mp_Manager(&CMongoManagerActor::f_RestoreMongo, Time) % "Error restoring from backup");
 
 		*_pCommandLine += "Restore finished successfully\n";
 
@@ -321,7 +321,7 @@ namespace NMib::NMongo::NMongoManager
 	{
 		co_await fp_WaitForAppStartup();
 
-		co_await mp_pManager(&CMongoManagerActor::f_UpdateReplicationConfig);
+		co_await mp_Manager(&CMongoManagerActor::f_UpdateReplicationConfig);
 
 		*_pCommandLine += "Replication config updated successfully\n";
 
@@ -333,6 +333,7 @@ namespace NMib::NMongo::NMongoManager
 		co_await fp_WaitForAppStartup();
 
 		TCPromiseFuturePair<void> Promise;
+		// NOLINTNEXTLINE(malterlib-conceptual-prefix): a subscription handle like CActorSubscription, which the check misses because it is derived from it
 		auto Subscription = co_await _pCommandLine->f_RegisterForCancellation
 			(
 				g_ActorFunctor / [Promise = fg_Move(Promise.m_Promise)]() -> TCFuture<bool>
@@ -355,7 +356,7 @@ namespace NMib::NMongo::NMongoManager
 	{
 		co_await fp_WaitForAppStartup();
 
-		co_await mp_pManager(&CMongoManagerActor::f_SetupPermissions);
+		co_await mp_Manager(&CMongoManagerActor::f_SetupPermissions);
 
 		*_pCommandLine += "Permissions setup successfully\n";
 
@@ -554,7 +555,7 @@ namespace NMib::NMongo::NMongoManager
 		if (Options.m_MemberToJoin.f_IsEmpty())
 			co_return DMibErrorInstance("You must specify replica memeber to join");
 
-		co_await mp_pManager(&CMongoManagerActor::f_JoinReplica, Options);
+		co_await mp_Manager(&CMongoManagerActor::f_JoinReplica, Options);
 
 		*_pCommandLine %= "Replica set successfully joined\n";
 

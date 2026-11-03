@@ -41,7 +41,7 @@ namespace NMib::NMongo
 	template <typename tf_CReturn, typename ...tfp_CParams>
 	auto CMongoClientActor::fs_WithConnectionRetry
 		(
-			tf_CReturn (CMongoClientActor:: *_pMemberPointer)(tfp_CParams ...p_MemberParams)
+			tf_CReturn (CMongoClientActor:: *_fMemberPointer)(tfp_CParams ...p_MemberParams)
 			, NStorage::TCSharedPointer<CMongoClientRetryState> _pState
 			, NTraits::TCRemoveReferenceAndQualifiers<tfp_CParams> ...p_Params
 		)
@@ -65,7 +65,7 @@ namespace NMib::NMongo
 
 			bFirstTime = false;
 
-			auto TryResult = co_await _pState->m_MongoClient(_pMemberPointer, NPrivate::fg_CopyMongoClientParam(p_Params)...).f_Wrap();
+			auto TryResult = co_await _pState->m_MongoClient(_fMemberPointer, NPrivate::fg_CopyMongoClientParam(p_Params)...).f_Wrap();
 
 			if (!TryResult)
 			{

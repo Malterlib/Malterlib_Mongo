@@ -198,7 +198,7 @@ namespace NMib::NMongo::NMongoManager
 
 	TCFuture<void> CMongoManagerActor::fp_StartMongo()
 	{
-		if (mp_pMongoLaunch)
+		if (mp_MongoLaunch)
 			co_return {}; // Launch already in progress
 
 		CStr MongoPath = fp_GetDataPath("mongo");
@@ -308,8 +308,8 @@ namespace NMib::NMongo::NMongoManager
 										1.0 // Mongo is unreliable and doesn't listen to signals until after a while
 										, [this]() -> TCFuture<void>
 										{
-											if (mp_pMongoLaunch)
-												mp_pMongoLaunch(&CProcessLaunchActor::f_StopProcess).f_DiscardResult();
+											if (mp_MongoLaunch)
+												mp_MongoLaunch(&CProcessLaunchActor::f_StopProcess).f_DiscardResult();
 
 											co_return {};
 										}
@@ -335,14 +335,14 @@ namespace NMib::NMongo::NMongoManager
 									}
 								;
 							}
-							mp_pMongoLaunch.f_Clear();
+							mp_MongoLaunch.f_Clear();
 							mp_MongoLaunchSubscription.f_Clear();
 						}
 						break;
 					case EProcessLaunchState_LaunchFailed:
 						{
 							Promise.f_SetException(DMibErrorInstance(fg_Format("Mongod launch failed: {}", _Change.f_Get<EProcessLaunchState_LaunchFailed>())));
-							mp_pMongoLaunch.f_Clear();
+							mp_MongoLaunch.f_Clear();
 							mp_MongoLaunchSubscription.f_Clear();
 						}
 						break;
@@ -384,12 +384,12 @@ namespace NMib::NMongo::NMongoManager
 		Params.m_Environment["TEMP"] = MongoPath + "/.tmp";
 #endif
 
-		mp_pMongoLaunch = fg_ConstructActor<CProcessLaunchActor>();
+		mp_MongoLaunch = fg_ConstructActor<CProcessLaunchActor>();
 
-		auto Subscription = co_await mp_pMongoLaunch(&CProcessLaunchActor::f_Launch, fg_Move(Launch), fg_ThisActor(this)).f_Wrap();
+		auto Subscription = co_await mp_MongoLaunch(&CProcessLaunchActor::f_Launch, fg_Move(Launch), fg_ThisActor(this)).f_Wrap();
 		if (!Subscription)
 		{
-			mp_pMongoLaunch.f_Clear();
+			mp_MongoLaunch.f_Clear();
 			co_return fg_Move(Subscription).f_GetException();
 		}
 		mp_MongoLaunchSubscription = fg_Move(*Subscription);

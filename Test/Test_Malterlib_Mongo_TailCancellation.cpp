@@ -48,12 +48,12 @@ namespace
 					Params.m_Collection = Collection;
 					Params.m_OrderBy = "seq";
 					Params.m_Query["seq"]["$gte"] = 0;
-					auto OnData = g_ActorFunctorWeak / [](CEJsonOrdered _Data) -> TCFuture<void>
+					auto fOnData = g_ActorFunctorWeak / [](CEJsonOrdered _Data) -> TCFuture<void>
 						{
 							co_return {};
 						}
 					;
-					auto Subscription = co_await Client(&NMongo::CMongoClientActor::f_TailQuery, fg_Move(Params), fg_Move(OnData));
+					auto Subscription = co_await Client(&NMongo::CMongoClientActor::f_TailQuery, fg_Move(Params), fg_Move(fOnData));
 
 					bool bWaiting = false;
 					for (umint Attempt = 0; Attempt < 1000 && !bWaiting; ++Attempt)

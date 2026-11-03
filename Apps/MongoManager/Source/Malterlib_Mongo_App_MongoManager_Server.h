@@ -176,7 +176,7 @@ namespace NMib::NMongo::NMongoManager
 		bool mp_bVerboseMongoScripts = false;
 
 		// Mongo
-		TCActor<CProcessLaunchActor> mp_pMongoLaunch;
+		TCActor<CProcessLaunchActor> mp_MongoLaunch;
 		CActorSubscription mp_MongoLaunchSubscription;
 		CStr mp_MongoVersion = "6.0";
 		CStr mp_MongoReplicaName = "DefaultReplica";
