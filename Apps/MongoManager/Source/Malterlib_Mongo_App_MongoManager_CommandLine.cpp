@@ -364,7 +364,7 @@ namespace NMib::NMongo::NMongoManager
 
 	struct CDummyBackupInterface : public CDistributedAppInterfaceBackup
 	{
-		enum : uint32
+		enum EProtocolVersion : uint32
 		{
 			EProtocolVersion_Min       = 0x101
 			, EProtocolVersion_Current = 0x101

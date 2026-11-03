@@ -41,7 +41,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 			// Stored
 			CCertificateAndKey m_Certificate;
-			CPublicKeySetting m_PublicKeySetting = CPublicKeySettings_EC_secp521r1{};
+			CPublicKeySetting m_PublicKeySetting = CPublicKeySettings_EC_Secp521r1{};
 			int32 m_Serial = 2;
 			CTime m_Created;
 			CTime m_LastModified;
@@ -88,7 +88,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 
 			// Stored
 			CCertificateAndKey m_Certificate;
-			CPublicKeySetting m_PublicKeySetting = CPublicKeySettings_EC_secp521r1{};
+			CPublicKeySetting m_PublicKeySetting = CPublicKeySettings_EC_Secp521r1{};
 			CTime m_Created;
 			CTime m_LastModified;
 			EUserType m_Type = EUserType_User;

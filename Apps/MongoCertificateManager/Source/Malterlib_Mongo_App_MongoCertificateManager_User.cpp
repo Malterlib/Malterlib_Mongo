@@ -148,7 +148,7 @@ namespace NMib::NMongo::NMongoCertificateManager
 			co_return {};
 		}
 
-		CPublicKeySetting PublicKeySetting = CPublicKeySettings_EC_secp521r1{};
+		CPublicKeySetting PublicKeySetting = CPublicKeySettings_EC_Secp521r1{};
 		if (auto *pKeyType = Metadata.f_FindEqual("KeyType"))
 		{
 			if (!pKeyType->f_IsString())

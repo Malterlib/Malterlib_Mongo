@@ -22,7 +22,7 @@ namespace NMib::NMongo
 
 		static NStorage::TCOptional<CMongoErrorData> fs_FromException(NException::CExceptionPointer const &_pException);
 
-		enum : uint32
+		enum EProtocolVersion : uint32
 		{
 			EProtocolVersion_Min       = 0x101
 			, EProtocolVersion_Current = 0x101
