@@ -35,7 +35,6 @@ namespace NMib::NMongo::NMongoManager
 
 	struct CMongoManagerActor : public CActor
 	{
-	public:
 		using CActorHolder = CDelegatedActorHolder;
 
 		enum EMode

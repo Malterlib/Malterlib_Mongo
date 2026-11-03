@@ -11,8 +11,9 @@
 using namespace NMib;
 using namespace NMib::NMongo::NMongoManager;
 
-class CMongoManager : public CApplication
+struct CMongoManager : public CApplication
 {
+private:
 	aint f_Main()
 	{
 		NConcurrency::CDistributedDaemon Daemon

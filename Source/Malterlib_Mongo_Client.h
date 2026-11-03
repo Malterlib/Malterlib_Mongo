@@ -73,7 +73,7 @@ namespace NMib::NMongo
 		bool m_bDirectConnection = false;
 	};
 
-	class CMongoClientActor;
+	struct CMongoClientActor;
 
 	struct CMongoClientRetryState
 	{
@@ -86,9 +86,8 @@ namespace NMib::NMongo
 		fp64 m_Timeout = 60.0;
 	};
 
-	class CMongoClientActor : public NConcurrency::CActor
+	struct CMongoClientActor : public NConcurrency::CActor
 	{
-	public:
 		using CActorHolder = NConcurrency::CSeparateThreadActorHolder;
 
 		CMongoClientActor(CMongoConnectionSettings const &_ConnectionSetting, NStr::CStr const &_DefaultDatabase);

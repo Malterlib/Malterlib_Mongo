@@ -9,8 +9,9 @@
 using namespace NMib;
 using namespace NMib::NMongo::NMongoCertificateManager;
 
-class CMongoCertificateManager : public CApplication
+struct CMongoCertificateManager : public CApplication
 {
+private:
 	aint f_Main()
 	{
 		NConcurrency::CDistributedDaemon Daemon

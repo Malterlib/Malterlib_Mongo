@@ -16,9 +16,8 @@ using namespace NMib;
 
 namespace
 {
-	class CBSON_Tests : public CTest
+	struct CBSON_Tests : public CTest
 	{
-	public:
 		void f_DoTests()
 		{
 			DMibTestSuite("Conversion")
