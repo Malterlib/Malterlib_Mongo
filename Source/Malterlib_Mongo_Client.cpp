@@ -30,16 +30,19 @@ namespace
 {
 	struct CMongoClientInit
 	{
+		CMongoClientInit();
+		~CMongoClientInit();
+
 		mongocxx::instance m_MongoInstance;
-
-		CMongoClientInit()
-		{
-		}
-
-		~CMongoClientInit()
-		{
-		}
 	};
+
+	CMongoClientInit::CMongoClientInit()
+	{
+	}
+
+	CMongoClientInit::~CMongoClientInit()
+	{
+	}
 
 	constinit NMib::NStorage::TCAggregate<CMongoClientInit> g_MongoClientInit = {DAggregateInit};
 }
@@ -409,70 +412,76 @@ namespace NMib::NMongo
 
 	struct CMongoClientActor::CInternal
 	{
-		CInternal(CMongoConnectionSettings const &_ConnectionSettings, NStr::CStr const &_DefaultDatabase)
-			: m_ConnectionSettings(_ConnectionSettings)
-			, m_DefaultDatabase(_DefaultDatabase)
-		{
-		}
+		CInternal(CMongoConnectionSettings const &_ConnectionSettings, NStr::CStr const &_DefaultDatabase);
 
-		NException::CExceptionPointer f_MakeSureConnected()
-		{
-			if (m_pConnection)
-				return {};
-
-			try
-			{
-				m_pConnection = fg_Construct(fg_GetConnectionURI(m_ConnectionSettings, m_DefaultDatabase), fg_GetConnectionOptions(m_ConnectionSettings, m_DefaultDatabase));
-
-				return {};
-			}
-			catch (std::exception const &)
-			{
-				return fg_MongoExceptionToMalterlibException(NException::fg_CurrentException(), NStr::gc_Str<"connect">);
-			}
-		}
-
-		decltype(auto) f_GetDatabase(NStr::CStr const &_Database) const
-		{
-			NStr::CStr Database = _Database;
-
-			if (!Database)
-				Database = m_DefaultDatabase;
-
-			decltype(auto) DatabaseReturn = (*m_pConnection)[Database.f_GetStr()];
-
-			return DatabaseReturn;
-		}
-
-		decltype(auto) f_GetCollection(NStr::CStr const &_Collection) const
-		{
-			NStr::CStr Database;
-			NStr::CStr Collection;
-
-			if (_Collection.f_FindChar('.') >= 0)
-			{
-				Collection = _Collection;
-				Database = NStr::fg_GetStrSep(Collection, ".");
-			}
-			else
-			{
-				Database = m_DefaultDatabase;
-				Collection = _Collection;
-			}
-
-			decltype(auto) CollectionReturn = (*m_pConnection)[Database.f_GetStr()][Collection.f_GetStr()];
-
-			mongocxx::write_concern Concern;
-			Concern.journal(true);
-			CollectionReturn.write_concern(fg_Move(Concern));
-			return CollectionReturn;
-		}
+		NException::CExceptionPointer f_MakeSureConnected();
+		decltype(auto) f_GetDatabase(NStr::CStr const &_Database) const;
+		decltype(auto) f_GetCollection(NStr::CStr const &_Collection) const;
 
 		CMongoConnectionSettings m_ConnectionSettings;
 		NStr::CStr m_DefaultDatabase;
 		NStorage::TCUniquePointer<NThread::CThreadObject> m_pTailThread;
 		NStorage::TCUniquePointer<mongocxx::client> m_pConnection;
 	};
+
+	CMongoClientActor::CInternal::CInternal(CMongoConnectionSettings const &_ConnectionSettings, NStr::CStr const &_DefaultDatabase)
+		: m_ConnectionSettings(_ConnectionSettings)
+		, m_DefaultDatabase(_DefaultDatabase)
+	{
+	}
+
+	NException::CExceptionPointer CMongoClientActor::CInternal::f_MakeSureConnected()
+	{
+		if (m_pConnection)
+			return {};
+
+		try
+		{
+			m_pConnection = fg_Construct(fg_GetConnectionURI(m_ConnectionSettings, m_DefaultDatabase), fg_GetConnectionOptions(m_ConnectionSettings, m_DefaultDatabase));
+
+			return {};
+		}
+		catch (std::exception const &)
+		{
+			return fg_MongoExceptionToMalterlibException(NException::fg_CurrentException(), NStr::gc_Str<"connect">);
+		}
+	}
+
+	decltype(auto) CMongoClientActor::CInternal::f_GetDatabase(NStr::CStr const &_Database) const
+	{
+		NStr::CStr Database = _Database;
+
+		if (!Database)
+			Database = m_DefaultDatabase;
+
+		decltype(auto) DatabaseReturn = (*m_pConnection)[Database.f_GetStr()];
+
+		return DatabaseReturn;
+	}
+
+	decltype(auto) CMongoClientActor::CInternal::f_GetCollection(NStr::CStr const &_Collection) const
+	{
+		NStr::CStr Database;
+		NStr::CStr Collection;
+
+		if (_Collection.f_FindChar('.') >= 0)
+		{
+			Collection = _Collection;
+			Database = NStr::fg_GetStrSep(Collection, ".");
+		}
+		else
+		{
+			Database = m_DefaultDatabase;
+			Collection = _Collection;
+		}
+
+		decltype(auto) CollectionReturn = (*m_pConnection)[Database.f_GetStr()][Collection.f_GetStr()];
+
+		mongocxx::write_concern Concern;
+		Concern.journal(true);
+		CollectionReturn.write_concern(fg_Move(Concern));
+		return CollectionReturn;
+	}
 
 	CMongoClientActor::CMongoClientActor(CMongoConnectionSettings const &_ConnectionSettings, NStr::CStr const &_DefaultDatabase)
 		: mp_pInternal(fg_Construct(_ConnectionSettings, _DefaultDatabase))

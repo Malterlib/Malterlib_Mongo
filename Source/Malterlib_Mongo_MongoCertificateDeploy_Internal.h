@@ -22,8 +22,6 @@ namespace NMib::NMongo
 
 	struct CMongoCertificateDeployActor::CInternal : public CActorInternal
 	{
-		CInternal(CMongoCertificateDeployActor *_pThis, TCActor<CActorDistributionManager> const &_DistributionManager, TCActor<CDistributedActorTrustManager> const &_TrustManager);
-
 		struct CUserState
 		{
 			TCDistributedActor<CSecretsManager> m_SecretsManager;
@@ -58,6 +56,8 @@ namespace NMib::NMongo
 		{
 			CActorSubscription m_ChangesSubscription;
 		};
+
+		CInternal(CMongoCertificateDeployActor *_pThis, TCActor<CActorDistributionManager> const &_DistributionManager, TCActor<CDistributedActorTrustManager> const &_TrustManager);
 
 		TCFuture<void> f_SecretsManagerAddedWithRetry(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info);
 		TCFuture<void> f_SecretsManagerAdded(TCDistributedActor<CSecretsManager> _SecretsManager, CTrustedActorInfo _Info);

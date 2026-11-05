@@ -35,7 +35,6 @@ namespace NMib::NMongo::NMongoManager
 		TCFuture<void> fp_DeleteBackup();
 		TCFuture<void> fp_MarkBackupFinished();
 
-	private:
 		TCDistributedActor<CDistributedAppInterfaceBackup> mp_BackupInterface;
 		TCActor<CMongoClientActor> mp_MongoClient;
 		TCActor<CProcessLaunchActor> mp_DumpProcessLaunch;

@@ -14,21 +14,23 @@ using namespace NMib::NMongo::NMongoManager;
 struct CMongoManager : public CApplication
 {
 private:
-	aint f_Main()
-	{
-		NConcurrency::CDistributedDaemon Daemon
-			{
-				"MalterlibMongoManager"
-				, "Malterlib Mongo Manager"
-				, "Manages mongo database daemon"
-				, []
-				{
-					return fg_ConstructActor<CMongoManagerDaemonActor>();
-				}
-			}
-		;
-		return Daemon.f_Run();
-	}
+	aint f_Main();
 };
+
+aint CMongoManager::f_Main()
+{
+	NConcurrency::CDistributedDaemon Daemon
+		{
+			"MalterlibMongoManager"
+			, "Malterlib Mongo Manager"
+			, "Manages mongo database daemon"
+			, []
+			{
+				return fg_ConstructActor<CMongoManagerDaemonActor>();
+			}
+		}
+	;
+	return Daemon.f_Run();
+}
 
 DAppImplement(CMongoManager);

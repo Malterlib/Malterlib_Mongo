@@ -13,6 +13,12 @@ namespace NMib::NMongo
 {
 	struct CMongoErrorData
 	{
+		enum EProtocolVersion : uint32
+		{
+			EProtocolVersion_Min       = 0x101
+			, EProtocolVersion_Current = 0x101
+		};
+
 		template <typename tf_CStream>
 		void f_Stream(tf_CStream &_Stream);
 
@@ -21,12 +27,6 @@ namespace NMib::NMongo
 		NStr::CStr f_GetCodeName() const;
 
 		static NStorage::TCOptional<CMongoErrorData> fs_FromException(NException::CExceptionPointer const &_pException);
-
-		enum EProtocolVersion : uint32
-		{
-			EProtocolVersion_Min       = 0x101
-			, EProtocolVersion_Current = 0x101
-		};
 
 		NEncoding::CEJsonOrdered m_RawServerError;
 		NStorage::TCOptional<uint32> m_ErrorCode; // mongoc_error_code_t
@@ -90,9 +90,6 @@ namespace NMib::NMongo
 	{
 		using CActorHolder = NConcurrency::CSeparateThreadActorHolder;
 
-		CMongoClientActor(CMongoConnectionSettings const &_ConnectionSetting, NStr::CStr const &_DefaultDatabase);
-		~CMongoClientActor();
-
 		enum EQueryOption
 		{
 			EQueryOption_None              = 0
@@ -140,6 +137,9 @@ namespace NMib::NMongo
 			EQueryOption m_Options = EQueryOption_None;
 		};
 
+		CMongoClientActor(CMongoConnectionSettings const &_ConnectionSetting, NStr::CStr const &_DefaultDatabase);
+		~CMongoClientActor();
+
 		auto f_Query
 			(
 				NStr::CStr _Collection
@@ -172,10 +172,11 @@ namespace NMib::NMongo
 		;
 
 	private:
+		struct CInternal;
+
 		NConcurrency::TCFuture<void> fp_Destroy() override;
 		void fp_ConnectToServer();
 
-		struct CInternal;
 		NStorage::TCUniquePointer<CInternal> mp_pInternal;
 	};
 }
