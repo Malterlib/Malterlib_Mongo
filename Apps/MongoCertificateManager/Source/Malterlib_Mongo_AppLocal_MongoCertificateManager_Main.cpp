@@ -12,22 +12,24 @@ using namespace NMib::NMongo::NMongoCertificateManager;
 struct CMongoCertificateManager : public CApplication
 {
 private:
-	aint f_Main()
-	{
-		NConcurrency::CDistributedDaemon Daemon
-			{
-				"MalterlibMongoMongoCertificateManager"
-				, "Malterlib Mongo Certificate Manager"
-				, "Manages issuing and reissuing of MongoDB certificates"
-				, []
-				{
-					return fg_ConstructActor<CMongoCertificateManagerActor>();
-				}
-			}
-		;
-
-		return Daemon.f_Run();
-	}
+	aint f_Main();
 };
+
+aint CMongoCertificateManager::f_Main()
+{
+	NConcurrency::CDistributedDaemon Daemon
+		{
+			"MalterlibMongoMongoCertificateManager"
+			, "Malterlib Mongo Certificate Manager"
+			, "Manages issuing and reissuing of MongoDB certificates"
+			, []
+			{
+				return fg_ConstructActor<CMongoCertificateManagerActor>();
+			}
+		}
+	;
+
+	return Daemon.f_Run();
+}
 
 DAppImplement(CMongoCertificateManager);

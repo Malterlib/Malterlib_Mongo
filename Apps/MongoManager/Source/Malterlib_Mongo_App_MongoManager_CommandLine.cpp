@@ -370,41 +370,47 @@ namespace NMib::NMongo::NMongoManager
 			, EProtocolVersion_Current = 0x101
 		};
 
-		CDummyBackupInterface(uint32 _BackupID)
-			: m_BackupID{_BackupID}
-		{
-		}
-
+		CDummyBackupInterface(uint32 _BackupID);
 		~CDummyBackupInterface() = default;
 
-		NConcurrency::TCFuture<void> f_AppendManifest(CManifestConfig _Config) override
-		{
-			CStr AppendData;
-			AppendData += "\tRoot: {}\n"_f << _Config.m_Root;
-			AppendData += "\tInclude wildcards: {vs}\n"_f << _Config.m_IncludeWildcards;
-			AppendData += "\tExclude wildcards: {vs}\n"_f << _Config.m_ExcludeWildcards;
-			AppendData += "\tAdd sync flags wildcards: {vs}\n"_f << _Config.m_AddSyncFlagsWildcards;
-			AppendData += "\tRemove sync flags wildcards: {vs}\n"_f << _Config.m_RemoveSyncFlagsWildcards;
-
-			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Append manifest:\n{}", m_BackupID, AppendData);
-			co_return {};
-		}
-
-		NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeInitialFinished(NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> _fOnInitialFinished) override
-		{
-			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Subscribe initial finished", m_BackupID);
-			_fOnInitialFinished().f_DiscardResult();
-			co_return {};
-		}
-
-		NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeBackupStopped(NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> _fOnStopped) override
-		{
-			DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Subscribe backup stopped", m_BackupID);
-			co_return {};
-		}
+		NConcurrency::TCFuture<void> f_AppendManifest(CManifestConfig _Config) override;
+		NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeInitialFinished(NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> _fOnInitialFinished) override;
+		NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> f_SubscribeBackupStopped(NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> _fOnStopped) override;
 
 		uint32 m_BackupID = -1;
 	};
+
+	CDummyBackupInterface::CDummyBackupInterface(uint32 _BackupID)
+		: m_BackupID{_BackupID}
+	{
+	}
+
+	NConcurrency::TCFuture<void> CDummyBackupInterface::f_AppendManifest(CManifestConfig _Config)
+	{
+		CStr AppendData;
+		AppendData += "\tRoot: {}\n"_f << _Config.m_Root;
+		AppendData += "\tInclude wildcards: {vs}\n"_f << _Config.m_IncludeWildcards;
+		AppendData += "\tExclude wildcards: {vs}\n"_f << _Config.m_ExcludeWildcards;
+		AppendData += "\tAdd sync flags wildcards: {vs}\n"_f << _Config.m_AddSyncFlagsWildcards;
+		AppendData += "\tRemove sync flags wildcards: {vs}\n"_f << _Config.m_RemoveSyncFlagsWildcards;
+
+		DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Append manifest:\n{}", m_BackupID, AppendData);
+		co_return {};
+	}
+
+	auto CDummyBackupInterface::f_SubscribeInitialFinished(NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> _fOnInitialFinished)
+		-> NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>>
+	{
+		DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Subscribe initial finished", m_BackupID);
+		_fOnInitialFinished().f_DiscardResult();
+		co_return {};
+	}
+
+	NConcurrency::TCFuture<NConcurrency::TCActorSubscriptionWithID<>> CDummyBackupInterface::f_SubscribeBackupStopped(NConcurrency::TCActorFunctorWithID<TCFuture<void> ()> _fOnStopped)
+	{
+		DLogWithCategory(MongoManager/Backup, Info, "(LocalBackup {}) Subscribe backup stopped", m_BackupID);
+		co_return {};
+	}
 
 	TCFuture<uint32> CMongoManagerDaemonActor::fp_CommandLine_RunBackup(NEncoding::CEJsonSorted const _Params, NStorage::TCSharedPointer<CCommandLineControl> _pCommandLine)
 	{

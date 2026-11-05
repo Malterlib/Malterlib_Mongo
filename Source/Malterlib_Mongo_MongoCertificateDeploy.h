@@ -13,14 +13,6 @@ namespace NMib::NMongo
 {
 	struct CMongoCertificateDeployActor : public NConcurrency::CActor
 	{
-		CMongoCertificateDeployActor
-			(
-				NConcurrency::TCActor<NConcurrency::CActorDistributionManager> const &_DistributionManager
-				, NConcurrency::TCActor<NConcurrency::CDistributedActorTrustManager> const &_TrustManager
-			)
-		;
-		~CMongoCertificateDeployActor();
-
 		struct CCertificateFileSettings
 		{
 			NStr::CStr m_Path;
@@ -86,13 +78,22 @@ namespace NMib::NMongo
 			NConcurrency::TCActorFunctor<NConcurrency::TCFuture<void> ()> m_fOnCertificateUpdated;
 		};
 
+		CMongoCertificateDeployActor
+			(
+				NConcurrency::TCActor<NConcurrency::CActorDistributionManager> const &_DistributionManager
+				, NConcurrency::TCActor<NConcurrency::CDistributedActorTrustManager> const &_TrustManager
+			)
+		;
+		~CMongoCertificateDeployActor();
+
 		NConcurrency::TCFuture<void> f_Start();
 		NConcurrency::TCFuture<NConcurrency::CActorSubscription> f_AddUser(CUserSettings _UserSettings);
 
 	private:
+		struct CInternal;
+
 		NConcurrency::TCFuture<void> fp_Destroy() override;
 
-		struct CInternal;
 		NStorage::TCUniquePointer<CInternal> mp_pInternal;
 	};
 }
