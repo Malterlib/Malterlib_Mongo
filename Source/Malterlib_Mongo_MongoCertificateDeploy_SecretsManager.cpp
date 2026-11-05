@@ -193,7 +193,6 @@ namespace NMib::NMongo
 			}
 		;
 
-		// NOLINTNEXTLINE(malterlib-conceptual-prefix): a subscription handle like CActorSubscription, which the check misses because it is derived from it
 		auto ChangesSubscription = co_await (_SecretsManager.f_CallActor(&CSecretsManager::f_SubscribeToChanges)(fg_Move(SubscribeToChanges)) % "Subscribe to secret changes");
 
 		m_SecretsManagerStates[_SecretsManager].m_ChangesSubscription = fg_Move(ChangesSubscription);

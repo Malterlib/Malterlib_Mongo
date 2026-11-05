@@ -333,7 +333,6 @@ namespace NMib::NMongo::NMongoManager
 		co_await fp_WaitForAppStartup();
 
 		TCPromiseFuturePair<void> Promise;
-		// NOLINTNEXTLINE(malterlib-conceptual-prefix): a subscription handle like CActorSubscription, which the check misses because it is derived from it
 		auto Subscription = co_await _pCommandLine->f_RegisterForCancellation
 			(
 				g_ActorFunctor / [Promise = fg_Move(Promise.m_Promise)]() -> TCFuture<bool>
