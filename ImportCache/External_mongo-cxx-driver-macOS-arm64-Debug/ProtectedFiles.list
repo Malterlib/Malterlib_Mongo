@@ -36,10 +36,13 @@ examples/CMakeFiles/run-examples-mongocxx-index.rule
 examples/CMakeFiles/run-examples-mongocxx-inserted_id.rule
 examples/CMakeFiles/run-examples-mongocxx-instance_management.rule
 examples/CMakeFiles/run-examples-mongocxx-mongodb.com-aggregation_examples.rule
+examples/CMakeFiles/run-examples-mongocxx-mongodb.com-change_streams_examples.rule
 examples/CMakeFiles/run-examples-mongocxx-mongodb.com-documentation_examples.rule
 examples/CMakeFiles/run-examples-mongocxx-mongodb.com-index_examples.rule
 examples/CMakeFiles/run-examples-mongocxx-mongodb.com-runcommand_examples.rule
+examples/CMakeFiles/run-examples-mongocxx-mongodb.com-transactions_examples.rule
 examples/CMakeFiles/run-examples-mongocxx-mongodb.com-usage_overview.rule
+examples/CMakeFiles/run-examples-mongocxx-mongodb.com-versioned_api_examples.rule
 examples/CMakeFiles/run-examples-mongocxx-pool.rule
 examples/CMakeFiles/run-examples-mongocxx-query.rule
 examples/CMakeFiles/run-examples-mongocxx-query_projection.rule
@@ -51,4 +54,4 @@ examples/CMakeFiles/run-examples-mongocxx-update.rule
 examples/CMakeFiles/run-examples-mongocxx-view_or_value_variant.rule
 examples/CMakeFiles/run-examples-mongocxx-with_transaction.rule
 generate_uninstall/CMakeFiles/uninstall.rule
-mongo-cxx-driver-r2.1.2.tar.gz.rule
+mongo-cxx-driver-r4.6.2.tar.gz.rule

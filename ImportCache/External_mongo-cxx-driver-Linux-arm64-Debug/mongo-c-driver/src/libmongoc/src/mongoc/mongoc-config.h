@@ -41,14 +41,13 @@
 #define MONGOC_USER_SET_LDFLAGS "-fuse-ld=lld -stdlib=libc++ -Wno-unused-command-line-argument -L"../../../../../../../../../Binaries/MalterlibLLVM/Linux/arm64/lib/aarch64-unknown-linux-gnu""
 
 /* MONGOC_CC is used to determine what C compiler was used to compile mongoc */
-#define MONGOC_CC "../../../../../../../../../Binaries/MalterlibLLVM/Linux/arm64/bin/clang"
+#define MONGOC_CC "../../../../../../../../../Binaries/MalterlibLLVM/macOS/arm64/bin/clang"
 
 /*
  * MONGOC_ENABLE_SSL_SECURE_CHANNEL is set from configure to determine if we are
  * compiled with Native SSL support on Windows
  */
 #define MONGOC_ENABLE_SSL_SECURE_CHANNEL 0
-
 #if MONGOC_ENABLE_SSL_SECURE_CHANNEL != 1
 #  undef MONGOC_ENABLE_SSL_SECURE_CHANNEL
 #endif
@@ -65,8 +64,8 @@
 #endif
 
 /*
- * MONGOC_HAVE_BCRYPT_PBKDF2 is set from configure to determine if 
- * our Bcrypt Windows library supports PBKDF2 
+ * MONGOC_HAVE_BCRYPT_PBKDF2 is set from configure to determine if
+ * our Bcrypt Windows library supports PBKDF2
  */
 #define MONGOC_HAVE_BCRYPT_PBKDF2 0
 
@@ -101,7 +100,6 @@
  * compiled with OpenSSL support.
  */
 #define MONGOC_ENABLE_SSL_OPENSSL 1
-
 #if MONGOC_ENABLE_SSL_OPENSSL != 1
 #  undef MONGOC_ENABLE_SSL_OPENSSL
 #endif

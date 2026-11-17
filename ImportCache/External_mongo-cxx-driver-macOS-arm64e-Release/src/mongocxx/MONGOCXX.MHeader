@@ -9,6 +9,8 @@ Property.CMakeOutputPath_MONGOCXX: string = `@('../..'->MakeAbsolute())`->MakeAb
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/include`->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v_noabi`->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v_noabi`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src/mongocxx/lib`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src`->MakeAbsolute(),
@@ -26,6 +28,8 @@ Property.CMakeOutputPath_MONGOCXX: string = `@('../..'->MakeAbsolute())`->MakeAb
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/include`->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi`->MakeAbsolute(),
 			`@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/bsoncxx/lib`->MakeAbsolute(),
+			`@('../..'->MakeAbsolute())/src/bsoncxx/lib/bsoncxx/v_noabi`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
 			`@('../..'->MakeAbsolute())/src/bsoncxx/lib`->MakeAbsolute(),
 			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
 		]
@@ -51,19 +55,362 @@ Property.CMakeOutputPath_MONGOCXX: string = `@('../..'->MakeAbsolute())`->MakeAb
 		{
 			%Group "private"
 			{
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/private/bson.cpp`
-				{
-					Compile.Type "C++"
-				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/private/conversions.cpp`
-				{
-					Compile.Type "C++"
-				}
 				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/private/mongoc.cpp`
 				{
 					Compile.Type "C++"
 				}
-				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/private/numeric_casting.cpp`
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/private/scoped_bson.cpp`
+				{
+					Compile.Type "C++"
+				}
+			}
+			%Group "v1"
+			{
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/aggregate_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/apm.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/auto_encryption_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/bulk_write.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/change_stream.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/client_bulk_write.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/client_encryption.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/client_session.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/client.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/collection.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%Group "config"
+				{
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/config/config.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/config/export.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/config/version.cpp`
+					{
+						Compile.Type "C++"
+					}
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/count_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/cursor.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/data_key_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/database.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/delete_many_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/delete_many_result.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/delete_one_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/delete_one_result.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%Group "detail"
+				{
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/detail/postlude.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/detail/prelude.cpp`
+					{
+						Compile.Type "C++"
+					}
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/distinct_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/encrypt_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/estimated_document_count_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%Group "events"
+				{
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/events/command_failed.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/events/command_started.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/events/command_succeeded.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/events/server_closed.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/events/server_description_changed.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/events/server_description.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/events/server_heartbeat_failed.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/events/server_heartbeat_started.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/events/server_heartbeat_succeeded.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/events/server_opening.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/events/topology_closed.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/events/topology_description_changed.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/events/topology_description.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/events/topology_opening.cpp`
+					{
+						Compile.Type "C++"
+					}
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/exception.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/find_one_and_delete_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/find_one_and_replace_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/find_one_and_update_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/find_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%Group "gridfs"
+				{
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/gridfs/bucket.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/gridfs/downloader.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/gridfs/upload_options.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/gridfs/upload_result.cpp`
+					{
+						Compile.Type "C++"
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/gridfs/uploader.cpp`
+					{
+						Compile.Type "C++"
+					}
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/hint.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/indexes.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/insert_many_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/insert_many_result.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/insert_one_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/insert_one_result.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/instance.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/logger.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/oidc_callback.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/oidc_callback_params.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/oidc_credential.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/pipeline.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/pool.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/range_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/read_concern.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/read_preference.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/replace_one_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/replace_one_result.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/return_document.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/rewrap_many_datakey_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/rewrap_many_datakey_result.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/search_indexes.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/server_api.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/server_error.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/string_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/text_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/tls.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/transaction_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/update_many_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/update_many_result.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/update_one_options.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/update_one_result.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/uri.cpp`
+				{
+					Compile.Type "C++"
+				}
+				%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/write_concern.cpp`
 				{
 					Compile.Type "C++"
 				}
@@ -110,6 +457,10 @@ Property.CMakeOutputPath_MONGOCXX: string = `@('../..'->MakeAbsolute())`->MakeAb
 						{
 							Compile.Type "C++"
 						}
+					}
+					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v_noabi/mongocxx/conversions.cpp`
+					{
+						Compile.Type "C++"
 					}
 					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v_noabi/mongocxx/cursor.cpp`
 					{
@@ -488,35 +839,6 @@ Property.CMakeOutputPath_MONGOCXX: string = `@('../..'->MakeAbsolute())`->MakeAb
 						Compile.Type "C++"
 					}
 					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v_noabi/mongocxx/write_concern.cpp`
-					{
-						Compile.Type "C++"
-					}
-				}
-			}
-			%Group "v1"
-			{
-				%Group "config"
-				{
-					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/config/config.cpp`
-					{
-						Compile.Type "C++"
-					}
-					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/config/export.cpp`
-					{
-						Compile.Type "C++"
-					}
-					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/config/version.cpp`
-					{
-						Compile.Type "C++"
-					}
-				}
-				%Group "detail"
-				{
-					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/detail/postlude.cpp`
-					{
-						Compile.Type "C++"
-					}
-					%File `@('../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/src/mongocxx/lib/mongocxx/v1/detail/prelude.cpp`
 					{
 						Compile.Type "C++"
 					}

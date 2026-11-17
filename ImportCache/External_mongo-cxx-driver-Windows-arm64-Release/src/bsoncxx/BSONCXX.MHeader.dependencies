@@ -6,3 +6,6 @@
 ../../../../../../External/mongo-cxx-driver/src/bsoncxx/lib/bsoncxx/private/config/config.hh.in
 ../../../../../../External/mongo-cxx-driver/src/bsoncxx/lib/bsoncxx/v1/config/config.hpp.in
 ../../../../../../External/mongo-cxx-driver/src/bsoncxx/lib/bsoncxx/v1/config/version.hpp.in
+../../../../../../External/mongo-cxx-driver/src/bsoncxx/lib/bsoncxx/v1/fwd.hpp.in
+../../../../../../External/mongo-cxx-driver/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/config/config.hpp.in
+../../../../../../External/mongo-cxx-driver/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/fwd.hpp.in

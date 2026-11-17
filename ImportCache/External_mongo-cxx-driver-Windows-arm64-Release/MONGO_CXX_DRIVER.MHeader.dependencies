@@ -40,6 +40,7 @@ mongo-c-driver/src/libmongoc/_eval.tmp.cmake
 ../../../../External/mongo-cxx-driver/mongo-c-driver/src/libbson/src/bson/version.h.in
 ../../../../External/mongo-cxx-driver/mongo-c-driver/src/libmongoc/CMakeLists.txt
 ../../../../External/mongo-cxx-driver/mongo-c-driver/src/libmongoc/etc/mongocConfig.cmake.in
+../../../../External/mongo-cxx-driver/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-config-private.h.in
 ../../../../External/mongo-cxx-driver/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-config.h.in
 ../../../../External/mongo-cxx-driver/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-version.h.in
 ../../../../External/mongo-cxx-driver/mongo-c-driver/src/zlib-1.3.1/zconf.h.in
@@ -51,6 +52,9 @@ mongo-c-driver/src/libmongoc/_eval.tmp.cmake
 ../../../../External/mongo-cxx-driver/src/bsoncxx/lib/bsoncxx/private/config/config.hh.in
 ../../../../External/mongo-cxx-driver/src/bsoncxx/lib/bsoncxx/v1/config/config.hpp.in
 ../../../../External/mongo-cxx-driver/src/bsoncxx/lib/bsoncxx/v1/config/version.hpp.in
+../../../../External/mongo-cxx-driver/src/bsoncxx/lib/bsoncxx/v1/fwd.hpp.in
+../../../../External/mongo-cxx-driver/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/config/config.hpp.in
+../../../../External/mongo-cxx-driver/src/bsoncxx/lib/bsoncxx/v_noabi/bsoncxx/fwd.hpp.in
 ../../../../External/mongo-cxx-driver/src/mongocxx/CMakeLists.txt
 ../../../../External/mongo-cxx-driver/src/mongocxx/cmake/CMakeLists.txt
 ../../../../External/mongo-cxx-driver/src/mongocxx/include/CMakeLists.txt
@@ -58,3 +62,6 @@ mongo-c-driver/src/libmongoc/_eval.tmp.cmake
 ../../../../External/mongo-cxx-driver/src/mongocxx/lib/mongocxx/private/config/config.hh.in
 ../../../../External/mongo-cxx-driver/src/mongocxx/lib/mongocxx/v1/config/config.hpp.in
 ../../../../External/mongo-cxx-driver/src/mongocxx/lib/mongocxx/v1/config/version.hpp.in
+../../../../External/mongo-cxx-driver/src/mongocxx/lib/mongocxx/v1/fwd.hpp.in
+../../../../External/mongo-cxx-driver/src/mongocxx/lib/mongocxx/v_noabi/mongocxx/config/config.hpp.in
+../../../../External/mongo-cxx-driver/src/mongocxx/lib/mongocxx/v_noabi/mongocxx/fwd.hpp.in

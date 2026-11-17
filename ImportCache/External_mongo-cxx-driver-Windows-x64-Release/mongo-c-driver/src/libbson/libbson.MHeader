@@ -18,6 +18,7 @@ Property.CMakeOutputPath_libbson: string = `@('../../..'->MakeAbsolute())`->Make
 			"JSONSL_PARSE_NAN",
 			"MCOMMON_NAME_PREFIX=_bson_mcommon",
 			"_BSD_SOURCE",
+			"_CRT_SECURE_NO_WARNINGS",
 			"_DEFAULT_SOURCE",
 			"_MLIB_BUILD_CONFIG=Release",
 			"_XOPEN_SOURCE=700"
@@ -168,10 +169,6 @@ Property.CMakeOutputPath_libbson: string = `@('../../..'->MakeAbsolute())`->Make
 						{
 							Compile.Disabled true
 						}
-						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libbson/src/bson/bson-private.h`
-						{
-							Compile.Disabled true
-						}
 						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libbson/src/bson/bson-reader.c`
 						{
 							Compile.Type "C"
@@ -249,6 +246,10 @@ Property.CMakeOutputPath_libbson: string = `@('../../..'->MakeAbsolute())`->Make
 							Compile.Type "C"
 						}
 						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libbson/src/bson/bson.h`
+						{
+							Compile.Disabled true
+						}
+						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libbson/src/bson/bson_t-private.h`
 						{
 							Compile.Disabled true
 						}

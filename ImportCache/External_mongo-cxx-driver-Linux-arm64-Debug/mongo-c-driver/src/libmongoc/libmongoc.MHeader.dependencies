@@ -7,5 +7,6 @@
 ../../../../../../../External/mongo-cxx-driver/mongo-c-driver/build/cmake/packageConfigVersion.cmake.in
 ../../../../../../../External/mongo-cxx-driver/mongo-c-driver/src/libmongoc/CMakeLists.txt
 ../../../../../../../External/mongo-cxx-driver/mongo-c-driver/src/libmongoc/etc/mongocConfig.cmake.in
+../../../../../../../External/mongo-cxx-driver/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-config-private.h.in
 ../../../../../../../External/mongo-cxx-driver/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-config.h.in
 ../../../../../../../External/mongo-cxx-driver/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-version.h.in

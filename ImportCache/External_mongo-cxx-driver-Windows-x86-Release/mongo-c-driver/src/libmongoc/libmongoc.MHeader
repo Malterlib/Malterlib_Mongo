@@ -27,7 +27,7 @@ Property.CMakeOutputPath_libmongoc: string = `@('../../..'->MakeAbsolute())`->Ma
 	Target.ObjectLibrary true
 	%Group "mongo-c-driver"
 	{
-		%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/utf8proc-2.8.0/utf8proc.c`
+		%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/utf8proc-2.11.3/utf8proc.c`
 		{
 			Compile.Type "C"
 		}
@@ -86,7 +86,6 @@ Property.CMakeOutputPath_libmongoc: string = `@('../../..'->MakeAbsolute())`->Ma
 		!!Compile.Type "C"
 		SearchPath += [
 			`@('../../../../../../..'->MakeAbsolute())/External/zlib`->MakeAbsolute(),
-			`@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/utf8proc-2.8.0`->MakeAbsolute(),
 			`@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/uthash`->MakeAbsolute(),
 			`@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/kms-message/src`->MakeAbsolute(),
 			`@('../../..'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src`->MakeAbsolute(),
@@ -99,7 +98,8 @@ Property.CMakeOutputPath_libmongoc: string = `@('../../..'->MakeAbsolute())`->Ma
 			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
 			`@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libbson/src`->MakeAbsolute(),
 			`@('../../..'->MakeAbsolute())/mongo-c-driver/src/libbson/src`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
+			`@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/utf8proc-2.11.3`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
 			"BSON_STATIC",
@@ -202,6 +202,10 @@ Property.CMakeOutputPath_libmongoc: string = `@('../../..'->MakeAbsolute())`->Ma
 						{
 							Compile.Type "C"
 						}
+						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-cluster-oidc.c`
+						{
+							Compile.Type "C"
+						}
 						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-cluster-sasl.c`
 						{
 							Compile.Type "C"
@@ -238,23 +242,7 @@ Property.CMakeOutputPath_libmongoc: string = `@('../../..'->MakeAbsolute())`->Ma
 						{
 							Compile.Type "C"
 						}
-						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-cursor-cmd-deprecated.c`
-						{
-							Compile.Type "C"
-						}
 						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-cursor-find.c`
-						{
-							Compile.Type "C"
-						}
-						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-cursor-find-cmd.c`
-						{
-							Compile.Type "C"
-						}
-						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-cursor-find-opquery.c`
-						{
-							Compile.Type "C"
-						}
-						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-cursor-legacy.c`
 						{
 							Compile.Type "C"
 						}
@@ -326,6 +314,10 @@ Property.CMakeOutputPath_libmongoc: string = `@('../../..'->MakeAbsolute())`->Ma
 						{
 							Compile.Type "C"
 						}
+						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-jitter-source.c`
+						{
+							Compile.Type "C"
+						}
 						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-list.c`
 						{
 							Compile.Type "C"
@@ -347,6 +339,10 @@ Property.CMakeOutputPath_libmongoc: string = `@('../../..'->MakeAbsolute())`->Ma
 							Compile.Type "C"
 						}
 						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-cmd.c`
+						{
+							Compile.Type "C"
+						}
+						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-oidc-cache.c`
 						{
 							Compile.Type "C"
 						}
@@ -387,6 +383,14 @@ Property.CMakeOutputPath_libmongoc: string = `@('../../..'->MakeAbsolute())`->Ma
 							Compile.Type "C"
 						}
 						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-rpc.c`
+						{
+							Compile.Type "C"
+						}
+						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-retryable-cmd.c`
+						{
+							Compile.Type "C"
+						}
+						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libmongoc/src/mongoc/mongoc-retry-backoff-generator.c`
 						{
 							Compile.Type "C"
 						}
