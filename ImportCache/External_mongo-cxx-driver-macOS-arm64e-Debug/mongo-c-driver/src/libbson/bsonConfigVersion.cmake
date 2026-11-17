@@ -3,7 +3,7 @@
     but supports version ranges that span major versions, while also doing
     SameMajorVersion matching when a non-range is specified.
 ]]
-set(PACKAGE_VERSION "2.1.2")
+set(PACKAGE_VERSION "2.5.8")
 set(__package_version_major "2")
 
 # Announce that we are incompatible unless some condition below is satisfied

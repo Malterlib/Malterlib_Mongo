@@ -13,7 +13,7 @@
 ]]
 
 # The version of the mongoc package (comes from the project() call in the orginal project)
-set(__mongoc_package_version [[2.1.2]])
+set(__mongoc_package_version [[2.5.8]])
 set(__mongoc_sasl_backend [[OFF]])
 set(__mongoc_tls_package [[OpenSSL]])
 set(__mongoc_uses_bundled_utf8proc "ON")

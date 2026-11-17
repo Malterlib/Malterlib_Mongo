@@ -97,5 +97,5 @@
 ///
 /// @warning For internal use only!
 ///
-        
+
 #endif /* MONGOCXX_ABI_EXPORT_H */

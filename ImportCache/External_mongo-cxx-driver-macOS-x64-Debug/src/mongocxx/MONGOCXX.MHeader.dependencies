@@ -6,3 +6,6 @@
 ../../../../../../External/mongo-cxx-driver/src/mongocxx/lib/mongocxx/private/config/config.hh.in
 ../../../../../../External/mongo-cxx-driver/src/mongocxx/lib/mongocxx/v1/config/config.hpp.in
 ../../../../../../External/mongo-cxx-driver/src/mongocxx/lib/mongocxx/v1/config/version.hpp.in
+../../../../../../External/mongo-cxx-driver/src/mongocxx/lib/mongocxx/v1/fwd.hpp.in
+../../../../../../External/mongo-cxx-driver/src/mongocxx/lib/mongocxx/v_noabi/mongocxx/config/config.hpp.in
+../../../../../../External/mongo-cxx-driver/src/mongocxx/lib/mongocxx/v_noabi/mongocxx/fwd.hpp.in

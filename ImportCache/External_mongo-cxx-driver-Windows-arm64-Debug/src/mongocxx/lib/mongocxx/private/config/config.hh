@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#define MONGOC_REQUIRED_VERSION() "2.0.0"
+#define MONGOC_REQUIRED_VERSION() "2.5.8"
 
 #define MONGOCXX_ENABLE_SSL
 #define MONGOCXX_COMPILER_ID "Clang"
-#define MONGOCXX_COMPILER_VERSION "22.1.8"
+#define MONGOCXX_COMPILER_VERSION "23.1.5"

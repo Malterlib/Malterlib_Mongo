@@ -7,19 +7,22 @@ Property.CMakeOutputPath_libbson: string = `@('../../..'->MakeAbsolute())`->Make
 		SearchPath += [
 			`@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libbson/src`->MakeAbsolute(),
 			`@('../../..'->MakeAbsolute())/mongo-c-driver/src/libbson/src`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute(),
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver/mongo-c-driver/src/libbson/src`->MakeAbsolute(),
 			`@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/common/src`->MakeAbsolute(),
 			`@('../../..'->MakeAbsolute())/mongo-c-driver/src/common/src`->MakeAbsolute(),
-			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver`->MakeAbsolute()
+			`@(CMakeIntermediateDirectory)/External_mongo-cxx-driver/mongo-c-driver/src/common/src`->MakeAbsolute()
 		]
 		PreprocessorDefines += [
 			"BSON_COMPILATION",
 			"BSON_STATIC",
 			"JSONSL_PARSE_NAN",
 			"MCOMMON_NAME_PREFIX=_bson_mcommon",
+			"WIN32",
 			"_BSD_SOURCE",
+			"_CRT_SECURE_NO_WARNINGS",
 			"_DEFAULT_SOURCE",
 			"_MLIB_BUILD_CONFIG=Debug",
+			"_WINDOWS",
 			"_XOPEN_SOURCE=700"
 		]
 	}
@@ -168,10 +171,6 @@ Property.CMakeOutputPath_libbson: string = `@('../../..'->MakeAbsolute())`->Make
 						{
 							Compile.Disabled true
 						}
-						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libbson/src/bson/bson-private.h`
-						{
-							Compile.Disabled true
-						}
 						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libbson/src/bson/bson-reader.c`
 						{
 							Compile.Type "C"
@@ -249,6 +248,10 @@ Property.CMakeOutputPath_libbson: string = `@('../../..'->MakeAbsolute())`->Make
 							Compile.Type "C"
 						}
 						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libbson/src/bson/bson.h`
+						{
+							Compile.Disabled true
+						}
+						%File `@('../../../../../../../External/mongo-cxx-driver'->MakeAbsolute())/mongo-c-driver/src/libbson/src/bson/bson_t-private.h`
 						{
 							Compile.Disabled true
 						}

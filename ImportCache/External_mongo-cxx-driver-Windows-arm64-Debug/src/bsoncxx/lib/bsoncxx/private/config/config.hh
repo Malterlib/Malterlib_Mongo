@@ -12,4 +12,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#define BSON_REQUIRED_VERSION() "2.0.0"
+#define BSON_REQUIRED_VERSION() "2.5.8"
