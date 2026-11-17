@@ -57,7 +57,7 @@ namespace NMib::NMongo
 		NStr::CStr f_GetConnectionString() const;
 		static NStr::CStr fs_GetConnectionString(NContainer::TCVector<CMongoServerHost> const &_Hosts);
 		CMongoConnectionSettings f_ForConnectionString(NStr::CStr const &_ConnectionString) const;
-		NWeb::NHTTP::CURL f_GetUrl(NStr::CStr const &_Database) const;
+		NWeb::NHTTP::CUrl f_GetUrl(NStr::CStr const &_Database) const;
 		CMongoServerHost const &f_GetSingleHost() const;
 
 		NContainer::TCVector<CMongoServerHost> m_Hosts = {{"localhost", CMongoServerHost::mc_DefaultPort}};

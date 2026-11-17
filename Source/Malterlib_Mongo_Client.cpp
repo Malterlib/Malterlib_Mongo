@@ -317,14 +317,14 @@ namespace NMib::NMongo
 		return ConnectionSettings;
 	}
 
-	NWeb::NHTTP::CURL CMongoConnectionSettings::f_GetUrl(NStr::CStr const &_Database) const
+	NWeb::NHTTP::CUrl CMongoConnectionSettings::f_GetUrl(NStr::CStr const &_Database) const
 	{
-		NWeb::NHTTP::CURL Url;
+		NWeb::NHTTP::CUrl Url;
 		Url.f_SetScheme(m_bEnableSrv ? "mongodb+srv" : "mongodb");
 		Url.f_SetHost(f_GetConnectionString(), true);
 		if (_Database)
 			Url.f_SetPath({_Database});
-		NContainer::TCVector<NWeb::NHTTP::CURL::CQueryEntry> Query
+		NContainer::TCVector<NWeb::NHTTP::CUrl::CQueryEntry> Query
 			{
 				{
 					{"retryWrites", "true"}
