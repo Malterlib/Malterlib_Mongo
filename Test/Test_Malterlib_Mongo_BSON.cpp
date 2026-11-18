@@ -3,6 +3,7 @@
 
 #include <Mib/Mongo/BSON>
 #include <Mib/Encoding/JsonShortcuts>
+#include <Mib/Test/Exception>
 
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/builder/stream/array.hpp>
@@ -64,6 +65,11 @@ namespace
 				<< "k_binary k_md5" << types::b_binary{binary_sub_type::k_md5, fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
 				<< "k_binary k_user" << types::b_binary{binary_sub_type::k_user, fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
 				<< "k_binary k_vector" << types::b_binary{binary_sub_type::k_vector, fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
+				<< "k_binary k_encrypted" << types::b_binary{binary_sub_type::k_encrypted, fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
+				<< "k_binary k_column" << types::b_binary{binary_sub_type::k_column, fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
+				<< "k_binary k_sensitive" << types::b_binary{binary_sub_type::k_sensitive, fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
+				<< "k_binary 0x0a" << types::b_binary{static_cast<binary_sub_type>(0x0a), fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
+				<< "k_binary 0x85" << types::b_binary{static_cast<binary_sub_type>(0x85), fg_AutoStaticCast(TestBinary.f_GetLen()), TestBinary.f_GetArray()}
 				<< "k_undefined" << types::b_undefined{}
 				<< "k_oid" << types::b_oid{oid{TestOID}}
 				<< "k_regex" << types::b_regex{"RegEx", "ls"}
@@ -122,6 +128,11 @@ namespace
 					, "k_binary k_md5"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "MD5Type"}}
 					, "k_binary k_user"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "bdtCustom"}}
 					, "k_binary k_vector"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "Vector"}}
+					, "k_binary k_encrypted"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "Encrypt"}}
+					, "k_binary k_column"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "Column"}}
+					, "k_binary k_sensitive"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "Sensitive"}}
+					, "k_binary 0x0a"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "0x0a"}}
+					, "k_binary 0x85"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(TestBinary), "Type"_jo= "0x85"}}
 					, "k_undefined"_o= CEJsonUserTypeOrdered{"Undefined", 1}
 					, "k_oid"_o= CEJsonUserTypeOrdered{"jstOID", TestOID.c_str()}
 					, "k_regex"_o= CEJsonUserTypeOrdered{"RegEx", {"Regex"_jo= "RegEx", "RegexFlags"_jo= "ls"}}
@@ -154,6 +165,16 @@ namespace
 
 			DMibExpect(fg_ToBSON(fg_FromBSON(NMib::fg_TempCopy(OriginalBSON))).view(), ==, OriginalBSON.view());
 			DMibExpect(fg_ToBSONArray(fg_FromBSON(NMib::fg_TempCopy(OriginalBSONArray))).view(), ==, OriginalBSONArray.view());
+		};
+		DMibTestSuite("Invalid binary type")
+		{
+			TCVector<NStr::CStr> const Types = {"0x", "0x100", "0xzz", "0x100000085", "0x00000085", NStr::CStr("0x85\0Tail", 9), "Unknown"};
+			for (auto &Type : Types)
+			{
+				DMibTestPath(Type.f_GetLen() == 9 ? NStr::CStr("0x85 NUL Tail") : Type);
+				CEJsonOrdered const Json = {"Binary"_o= CEJsonUserTypeOrdered{"BinData", {"Data"_jo= fg_Base64Encode(CByteVector{1}), "Type"_jo= Type}}};
+				DMibExpectException(fg_ToBSON(Json), DMibErrorInstance(NStr::fg_Format(Type.f_StartsWith("0x") ? "Invalid BinData type: {}" : "Unknown BinData type: {}", Type)));
+			}
 		};
 	}
 

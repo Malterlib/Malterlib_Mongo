@@ -139,6 +139,16 @@ namespace NMib::NMongo
 							Subtype = binary_sub_type::k_sensitive;
 						else if (Type == "Vector")
 							Subtype = binary_sub_type::k_vector;
+						else if (Type.f_StartsWith("0x"))
+						{
+							// A subtype without a name, as of the user defined ones above 0x80
+							ch8 const *pParse = Type.f_GetStr() + 2;
+							uint32 Value = NStr::fg_StrToIntParseHexNoSign(pParse, umint(2), uint32(256)); // At most two digits, which can't wrap
+							// To the end of the string by its length, as it can contain a NUL
+							if (pParse != Type.f_GetStr() + Type.f_GetLen() || pParse == Type.f_GetStr() + 2 || Value > 0xFF)
+								DMibError(NStr::fg_Format("Invalid BinData type: {}", Type));
+							Subtype = static_cast<binary_sub_type>(Value);
+						}
 						else
 							DMibError(NStr::fg_Format("Unknown BinData type: {}", Type));
 
@@ -320,6 +330,10 @@ namespace NMib::NMongo
 					case binary_sub_type::k_vector: Type = "Vector"; break;
 					case binary_sub_type::k_binary: DMibNeverGetHere; break;
 					}
+
+					// BSON allows any subtype, as the user defined ones above 0x80, so the others keep their number
+					if (Type.f_IsEmpty())
+						Type = NStr::fg_Format("0x{nfh,sf0,sj2}", uint32(Binary.sub_type));
 
 					UserType.m_Value["Type"] = Type;
 				}
