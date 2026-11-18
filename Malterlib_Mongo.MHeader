@@ -50,8 +50,17 @@ Property
 {
 	Import.CMake_FullRebuildVersion `@(Import.CMake_FullRebuildVersion).1`
 
+	// The build of the driver takes its version from git tags, which an import doesn't have. Upstream's releases make their
+	// version the first heading of the changelog, so a version that isn't updated with the driver fails to generate.
+	Property
+	{
+		MalterlibMongoCxxVersion: string = "4.6.2"
+		MalterlibMongoCxxChangelogVersion: string =
+		ReadFile("../../External/mongo-cxx-driver/CHANGELOG.md"->MakeAbsolute())->FindGetLine("## *")->RemovePrefix("## ")->Trim()
+	}
+
 	Import.CMake_Variables =+ [
-		"BUILD_VERSION=2.1.2"
+		`BUILD_VERSION=@((MalterlibMongoCxxChangelogVersion == MalterlibMongoCxxVersion) ? MalterlibMongoCxxVersion : Error(`MalterlibMongoCxxVersion @(MalterlibMongoCxxVersion) is not the version of External/mongo-cxx-driver, @(MalterlibMongoCxxChangelogVersion)`))`
 		, "CMAKE_BUILD_WITH_INSTALL_RPATH=ON"
 		, "ENABLE_APPLE_FRAMEWORK=OFF"
 		, "MONGOC_ENABLE_EXECUTABLES=OFF"
