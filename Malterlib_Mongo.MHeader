@@ -217,21 +217,11 @@ Property
 			!!GeneratorFamily "VisualStudio"
 
 			FullEval true
+			// The libraries have sources with the same name in several directories, as for each ABI, so every object is named for its
+			// directory
 			ObjectFileName "RawMSBuild:$(IntDir)/$([MSBuild]::StableStringHash(%(Directory), \"Sha256\").Substring(0, 8))/%(FileName).obj"
 			{
-				&
-				{
-					PlatformFamily "Windows"
-					|
-					{
-						IdentityFileName "element.cpp"
-						IdentityFileName "value.cpp"
-						IdentityFileName "view.cpp"
-						IdentityFileName "config.cpp"
-						IdentityFileName "version.cpp"
-						IdentityFileName "export.cpp"
-					}
-				}
+				!!PlatformFamily "Windows"
 			}
 		}
 	}
@@ -253,33 +243,11 @@ Property
 		{
 			!!GeneratorFamily "VisualStudio"
 			FullEval true
+			// The libraries have sources with the same name in several directories, as for each ABI, so every object is named for its
+			// directory
 			ObjectFileName "RawMSBuild:$(IntDir)/$([MSBuild]::StableStringHash(%(Directory), \"Sha256\").Substring(0, 8))/%(FileName).obj"
 			{
-				&
-				{
-					PlatformFamily "Windows"
-					|
-					{
-						IdentityFileName "bulk_write.cpp"
-						IdentityFileName "client.cpp"
-						IdentityFileName "delete.cpp"
-						IdentityFileName "pool.cpp"
-						IdentityFileName "update.cpp"
-						IdentityFileName "pool.cpp"
-						IdentityFileName "insert_one.cpp"
-						IdentityFileName "replace_one.cpp"
-						IdentityFileName "bucket.cpp"
-						IdentityFileName "index_view.cpp"
-						IdentityFileName "upload.cpp"
-						IdentityFileName "change_stream.cpp"
-						IdentityFileName "client_session.cpp"
-						IdentityFileName "client_encryption.cpp"
-						IdentityFileName "rewrap_many_datakey.cpp"
-						IdentityFileName "config.cpp"
-						IdentityFileName "version.cpp"
-						IdentityFileName "export.cpp"
-					}
-				}
+				!!PlatformFamily "Windows"
 			}
 		}
 	}
